@@ -164,7 +164,7 @@ module Engine
           {
             name: '2',
             distance: [{ 'nodes' => %w[city offboard], 'pay' => 2, 'visit' => 2 },
-                        { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                       { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
             price: 100,
             rusts_on: '4',
             num: 6,
@@ -182,8 +182,8 @@ module Engine
             variants: [
               { name: '3+', distance: 3, price: 230 },
             ],
-            events: [{ 'type' => 'take_out_loans' } ,
-                     { 'type' => 'lay_second_tile' } ]
+            events: [{ 'type' => 'take_out_loans' },
+                     { 'type' => 'lay_second_tile' }],
           },
           {
             name: '4',
@@ -199,23 +199,24 @@ module Engine
           {
             name: '5',
             distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
-                      { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                       { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
             price: 500,
             num: 3,
             variants: [
-              { name: '5+', distance: 5, price: 550 }],
+              { name: '5+', distance: 5, price: 550 },
+],
             events: [{ 'type' => 'close_companies' }],
           },
           {
             name: '6',
             distance: [{ 'nodes' => %w[city offboard], 'pay' => 6, 'visit' => 6 },
-                      { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                       { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
             price: 600,
             num: 2,
             variants: [
               { name: '6+', distance: 6, price: 660 },
             ],
-            events: [{ 'type' => 'com_operates' }]
+            events: [{ 'type' => 'com_operates' }],
           },
           {
             name: 'D',
@@ -227,14 +228,14 @@ module Engine
           {
             name: '8',
             distance: [{ 'nodes' => %w[city offboard], 'pay' => 8, 'visit' => 8 },
-                      { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                       { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
             price: 800,
             num: 6,
           },
           {
             name: '2E',
             distance: [{ 'nodes' => %w[city offboard], 'pay' => 2, 'visit' => 99 },
-                                 { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                       { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
             price: 200,
             num: 6,
             available_on: '5',
@@ -246,7 +247,7 @@ module Engine
                   'lay_second_tile' => ['Corporations can lay a second tile'],
                   'com_operates' =>
                   ['COM operates without Sydney-Adelaide connection'],
-                  ).freeze
+                ).freeze
 
         COMPANIES = [
           {
@@ -265,7 +266,7 @@ module Engine
             revenue: 10,
             desc: 'Owning Public Company or its Director may build one (1) free tile on a desert hex (marked by'\
                   ' a cactus icon). This power does not go away after a 5/5+ train is purchased.',
-                  abilities: [
+            abilities: [
                     {
                       type: 'tile_lay',
                       discount: 40,
@@ -419,20 +420,18 @@ module Engine
         ].freeze
 
         TILE_LAYS = [{ lay: true, upgrade: true }].freeze
-        EXTRA_TILE_LAYS = [{ lay: true, upgrade: true }, {lay: true, upgrade: :not_if_upgraded }].freeze
-        
-        def tile_lays(entity)
-          @extra_tile_lay?  tile_lay_constant = EXTRA_TILE_LAYS : tile_lay_constant= TILE_LAYS 
-          return tile_lay_constant
+        EXTRA_TILE_LAYS = [{ lay: true, upgrade: true }, { lay: true, upgrade: :not_if_upgraded }].freeze
+
+        def tile_lays(_entity)
+          @extra_tile_lay ? EXTRA_TILE_LAYS : TILE_LAYS
         end
 
-        def event_lay_second_tile! 
+        def event_lay_second_tile!
           @log << 'Corporations can now perform a second tile lay'
           @extra_tile_lay = true
-          
         end
 
-        def event_take_out_loans! 
+        def event_take_out_loans!
           @log << 'Corporations can now take out loans'
         end
 
@@ -589,14 +588,13 @@ module Engine
           Array.new(20) { |id| Loan.new(id, @loan_value) }
         end
 
-        def can_pay_interest?(entity, extra_cash = 0)
+        def can_pay_interest?(_entity, _extra_cash = 0)
           false
         end
 
-        def interest_owed(entity)
-          return 0
+        def interest_owed(_entity)
+          0
         end
-        
       end
     end
   end
