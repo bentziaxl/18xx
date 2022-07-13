@@ -183,8 +183,7 @@ module Engine
               { name: '3+', distance: 3, price: 230 },
             ],
             events: [{ 'type' => 'take_out_loans' } ,
-                     { 'type' => 'lay_second_tile' },
-                     { 'type' => 'buy_privates' }]
+                     { 'type' => 'lay_second_tile' }
           },
           {
             name: '4',
@@ -205,8 +204,7 @@ module Engine
             num: 3,
             variants: [
               { name: '5+', distance: 5, price: 550 }],
-            events: [{ 'type' => 'close_companies' },
-                { 'type' => 'can_buy_2e' }],
+            events: [{ 'type' => 'close_companies' }],
           },
           {
             name: '6',
@@ -246,8 +244,6 @@ module Engine
         EVENTS_TEXT = Base::EVENTS_TEXT.merge(
                   'take_out_loans' => ['Corporations can take out loans'],
                   'lay_second_tile' => ['Corporations can lay a second tile'],
-                  'buy_privates' => ['Corporations can buy privates'],
-                  'can_buy_2e' => ['2E train is now available'],
                   'com_operates' =>
                   ['COM operates without Sydney-Adelaide connection'],
                   ).freeze
@@ -269,22 +265,30 @@ module Engine
             revenue: 10,
             desc: 'Owning Public Company or its Director may build one (1) free tile on a desert hex (marked by'\
                   ' a cactus icon). This power does not go away after a 5/5+ train is purchased.',
-            abilities: [
-              {
-                type: 'tile_discount',
-                discount: 40,
-                terrain: 'desert',
-                count: 1,
-                owner_type: 'corporation',
-              },
-              {
-                type: 'tile_discount',
-                discount: 40,
-                terrain: 'desert',
-                count: 1,
-                owner_type: 'player',
-              },
-            ],
+                  abilities: [
+                    {
+                      type: 'tile_lay',
+                      discount: 40,
+                      hexes: %w[B7 B9 C2 C4 C8 E6 E8],
+                      tiles: %w[7 8 9],
+                      count: 1,
+                      reachable: true,
+                      consume_tile_lay: true,
+                      owner_type: 'corporation',
+                      when: 'owning_corp_or_turn',
+                    },
+                    {
+                      type: 'tile_lay',
+                      discount: 40,
+                      hexes: %w[B7 B9 C2 C4 C8 E6 E8],
+                      tiles: %w[7 8 9],
+                      count: 1,
+                      reachable: true,
+                      consume_tile_lay: true,
+                      owner_type: 'player',
+                      when: 'owning_player_or_turn',
+                    },
+                  ],
           },
           {
             sym: 'P3',
@@ -414,7 +418,7 @@ module Engine
           },
         ].freeze
 
-        TILE_LAYS = [{ lay: true, upgrade: true }]
+        TILE_LAYS = [{ lay: true, upgrade: true }].freeze
         EXTRA_TILE_LAYS = [{ lay: true, upgrade: true }, {lay: true, upgrade: :not_if_upgraded }].freeze
         
         def tile_lays(entity)
@@ -431,10 +435,6 @@ module Engine
         def event_take_out_loans! 
           @log << 'Corporations can now take out loans'
         end
-        
-        def event_buy_privates! 
-          @log << 'Corporations can now buy privates'
-        end
 
         SELL_BUY_ORDER = :sell_buy
         SELL_MOVEMENT = :down_block
@@ -442,7 +442,6 @@ module Engine
         HOME_TOKEN_TIMING = :operate
 
         def setup
-          super
           @sydney_adelaide_connected = false
 
           @boe = @corporations.find { |c| c.type == :bank }
