@@ -183,7 +183,7 @@ module Engine
               { name: '3+', distance: 3, price: 230 },
             ],
             events: [{ 'type' => 'take_out_loans' } ,
-                     { 'type' => 'lay_second_tile' }
+                     { 'type' => 'lay_second_tile' } ]
           },
           {
             name: '4',
@@ -581,7 +581,7 @@ module Engine
         end
 
         def maximum_loans(entity)
-          5
+          entity == @boe ? 0 : 5
         end
 
         def init_loans
