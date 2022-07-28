@@ -15,110 +15,189 @@ module Engine
 
         CURRENCY_FORMAT_STR = '$%d'
 
-        BANK_CASH = 12_000
+        BANK_CASH = 99_999
 
         CERT_LIMIT = { 3 => 27, 4 => 20, 5 => 16, 6 => 13 }.freeze
 
         STARTING_CASH = { 3 => 930, 4 => 700, 5 => 560, 6 => 460 }.freeze
 
+        SELL_BUY_ORDER = :sell_buy
+
         MARKET = [
-          %w[60y
-             67
-             71
-             76
-             82
-             90
-             100p
-             112
-             126
-             142
-             160
-             180
-             200
-             225
-             250
-             275
-             300
-             325
-             350],
-          %w[53y
-             60y
-             66
-             70
-             76
-             82
-             90p
-             100
-             112
-             126
-             142
-             160
-             180
-             200
-             220
-             240
-             260
-             280
-             300],
-          %w[46y
-             55y
-             60y
-             65
-             70
-             76
-             82p
-             90
-             100
-             111
-             125
-             140
-             155
-             170
-             185
-             200],
-          %w[39o
-             48y
-             54y
-             60y
-             66
-             71
-             76p
+          %w[76
              82
              90
              100
              110
              120
-             130],
-          %w[32o 41o 48y 55y 62 67 71p 76 82 90 100],
-          %w[25b 34o 42o 50y 58y 65 67p 71 75 80],
-          %w[18b 27b 36o 45o 54y 63 67 69 70],
-          %w[10b 20b 30b 40o 50y 60y 67 68],
-          ['', '10b', '20b', '30b', '40o', '50y', '60y'],
-          ['', '', '10b', '20b', '30b', '40o', '50y'],
-          ['', '', '', '10b', '20b', '30b', '40o'],
+             132
+             144
+             158
+             172
+             188
+             204
+             222
+             240
+             260
+             280
+             300
+             325
+             350
+             375
+             400
+             425
+             450],
+          %w[72
+             76
+             82
+             90
+             100
+             110
+             120
+             132
+             144
+             158
+             172
+             188
+             204
+             222
+             240
+             260
+             280
+             300
+             325
+             350
+             375
+             400
+             425],
+          %w[68p
+             72p
+             76p
+             82p
+             90p
+             100p
+             110
+             120
+             132
+             144
+             158
+             172
+             188
+             204
+             222
+             240
+             260
+             280
+             300
+             325
+             350
+             375
+             400],
+          %w[64
+             68
+             72
+             76
+             82
+             90
+             100
+             110
+             120
+             132
+             144
+             158
+             172
+             188
+             204
+             222
+             240
+             260
+             280
+             300
+             325
+             350
+             375],
+          %w[60P
+             64P
+             68P
+             72P
+             76P
+             82P
+             90
+             100
+             110
+             120
+             132
+             144
+             158
+             172
+             188
+             204
+             222
+             240
+             260
+             280
+             300
+             325
+             350],
+          %w[56
+             60
+             64
+             68
+             72
+             76
+             82
+             90
+             100
+             110
+             120
+             132
+             144
+             158
+             172
+             188
+             204
+             222
+             240
+             260
+             280
+             300
+             325],
         ].freeze
 
-        PHASES = [{ name: '2', train_limit: 4, tiles: [:yellow], operating_rounds: 1 },
+        STOCKMARKET_COLORS = Base::STOCKMARKET_COLORS.merge(
+          par_overlap: :blue
+        ).freeze
+
+        MARKET_TEXT = {
+          par: 'Major Corporation Par',
+          par_overlap: 'Minor Corporation Par',
+        }.freeze
+
+        PHASES = [{
+          name: '2',
+          train_limit: 4,
+          tiles: [:yellow],
+          operating_rounds: 1,
+        },
                   {
                     name: '3',
                     on: '3',
                     train_limit: 4,
                     tiles: %i[yellow green],
                     operating_rounds: 2,
-                    status: ['can_buy_companies'],
+                    status: ['train_conversions'],
                   },
                   {
                     name: '4',
                     on: '4',
-                    train_limit: 3,
+                    train_limit: { minor: 1, major: 3 },
                     tiles: %i[yellow green],
                     operating_rounds: 2,
-                    status: ['can_buy_companies'],
                   },
                   {
                     name: '5',
                     on: '5',
-                    train_limit: 2,
+                    train_limit: 3,
                     tiles: %i[yellow green brown],
                     operating_rounds: 3,
                   },
@@ -130,10 +209,10 @@ module Engine
                     operating_rounds: 3,
                   },
                   {
-                    name: 'D',
+                    name: '8',
                     on: 'D',
                     train_limit: 2,
-                    tiles: %i[yellow green brown],
+                    tiles: %i[yellow green brown gray],
                     operating_rounds: 3,
                   }].freeze
 
@@ -201,6 +280,8 @@ module Engine
                 price: 500,
               },
             ],
+            events: [{ 'type' => 'close_companies' },
+                     { 'type' => 'open_mountain_passes' }],
           },
           {
             name: '6',
@@ -223,6 +304,8 @@ module Engine
             distance: 8,
             price: 800,
             num: 50,
+            events: [{ 'type' => 'renfe_founded' },
+                     { 'type' => 'signal_end_game' }],
             variants: [
               { name: '8H', distance: 8, price: 700 },
             ],
@@ -232,6 +315,13 @@ module Engine
         def new_auction_round
           Round::Auction.new(self, [
             G18ESP::Step::SelectionAuction,
+          ])
+        end
+
+        def stock_round
+          Engine::Round::Stock.new(self, [
+            Engine::Step::DiscardTrain,
+            G18ESP::Step::BuySellParShares,
           ])
         end
 
@@ -265,6 +355,20 @@ module Engine
 
         #   super
         # end
+
+        # market
+        def par_prices(corp)
+          par_type = corp.type == 'major' ? %i[par] : %i[par_overlap]
+          stock_market.share_prices_with_types(par_type)
+        end
+
+        def float_corporation(corporation)
+          @log << "#{corporation.name} floats"
+          share_count = corp.type == 'major' ? 4 : 2
+
+          @bank.spend(corporation.par_price.price * share_count, corporation)
+          @log << "#{corporation.name} receives #{formt_currency(corporation.cash)}"
+        end
       end
     end
   end
