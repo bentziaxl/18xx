@@ -21,6 +21,10 @@ module Engine
 
         STARTING_CASH = { 3 => 930, 4 => 700, 5 => 560, 6 => 460 }.freeze
 
+        NORTH_CORPS = %w[FdSB FdLR CFEA CFLG].freeze
+
+        SELL_AFTER = :operate
+
         SELL_BUY_ORDER = :sell_buy
 
         MARKET = [
@@ -249,6 +253,7 @@ module Engine
                 price: 200,
               },
             ],
+            events: [{ 'type' => 'south_majors_available' }],
           },
           {
             name: '4',
@@ -312,6 +317,13 @@ module Engine
           },
           ].freeze
 
+        EVENTS_TEXT = Base::EVENTS_TEXT.merge(
+          'south_majors_available' => ['South Majors Available',
+                                       'Major Corporations in the south map can open'],
+          'signal_end_game' => ['End Game',
+                                'Game Ends at the end of complete set of ORs']
+        ).freeze
+
         def new_auction_round
           Round::Auction.new(self, [
             G18ESP::Step::SelectionAuction,
@@ -343,6 +355,12 @@ module Engine
           ], round_num: round_num)
         end
 
+        def setup
+          @corporations, @future_corporations = @corporations.partition do |corporation|
+            corporation.type == :minor || corp_north?(corporation)
+          end
+        end
+
         #   # The base route_distance just counts the visited stops on a route. This
         # # is valid but only for non-hex trains.
         # def hex_route_distance(route)
@@ -356,6 +374,15 @@ module Engine
         #   super
         # end
 
+        def corp_north?(corporation)
+          NORTH_CORPS.include? corporation.name
+        end
+
+        def event_south_majors_available!
+          @corporations.concat(@future_corporations)
+          @log << '-- Major corporations in the south now available --'
+        end
+
         # market
         def par_prices(corp)
           par_type = corp.type == 'major' ? %i[par] : %i[par_overlap]
@@ -364,10 +391,10 @@ module Engine
 
         def float_corporation(corporation)
           @log << "#{corporation.name} floats"
-          share_count = corp.type == 'major' ? 4 : 2
+          share_count = corporation.type == 'major' ? 4 : 2
 
           @bank.spend(corporation.par_price.price * share_count, corporation)
-          @log << "#{corporation.name} receives #{formt_currency(corporation.cash)}"
+          @log << "#{corporation.name} receives #{format_currency(corporation.cash)}"
         end
       end
     end
