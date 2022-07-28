@@ -17,9 +17,9 @@ module Engine
 
         BANK_CASH = 12_000
 
-        CERT_LIMIT = { 3 => 20, 4 => 16, 5 => 13, 6 => 11 }.freeze
+        CERT_LIMIT = { 3 => 27, 4 => 20, 5 => 16, 6 => 13 }.freeze
 
-        STARTING_CASH = { 3 => 800, 4 => 600, 5 => 480, 6 => 400 }.freeze
+        STARTING_CASH = { 3 => 930, 4 => 700, 5 => 560, 6 => 460 }.freeze
 
         MARKET = [
           %w[60y
@@ -156,6 +156,12 @@ module Engine
                     available_on: '6',
                     discount: { '4' => 300, '5' => 300, '6' => 300 },
                   }].freeze
+
+        def new_auction_round
+          Round::Auction.new(self, [
+            G18ESP::Step::SelectionAuction,
+          ])
+        end
 
         def operating_round(round_num)
           Round::Operating.new(self, [

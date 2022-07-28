@@ -26,7 +26,7 @@ module Engine
           '956' => 2,
           'L0' => {
             'count' => 1,
-            'color' => 'green',
+            'color' => 'yellow',
             'code' =>
               'town=revenue:10;town=revenue:10;path=a:0,b:_0;path=a:3,b:_0;' \
               'path=a:5,b:_0;path=a:2,b:_1;path=a:4,b:_1;icon=image:18_esp/strawberry',
