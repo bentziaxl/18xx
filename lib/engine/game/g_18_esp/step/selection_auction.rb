@@ -161,7 +161,6 @@ module Engine
           end
 
           def resolve_bids
-            @auctioning ||= @cheapest
             super
             entities.each(&:unpass!)
             @round.goto_entity!(@auction_triggerer)
