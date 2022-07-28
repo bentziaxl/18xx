@@ -186,7 +186,6 @@ module Engine
             shares: [50, 25, 25],
             float_percent: 50,
             max_ownership_percent: 75,
-            always_market_price: true,
             startable: true,
           },
           {
@@ -200,7 +199,6 @@ module Engine
             shares: [50, 25, 25],
             float_percent: 50,
             max_ownership_percent: 75,
-            always_market_price: true,
             startable: true,
           },
           {
@@ -215,7 +213,6 @@ module Engine
             shares: [50, 25, 25],
             float_percent: 50,
             max_ownership_percent: 75,
-            always_market_price: true,
             startable: true,
           },
           {
@@ -229,7 +226,6 @@ module Engine
             shares: [50, 25, 25],
             float_percent: 50,
             max_ownership_percent: 75,
-            always_market_price: true,
             startable: true,
           },
           {
@@ -243,7 +239,6 @@ module Engine
             shares: [50, 25, 25],
             float_percent: 50,
             max_ownership_percent: 75,
-            always_market_price: true,
             startable: true,
           },
           {
@@ -257,7 +252,6 @@ module Engine
             shares: [50, 25, 25],
             float_percent: 50,
             max_ownership_percent: 75,
-            always_market_price: true,
             startable: true,
           },
         ].freeze

@@ -29,7 +29,7 @@ module Engine
             'color' => 'yellow',
             'code' =>
               'town=revenue:10;town=revenue:10;path=a:0,b:_0;path=a:3,b:_0;' \
-              'path=a:5,b:_0;path=a:2,b:_1;path=a:4,b:_1;icon=image:18_esp/strawberry',
+              'path=a:5,b:_0;path=a:2,b:_1;path=a:4,b:_1',
           },
 
           # greens
@@ -359,7 +359,7 @@ module Engine
             %w[K18 L17] => 'upgrade=cost:100,terrain:mountain',
             %w[D29 E28 F27] => 'upgrade=cost:20,terrain:mountain',
             %w[G28 H23] => 'town=revenue:0;upgrade=cost:20,terrain:mountain',
-            %w[G26] => 'town=revenue:0;town=revenue:0;upgrade=cost:20,terrain:river;icon=image:18_esp/strawberry',
+            %w[G26] => 'town=revenue:0;town=revenue:0;upgrade=cost:20,terrain:river',
 
           },
           gray: {
