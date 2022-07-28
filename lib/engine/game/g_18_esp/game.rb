@@ -137,25 +137,97 @@ module Engine
                     operating_rounds: 3,
                   }].freeze
 
-        TRAINS = [{ name: '2', distance: 2, price: 80, rusts_on: '4', num: 6 },
-                  { name: '3', distance: 3, price: 180, rusts_on: '6', num: 5 },
-                  { name: '4', distance: 4, price: 300, rusts_on: 'D', num: 4 },
-                  {
-                    name: '5',
-                    distance: 5,
-                    price: 450,
-                    num: 3,
-                    events: [{ 'type' => 'close_companies' }],
-                  },
-                  { name: '6', distance: 6, price: 630, num: 2 },
-                  {
-                    name: 'D',
-                    distance: 999,
-                    price: 1100,
-                    num: 20,
-                    available_on: '6',
-                    discount: { '4' => 300, '5' => 300, '6' => 300 },
-                  }].freeze
+        TRAINS = [
+
+          {
+            name: '2',
+            distance: 2,
+            price: 90,
+            num: 15,
+            rusts_on: '4',
+            variants: [
+              { name: '2H', distance: 2, price: 70 },
+              {
+                name: '1+2',
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 1, 'visit' => 1 },
+                           { 'nodes' => ['town'], 'pay' => 2, 'visit' => 2 }],
+                price: 70,
+              },
+            ],
+          },
+          {
+            name: '3',
+            distance: 3,
+            price: 180,
+            num: 12,
+            rusts_on: '6',
+            variants: [
+              { name: '3H', distance: 3, price: 150 },
+              {
+                name: '2+3',
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 2, 'visit' => 2 },
+                           { 'nodes' => ['town'], 'pay' => 3, 'visit' => 3 }],
+                price: 200,
+              },
+            ],
+          },
+          {
+            name: '4',
+            distance: 4,
+            price: 300,
+            num: 8,
+            rusts_on: '8',
+            variants: [
+              { name: '4H', distance: 4, price: 260 },
+              {
+                name: '3+4',
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 3, 'visit' => 3 },
+                           { 'nodes' => ['town'], 'pay' => 4, 'visit' => 4 }],
+                price: 300,
+              },
+            ],
+          },
+          {
+            name: '5',
+            distance: 5,
+            price: 500,
+            num: 4,
+            variants: [
+              { name: '5H', distance: 5, price: 450 },
+              {
+                name: '4+',
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 4, 'visit' => 4 },
+                           { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                price: 500,
+              },
+            ],
+          },
+          {
+            name: '6',
+            distance: 6,
+            price: 600,
+            num: 4,
+            variants: [
+              { name: '6H', distance: 6, price: 530 },
+              {
+                name: '5+',
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
+                           { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                price: 600,
+              },
+            ],
+          },
+
+          {
+            name: '8',
+            distance: 8,
+            price: 800,
+            num: 50,
+            variants: [
+              { name: '8H', distance: 8, price: 700 },
+            ],
+          },
+          ].freeze
 
         def new_auction_round
           Round::Auction.new(self, [
@@ -180,6 +252,19 @@ module Engine
             [Engine::Step::BuyCompany, { blocks: true }],
           ], round_num: round_num)
         end
+
+        #   # The base route_distance just counts the visited stops on a route. This
+        # # is valid but only for non-hex trains.
+        # def hex_route_distance(route)
+        #   route.chains.sum { |conn| hex_edge_cost(conn, route.train) }
+        # end
+
+        # def route_distance(route)
+        #   return hex_route_distance(route) if route.train.name.include?('H')
+        #   return plus_route_distance(route) if route.train.name.include?('+')
+
+        #   super
+        # end
       end
     end
   end
