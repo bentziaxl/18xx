@@ -373,6 +373,12 @@ module Engine
           ])
         end
 
+        def new_auction_round
+          Round::Auction.new(self, [
+            G18ESP::Step::SelectionAuction,
+          ])
+        end
+
         def operating_round(round_num)
           G18ESP::Round::Operating.new(self, [
             Engine::Step::Bankrupt,
