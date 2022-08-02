@@ -27,7 +27,7 @@ module Engine
 
         SELL_BUY_ORDER = :sell_buy
 
-        NORTH_SOUTH_DIVIDE = 13 
+        NORTH_SOUTH_DIVIDE = 13
 
         MINOR_TILE_LAYS = [{ lay: true, upgrade: true, cost: 0 }].freeze
         MAJOR_TILE_LAYS = [
@@ -325,12 +325,20 @@ module Engine
           },
           ].freeze
 
+        FREIGHT_TRAIN = [{
+          name: :F,
+          distance: 99,
+          price: 0,
+          num: 50,
+          buyable: false,
+        }].freeze
+
         EVENTS_TEXT = Base::EVENTS_TEXT.merge(
-          'south_majors_available' => ['South Majors Available',
-                                       'Major Corporations in the south map can open'],
-          'signal_end_game' => ['End Game',
-                                'Game Ends at the end of complete set of ORs']
-        ).freeze
+                'south_majors_available' => ['South Majors Available',
+                                             'Major Corporations in the south map can open'],
+                'signal_end_game' => ['End Game',
+                                      'Game Ends at the end of complete set of ORs'],
+              ).freeze
 
         def new_auction_round
           Round::Auction.new(self, [
@@ -349,11 +357,11 @@ module Engine
           Round::Operating.new(self, [
             Engine::Step::Bankrupt,
             Engine::Step::Exchange,
-            Engine::Step::SpecialTrack,
             Engine::Step::SpecialToken,
             Engine::Step::BuyCompany,
             Engine::Step::HomeToken,
             G18ESP::Step::Mining,
+            G18ESP::Step::SpecialTrack,
             G18ESP::Step::Track,
             Engine::Step::Token,
             Engine::Step::Route,
@@ -411,58 +419,21 @@ module Engine
           @log << "#{corporation.name} receives #{format_currency(corporation.cash)}"
         end
 
-
-        # def upgrades_to?(from, to, special = false, selected_company: nil)
-        #   from_standard = from.paths.any? { |p| p.track == :broad }
-        #   from_narrow = from.paths.any? { |p| p.track != :broad }
-
-        #   to_standard = to.paths.any? { |p| p.track == :broad }
-        #   to_narrow = to.paths.any? { |p| p.track != :broad }
-
-        #   north = north_hex?(from.hex)
-        #   south = !north_hex?(from.hex)
-
-        #   # # Can only ever lay northern track in the North before vote
-        #   # return false if north && !south && to_southern && !@final_gauge
-
-        #   # # Can only ever lay southern track in the South before vote
-        #   # return false if !north && south && to_standard && !@final_gauge
-
-        #   # # Can never updgrade pure standard track to southern track if final track is standard
-        #   # return false if from_standard && !from_southern && to_southern && @final_gauge == :broad
-
-        #   # # Can never updgrade pure southern track to standard track if final track is southern
-        #   # return false if from_southern && !from_standard && to_standard && @final_gauge == :narrow
-
-        #   # # handle C tiles specially
-        #   # return false if from.label.to_s == 'C' && to.color == :yellow && from.cities.size != to.cities.size
-
-        #   # # handle special-case upgrades
-        #   # return true if force_dit_upgrade?(from, to)
-
-        #   super
-        # end
-
         def north_hex?(hex)
           hex.y << NORTH_SOUTH_DIVIDE
-
         end
 
-        # def check_other(route)
-        #   puts("here in check other, #{route.train.name}")
-        # end
+        def mea
+          @mea ||= company_by_id('MEA')
+        end
 
-        # def legal_tile_rotation?(entity, hex, tile)
-        #   # All tile exits must match neighboring tiles
-        #   tile.exits.each do |dir|e
-        #     next unless (connecting_path = tile.paths.find { |p| p.exits.include?(dir) })
-        #     next unless (neighboring_tile = hex.neighbors[dir]&.tile)
+        def mine_hexes
+          @mine_hexes ||= Entities::MINE_HEXES
+        end
 
-        #     neighboring_path = neighboring_tile.paths.find { |p| p.exits.include?(Engine::Hex.invert(dir)) }
-        #     return false if neighboring_path && !connecting_path.tracks_match?(nighboring_path)
-        #   end
-        #   true
-        # end
+        def f_train
+          Engine::Train.new(name: 'F', distance: '99', price: 0)
+        end
       end
     end
   end
