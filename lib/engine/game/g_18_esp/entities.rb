@@ -4,6 +4,8 @@ module Engine
   module Game
     module G18ESP
       module Entities
+        MINE_HEXES = %w[D5 D9 F9 F11 H9 I6 J7 D23 H21 E32 F31 I30 J23 E8 F7 C30 G30 G32 J21].freeze
+
         COMPANIES = [
           {
             sym: 'P1',
@@ -54,6 +56,26 @@ module Engine
                   'It closes when the major company buys its first train.',
             color: nil,
           },
+          sym: 'MEA',
+          name: 'Mining Exploitation Authorization',
+          value: 30,
+          revenue: 0,
+          desc: 'Lay tile on a mine Hex. Must be used in the same OR it was purchased. Turns into a 2 freight train',
+          abilities: [
+            {
+              type: 'tile_lay',
+              owner_type: 'corporation',
+              when: 'track',
+              count_per_or: 1,
+              free: true,
+              special: false,
+              reachable: true,
+              closed_when_used_up: true,
+              hexes: MINE_HEXES,
+              tiles: [],
+            },
+            { type: 'blocks_hexes', owner_type: :player, hexes: MINE_HEXES },
+          ],
         ].freeze
 
         # corporations with different properties in 1st Edition

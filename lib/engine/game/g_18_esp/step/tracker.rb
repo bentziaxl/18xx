@@ -8,17 +8,28 @@ module Engine
       module Tracker
         include Engine::Step::Tracker
         def potential_tiles(entity, hex)
-
-          colors = potential_tile_colors(entity, hex)
-          @game.tiles
-            .select { |tile| @game.tile_valid_for_phase?(tile, hex: hex, phase_color_cache: colors)  && tile_valid_for_entity(entity, tile)}
-            .uniq(&:name)
+          selected_tiles(entity, hex).uniq(&:name)
             .select { |t| @game.upgrades_to?(hex.tile, t) }
             .reject(&:blocks_lay)
         end
 
+        def selected_tiles(entity, hex)
+          colors = potential_tile_colors(entity, hex)
+          @game.tiles.select do |tile|
+            @game.tile_valid_for_phase?(tile, hex: hex,
+                                              phase_color_cache: colors) && tile_valid_for_entity(entity, tile)
+          end
+        end
+
         def tile_valid_for_entity(entity, tile)
-            @game.north_corp?(entity) ? tile.paths.any? { |p| p.track == :narrow } : tile.paths.any? { |p| p.track == :broad } 
+          @game.north_corp?(entity) ? tile.paths.any? { |p| p.track == :narrow } : tile.paths.any? { |p| p.track == :broad }
+        end
+
+        def ability_blocking_hex(_entity, hex)
+          return unless @game.mine_hexes.any? { |h| h == hex.name }
+
+          @mine_blocking ||= Engine::Ability::BlocksHexes.new(type: :blocks_hexes, owner_type: :player,
+                                                              hexes: @game.mine_hexes)
         end
       end
     end
