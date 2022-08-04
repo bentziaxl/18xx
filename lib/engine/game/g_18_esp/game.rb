@@ -340,6 +340,16 @@ module Engine
                                       'Game Ends at the end of complete set of ORs'],
               ).freeze
 
+        def init_corporations(stock_market)
+          game_corporations.map do |corporation|
+            G18ESP::Corporation.new(
+              min_price: stock_market.par_prices.map(&:price).min,
+              capitalization: self.class::CAPITALIZATION,
+              **corporation.merge(corporation_opts),
+            )
+          end
+        end
+
         def new_auction_round
           Round::Auction.new(self, [
             G18ESP::Step::SelectionAuction,
@@ -432,7 +442,7 @@ module Engine
         end
 
         def f_train
-          Engine::Train.new(name: 'F', distance: '99', price: 0)
+          Engine::Train.new(name: 'F', distance: 99, price: 0)
         end
       end
     end
