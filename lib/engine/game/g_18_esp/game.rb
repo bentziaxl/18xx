@@ -29,6 +29,8 @@ module Engine
 
         NORTH_SOUTH_DIVIDE = 13
 
+        MUST_BUY_TRAIN = :always
+
         MINOR_TILE_LAYS = [{ lay: true, upgrade: true, cost: 0 }].freeze
         MAJOR_TILE_LAYS = [
           { lay: true, upgrade: true, cost: 0 },
@@ -242,6 +244,8 @@ module Engine
                 name: '1+2',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 1, 'visit' => 1 },
                            { 'nodes' => ['town'], 'pay' => 2, 'visit' => 2 }],
+                track_type: :narrow,
+                no_local: true,
                 price: 70,
               },
             ],
@@ -258,6 +262,7 @@ module Engine
                 name: '2+3',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 2, 'visit' => 2 },
                            { 'nodes' => ['town'], 'pay' => 3, 'visit' => 3 }],
+                track_type: :narrow,
                 price: 200,
               },
             ],
@@ -275,6 +280,7 @@ module Engine
                 name: '3+4',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 3, 'visit' => 3 },
                            { 'nodes' => ['town'], 'pay' => 4, 'visit' => 4 }],
+                track_type: :narrow,
                 price: 300,
               },
             ],
@@ -290,6 +296,7 @@ module Engine
                 name: '4+',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 4, 'visit' => 4 },
                            { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                track_type: :narrow,
                 price: 500,
               },
             ],
@@ -307,6 +314,7 @@ module Engine
                 name: '5+',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
                            { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                track_type: :narrow,
                 price: 600,
               },
             ],
@@ -443,6 +451,25 @@ module Engine
 
         def f_train
           Engine::Train.new(name: 'F', distance: 99, price: 0)
+        end
+
+        def check_other(route)
+          check_track_type(route)
+        end
+
+        def check_track_type(route)
+          track_types = route.chains.flat_map { |item| item[:paths] }.flat_map(&:track).uniq
+
+          if route.train.track_type == :narrow && !(track_types - [:narrow] - [:dual]).empty?
+            raise GameError,
+                  'Route may only contain narrow tracks'
+          end
+
+          if route.train.track_type == :broad && !(track_types - [:broad] - [:dual]).empty?
+            raise GameError, 'Route may only contain broad tracks'
+          end
+
+          nil
         end
       end
     end
