@@ -382,7 +382,7 @@ module Engine
             G18ESP::Step::SpecialTrack,
             G18ESP::Step::Track,
             Engine::Step::Token,
-            Engine::Step::Route,
+            G18ESP::Step::Route,
             Engine::Step::Dividend,
             Engine::Step::DiscardTrain,
             Engine::Step::BuyTrain,
@@ -450,7 +450,7 @@ module Engine
         end
 
         def f_train
-          Engine::Train.new(name: 'F', distance: 99, price: 0)
+          Engine::Train.new(name: 'F', distance: 99, price: 0, track_type: :dual)
         end
 
         def check_other(route)
