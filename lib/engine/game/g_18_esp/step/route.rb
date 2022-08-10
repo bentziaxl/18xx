@@ -8,16 +8,8 @@ module Engine
       module Step
         class Route < Engine::Step::Route
           def setup
-            puts(@round.mea_hex)
-            super 
+            super
           end
-
-          # def round_state
-          #   # super.merge({
-          #   #   routes: [],
-          #   # })
-          # end
-
         end
       end
     end
