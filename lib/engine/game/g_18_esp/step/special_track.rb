@@ -20,7 +20,6 @@ module Engine
                         })
           end
 
-
           def convert_to_train(company)
             @owner = company.owner
             @owner.trains << @game.f_train
