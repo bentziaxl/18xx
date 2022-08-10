@@ -359,7 +359,7 @@ module Engine
         end
 
         def new_auction_round
-          Round::Auction.new(self, [
+          Engine::Round::Auction.new(self, [
             G18ESP::Step::SelectionAuction,
           ])
         end
@@ -372,7 +372,7 @@ module Engine
         end
 
         def operating_round(round_num)
-          Round::Operating.new(self, [
+          G18ESP::Round::Operating.new(self, [
             Engine::Step::Bankrupt,
             Engine::Step::Exchange,
             Engine::Step::SpecialToken,
