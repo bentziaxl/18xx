@@ -471,6 +471,14 @@ module Engine
 
           nil
         end
+
+        def discard_f_train(action)
+          corp = action.entity
+          f_train = corp.trains.find { |train| train&.name == 'F' }
+          f_train&.owner = nil
+          corp.trains.delete(f_train)
+          @log << 'F train discarded'
+        end
       end
     end
   end
