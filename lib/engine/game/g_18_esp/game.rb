@@ -31,6 +31,8 @@ module Engine
 
         MUST_BUY_TRAIN = :always
 
+        BASE_MINE_BONUS = 10
+
         MINOR_TILE_LAYS = [{ lay: true, upgrade: true, cost: 0 }].freeze
         MAJOR_TILE_LAYS = [
           { lay: true, upgrade: true, cost: 0 },
@@ -383,7 +385,7 @@ module Engine
             G18ESP::Step::Track,
             Engine::Step::Token,
             G18ESP::Step::Route,
-            Engine::Step::Dividend,
+            G18ESP::Step::Dividend,
             Engine::Step::DiscardTrain,
             Engine::Step::BuyTrain,
             [Engine::Step::BuyCompany, { blocks: true }],
@@ -478,6 +480,17 @@ module Engine
           f_train&.owner = nil
           corp.trains.delete(f_train)
           @log << 'F train discarded'
+        end
+
+        def subsidy_for(route, _stops)
+          return 0 if route.train.name == 'F'
+
+          count = route.all_hexes.count { |hex| MINE_HEXES.include?(hex.name) }
+          count * BASE_MINE_BONUS
+        end
+
+        def routes_subsidy(routes)
+          routes.sum(&:subsidy)
         end
       end
     end
