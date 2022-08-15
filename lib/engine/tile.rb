@@ -648,37 +648,35 @@ module Engine
 
     def add_temp_halt(code)
       return unless only_paths?(@code)
+
       @original_code = @code
       @paths = []
       @code = update_path(@original_code, code)
-      
+
       @parts = Tile.decode(@code).flatten
       separate_parts
-
     end
 
     def update_path(code, new_code)
-      
       code.split(';').each_with_index do |part_code, index|
-        type,params = part_code.split('=')
-        next unless type == "path"
+        type, params = part_code.split('=')
+        next unless type == 'path'
 
         params = params.split(',').to_h { |param| param.split(':') } if params.include?(':')
 
-        a= params['a']
-        b= params['b']
+        a = params['a']
+        b = params['b']
         track = params['track']
-        
+
         new_code += ";path=a:#{a},b:_#{index},track:#{track};path=a:#{b},b:_#{index},track:#{track}"
-     end
-     new_code
+      end
+      new_code
     end
 
     def only_paths?(code)
       code.split(';').all? do |part_code|
-         type,params = part_code.split('=')
-         type == "path"
-         
+        type, _params = part_code.split('=')
+        type == 'path'
       end
     end
   end
