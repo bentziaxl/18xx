@@ -459,25 +459,6 @@ module Engine
           Engine::Train.new(name: 'F', distance: 99, price: 0, track_type: :dual)
         end
 
-        def check_other(route)
-          check_track_type(route)
-        end
-
-        def check_track_type(route)
-          track_types = route.chains.flat_map { |item| item[:paths] }.flat_map(&:track).uniq
-
-          if route.train.track_type == :narrow && !(track_types - [:narrow] - [:dual]).empty?
-            raise GameError,
-                  'Route may only contain narrow tracks'
-          end
-
-          if route.train.track_type == :broad && !(track_types - [:broad] - [:dual]).empty?
-            raise GameError, 'Route may only contain broad tracks'
-          end
-
-          nil
-        end
-
         def discard_f_train(action)
           corp = action.entity
           f_train = corp.trains.find { |train| train&.name == 'F' }
