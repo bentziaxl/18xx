@@ -17,7 +17,7 @@ module Engine
     attr_accessor :blocks_lay, :hex, :icons, :index, :legal_rotations, :location_name,
                   :name, :opposite, :reservations, :upgrades, :color, :future_label
     attr_reader :borders, :cities, :edges, :junction, :nodes, :labels, :parts, :preprinted, :rotation, :stops, :towns,
-                :offboards, :blockers, :city_towns, :unlimited, :stubs, :partitions, :id, :frame, :stripes, :hidden
+                :offboards, :blockers, :city_towns, :unlimited, :stubs, :partitions, :id, :frame, :stripes, :hidden, :code
 
     ALL_EDGES = [0, 1, 2, 3, 4, 5].freeze
 
@@ -66,7 +66,6 @@ module Engine
 
     def self.decode(code)
       cache = []
-
       code.split(';').map do |part_code|
         type, params = part_code.split('=')
         params ||= ''
@@ -632,6 +631,42 @@ module Engine
       @revenue_stops = (@stops + @offboards).uniq
 
       @edges.each { |e| e.tile = self }
+    end
+
+    def add_temp_halt(code)
+      return unless only_paths?(@code)
+      @original_code = @code
+      @paths = []
+      @code = update_path(@original_code, code)
+      
+      @parts = Tile.decode(@code).flatten
+      separate_parts
+
+    end
+
+    def update_path(code, new_code)
+      
+      code.split(';').each_with_index do |part_code, index|
+        type,params = part_code.split('=')
+        next unless type == "path"
+
+        params = params.split(',').to_h { |param| param.split(':') } if params.include?(':')
+
+        a= params['a']
+        b= params['b']
+        track = params['track']
+        
+        new_code += ";path=a:#{a},b:_#{index},track:#{track};path=a:#{b},b:_#{index},track:#{track}"
+     end
+     new_code
+    end
+
+    def only_paths?(code)
+      code.split(';').all? do |part_code|
+         type,params = part_code.split('=')
+         type == "path"
+         
+      end
     end
   end
 end
