@@ -34,11 +34,10 @@ module Engine
           end
 
           def lay_tile(action, extra_cost: 0, entity: nil, spender: nil)
-            tile = action.tile 
-            tile.add_temp_halt("halt")
-            super 
+            tile = action.tile
+            tile.add_temp_halt('halt')
+            super
           end
-
         end
       end
     end
