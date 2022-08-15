@@ -451,6 +451,10 @@ module Engine
           @mine_hexes ||= Entities::MINE_HEXES
         end
 
+        def mine_hex?(hex)
+          mine_hexes.any?(hex.name)
+        end
+
         def f_train
           Engine::Train.new(name: 'F', distance: 99, price: 0, track_type: :dual)
         end

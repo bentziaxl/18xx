@@ -5,7 +5,8 @@ require_relative 'base'
 module Engine
   module Action
     class LayTile < Base
-      attr_reader :hex, :tile, :rotation
+      attr_accessor :tile
+      attr_reader :hex, :rotation
 
       def initialize(entity, tile:, hex:, rotation:)
         super(entity)

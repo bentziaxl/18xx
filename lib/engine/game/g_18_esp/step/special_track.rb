@@ -11,7 +11,6 @@ module Engine
             super
             @round.mea_hex = action.hex
             convert_to_train(action.entity)
-            @log << "#{action.entity.name} closes and is converted to a 2H train"
           end
 
           def round_state
@@ -22,7 +21,9 @@ module Engine
 
           def convert_to_train(company)
             @owner = company.owner
-            @owner.trains << @game.f_train
+            f_train = @game.f_train
+            f_train.owner = @owner
+            @owner.trains << f_train
             close!(company, @owner)
             @log << "#{company.name} closes and is converted to a Freight train"
           end
@@ -31,6 +32,13 @@ module Engine
             owner.companies.delete(company)
             company.owner = nil
           end
+
+          def lay_tile(action, extra_cost: 0, entity: nil, spender: nil)
+            tile = action.tile 
+            tile.add_temp_halt("halt")
+            super 
+          end
+
         end
       end
     end
