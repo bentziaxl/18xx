@@ -333,6 +333,14 @@ module Engine
               { name: '8H', distance: 8, price: 700 },
             ],
           },
+          {
+            name: 'F',
+            distance: 99,
+            price: 0,
+            num: 1,
+            available_on: '2',
+            track_type: :dual,
+          },
           ].freeze
 
         FREIGHT_TRAIN = [{
@@ -387,7 +395,7 @@ module Engine
             G18ESP::Step::Route,
             G18ESP::Step::Dividend,
             Engine::Step::DiscardTrain,
-            Engine::Step::BuyTrain,
+            G18ESP::Step::BuyTrain,
             [Engine::Step::BuyCompany, { blocks: true }],
           ], round_num: round_num)
         end
@@ -456,7 +464,7 @@ module Engine
         end
 
         def f_train
-          Engine::Train.new(name: 'F', distance: 99, price: 0, track_type: :dual)
+          @depot.trains.find { |t| t.name == 'F' }
         end
 
         def discard_f_train(action)
@@ -495,6 +503,18 @@ module Engine
           end
 
           nil
+        end
+
+        def check_distance(route, visits, _train = nil)
+          return super if route.train.name != 'F' || f_train_correct_route?(route, visits, @round.mea_hex)
+
+          raise GameError, 'Route must connect Mine Tile placed and home token'
+        end
+
+        def f_train_correct_route?(route, visits, mea_hex)
+          start_city = route.train.owner.tokens.first
+          (visits.first.hex == mea_hex || visits.first.hex == start_city.hex) &&
+          (visits.last.hex == mea_hex || visits.last.hex == start_city.hex)
         end
       end
     end
