@@ -20,11 +20,11 @@ module Engine
           end
 
           def convert_to_train(company)
-            @owner = company.owner
-            f_train = @game.f_train
-            f_train.owner = @owner
-            @owner.trains << f_train
-            close!(company, @owner)
+            return unless company
+
+            owner = company.owner
+            @game.buy_train(owner, @game.f_train, :free)
+            close!(company, owner)
             @log << "#{company.name} closes and is converted to a Freight train"
           end
 
