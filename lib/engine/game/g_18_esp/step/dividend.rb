@@ -19,10 +19,9 @@ module Engine
 
             train.operated = false
             @game.depot.reclaim_train(train)
-            # mea_tile = @round.mea_hex&.tile
-            # mea_tile&.remove_temp_halt
-            # puts(mea_tile&.code)
-            # @round.mea_hex&.lay_downgrade(mea_tile)
+            mea_tile = @round.mea_hex&.tile
+            mea_tile&.remove_temp_halt
+            @round.mea_hex&.lay_downgrade(mea_tile)
           end
         end
       end

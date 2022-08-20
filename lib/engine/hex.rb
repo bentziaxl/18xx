@@ -186,7 +186,7 @@ module Engine
         new_icon.preprinted = false
         tile.icons << new_icon
       end
-      @tile.icons = @tile.icons.select(&:preprinted)
+      # @tile.icons << @tile.icons.select(&:preprinted)
 
       tile.future_label.sticker = tile.future_label if tile.future_label
       if @tile.future_label
