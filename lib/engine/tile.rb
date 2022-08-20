@@ -623,6 +623,8 @@ module Engine
     def remove_temp_halt
       @paths = []
       @code = @original_code
+      @towns = []
+      @city_towns = []
       @parts = Tile.decode(@code).flatten
       separate_parts
     end
