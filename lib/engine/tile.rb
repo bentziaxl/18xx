@@ -604,6 +604,8 @@ module Engine
     end
 
     def only_paths?(code)
+      return false unless code
+
       code.split(';').all? do |part_code|
         type, _params = part_code.split('=')
         type == 'path'
@@ -611,6 +613,8 @@ module Engine
     end
 
     def remove_temp_halt
+      return unless only_paths?(@original_code)
+
       @paths = []
       @code = @original_code
       @towns = []
