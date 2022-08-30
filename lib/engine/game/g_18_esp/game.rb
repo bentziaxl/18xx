@@ -33,6 +33,8 @@ module Engine
 
         BASE_MINE_BONUS = 10
 
+        BASE_F_TRAIN = 10
+
         MINOR_TILE_LAYS = [{ lay: true, upgrade: true, cost: 0 }].freeze
         MAJOR_TILE_LAYS = [
           { lay: true, upgrade: true, cost: 0 },
@@ -509,6 +511,14 @@ module Engine
           return super if route.train.name != 'F' || f_train_correct_route?(route, visits, @round.mea_hex)
 
           raise GameError, 'Route must connect Mine Tile placed and home token'
+        end
+
+        def revenue_for(route, stops)
+          return super unless route.train.name == 'F'
+
+          non_halt_stops = stops.count { |stop| !stop.is_a?(Part::Halt) }
+          total_count = non_halt_stops + route.all_hexes.count { |hex| MINE_HEXES.include?(hex.name) }
+          total_count * BASE_F_TRAIN
         end
 
         def f_train_correct_route?(route, visits, mea_hex)
