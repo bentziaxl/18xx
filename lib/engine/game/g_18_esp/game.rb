@@ -526,6 +526,31 @@ module Engine
           (visits.first.hex == mea_hex || visits.first.hex == start_city.hex) &&
           (visits.last.hex == mea_hex || visits.last.hex == start_city.hex)
         end
+
+        def train_type(train)
+          train.name == 'F' ? :freight : :passenger
+        end
+
+        def check_overlap(routes)
+          tracks_by_type = Hash.new { |h, k| h[k] = [] }
+
+          routes.each do |route|
+            route.paths.each do |path|
+              a = path.a
+              b = path.b
+
+              tracks = tracks_by_type[train_type(route.train)]
+              tracks << [path.hex, a.num, path.lanes[0][1]] if a.edge?
+              tracks << [path.hex, b.num, path.lanes[1][1]] if b.edge?
+            end
+          end
+          tracks_by_type.each do |_type, tracks|
+            tracks.group_by(&:itself).each do |k, v|
+              raise GameError, "Route cannot reuse track on #{k[0].id}" if v.size > 1
+            end
+          end
+        end
+
       end
     end
   end
