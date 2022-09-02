@@ -551,6 +551,13 @@ module Engine
           end
         end
 
+        def compute_other_paths(routes, route)
+          routes
+            .reject { |r| r == route }
+            .select { |r| train_type(route.train) == train_type(r.train) }
+            .flat_map(&:paths)
+        end
+
       end
     end
   end
