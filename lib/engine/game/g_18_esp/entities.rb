@@ -91,6 +91,7 @@ module Engine
             tokens: [0, 50, 50, 50, 100],
             color: '#C29137',
             type: 'major',
+            destination: 'F7',
           },
           {
             float_percent: 40,
@@ -103,6 +104,7 @@ module Engine
             tokens: [0, 50, 50, 50, 100],
             color: '#FFD526',
             type: 'major',
+            destination: 'K28',
           },
           {
             float_percent: 40,
@@ -114,6 +116,7 @@ module Engine
             tokens: [0, 50, 50, 50, 100],
             color: '#B75835',
             type: 'major',
+            destination: 'D31',
           },
           {
             float_percent: 40,
@@ -125,6 +128,7 @@ module Engine
             tokens: [0, 50, 50, 50, 100],
             color: '#E96B28',
             type: 'major',
+            destination: 'G28',
           },
           {
             float_percent: 40,
@@ -137,6 +141,7 @@ module Engine
             tokens: [0, 50, 50, 50, 100],
             color: '#009AD5',
             type: 'major',
+            destination: 'D25',
           },
 
           {
@@ -149,6 +154,7 @@ module Engine
             tokens: [0, 50, 50, 50, 100],
             color: '#DA0A26',
             type: 'major',
+            destination: 'K20',
           },
 
           {
@@ -161,6 +167,7 @@ module Engine
             tokens: [0, 50, 50, 50],
             color: '#009AD5',
             type: 'major',
+            destination: 'L5',
           },
 
           {
@@ -173,6 +180,7 @@ module Engine
             tokens: [0, 50, 50, 50],
             color: '#E96B28',
             type: 'major',
+            destination: 'H5',
           },
 
           {
@@ -185,6 +193,7 @@ module Engine
             tokens: [0, 50, 50, 50],
             color: '#DA0A26',
             type: 'major',
+            destination: 'F7',
           },
 
           {
@@ -197,6 +206,7 @@ module Engine
             tokens: [0, 50, 50, 50],
             color: '#009141',
             type: 'major',
+            destination: 'L5',
           },
 
           {
@@ -211,6 +221,7 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
+            destination: 'D25',
           },
           {
             sym: 'CM',
@@ -224,6 +235,7 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
+            destination: 'F33',
           },
           {
             sym: 'SC',
@@ -238,6 +250,7 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
+            destination: 'D33',
           },
           {
             sym: 'AC',
@@ -251,6 +264,7 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
+            destination: 'K30',
           },
           {
             sym: 'MZ',
@@ -264,6 +278,7 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
+            destination: 'K20',
           },
           {
             sym: 'ZP',
@@ -277,6 +292,7 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
+            destination: 'N21',
           },
         ].freeze
       end
