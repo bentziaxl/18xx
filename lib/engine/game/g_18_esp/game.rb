@@ -413,19 +413,6 @@ module Engine
           return MAJOR_TILE_LAYS if entity.type == :major
         end
 
-        #   # The base route_distance just counts the visited stops on a route. This
-        # # is valid but only for non-hex trains.
-        # def hex_route_distance(route)
-        #   route.chains.sum { |conn| hex_edge_cost(conn, route.train) }
-        # end
-
-        # def route_distance(route)
-        #   return hex_route_distance(route) if route.train.name.include?('H')
-        #   return plus_route_distance(route) if route.train.name.include?('+')
-
-        #   super
-        # end
-
         def north_corp?(corporation)
           NORTH_CORPS.include? corporation.name
         end
@@ -475,6 +462,11 @@ module Engine
           f_train&.owner = nil
           corp.trains.delete(f_train)
           @log << 'F train discarded'
+        end
+
+        def upgrade_cost(old_tile, hex, entity, spender)
+          total_cost = super
+          hex.tile.paths.all? { |path| path.track == :narrow } ? total_cost / 2 : total_cost
         end
 
         def subsidy_for(route, _stops)
@@ -557,7 +549,6 @@ module Engine
             .select { |r| train_type(route.train) == train_type(r.train) }
             .flat_map(&:paths)
         end
-
       end
     end
   end
