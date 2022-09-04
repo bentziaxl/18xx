@@ -303,7 +303,7 @@ module Engine
           'D25' => 'Cáceres',
           'D31' => 'Sevilla',
           'D33' => 'Cádiz',
-          'D18' => 'León',
+          'E18' => 'León',
           'E20' => 'Zamora',
           'E22' => 'Salamanca',
           'F19' => 'Palencia',
