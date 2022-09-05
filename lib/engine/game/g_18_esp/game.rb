@@ -363,6 +363,7 @@ module Engine
         def init_corporations(stock_market)
           game_corporations.map do |corporation|
             G18ESP::Corporation.new(
+              self,
               min_price: stock_market.par_prices.map(&:price).min,
               capitalization: self.class::CAPITALIZATION,
               **corporation.merge(corporation_opts),
@@ -548,6 +549,15 @@ module Engine
             .reject { |r| r == route }
             .select { |r| train_type(route.train) == train_type(r.train) }
             .flat_map(&:paths)
+        end
+
+        def check_for_destination_connection(entity)
+          return false unless entity.corporation?
+          return entity.destination_connected? if entity.destination_connected?
+
+          graph = Graph.new(self, home_as_token: true, no_blocking: true)
+          graph.compute(entity)
+          graph.reachable_hexes(entity).include?(hex_by_id(entity.destination))
         end
       end
     end
