@@ -31,6 +31,12 @@ module Engine
           @mine_blocking ||= Engine::Ability::BlocksHexes.new(type: :blocks_hexes, owner_type: :player,
                                                               hexes: @game.mine_hexes)
         end
+
+        def lay_tile_action(action)
+          entity = action.entity
+          super
+          entity.goal_reached!(:destination) if !entity.destination_connected? && @game.check_for_destination_connection(entity)
+        end
       end
     end
   end
