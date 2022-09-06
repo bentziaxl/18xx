@@ -440,9 +440,10 @@ module Engine
             ['M8'] => 'city=revenue:120;path=a:2,b:_0,track:dual;path=a:0,b:_0,track:dual;label=+40',
             %w[E16 E14 F17] => 'path=a:0,b:3,track:dual',
             %w[F15] => 'path=a:0,b:4,track:dual',
-            %w[G14 H13 I14 J13 L11] => 'path=a:1,b:4,track:dual',
-            ['H15'] => 'path=a:0,b:4,track:dual;path=a:5,b:4,track:dual',
-            ['K12'] => 'path=a:1,b:3,track:dual;path=a:1,b:4,track:dual',
+            %w[G14 H13 L11] => 'path=a:1,b:4,track:dual',
+            %w[I14 J13] => 'path=a:1,b:4,track:dual,lanes:2',
+            ['H15'] => 'path=a:0,b:4,b_lane:2.1,track:dual;path=a:5,b:4,b_lane:2.0,track:dual',
+            ['K12'] => 'path=a:1,b:3,a_lane:2.0,track:dual;path=a:1,b:4,a_lane:2.1,track:dual',
             ['M10'] => 'path=a:1,b:3,track:dual',
 
           },
