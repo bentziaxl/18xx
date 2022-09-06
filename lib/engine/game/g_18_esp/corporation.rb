@@ -29,6 +29,7 @@ module Engine
 
         def goal_reached!(type)
           destination_goal_reached! if type == :destination
+          offboard_goal_reached! if type == :offboard
           # give company extra money
           additional_capital = @par_price.price * @goals_reached_counter
           @game.bank.spend(additional_capital, self)
@@ -44,6 +45,13 @@ module Engine
           return if @destination_connected
 
           @destination_connected = true
+          @goals_reached_counter += 1
+        end
+
+        def offboard_goal_reached!
+          return if @ran_offboard
+
+          @ran_offboard = true
           @goals_reached_counter += 1
         end
 
