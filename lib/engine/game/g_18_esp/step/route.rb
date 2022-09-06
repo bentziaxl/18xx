@@ -7,10 +7,10 @@ module Engine
     module G18ESP
       module Step
         class Route < Engine::Step::Route
-          # def process_run_routes(action)
-          #   super
-          #   @game.discard_f_train(action) if action.entity.trains.any? { |train| train.name == 'F' }
-          # end
+          def process_run_routes(action)
+            action.entity.goal_reached!(:offboard) if @game.check_offboard_goal(action.entity, action.routes)
+            super
+          end
         end
       end
     end

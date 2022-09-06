@@ -34,8 +34,6 @@ module Engine
             return unless train
 
             handle_mine_halt(train)
-
-            @game.check_offboard_goal(action.entity, routes)
           end
 
           def dividend_options(entity)
