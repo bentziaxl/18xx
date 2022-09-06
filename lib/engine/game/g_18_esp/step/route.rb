@@ -9,6 +9,7 @@ module Engine
         class Route < Engine::Step::Route
           def process_run_routes(action)
             action.entity.goal_reached!(:offboard) if @game.check_offboard_goal(action.entity, action.routes)
+            action.entity.goal_reached!('southern map') if @game.check_southern_map_goal(action.entity, action.routes)
             super
           end
         end
