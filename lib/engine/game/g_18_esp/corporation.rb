@@ -5,7 +5,7 @@ module Engine
     module G18ESP
       class Corporation < Engine::Corporation
         attr_reader :destination, :goals_reached_counter
-        attr_accessor :destination_connected, :ran_offboard
+        attr_accessor :destination_connected, :ran_offboard, :ran_southern_map
 
         def initialize(game, sym:, name:, **opts)
           @game = game
@@ -27,9 +27,14 @@ module Engine
           @ran_offboard
         end
 
+        def ran_southern_map?
+          @ran_southern_map
+        end
+
         def goal_reached!(type)
           destination_goal_reached! if type == :destination
           offboard_goal_reached! if type == :offboard
+          ran_southern_map_goal_reached! if type == 'southern map'
           # give company extra money
           additional_capital = @par_price.price * @goals_reached_counter
           @game.bank.spend(additional_capital, self)
@@ -37,7 +42,7 @@ module Engine
           blocked_token = tokens.find { |token| token.used == true && !token.hex }
           blocked_token&.used = false
 
-          @game.log << "#{name} reached #{type} goal." \
+          @game.log << "#{name} reached #{type} goal. " \
                        "#{name} receives #{@game.format_currency(additional_capital)} and an extra token"
         end
 
@@ -59,6 +64,13 @@ module Engine
           return if @ran_offboard
 
           @ran_offboard = true
+          @goals_reached_counter += 1
+        end
+
+        def ran_southern_map_goal_reached!
+          return if @ran_southern_map
+
+          @ran_southern_map = true
           @goals_reached_counter += 1
         end
       end

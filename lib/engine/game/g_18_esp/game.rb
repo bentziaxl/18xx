@@ -246,7 +246,7 @@ module Engine
               { name: '2H', distance: 2, price: 70 },
               {
                 name: '1+2',
-                distance: [{ 'nodes' => %w[city offboard], 'pay' => 1, 'visit' => 1 },
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
                            { 'nodes' => ['town'], 'pay' => 2, 'visit' => 2 }],
                 track_type: :narrow,
                 no_local: true,
@@ -565,7 +565,20 @@ module Engine
           return true if entity.ran_offboard?
 
           # logic to check if routes include offboard
-          routes.any? { |route| !route.visited_stops.zero?(&:offboard?) }
+          routes.any? { |route| route.visited_stops.none?(&:offboard?) }
+        end
+
+        def check_southern_map_goal(entity, routes)
+          return false unless entity.corporation?
+          return false unless north_corp?(entity)
+          return true if entity.ran_southern_map?
+
+          # logic to check if routes include offboard
+          routes.any? do |route|
+            next unless route.train.track_type == :narrow
+
+            route.visited_stops.any? { |stop| stop.hex.id == 'I16' || stop.hex.id == 'E18' }
+          end
         end
       end
     end
