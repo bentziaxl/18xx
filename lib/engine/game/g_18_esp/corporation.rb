@@ -5,7 +5,7 @@ module Engine
     module G18ESP
       class Corporation < Engine::Corporation
         attr_reader :destination, :goals_reached_counter
-        attr_accessor :destination_connected
+        attr_accessor :destination_connected, :ran_offboard
 
         def initialize(game, sym:, name:, **opts)
           @game = game
@@ -23,6 +23,10 @@ module Engine
           @destination_connected
         end
 
+        def ran_offboard?
+          @ran_offboard
+        end
+
         def goal_reached!(type)
           destination_goal_reached! if type == :destination
           # give company extra money
@@ -34,12 +38,19 @@ module Engine
 
           @game.log << "#{name} reached #{type} goal." \
                        "#{name} receives #{@game.format_currency(additional_capital)} and an extra token"
-          @destination_connected = true
         end
 
         def destination_goal_reached!
           return if @destination_connected
 
+          @destination_connected = true
+          @goals_reached_counter += 1
+        end
+
+        def ran_offboard_goal_reached!
+          return if @ran_offboard
+
+          @ran_offboard = true
           @goals_reached_counter += 1
         end
       end

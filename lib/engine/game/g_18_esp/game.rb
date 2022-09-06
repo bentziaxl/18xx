@@ -553,11 +553,19 @@ module Engine
 
         def check_for_destination_connection(entity)
           return false unless entity.corporation?
-          return entity.destination_connected? if entity.destination_connected?
+          return true if entity.destination_connected?
 
           graph = Graph.new(self, home_as_token: true, no_blocking: true)
           graph.compute(entity)
           graph.reachable_hexes(entity).include?(hex_by_id(entity.destination))
+        end
+
+        def check_offboard_goal(entity, routes)
+          return false unless entity.corporation?
+          return true if entity.ran_offboard?
+
+          # logic to check if routes include offboard
+          routes.any? { |route| !route.visited_stops.zero?(&:offboard?) }
         end
       end
     end
