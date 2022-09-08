@@ -36,14 +36,19 @@ module Engine
           entity = action.entity
           raiseGameError 'Cannot connect to mountain pass without a token' if can_open_mountain_pass?(action)
           super
+          @game.opening_mountain_pass(action) if opening_mountain_pass?(action)
           entity.goal_reached!(:destination) if !entity.destination_connected? && @game.check_for_destination_connection(entity)
         end
 
         def can_open_mountain_pass?(action)
-          opening_mountain_pass?(action.entity, action.hex, action.tile) && action.entity.unplaced_tokens.empty?
+          opening_mountain_pass?(action) && action.entity.unplaced_tokens.empty?
         end
 
-        def opening_mountain_pass?(_entity, hex, tile)
+        def opening_mountain_pass?(action)
+          mountain_pass?(action.entity, action.hex, action.tile)
+        end
+
+        def mountain_pass?(_entity, hex, tile)
           return false unless @game.mountain_pass_access?(hex)
 
           tile.exits.any? do |exit|
