@@ -34,8 +34,30 @@ module Engine
 
         def lay_tile_action(action)
           entity = action.entity
+          raiseGameError 'Cannot connect to mountain pass without a token' if can_open_mountain_pass?(action)
           super
           entity.goal_reached!(:destination) if !entity.destination_connected? && @game.check_for_destination_connection(entity)
+        end
+
+        def can_open_mountain_pass?(action)
+          opening_mountain_pass?(action.entity, action.hex, action.tile) && action.entity.unplaced_tokens.empty?
+        end
+
+        def opening_mountain_pass?(_entity, hex, tile)
+          return false unless @game.mountain_pass_access?(hex)
+
+          tile.exits.any? do |exit|
+            neighbor = hex.neighbors[exit]
+            ntile = neighbor&.tile
+            next false unless ntile
+            next false unless @game.mountain_pass?(ntile.hex)
+
+            ntile.exits.any? { |e| e == Hex.invert(exit) }
+          end
+        end
+
+        def legal_tile_rotation?(entity, hex, tile)
+          super # && !opening_mountain_pass?(entity, hex, tile)
         end
       end
     end

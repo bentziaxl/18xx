@@ -74,7 +74,7 @@ module Engine
             'city=revenue:40;city=revenue:40;city=revenue:40;path=a:0,b:_0;path=a:1,b:_0;' \
             'path=a:2,b:_1;path=a:3,b:_1;path=a:4,b:_2;path=a:0,b:_2;label=M',
           },
-          'L3' => {
+          'tL3' => {
             'count' => 2,
             'color' => 'green',
             'code' =>
@@ -98,7 +98,7 @@ module Engine
             'code' =>
           'city=revenue:30,slots:2;path=a:0,b:_0,track:narrow;path=a:2,b:_0,track:narrow;path=a:3,b:_0,track:narrow',
           },
-          'L7' => {
+          'tL7' => {
             'count' => 1,
             'color' => 'green',
             'code' =>
