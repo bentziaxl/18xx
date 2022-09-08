@@ -592,6 +592,15 @@ module Engine
             route.visited_stops.any? { |stop| stop.hex.id == 'I16' || stop.hex.id == 'E18' }
           end
         end
+
+        def opening_mountain_pass(action)
+          mountain_pass_paths = @graph.connected_paths(action.entity).select {|path| [:orange,:gray].include?(path.hex.tile.color) }
+          mountain_pass_paths.keys.each do |path|
+            break if path.hex.tile.color == :gray
+            path.track = :narrow 
+          end
+
+        end
       end
     end
   end

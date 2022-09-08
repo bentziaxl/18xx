@@ -6,8 +6,8 @@ module Engine
   module Part
     class Path < Base
       attr_reader :a, :b, :city, :edges, :exit_lanes, :junction, :lanes, :nodes, :offboard,
-                  :stops, :terminal, :town, :track, :ignore
-      attr_accessor :ignore_gauge_walk, :ignore_gauge_compare
+                  :stops, :terminal, :town, :ignore
+      attr_accessor :ignore_gauge_walk, :ignore_gauge_compare, :track
 
       LANES = [[1, 0].freeze, [1, 0].freeze].freeze
       MATCHES_BROAD = %i[broad dual].freeze
