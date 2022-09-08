@@ -23,6 +23,10 @@ module Engine
 
         NORTH_CORPS = %w[FdSB FdLR CFEA CFLG].freeze
 
+        MOUNTAIN_PASS_ACCESS_HEX = %w[D19 E20 F21 G20 H19 I18 J17 E10 I10 K8 L7].freeze
+
+        MOUNTAIN_PASS_HEX = %w[M8 K10 I12 E12 E18 F19 G18 H17 I16].freeze
+
         SELL_AFTER = :operate
 
         SELL_BUY_ORDER = :sell_buy
@@ -441,6 +445,14 @@ module Engine
           hex.y << NORTH_SOUTH_DIVIDE
         end
 
+        def mountain_pass_access?(hex)
+          MOUNTAIN_PASS_ACCESS_HEX.include?(hex.id)
+        end
+
+        def mountain_pass?(hex)
+          MOUNTAIN_PASS_HEX.include?(hex.id)
+        end
+
         def mea
           @mea ||= company_by_id('MEA')
         end
@@ -565,7 +577,7 @@ module Engine
           return true if entity.ran_offboard?
 
           # logic to check if routes include offboard
-          routes.any? { |route| route.visited_stops.none?(&:offboard?) }
+          routes.any? { |route| route.visited_stops.any?(&:offboard?) }
         end
 
         def check_southern_map_goal(entity, routes)
@@ -573,7 +585,7 @@ module Engine
           return false unless north_corp?(entity)
           return true if entity.ran_southern_map?
 
-          # logic to check if routes include offboard
+          # logic to check if narrow track train connects to target cities
           routes.any? do |route|
             next unless route.train.track_type == :narrow
 

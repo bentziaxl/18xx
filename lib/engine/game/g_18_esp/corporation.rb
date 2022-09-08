@@ -32,9 +32,13 @@ module Engine
         end
 
         def goal_reached!(type)
+          old_reached_counter = @goals_reached_counter
           destination_goal_reached! if type == :destination
           offboard_goal_reached! if type == :offboard
           ran_southern_map_goal_reached! if type == 'southern map'
+
+          return if old_reached_counter == @goals_reached_counter
+
           # give company extra money
           additional_capital = @par_price.price * @goals_reached_counter
           @game.bank.spend(additional_capital, self)
@@ -54,13 +58,6 @@ module Engine
         end
 
         def offboard_goal_reached!
-          return if @ran_offboard
-
-          @ran_offboard = true
-          @goals_reached_counter += 1
-        end
-
-        def ran_offboard_goal_reached!
           return if @ran_offboard
 
           @ran_offboard = true
