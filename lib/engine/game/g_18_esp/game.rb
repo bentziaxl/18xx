@@ -27,6 +27,8 @@ module Engine
 
         MOUNTAIN_PASS_HEX = %w[M8 K10 I12 E12 E18 F19 G18 H17 I16].freeze
 
+        MOUNTAIN_PASS_TOKEN_COST = { 'M8' => 120, 'K10' => 120, 'I12' => 100, 'E12' => 160 }.freeze
+
         SELL_AFTER = :operate
 
         SELL_BUY_ORDER = :sell_buy
@@ -398,7 +400,7 @@ module Engine
             G18ESP::Step::Mining,
             G18ESP::Step::SpecialTrack,
             G18ESP::Step::Track,
-            Engine::Step::Token,
+            G18ESP::Step::Token,
             G18ESP::Step::Route,
             G18ESP::Step::Dividend,
             Engine::Step::DiscardTrain,
@@ -446,7 +448,7 @@ module Engine
         end
 
         def mountain_pass_access?(hex)
-          MOUNTAIN_PASS_ACCESS_HEX.include?(hex.id)
+          MOUNTAIN_PASS_ACCESS_HEX.include?(hex&.id)
         end
 
         def mountain_pass?(hex)
@@ -593,13 +595,20 @@ module Engine
           end
         end
 
-        def opening_mountain_pass(action)
-          mountain_pass_paths = @graph.connected_paths(action.entity).select {|path| [:orange,:gray].include?(path.hex.tile.color) }
+        def opening_mountain_pass(action, track_type)
+          mountain_pass_paths = @graph.connected_paths(action.entity).select do |path|
+            %i[orange gray].include?(path.hex.tile.color)
+          end
           mountain_pass_paths.keys.each do |path|
             break if path.hex.tile.color == :gray
-            path.track = :narrow 
-          end
+            next unless path.track == :dual
 
+            path.track = track_type
+          end
+        end
+
+        def mountain_pass_token_cost(hex)
+          MOUNTAIN_PASS_TOKEN_COST[hex.id]
         end
       end
     end
