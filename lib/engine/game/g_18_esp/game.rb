@@ -206,7 +206,7 @@ module Engine
         PHASES = [{
           name: '2',
           train_limit: 4,
-          tiles: [:yellow],
+          tiles: %i[yellow green],
           operating_rounds: 1,
         },
                   {
@@ -426,8 +426,10 @@ module Engine
           return MAJOR_TILE_LAYS if entity.type == :major
         end
 
-        def north_corp?(corporation)
-          NORTH_CORPS.include? corporation.name
+        def north_corp?(entity)
+          return false unless entity.corporation?
+
+          NORTH_CORPS.include? entity.name
         end
 
         def event_south_majors_available!
