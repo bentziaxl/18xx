@@ -590,6 +590,7 @@ module Engine
       return unless only_paths?(@code)
 
       @original_code = @code
+      @original_paths = @paths.clone
       @paths = []
       @code = update_path(@original_code, code)
 
@@ -626,6 +627,8 @@ module Engine
       return unless only_paths?(@original_code)
 
       @paths = []
+      @_paths = nil
+      @_exits = nil
       @code = @original_code
       @towns = []
       @city_towns = []
