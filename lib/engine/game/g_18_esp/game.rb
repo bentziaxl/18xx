@@ -419,6 +419,8 @@ module Engine
           @corporations, @future_corporations = @corporations.partition do |corporation|
             corporation.type == :minor || north_corp?(corporation)
           end
+
+          @corporations.each { |c| c.shares.last.buyable = false unless c.type == :minor }
         end
 
         def tile_lays(entity)
