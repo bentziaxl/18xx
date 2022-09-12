@@ -4,6 +4,7 @@ require_relative 'meta'
 require_relative 'map'
 require_relative 'entities'
 require_relative '../base'
+require_relative '../cities_plus_towns_route_distance_str'
 
 module Engine
   module Game
@@ -12,6 +13,7 @@ module Engine
         include_meta(G18ESP::Meta)
         include Entities
         include Map
+        include CitiesPlusTownsRouteDistanceStr
 
         CURRENCY_FORMAT_STR = '$%d'
 
@@ -30,6 +32,8 @@ module Engine
         MOUNTAIN_PASS_TOKEN_HEXES = %w[M8 K10 I12 E12].freeze
 
         MOUNTAIN_PASS_TOKEN_COST = { 'M8' => 120, 'K10' => 120, 'I12' => 100, 'E12' => 160 }.freeze
+
+        MOUNTAIN_PASS_TOKEN_BONUS = { 'M8' => 50, 'K10' => 30, 'I12' => 40, 'E12' => 40 }.freeze
 
         SELL_AFTER = :operate
 
@@ -254,7 +258,7 @@ module Engine
               { name: '2H', distance: 2, price: 70 },
               {
                 name: '1+2',
-                distance: [{ 'nodes' => %w[city offboard], 'pay' => 3, 'visit' => 3 },
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
                            { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
                 track_type: :narrow,
                 no_local: true,
@@ -516,20 +520,6 @@ module Engine
           nil
         end
 
-        def check_distance(route, visits, _train = nil)
-          return super if route.train.name != 'F' || f_train_correct_route?(route, visits, @round.mea_hex)
-
-          raise GameError, 'Route must connect Mine Tile placed and home token'
-        end
-
-        def revenue_for(route, stops)
-          return super unless route.train.name == 'F'
-
-          non_halt_stops = stops.count { |stop| !stop.is_a?(Part::Halt) }
-          total_count = non_halt_stops + route.all_hexes.count { |hex| MINE_HEXES.include?(hex.name) }
-          total_count * BASE_F_TRAIN
-        end
-
         def f_train_correct_route?(route, visits, mea_hex)
           start_city = route.train.owner.tokens.first
           (visits.first.hex == mea_hex || visits.first.hex == start_city.hex) &&
@@ -620,6 +610,94 @@ module Engine
         def visited_stops(route)
           route_stops = super
           route_stops.reject { |stop| mountain_pass_token_hex?(stop.hex) && stop.tokened_by?(route.train.owner) }
+        end
+
+        def check_distance(route, visits, train = nil)
+          unless route.train.name != 'F' || f_train_correct_route?(route, visits, @round.mea_hex)
+            raise GameError, 'Route must connect Mine Tile placed and home token'
+          end
+
+          if mountain_pass_token_hex?(route.hexes.first) || mountain_pass_token_hex?(route.hexes.last)
+            raise GameError,
+                  'Route can not end or start in Mountain pass'
+          end
+
+          raise GameError, 'Route can only use one mountain pass' if route.hexes.count { |hex| mountain_pass_token_hex?(hex) } > 1
+
+          train ||= route.train
+          distance = train.distance
+          if distance.is_a?(Numeric)
+            route_distance = visits.sum(&:visit_cost)
+            raise RouteTooLong, "#{route_distance} is too many stops for #{distance} train" if distance < route_distance
+
+            return
+          end
+
+          type_info = Hash.new { |h, k| h[k] = [] }
+
+          distance.each do |h|
+            pay = h['pay']
+            visit = h['visit'] || pay
+            info = { pay: pay, visit: visit }
+            h['nodes'].each do |type|
+              type_info[type] << info
+            end
+          end
+
+          grouped = visits.group_by { |visit| mountain_pass_token_hex?(visit.hex) ? 'town' : visit.type }
+
+          grouped.sort_by { |t, _| type_info[t].size }.each do |type, group|
+            num = group.sum(&:visit_cost)
+
+            type_info[type].each do |info|
+              next unless info[:visit].positive?
+
+              if num <= info[:visit]
+                info[:visit] -= num
+                num = 0
+              else
+                num -= info[:visit]
+                info[:visit] = 0
+              end
+
+              break unless num.positive?
+            end
+
+            raise RouteTooLong, 'Route has too many stops' if num.positive?
+          end
+        end
+
+        def revenue_for_f(route, stops)
+          non_halt_stops = stops.count { |stop| !stop.is_a?(Part::Halt) }
+          total_count = non_halt_stops + route.all_hexes.count { |hex| MINE_HEXES.include?(hex.name) }
+          total_count * BASE_F_TRAIN
+        end
+
+        def revenue_for(route, stops)
+          return revenue_for_f(route, stops) if route.train.name == 'F'
+
+          bonus = route.hexes.sum do |hex|
+            tokened_mountain_pass(hex, route.train.owner) ? MOUNTAIN_PASS_TOKEN_BONUS[hex.id] : 0
+          end
+
+          super + bonus
+        end
+
+        def tokened_mountain_pass(hex, entity)
+          mountain_pass_token_hex?(hex) &&
+          hex.tile.stops.first.tokened_by?(entity)
+        end
+
+        def revenue_str(route)
+          return super unless route.hexes.any? { |hex| mountain_pass_token_hex?(hex) }
+
+          super + ' + mountain pass'
+        end
+
+        def route_distance_str(route)
+          towns = route.visited_stops.count { |visit| mountain_pass_token_hex?(visit.hex) ? 1 : visit.town? }
+          cities = route_distance(route) - towns
+          towns.positive? ? "#{cities}+#{towns}" : cities.to_s
         end
       end
     end
