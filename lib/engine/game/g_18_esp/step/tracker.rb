@@ -8,9 +8,12 @@ module Engine
       module Tracker
         include Engine::Step::Tracker
         def potential_tiles(entity, hex)
-          selected_tiles(entity, hex).uniq(&:name)
+          tiles = selected_tiles(entity, hex).uniq(&:name)
             .select { |t| @game.upgrades_to?(hex.tile, t) }
             .reject(&:blocks_lay)
+
+          tiles = tiles.reject { |tile| tile.city_towns.empty? && tile.color != :yellow } if @game.north_corp?(entity)
+          tiles
         end
 
         def selected_tiles(entity, hex)

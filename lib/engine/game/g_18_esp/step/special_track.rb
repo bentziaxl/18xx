@@ -38,6 +38,11 @@ module Engine
             tile.add_temp_halt('halt')
             super
           end
+
+          def potential_tiles(entity, hex)
+            tiles = super
+            tiles.reject { |tile| tile.city_towns.empty? && tile.color != :yellow }
+          end
         end
       end
     end
