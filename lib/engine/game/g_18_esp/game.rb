@@ -27,6 +27,8 @@ module Engine
 
         MOUNTAIN_PASS_HEX = %w[M8 K10 I12 E12 E18 F19 G18 H17 I16].freeze
 
+        MOUNTAIN_PASS_TOKEN_HEXES = %w[M8 K10 I12 E12].freeze
+
         MOUNTAIN_PASS_TOKEN_COST = { 'M8' => 120, 'K10' => 120, 'I12' => 100, 'E12' => 160 }.freeze
 
         SELL_AFTER = :operate
@@ -252,8 +254,8 @@ module Engine
               { name: '2H', distance: 2, price: 70 },
               {
                 name: '1+2',
-                distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
-                           { 'nodes' => ['town'], 'pay' => 2, 'visit' => 2 }],
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 3, 'visit' => 3 },
+                           { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
                 track_type: :narrow,
                 no_local: true,
                 price: 70,
@@ -609,6 +611,15 @@ module Engine
 
         def mountain_pass_token_cost(hex)
           MOUNTAIN_PASS_TOKEN_COST[hex.id]
+        end
+
+        def mountain_pass_token_hex?(hex)
+          MOUNTAIN_PASS_TOKEN_HEXES.include?(hex.id)
+        end
+
+        def visited_stops(route)
+          route_stops = super
+          route_stops.reject { |stop| mountain_pass_token_hex?(stop.hex) && stop.tokened_by?(route.train.owner) }
         end
       end
     end

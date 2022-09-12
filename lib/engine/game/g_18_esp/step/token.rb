@@ -9,7 +9,10 @@ module Engine
         class Token < Engine::Step::Token
           def place_token(entity, city, token)
             mount_pass_cost = @game.mountain_pass_token_cost(city.hex)
-            token.price = mount_pass_cost if mount_pass_cost
+            if mount_pass_cost
+              token.price = mount_pass_cost
+              token.type = :neutral
+            end
             super(entity, city, token)
           end
         end
