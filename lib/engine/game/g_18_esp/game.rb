@@ -47,6 +47,8 @@ module Engine
 
         BASE_F_TRAIN = 10
 
+        NEXT_SR_PLAYER_ORDER = :least_cash
+
         MINOR_TILE_LAYS = [{ lay: true, upgrade: true, cost: 0 }].freeze
         MAJOR_TILE_LAYS = [
           { lay: true, upgrade: true, cost: 0 },
@@ -70,13 +72,13 @@ module Engine
              240
              260
              280
-             300
-             325
-             350
-             375
-             400
-             425
-             450],
+             300i
+             325i
+             350i
+             375i
+             400i
+             425i
+             450i],
           %w[72
              76
              82
@@ -93,13 +95,13 @@ module Engine
              222
              240
              260
-             280
-             300
-             325
-             350
-             375
-             400
-             425],
+             280i
+             300i
+             325i
+             350i
+             375i
+             400i
+             425i],
           %w[68p
              72p
              76p
@@ -116,13 +118,13 @@ module Engine
              204
              222
              240
-             260
-             280
-             300
-             325
-             350
-             375
-             400],
+             260i
+             280i
+             300i
+             325i
+             350i
+             375i
+             400i],
           %w[64
              68
              72
@@ -139,13 +141,13 @@ module Engine
              188
              204
              222
-             240
-             260
-             280
-             300
-             325
-             350
-             375],
+             240i
+             260i
+             280i
+             300i
+             325i
+             350i
+             375i],
           %w[60P
              64P
              68P
@@ -162,13 +164,13 @@ module Engine
              172
              188
              204
-             222
-             240
-             260
-             280
-             300
-             325
-             350],
+             222i
+             240i
+             260i
+             280i
+             300i
+             325i
+             350i],
           %w[56
              60
              64
@@ -185,23 +187,23 @@ module Engine
              158
              172
              188
-             204
-             222
-             240
-             260
-             280
-             300
-             325],
+             204i
+             222i
+             240i
+             260i
+             280i
+             300i
+             325i],
         ].freeze
 
         STOCKMARKET_COLORS = Base::STOCKMARKET_COLORS.merge(
           par_overlap: :blue
         ).freeze
 
-        MARKET_TEXT = {
+        MARKET_TEXT = Base::MARKET_TEXT.merge(
           par: 'Major Corporation Par',
           par_overlap: 'Minor Corporation Par',
-        }.freeze
+        ).freeze
 
         PHASES = [{
           name: '2',
@@ -255,7 +257,6 @@ module Engine
             num: 15,
             rusts_on: '4',
             variants: [
-              { name: '2H', distance: 2, price: 70 },
               {
                 name: '1+2',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
@@ -273,7 +274,6 @@ module Engine
             num: 12,
             rusts_on: '6',
             variants: [
-              { name: '3H', distance: 3, price: 150 },
               {
                 name: '2+3',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 2, 'visit' => 2 },
@@ -291,7 +291,6 @@ module Engine
             num: 8,
             rusts_on: '8',
             variants: [
-              { name: '4H', distance: 4, price: 260 },
               {
                 name: '3+4',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 3, 'visit' => 3 },
@@ -307,7 +306,6 @@ module Engine
             price: 500,
             num: 4,
             variants: [
-              { name: '5H', distance: 5, price: 450 },
               {
                 name: '4+',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 4, 'visit' => 4 },
@@ -325,7 +323,6 @@ module Engine
             price: 600,
             num: 4,
             variants: [
-              { name: '6H', distance: 6, price: 530 },
               {
                 name: '5+',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
@@ -344,8 +341,15 @@ module Engine
             events: [{ 'type' => 'renfe_founded' },
                      { 'type' => 'signal_end_game' }],
             variants: [
-              { name: '8H', distance: 8, price: 700 },
-            ],
+                      {
+                        name: '5+',
+                        distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
+                                   { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                        track_type: :narrow,
+                        price: 600,
+                      },
+                    ],
+
           },
           {
             name: 'F',
@@ -572,6 +576,7 @@ module Engine
 
         def check_offboard_goal(entity, routes)
           return false unless entity.corporation?
+          return false if entity.type == :minor
           return true if entity.ran_offboard?
 
           # logic to check if routes include offboard
@@ -581,6 +586,7 @@ module Engine
         def check_southern_map_goal(entity, routes)
           return false unless entity.corporation?
           return false unless north_corp?(entity)
+          return false if entity.type == :minor
           return true if entity.ran_southern_map?
 
           # logic to check if narrow track train connects to target cities
