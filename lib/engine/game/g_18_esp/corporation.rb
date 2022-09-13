@@ -31,7 +31,22 @@ module Engine
           @ran_southern_map
         end
 
+        def goal_reached_minor!(type)
+          old_reached_counter = @goals_reached_counter
+          destination_goal_reached! if type == :destination
+          return if old_reached_counter == @goals_reached_counter
+
+          # give company extra money
+          additional_capital = @par_price.price * 2
+          @game.bank.spend(additional_capital, self)
+
+          @game.log << "#{name} reached #{type} goal. " \
+                       "#{name} receives #{@game.format_currency(additional_capital)}"
+        end
+
         def goal_reached!(type)
+          return goal_reached_minor!(type) if self.type == :minor
+
           old_reached_counter = @goals_reached_counter
           destination_goal_reached! if type == :destination
           offboard_goal_reached! if type == :offboard
@@ -69,6 +84,12 @@ module Engine
 
           @ran_southern_map = true
           @goals_reached_counter += 1
+        end
+
+        def runnable_trains
+          trains = super
+          trains = trains.dup.reject { |t| t.track_type == :narrow } if !@game.north_corp?(self) || type == :minor
+          trains
         end
       end
     end
