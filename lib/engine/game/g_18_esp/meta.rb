@@ -17,7 +17,7 @@ module Engine
         GAME_RULES_URL = ''
         GAME_INFO_URL = ''
 
-        PLAYER_RANGE = [2, 6].freeze
+        PLAYER_RANGE = [3, 6].freeze
       end
     end
   end
