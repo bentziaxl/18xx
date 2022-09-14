@@ -80,10 +80,11 @@ module Engine
           end
 
           def choices
-            {
-              map: 'Map',
+            options = {
               charter: 'Charter',
             }
+            options[:map] = 'Map' if @merging.last.tokens.first.used
+            options
           end
 
           def show_other_players
