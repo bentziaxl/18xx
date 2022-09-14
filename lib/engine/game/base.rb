@@ -134,6 +134,9 @@ module Engine
       MULTIPLE_BUY_TYPES = %i[multiple_buy].freeze
       MULTIPLE_BUY_ONLY_FROM_MARKET = false
 
+      # moving up on top row moves the price right, down on bottom row moves price left.
+      CONTINUOUS_MARKET = false
+
       STOCKMARKET_COLORS = {
         par: :red,
         endgame: :blue,
@@ -2188,7 +2191,8 @@ module Engine
 
       def init_stock_market
         StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
-                        multiple_buy_types: self.class::MULTIPLE_BUY_TYPES)
+                        multiple_buy_types: self.class::MULTIPLE_BUY_TYPES,
+                        continuous: self.class::CONTINUOUS_MARKET)
       end
 
       def game_market

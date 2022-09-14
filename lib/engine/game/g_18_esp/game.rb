@@ -49,6 +49,8 @@ module Engine
 
         NEXT_SR_PLAYER_ORDER = :least_cash
 
+        CONTINUOUS_MARKET = true
+
         MINOR_TILE_LAYS = [{ lay: true, upgrade: true, cost: 0 }].freeze
         MAJOR_TILE_LAYS = [
           { lay: true, upgrade: true, cost: 0 },
@@ -414,15 +416,16 @@ module Engine
             G18ESP::Step::Route,
             G18ESP::Step::Dividend,
             Engine::Step::DiscardTrain,
+            G18ESP::Step::Acquire,
             G18ESP::Step::BuyTrain,
             [Engine::Step::BuyCompany, { blocks: true }],
           ], round_num: round_num)
         end
 
         def setup
-          @corporations, @future_corporations = @corporations.partition do |corporation|
-            corporation.type == :minor || north_corp?(corporation)
-          end
+          # @corporations, @future_corporations = @corporations.partition do |corporation|
+          #   corporation.type == :minor || north_corp?(corporation)
+          # end
 
           @corporations.each { |c| c.shares.last.buyable = false unless c.type == :minor }
         end
@@ -708,6 +711,77 @@ module Engine
           towns = route.visited_stops.count { |visit| mountain_pass_token_hex?(visit.hex) ? 1 : visit.town? }
           cities = route_distance(route) - towns
           towns.positive? ? "#{cities}+#{towns}" : cities.to_s
+        end
+
+        def purchasable_companies(entity)
+          return [] if north_corp?(entity)
+
+          @corporations.select { |c| c.type == :minor }
+        end
+
+        def start_merge(corporation, minor, keep_token)
+          # take over assets
+          move_assets(corporation, minor)
+
+          # handle token
+          keep_token ? swap_token(corporation, minor) : gain_token(corporation, minor)
+
+          # complete goal
+          corporation.goal_reached!(:takeover)
+
+          # pay compensation
+
+          # get share
+          get_reserved_share(minor.owner, corporation)
+
+          # close corp
+          close_corporation(minor)
+        end
+
+        def get_reserved_share(owner, corporation)
+          reserved_share = corporation.shares.find { |share| share.buyable == false }
+          return unless reserved_share
+
+          reserved_share.buyable = true
+          @share_pool.transfer_shares(
+              reserved_share.to_bundle,
+              owner,
+              allow_president_change: true,
+              price: 0
+            )
+          @log << "#{owner.name} gets a share of #{corporation.name}"
+        end
+
+        def gain_token(corporation, _minor)
+          blocked_token = corporation.tokens.find { |token| token.used == true && !token.hex && token.price == 100 }
+          blocked_token&.used = false
+        end
+
+        def swap_token(survivor, nonsurvivor)
+          new_token = survivor.tokens.last
+          old_token = nonsurvivor.tokens.first
+          city = old_token.city
+          @log << "Replaced #{nonsurvivor.name} token in #{city.hex.id} with #{survivor.name} token"
+          new_token.place(city)
+          city.tokens[city.tokens.find_index(old_token)] = new_token
+          nonsurvivor.tokens.delete(old_token)
+        end
+
+        def move_assets(survivor, nonsurvivor)
+          # cash
+          nonsurvivor.spend(nonsurvivor.cash, survivor) if nonsurvivor.cash.positive?
+          # trains
+          nonsurvivor.trains.each { |t| t.owner = survivor }
+          survivor.trains.concat(nonsurvivor.trains)
+          nonsurvivor.trains.clear
+          survivor.trains.each { |t| t.operated = false }
+          # privates
+          nonsurvivor.companies.each do |c|
+            c.owner = survivor
+            owner.companies << c
+          end
+
+          @log << "Moved assets from #{nonsurvivor.name} to #{survivor.name}"
         end
       end
     end
