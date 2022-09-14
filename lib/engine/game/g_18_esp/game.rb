@@ -724,18 +724,42 @@ module Engine
           move_assets(corporation, minor)
 
           # handle token
-          keep_token ? swap_token(corporation, minor) : gain_token(corporation, minor)
+          keep_token ? swap_token(corporation, minor) : gain_token(corporation)
 
           # complete goal
           corporation.goal_reached!(:takeover)
 
           # pay compensation
+          pay_compnesation(corporation, minor)
 
           # get share
           get_reserved_share(minor.owner, corporation)
 
           # close corp
           close_corporation(minor)
+        end
+
+        def pay_compnesation(corporation, minor)
+          per_share = minor.share_price.price
+          payouts = {}
+          @players.each do |player|
+            amount = player.num_shares_of(minor) * per_share
+            next if amount.zero?
+
+            amount -= corporation.share_price.price if minor.president?(player)
+            next unless amount.positive?
+
+            payouts[player] = amount
+            @bank.spend(amount, player)
+          end
+
+          unless payouts.empty?
+            receivers = payouts
+                          .sort_by { |_r, c| -c }
+                          .map { |receiver, cash| "#{receiver.name} gets #{format_currency(cash)} compensation " }.join(', ')
+
+            @log << receivers.to_s
+          end
         end
 
         def get_reserved_share(owner, corporation)
@@ -752,7 +776,7 @@ module Engine
           @log << "#{owner.name} gets a share of #{corporation.name}"
         end
 
-        def gain_token(corporation, _minor)
+        def gain_token(corporation)
           blocked_token = corporation.tokens.find { |token| token.used == true && !token.hex && token.price == 100 }
           blocked_token&.used = false
         end
@@ -761,6 +785,8 @@ module Engine
           new_token = survivor.tokens.last
           old_token = nonsurvivor.tokens.first
           city = old_token.city
+          return gain_token(survivor) unless city
+
           @log << "Replaced #{nonsurvivor.name} token in #{city.hex.id} with #{survivor.name} token"
           new_token.place(city)
           city.tokens[city.tokens.find_index(old_token)] = new_token
