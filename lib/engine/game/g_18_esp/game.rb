@@ -753,13 +753,14 @@ module Engine
             @bank.spend(amount, player)
           end
 
-          unless payouts.empty?
-            receivers = payouts
+          return if  payouts.empty?
+          
+          receivers = payouts
                           .sort_by { |_r, c| -c }
                           .map { |receiver, cash| "#{receiver.name} gets #{format_currency(cash)} compensation " }.join(', ')
 
-            @log << receivers.to_s
-          end
+          @log << receivers.to_s
+
         end
 
         def get_reserved_share(owner, corporation)
