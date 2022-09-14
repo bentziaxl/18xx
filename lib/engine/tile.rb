@@ -610,7 +610,7 @@ module Engine
 
         a = params['a']
         b = params['b']
-        track = params['track']
+        track = params['track'] || 'broad'
 
         new_code += ";path=a:#{a},b:_#{index},track:#{track};path=a:#{b},b:_#{index},track:#{track}"
       end
