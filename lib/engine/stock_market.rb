@@ -6,10 +6,11 @@ module Engine
   class StockMarket
     attr_reader :market, :par_prices, :has_close_cell, :zigzag
 
-    def initialize(market, unlimited_types, multiple_buy_types: [], zigzag: nil)
+    def initialize(market, unlimited_types, multiple_buy_types: [], zigzag: nil, continuous: nil)
       @par_prices = []
       @has_close_cell = false
       @zigzag = zigzag
+      @continuous = continuous
       @market = market.map.with_index do |row, r_index|
         row.map.with_index do |code, c_index|
           price = SharePrice.from_code(code,
@@ -56,17 +57,17 @@ module Engine
     end
 
     def move_up(corporation)
-      return move_right(corporation) if one_d?
-
       r, c = corporation.share_price.coordinates
+      return move_right(corporation) if one_d? || (@continuous && r.zero?)
+
       r -= 1 if r - 1 >= 0
       move(corporation, r, c)
     end
 
     def move_down(corporation)
-      return move_left(corporation) if one_d?
-
       r, c = corporation.share_price.coordinates
+      return move_left(corporation) if one_d? || (@continuous && r + 1 == @market.size)
+
       r += 1 if r + 1 < @market.size && share_price(r + 1, c)
       move(corporation, r, c)
     end
