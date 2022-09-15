@@ -212,7 +212,7 @@ module Engine
         PHASES = [{
           name: '2',
           train_limit: 4,
-          tiles: %i[yellow green],
+          tiles: %i[yellow],
           operating_rounds: 1,
         },
                   {
@@ -258,13 +258,13 @@ module Engine
             name: '2',
             distance: 2,
             price: 90,
-            num: 15,
+            num: 12,
             rusts_on: '4',
             variants: [
               {
-                name: '1+2',
-                distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
-                           { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                name: '1+1',
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 1, 'visit' => 1 },
+                           { 'nodes' => ['town'], 'pay' => 1, 'visit' => 1 }],
                 track_type: :narrow,
                 no_local: true,
                 price: 70,
@@ -275,13 +275,13 @@ module Engine
             name: '3',
             distance: 3,
             price: 180,
-            num: 12,
+            num: 10,
             rusts_on: '6',
             variants: [
               {
-                name: '2+3',
+                name: '2+2',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 2, 'visit' => 2 },
-                           { 'nodes' => ['town'], 'pay' => 3, 'visit' => 3 }],
+                           { 'nodes' => ['town'], 'pay' => 2, 'visit' => 2 }],
                 track_type: :narrow,
                 price: 200,
               },
@@ -296,9 +296,9 @@ module Engine
             rusts_on: '8',
             variants: [
               {
-                name: '3+4',
+                name: '3+3',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 3, 'visit' => 3 },
-                           { 'nodes' => ['town'], 'pay' => 4, 'visit' => 4 }],
+                           { 'nodes' => ['town'], 'pay' => 3, 'visit' => 3 }],
                 track_type: :narrow,
                 price: 300,
               },
@@ -311,9 +311,9 @@ module Engine
             num: 4,
             variants: [
               {
-                name: '4+',
+                name: '4+4',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 4, 'visit' => 4 },
-                           { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                           { 'nodes' => ['town'], 'pay' => 4, 'visit' => 4 }],
                 track_type: :narrow,
                 price: 500,
               },
@@ -328,9 +328,9 @@ module Engine
             num: 4,
             variants: [
               {
-                name: '5+',
+                name: '5+5',
                 distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
-                           { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                           { 'nodes' => ['town'], 'pay' => 5, 'visit' => 5 }],
                 track_type: :narrow,
                 price: 600,
               },
@@ -341,14 +341,14 @@ module Engine
             name: '8',
             distance: 8,
             price: 800,
-            num: 50,
+            num: 30,
             events: [{ 'type' => 'renfe_founded' },
                      { 'type' => 'signal_end_game' }],
             variants: [
                       {
-                        name: '5+',
+                        name: '5+5',
                         distance: [{ 'nodes' => %w[city offboard], 'pay' => 5, 'visit' => 5 },
-                                   { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                                   { 'nodes' => ['town'], 'pay' => 5, 'visit' => 5 }],
                         track_type: :narrow,
                         price: 600,
                       },
@@ -427,9 +427,9 @@ module Engine
         end
 
         def setup
-          # @corporations, @future_corporations = @corporations.partition do |corporation|
-          #   corporation.type == :minor || north_corp?(corporation)
-          # end
+          @corporations, @future_corporations = @corporations.partition do |corporation|
+            corporation.type == :minor || north_corp?(corporation)
+          end
 
           @corporations.each { |c| c.shares.last.buyable = false unless c.type == :minor }
         end
@@ -437,18 +437,30 @@ module Engine
         def init_company_abilities
           northern_corps = @corporations.select { |c| north_corp?(c) }
           random_corporation = northern_corps[rand % northern_corps.size]
-          p6 = company_by_id('P6')
-          new_share = nil
-          ability = abilities(p6, :shares)
-          ability.shares.each do |_share|
-            new_share = random_corporation.shares[0]
+          @companies.each do |company|
+            next unless (ability = abilities(company, :shares))
 
-            p6.desc = "Purchasing player takes a president's share (20%) of #{random_corporation.name} \
-              and immediately sets its par value."
-            @log << "#{p6.sym} comes with the president's share of #{random_corporation.name}"
+            real_shares = []
+            ability.shares.each do |share|
+              case share
+              when 'random_president'
+                share = random_corporation.shares[0]
+                real_shares << share
+                company.desc = "Purchasing player takes a president's share (20%) of #{random_corporation.name} \
+                and immediately sets its par value."
+                @log << "#{company.name} comes with the president's share of #{random_corporation.name}"
+                company.add_ability(Ability::Close.new(
+                type: :close,
+                when: 'bought_train',
+                corporation: random_corporation.name,
+              ))
+              else
+                real_shares << share_by_id(share)
+              end
+            end
+
+            ability.shares = real_shares
           end
-
-          ability.shares = [new_share]
         end
 
         def tile_lays(entity)
