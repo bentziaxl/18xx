@@ -45,6 +45,7 @@ module Engine
             value: 160,
             revenue: 15,
             desc: '10% share of El Ferrocarril de La Robla',
+            abilities: [{ type: 'shares', shares: 'FdLR_1' }],
             color: nil,
           },
           {
