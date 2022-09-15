@@ -36,6 +36,12 @@ module Engine
             super
           end
 
+          def round_state
+            {
+              companies_pending_par: [],
+            }
+          end
+
           def process_pass(action)
             entity = action.entity
 
@@ -125,6 +131,7 @@ module Engine
             player.spend(price, @game.bank) if price.positive?
 
             @companies.delete(company)
+            @game.after_buy_company(player, company, price)
             @log << "#{player.name} wins the auction for #{company.name} "\
                     "with a bid of #{@game.format_currency(price)}"
           end
@@ -134,6 +141,7 @@ module Engine
             player.companies << company
 
             @companies.delete(company)
+            @game.after_buy_company(player, company, price)
             @log << "#{player.name} wins the auction for #{company.name} "\
                     "for #{@game.format_currency(0)}"
           end

@@ -55,6 +55,7 @@ module Engine
             desc: 'President share of one Northern major company (randomly selected before the game starts).'\
                   'It closes when the major company buys its first train.',
             color: nil,
+            abilities: [{ type: 'shares', shares: 'random_president' }, { type: 'no_buy' }],
           },
           sym: 'MEA',
           name: 'Mining Exploitation Authorization',
