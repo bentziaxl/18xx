@@ -15,6 +15,8 @@ module Engine
         include Map
         include CitiesPlusTownsRouteDistanceStr
 
+        attr_reader :minors_graph
+
         CURRENCY_FORMAT_STR = '$%d'
 
         BANK_CASH = 99_999
@@ -24,6 +26,8 @@ module Engine
         STARTING_CASH = { 3 => 930, 4 => 700, 5 => 560, 6 => 460 }.freeze
 
         NORTH_CORPS = %w[FdSB FdLR CFEA CFLG].freeze
+
+        SPECIAL_MINORS = %w[MS AC].freeze
 
         MOUNTAIN_PASS_ACCESS_HEX = %w[D19 E20 F21 G20 H19 I18 J17 E10 I10 K8 L7].freeze
 
@@ -411,7 +415,7 @@ module Engine
             Engine::Step::Exchange,
             Engine::Step::SpecialToken,
             Engine::Step::BuyCompany,
-            Engine::Step::HomeToken,
+            G18ESP::Step::HomeToken,
             G18ESP::Step::Mining,
             G18ESP::Step::SpecialTrack,
             G18ESP::Step::Track,
@@ -432,6 +436,7 @@ module Engine
           end
 
           @corporations.each { |c| c.shares.last.buyable = false unless c.type == :minor }
+          @minors_graph = Graph.new(self, home_as_token: true)
         end
 
         def init_company_abilities
@@ -882,6 +887,20 @@ module Engine
           trains = entity.trains
           trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || type == :minor
           trains.empty? && !depot.depot_trains.empty?
+        end
+
+        def place_home_token(corporation)
+          super unless special_minor?(corporation)
+        end
+
+        def graph_for_entity(entity)
+          return unless entity.corporation?
+
+          special_minor?(entity) ? @minors_graph : @graph
+        end
+
+        def special_minor?(corporation)
+          SPECIAL_MINORS.include?(corporation.name)
         end
       end
     end
