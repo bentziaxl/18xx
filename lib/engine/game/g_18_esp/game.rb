@@ -437,8 +437,7 @@ module Engine
         end
 
         def north_corp?(entity)
-          return false unless entity
-          return false unless entity.corporation?
+          return false unless entity&.corporation?
 
           NORTH_CORPS.include? entity.name
         end
@@ -458,7 +457,7 @@ module Engine
           @log << "#{corporation.name} floats"
           share_count = corporation.type == 'major' ? 4 : 2
 
-          @bank.spend(corporation.par_price.price * share_count, corporation)
+          @bank.spend(corporation.par_price.price * share_count * 10, corporation)
           @log << "#{corporation.name} receives #{format_currency(corporation.cash)}"
         end
 
@@ -625,13 +624,28 @@ module Engine
         def opening_new_mountain_pass(entity)
           return {} unless entity
 
-          opened_passes = @graph.reachable_hexes(entity).keys.select { |hex| mountain_pass_token_hex?(hex) }
-          opened_passes = opened_passes.reject { |hex| opened_mountain_passes.key?(hex.id) }
+          openable_passes = @graph.reachable_hexes(entity).keys.select { |hex| mountain_pass_token_hex?(hex) }
+          openable_passes = openable_passes.reject { |hex| opened_mountain_passes.key?(hex.id) }
 
-          return {} if opened_passes.empty?
+          return {} if openable_passes.empty? || last_track_type?(entity, openable_passes)
 
-          opened_passes = [opened_passes.first] if north_corp?(entity)
-          opened_passes.to_h { |hex| [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex))})"] }
+          openable_passes = [openable_passes.first] if north_corp?(entity)
+          openable_passes.to_h { |hex| [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex))})"] }
+        end
+
+        def last_track_type?(_entity, openable_passes)
+          return false unless openable_passes.length == 1
+
+          opened_passes_uniq = opened_mountain_passes.values.uniq
+          last_pass_different = opened_passes_uniq.length == 1 && opened_mountain_passes.length == 3
+          return false unless last_pass_different
+
+          proposed_track_type = north_corp? ? :narrow : :broad
+
+          return false unless opened_passes_uniq.first == proposed_track_type
+
+          @log << 'Last mountain pass must be of a different track type, skipping opening mountain pass'
+          true
         end
 
         def mountain_pass_token_cost(hex)
@@ -830,6 +844,12 @@ module Engine
           end
 
           @log << "Moved assets from #{nonsurvivor.name} to #{survivor.name}"
+        end
+
+        def must_buy_train?(entity)
+          trains = entity.trains
+          trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || type == :minor
+          trains.empty? && !depot.depot_trains.empty?
         end
       end
     end
