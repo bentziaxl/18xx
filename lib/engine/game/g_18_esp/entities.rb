@@ -272,7 +272,7 @@ module Engine
             sym: 'MZ',
             name: 'Ferrocarril de Madrid a Zaragoza',
             logo: '18_esp/MZ',
-            # coordinates: 'G24', #minors don't start in madrid
+            coordinates: 'G24',
             color: '#7E7F7E',
             tokens: [0],
             type: 'minor',
