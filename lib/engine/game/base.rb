@@ -985,10 +985,8 @@ module Engine
       end
 
       def after_buy_company(player, company, _price)
-        puts('herre')
         abilities(company, :shares) do |ability|
           ability.shares.each do |share|
-            puts("here, #{share} #{share.president}")
             if share.president
               @round.companies_pending_par << company
             else
