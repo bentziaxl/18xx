@@ -55,6 +55,7 @@ module Engine
             keep_token = (action.choice.to_s == 'map')
             @game.start_merge(action.entity, @merging.last, keep_token)
             @merging = nil
+            pass!
           end
 
           def mergeable_type(corporation)
