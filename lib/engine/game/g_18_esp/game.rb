@@ -393,6 +393,7 @@ module Engine
 
         def new_auction_round
           Engine::Round::Auction.new(self, [
+            G18ESP::Step::CompanyPendingPar,
             G18ESP::Step::SelectionAuction,
           ])
         end
@@ -431,6 +432,23 @@ module Engine
           # end
 
           @corporations.each { |c| c.shares.last.buyable = false unless c.type == :minor }
+        end
+
+        def init_company_abilities
+          northern_corps = @corporations.select { |c| north_corp?(c) }
+          random_corporation = northern_corps[rand % northern_corps.size]
+          p6 = company_by_id('P6')
+          new_share = nil
+          ability = abilities(p6, :shares)
+          ability.shares.each do |_share|
+            new_share = random_corporation.shares[0]
+
+            p6.desc = "Purchasing player takes a president's share (20%) of #{random_corporation.name} \
+              and immediately sets its par value."
+            @log << "#{p6.sym} comes with the president's share of #{random_corporation.name}"
+          end
+
+          ability.shares = [new_share]
         end
 
         def tile_lays(entity)
