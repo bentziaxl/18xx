@@ -49,6 +49,8 @@ module Engine
 
         NEXT_SR_PLAYER_ORDER = :least_cash
 
+        DISCARDED_TRAIN_DISCOUNT = 50
+
         CONTINUOUS_MARKET = true
 
         MINOR_TILE_LAYS = [{ lay: true, upgrade: true, cost: 0 }].freeze
@@ -457,7 +459,7 @@ module Engine
           @log << "#{corporation.name} floats"
           share_count = corporation.type == 'major' ? 4 : 2
 
-          @bank.spend(corporation.par_price.price * share_count * 10, corporation)
+          @bank.spend(corporation.par_price.price * share_count, corporation)
           @log << "#{corporation.name} receives #{format_currency(corporation.cash)}"
         end
 
