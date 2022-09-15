@@ -36,20 +36,8 @@ module Engine
         end
 
         def lay_tile_action(action)
-          entity = action.entity
-          pass_exit = mountain_pass_exit(action.hex, action.tile)
           super
-
-          @game.opening_mountain_pass(action, mp_track_type(action.tile, pass_exit)) if pass_exit
-          entity.goal_reached!(:destination) if !entity.destination_connected? && @game.check_for_destination_connection(entity)
-        end
-
-        def mp_track_type(tile, exit)
-          return unless exit
-
-          path = tile.paths.select { |p| p.exits.any? { |e| e == exit } }
-
-          path&.first&.track
+          entity.goal_reached!(:destination) if @game.check_for_destination_connection(action.entity)
         end
 
         def mountain_pass_exit(hex, tile)

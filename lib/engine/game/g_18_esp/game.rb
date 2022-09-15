@@ -412,6 +412,7 @@ module Engine
             G18ESP::Step::Mining,
             G18ESP::Step::SpecialTrack,
             G18ESP::Step::Track,
+            G18ESP::Step::ChooseMountainPass,
             G18ESP::Step::Token,
             G18ESP::Step::Route,
             G18ESP::Step::Dividend,
@@ -436,6 +437,7 @@ module Engine
         end
 
         def north_corp?(entity)
+          return false unless entity
           return false unless entity.corporation?
 
           NORTH_CORPS.include? entity.name
@@ -482,6 +484,10 @@ module Engine
 
         def mine_hex?(hex)
           mine_hexes.any?(hex.name)
+        end
+
+        def opened_mountain_passes
+          @opened_mountain_passes  ||= {}
         end
 
         def f_train
@@ -600,16 +606,32 @@ module Engine
           end
         end
 
-        def opening_mountain_pass(action, track_type)
-          mountain_pass_paths = @graph.connected_paths(action.entity).select do |path|
-            %i[orange gray].include?(path.hex.tile.color)
-          end
-          mountain_pass_paths.keys.each do |path|
-            break if path.hex.tile.color == :gray
-            next unless path.track == :dual
+        def open_mountain_pass(entity, pass_hex)
+          pass_tile = hex_by_id(pass_hex).tile
+          track_type = north_corp?(entity) ? :narrow : :broad
 
-            path.track = track_type
+          pass_tile.paths.each do |path|
+            path.walk { |p| p.track = track_type if p.tile.color == :orange }
           end
+
+          mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex))
+          entity.spend(mount_pass_cost, @bank)
+
+          opened_mountain_passes[pass_hex] = track_type
+
+          @log << "#{entity.name} spends #{format_currency(mount_pass_cost)} to open mountain pass"
+        end
+
+        def opening_new_mountain_pass(entity)
+          return {} unless entity
+
+          opened_passes = @graph.reachable_hexes(entity).keys.select { |hex| mountain_pass_token_hex?(hex) }
+          opened_passes = opened_passes.reject { |hex| opened_mountain_passes.key?(hex.id) }
+
+          return {} if opened_passes.empty?
+
+          opened_passes = [opened_passes.first] if north_corp?(entity)
+          opened_passes.to_h { |hex| [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex))})"] }
         end
 
         def mountain_pass_token_cost(hex)
@@ -753,14 +775,13 @@ module Engine
             @bank.spend(amount, player)
           end
 
-          return if  payouts.empty?
-          
+          return if payouts.empty?
+
           receivers = payouts
                           .sort_by { |_r, c| -c }
                           .map { |receiver, cash| "#{receiver.name} gets #{format_currency(cash)} compensation " }.join(', ')
 
           @log << receivers.to_s
-
         end
 
         def get_reserved_share(owner, corporation)
