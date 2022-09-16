@@ -8,7 +8,26 @@ module Engine
       module Step
         class HomeToken < Engine::Step::HomeToken
           def process_place_token(action)
-            super
+            hex = action.city.hex
+            raise GameError, "Cannot place token on #{hex.name} as the hex is not available" unless available_hex(action.entity,
+                                                                                                                  hex)
+
+            check_tokenable = true
+            cheater = nil
+            if action.entity.name == 'MZ'
+              check_tokenable = false
+              cheater = 0
+            end
+            place_token(
+              token.corporation,
+              action.city,
+              token,
+              connected: false,
+              extra_action: true,
+              check_tokenable: check_tokenable,
+              cheater: cheater
+            )
+            @round.pending_tokens.shift
           end
         end
       end
