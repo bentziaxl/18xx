@@ -84,8 +84,12 @@ module Engine
             options = {
               charter: 'Charter',
             }
-            options[:map] = 'Map' if @merging.last.tokens.first.used
+            options[:map] = 'Map' if @merging.last.tokens.first.used && !special_minor_or_mz?(@merging.last)
             options
+          end
+
+          def special_minor_or_mz?(entity)
+            @game.special_minor?(entity) || entity.name == 'MZ'
           end
 
           def show_other_players
