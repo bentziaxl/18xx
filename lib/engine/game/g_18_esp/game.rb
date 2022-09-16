@@ -885,7 +885,7 @@ module Engine
 
         def must_buy_train?(entity)
           trains = entity.trains
-          trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || type == :minor
+          trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || entity.type == :minor
           trains.empty? && !depot.depot_trains.empty?
         end
 
