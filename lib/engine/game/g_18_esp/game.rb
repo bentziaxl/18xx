@@ -797,7 +797,7 @@ module Engine
           move_assets(corporation, minor)
 
           # handle token
-          keep_token ? swap_token(corporation, minor) : gain_token(corporation)
+          keep_token ? swap_token(corporation, minor) : gain_token(corporation, minor)
 
           # complete goal
           corporation.goal_reached!(:takeover)
@@ -849,9 +849,17 @@ module Engine
           @log << "#{owner.name} gets a share of #{corporation.name}"
         end
 
-        def gain_token(corporation)
+        def gain_token(corporation, minor)
           blocked_token = corporation.tokens.find { |token| token.used == true && !token.hex && token.price == 100 }
           blocked_token&.used = false
+          delete_token(minor) if minor.name == 'MZ'
+        end
+
+        def delete_token(minor)
+          token = minor.tokens.first
+          return unless token.used
+
+          token.city.delete_token!(token, remove_slot: true)
         end
 
         def swap_token(survivor, nonsurvivor)
