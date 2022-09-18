@@ -56,7 +56,7 @@ module Engine
         end
 
         def can_open_mountain_pass?(entity)
-          entity.type != :minor
+          entity.type != :minor && @game.phase.status.include?('can_build_mountain_pass')
         end
 
         def legal_tile_rotation?(entity, hex, tile)
