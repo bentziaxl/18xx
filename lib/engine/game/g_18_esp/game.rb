@@ -218,6 +218,7 @@ module Engine
           train_limit: 4,
           tiles: %i[yellow],
           operating_rounds: 1,
+          status: ['can_buy_companies'],
         },
                   {
                     name: '3',
@@ -225,7 +226,7 @@ module Engine
                     train_limit: 4,
                     tiles: %i[yellow green],
                     operating_rounds: 2,
-                    status: ['train_conversions'],
+                    status: ['can_build_mountain_pass'],
                   },
                   {
                     name: '4',
@@ -290,7 +291,8 @@ module Engine
                 price: 200,
               },
             ],
-            events: [{ 'type' => 'south_majors_available' }],
+            events: [{ 'type' => 'south_majors_available' },
+                     { 'type' => 'companies_bought_150' }],
           },
           {
             name: '4',
@@ -307,6 +309,9 @@ module Engine
                 price: 300,
               },
             ],
+            events: [
+              { 'type' => 'companies_bought_200' },
+        ],
           },
           {
             name: '5',
@@ -323,7 +328,7 @@ module Engine
               },
             ],
             events: [{ 'type' => 'close_companies' },
-                     { 'type' => 'open_mountain_passes' }],
+                     { 'type' => 'close_minors' }],
           },
           {
             name: '6',
@@ -339,6 +344,7 @@ module Engine
                 price: 600,
               },
             ],
+            events: [{ 'type' => 'partial_capitalization' }],
           },
 
           {
@@ -382,6 +388,10 @@ module Engine
                                              'Major Corporations in the south map can open'],
                 'signal_end_game' => ['End Game',
                                       'Game Ends at the end of complete set of ORs'],
+                'companies_bought_150' => ['Companies 150%', 'Companies can be bought in for maximum 150% of value'],
+                'companies_bought_200' => ['Companies 200%', 'Companies can be bought in for maximum 200% of value'],
+                'renfe_founded' => ['RFNE founded'],
+                'close_minors' => ['Minors close']
               ).freeze
 
         def init_corporations(stock_market)
@@ -437,6 +447,15 @@ module Engine
 
           @corporations.each { |c| c.shares.last.buyable = false unless c.type == :minor }
           @minors_graph = Graph.new(self, home_as_token: true)
+
+          @company_trains = {}
+          @company_trains['P4'] = find_and_remove_train_for_minor
+
+          setup_company_price(1)
+        end
+
+        def setup_company_price(mulitplier)
+          @companies.each { |company| company.max_price = company.value * mulitplier }
         end
 
         def init_company_abilities
@@ -484,6 +503,32 @@ module Engine
           @log << '-- Major corporations in the south now available --'
         end
 
+        def event_companies_bought_150!
+          setup_company_price(1.5)
+        end
+
+        def event_companies_bought_200!
+          setup_company_price(2)
+        end
+
+        def event_close_minors!
+          @corporations.each do |c|
+            next unless c.floated?
+
+            c.shares.last.buyable = true
+            next unless c.type == :minor
+
+            close_corporation(c)
+          end
+        end
+
+        def event_partial_capitalization!
+          @corporations.each do |c|
+            c.goal_reached!(:takeover) if c.taken_over_minor
+          end
+          @partial_cap = true
+        end
+
         # market
         def par_prices(corp)
           par_type = corp.type == 'major' ? %i[par] : %i[par_overlap]
@@ -491,6 +536,10 @@ module Engine
         end
 
         def float_corporation(corporation)
+          if @partial_cap
+            corporation.capitalization = :incremental
+            return super
+          end
           @log << "#{corporation.name} floats"
           share_count = corporation.type == 'major' ? 4 : 2
 
@@ -786,12 +835,6 @@ module Engine
           towns.positive? ? "#{cities}+#{towns}" : cities.to_s
         end
 
-        def purchasable_companies(entity)
-          return [] if north_corp?(entity)
-
-          @corporations.select { |c| c.type == :minor }
-        end
-
         def start_merge(corporation, minor, keep_token)
           # take over assets
           move_assets(corporation, minor)
@@ -894,6 +937,7 @@ module Engine
         def must_buy_train?(entity)
           trains = entity.trains
           trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || entity.type == :minor
+          trains = trains.dup.reject { |t| t.track_type == :broad } if north_corp?(entity)
           trains.empty? && !depot.depot_trains.empty?
         end
 
@@ -917,6 +961,30 @@ module Engine
           home_hex = hex_by_id(route.corporation.coordinates)
 
           raise NoToken, 'Route must contain home hex' unless route.hexes.include?(home_hex)
+        end
+
+        def find_and_remove_train_for_minor
+          train = train_by_id('2-0')
+          @depot.remove_train(train)
+          train.buyable = true
+          train.reserved = true
+          train
+        end
+
+        def company_bought(company, entity)
+          # On acquired abilities
+          on_acquired_train(company, entity) if company.id == 'P4'
+        end
+
+        def on_acquired_train(company, entity)
+          train = @company_trains[company.id]
+
+          if entity.trains.size < train_limit(entity)
+            buy_train(entity, train, :free)
+            @log << "#{entity.name} gains a #{train.name} train"
+          end
+          train.operated = true
+          @company_trains.delete(company.id)
         end
       end
     end
