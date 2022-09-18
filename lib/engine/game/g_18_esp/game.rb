@@ -611,7 +611,7 @@ module Engine
         end
 
         def check_for_destination_connection(entity)
-          return false unless entity.corporation?
+          return false unless entity&.corporation?
           return true if entity.destination_connected?
 
           graph = Graph.new(self, home_as_token: true, no_blocking: true)
@@ -909,6 +909,14 @@ module Engine
 
         def special_minor?(corporation)
           SPECIAL_MINORS.include?(corporation.name)
+        end
+
+        def check_route_token(route, token)
+          return super unless special_minor?(route.corporation)
+
+          home_hex = hex_by_id(route.corporation.coordinates)
+
+          raise NoToken, 'Route must contain home hex' unless route.hexes.include?(home_hex)
         end
       end
     end
