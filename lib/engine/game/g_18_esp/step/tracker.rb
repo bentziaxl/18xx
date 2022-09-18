@@ -37,7 +37,7 @@ module Engine
 
         def lay_tile_action(action)
           super
-          entity.goal_reached!(:destination) if @game.check_for_destination_connection(action.entity)
+          action.entity.goal_reached!(:destination) if @game.check_for_destination_connection(action.entity)
         end
 
         def mountain_pass_exit(hex, tile)
@@ -55,8 +55,19 @@ module Engine
           end
         end
 
+        def can_open_mountain_pass?(entity)
+          entity.type != :minor
+        end
+
         def legal_tile_rotation?(entity, hex, tile)
-          super # && !opening_mountain_pass?(entity, hex, tile)
+          can_open_mountain_pass?(entity) ? super : super && !mountain_pass_exit(hex, tile)
+        end
+
+        # minors cant upgrade madrid or barca
+        def upgradeable_tiles(entity, hex)
+          return super if entity.type != :minor || !%w[G24 N21].include?(hex.id)
+
+          []
         end
       end
     end
