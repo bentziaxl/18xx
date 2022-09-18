@@ -226,7 +226,7 @@ module Engine
                     train_limit: 4,
                     tiles: %i[yellow green],
                     operating_rounds: 2,
-                    status: ['can_build_mountain_pass'],
+                    status: %w[can_build_mountain_pass can_buy_companies],
                   },
                   {
                     name: '4',
@@ -234,6 +234,7 @@ module Engine
                     train_limit: { minor: 1, major: 3 },
                     tiles: %i[yellow green],
                     operating_rounds: 2,
+                    status: ['can_buy_companies'],
                   },
                   {
                     name: '5',
@@ -946,13 +947,13 @@ module Engine
         end
 
         def graph_for_entity(entity)
-          return unless entity.corporation?
-
           special_minor?(entity) ? @minors_graph : @graph
         end
 
-        def special_minor?(corporation)
-          SPECIAL_MINORS.include?(corporation.name)
+        def special_minor?(entity)
+          return false unless entity.corporation?
+
+          SPECIAL_MINORS.include?(entity.name)
         end
 
         def check_route_token(route, token)
@@ -961,6 +962,14 @@ module Engine
           home_hex = hex_by_id(route.corporation.coordinates)
 
           raise NoToken, 'Route must contain home hex' unless route.hexes.include?(home_hex)
+        end
+
+        def rust_trains!(train, _entity)
+          reserved_2t = train_by_id('2-0')
+          return super unless reserved_2t
+
+          @depot.reclaim_train(train) if rust?(reserved_2t, train)
+          super
         end
 
         def find_and_remove_train_for_minor
@@ -978,6 +987,7 @@ module Engine
 
         def on_acquired_train(company, entity)
           train = @company_trains[company.id]
+          return if train.rusted
 
           if entity.trains.size < train_limit(entity)
             buy_train(entity, train, :free)
