@@ -8,7 +8,10 @@ module Engine
       module Step
         class Mining < Engine::Step::Base
           ACTIONS = %w[special_buy pass].freeze
-          def actions(_entity)
+
+          def actions(entity)
+            return [] if entity != current_entity || @game.mea&.owner == entity
+
             ACTIONS
           end
 
