@@ -1015,6 +1015,9 @@ module Engine
         def company_bought(company, entity)
           # On acquired abilities
           on_acquired_train(company, entity) if company.id == 'P4'
+
+          # process mea
+          on_acquired_mea(entity) if company.id == 'P3'
         end
 
         def on_acquired_train(company, entity)
@@ -1027,6 +1030,16 @@ module Engine
           end
           train.operated = true
           @company_trains.delete(company.id)
+        end
+
+        def on_acquired_mea(entity)
+          return unless mea
+          raise GameError, "#{entity.name} already owned MEA in this OR. Can not buy P3" if mea.owner == entity || @round.mea_hex
+
+          mea.reset_ability_count_this_or!
+
+          mea.owner = entity
+          entity.companies << mea
         end
       end
     end
