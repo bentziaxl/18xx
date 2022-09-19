@@ -22,8 +22,22 @@ module Engine
             value: 70,
             revenue: 15,
             min_price: 1,
-            desc: 'Owning Corporation may place a Strawberry token in Aranjuez to add 20 to all routes it runs to this location',
+            desc: 'Owning Corporation may place a Strawberry token in Aranjuez (town connected to madrid)' \
+                  'to add 20 to all routes it runs to this location',
             color: nil,
+            abilities: [{
+              type: 'assign_hexes',
+              when: 'owning_corp_or_turn',
+              hexes: %w[G26],
+              count: 1,
+              owner_type: 'corporation',
+            },
+                        {
+                          type: 'assign_corporation',
+                          when: 'sold',
+                          count: 1,
+                          owner_type: 'corporation',
+                        }],
           },
           {
             sym: 'P3',
