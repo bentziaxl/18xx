@@ -63,6 +63,14 @@ module Engine
           { lay: true, upgrade: false, cost: 20 },
         ].freeze
 
+        ABILITY_ICONS = {
+          P2: 'strawberry',
+        }.freeze
+
+        ASSIGNMENT_TOKENS = {
+          'P2' => '/icons/18_esp/strawberry.svg',
+        }.freeze
+
         MARKET = [
           %w[76
              82
@@ -423,6 +431,7 @@ module Engine
         def operating_round(round_num)
           G18ESP::Round::Operating.new(self, [
             Engine::Step::Bankrupt,
+            Engine::Step::Assign,
             Engine::Step::Exchange,
             Engine::Step::SpecialToken,
             Engine::Step::BuyCompany,
@@ -439,6 +448,10 @@ module Engine
             G18ESP::Step::BuyTrain,
             [Engine::Step::BuyCompany, { blocks: true }],
           ], round_num: round_num)
+        end
+
+        def p2
+          @p2 ||= company_by_id('P2')
         end
 
         def setup
@@ -816,7 +829,24 @@ module Engine
             tokened_mountain_pass(hex, route.train.owner) ? MOUNTAIN_PASS_TOKEN_BONUS[hex.id] : 0
           end
 
-          super + bonus
+          p2_bonus = p2_bonus(route, stops) ? 20 : 0
+
+          super + bonus + p2_bonus
+        end
+
+        def p2_bonus(route, stops)
+          route.corporation.assigned?('P2') && (assigned_stop = stops.find do |s|
+                                                  s.hex.assigned?('P2')
+                                                end) && aranjuez?(assigned_stop)
+        end
+
+        def aranjuez?(stop)
+          stop.paths.any? do |p|
+            p.exits.any? do |exit|
+              neighbor = stop.hex.neighbors[exit]
+              neighbor&.id == 'G24'
+            end
+          end
         end
 
         def tokened_mountain_pass(hex, entity)
@@ -825,9 +855,11 @@ module Engine
         end
 
         def revenue_str(route)
-          return super unless route.hexes.any? { |hex| mountain_pass_token_hex?(hex) }
+          rev_str = super
+          rev_str += ' + mountain pass' if route.hexes.any? { |hex| mountain_pass_token_hex?(hex) }
+          rev_str += ' + strawberry' if p2_bonus(route, route.stops)
 
-          super + ' + mountain pass'
+          rev_str
         end
 
         def route_distance_str(route)
