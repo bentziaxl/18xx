@@ -13,6 +13,14 @@ module Engine
             .reject(&:blocks_lay)
 
           tiles = tiles.reject { |tile| tile.city_towns.empty? && tile.color != :yellow } if @game.north_corp?(entity)
+          tiles = tiles.reject { |tile| tile.paths.any? { |path| path.track == :narrow } } unless @game.north_hex?(hex)
+          if @game.north_hex?(hex) && @game.north_corp?(entity)
+            tiles = tiles.reject do |tile|
+              tile.paths.any? do |path|
+                path.track == :broad
+              end
+            end
+          end
           tiles
         end
 
@@ -25,7 +33,11 @@ module Engine
         end
 
         def tile_valid_for_entity(entity, tile)
-          @game.north_corp?(entity) ? tile.paths.any? { |p| p.track == :narrow } : tile.paths.any? { |p| p.track == :broad }
+          narrow_only?(entity) ? tile.paths.any? { |p| p.track == :narrow } : tile.paths.any? { |p| p.track == :broad }
+        end
+
+        def narrow_only?(entity)
+          @game.north_corp?(entity) && entity.tokens.none? { |token| %w[E18 I16].include?(token.hex&.id) }
         end
 
         def ability_blocking_hex(_entity, hex)
