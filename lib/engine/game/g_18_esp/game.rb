@@ -278,7 +278,7 @@ module Engine
             name: '2',
             distance: 2,
             price: 90,
-            num: 4,
+            num: 12,
             rusts_on: '4',
             variants: [
               {
@@ -402,9 +402,13 @@ module Engine
                                              'Major Corporations in the south map can open'],
                 'companies_bought_150' => ['Companies 150%', 'Companies can be bought in for maximum 150% of value'],
                 'companies_bought_200' => ['Companies 200%', 'Companies can be bought in for maximum 200% of value'],
-                'renfe_founded' => ['RFNE founded'],
+                'renfe_founded' => ['RENFE founded'],
                 'close_minors' => ['Minors close']
               ).freeze
+
+        STATUS_TEXT = Base::STATUS_TEXT.merge(
+          'can_build_mountain_pass' => ['Can build mountain passes']
+        ).freeze
 
         def init_corporations(stock_market)
           game_corporations.map do |corporation|
@@ -581,7 +585,7 @@ module Engine
         end
 
         def north_hex?(hex)
-          hex.y << NORTH_SOUTH_DIVIDE
+          hex.y < NORTH_SOUTH_DIVIDE
         end
 
         def mountain_pass_access?(hex)
@@ -720,7 +724,7 @@ module Engine
           routes.any? do |route|
             next unless route.train.track_type == :narrow
 
-            route.visited_stops.any? { |stop| stop.hex.id == 'I16' || stop.hex.id == 'E18' }
+            route.visited_stops.any? { |stop| %w[I16 E18].include?(stop.hex.id) }
           end
         end
 
