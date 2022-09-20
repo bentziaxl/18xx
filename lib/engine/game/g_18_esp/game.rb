@@ -241,36 +241,36 @@ module Engine
                     tiles: %i[yellow green],
                     operating_rounds: 2,
                     status: %w[can_build_mountain_pass can_buy_companies],
+                  },
+                  {
+                    name: '4',
+                    on: '4',
+                    train_limit: { minor: 1, major: 3 },
+                    tiles: %i[yellow green],
+                    operating_rounds: 2,
+                    status: ['can_buy_companies'],
+                  },
+                  {
+                    name: '5',
+                    on: '5',
+                    train_limit: 3,
+                    tiles: %i[yellow green brown],
+                    operating_rounds: 3,
+                  },
+                  {
+                    name: '6',
+                    on: '6',
+                    train_limit: 2,
+                    tiles: %i[yellow green brown],
+                    operating_rounds: 3,
+                  },
+                  {
+                    name: '8',
+                    on: 'D',
+                    train_limit: 2,
+                    tiles: %i[yellow green brown gray],
+                    operating_rounds: 3,
                   }].freeze
-        # {
-        #   name: '4',
-        #   on: '4',
-        #   train_limit: { minor: 1, major: 3 },
-        #   tiles: %i[yellow green],
-        #   operating_rounds: 2,
-        #   status: ['can_buy_companies'],
-        # },
-        # {
-        #   name: '5',
-        #   on: '5',
-        #   train_limit: 3,
-        #   tiles: %i[yellow green brown],
-        #   operating_rounds: 3,
-        # },
-        # {
-        #   name: '6',
-        #   on: '6',
-        #   train_limit: 2,
-        #   tiles: %i[yellow green brown],
-        #   operating_rounds: 3,
-        # },
-        # {
-        #   name: '8',
-        #   on: 'D',
-        #   train_limit: 2,
-        #   tiles: %i[yellow green brown gray],
-        #   operating_rounds: 3,
-        # }.freeze
 
         TRAINS = [
 
@@ -478,9 +478,9 @@ module Engine
         end
 
         def init_stock_market
-          G1822::StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
-                          multiple_buy_types: self.class::MULTIPLE_BUY_TYPES,
-                          continuous: self.class::CONTINUOUS_MARKET)
+          G18ESP::StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
+                                  multiple_buy_types: self.class::MULTIPLE_BUY_TYPES,
+                                  continuous: self.class::CONTINUOUS_MARKET)
         end
 
         def operating_order
