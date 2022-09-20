@@ -885,6 +885,14 @@ module Engine
           rev_str
         end
 
+        def routes_revenue(routes)
+          super - f_train_revenue(routes)
+        end
+
+        def f_train_revenue(routes)
+          routes.find { |r| r.train.name == 'F' }&.revenue || 0
+        end
+
         def route_distance_str(route)
           towns = route.visited_stops.count { |visit| mountain_pass_token_hex?(visit.hex) ? 1 : visit.town? }
           cities = route_distance(route) - towns
