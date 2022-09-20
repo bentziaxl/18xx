@@ -57,6 +57,10 @@ module Engine
 
         CONTINUOUS_MARKET = true
 
+        BANKRUPTCY_ALLOWED = false
+
+        GAME_END_CHECK = { final_phase: :one_more_full_or_set }.freeze
+
         MINOR_TILE_LAYS = [{ lay: true, upgrade: true, cost: 0 }].freeze
         MAJOR_TILE_LAYS = [
           { lay: true, upgrade: true, cost: 0 },
@@ -70,6 +74,8 @@ module Engine
         ASSIGNMENT_TOKENS = {
           'P2' => '/icons/18_esp/strawberry.svg',
         }.freeze
+
+        RENFE_LOGO = '/logos/18_esp/renfe.svg'
 
         MARKET = [
           %w[76
@@ -235,36 +241,36 @@ module Engine
                     tiles: %i[yellow green],
                     operating_rounds: 2,
                     status: %w[can_build_mountain_pass can_buy_companies],
-                  },
-                  {
-                    name: '4',
-                    on: '4',
-                    train_limit: { minor: 1, major: 3 },
-                    tiles: %i[yellow green],
-                    operating_rounds: 2,
-                    status: ['can_buy_companies'],
-                  },
-                  {
-                    name: '5',
-                    on: '5',
-                    train_limit: 3,
-                    tiles: %i[yellow green brown],
-                    operating_rounds: 3,
-                  },
-                  {
-                    name: '6',
-                    on: '6',
-                    train_limit: 2,
-                    tiles: %i[yellow green brown],
-                    operating_rounds: 3,
-                  },
-                  {
-                    name: '8',
-                    on: 'D',
-                    train_limit: 2,
-                    tiles: %i[yellow green brown gray],
-                    operating_rounds: 3,
                   }].freeze
+        # {
+        #   name: '4',
+        #   on: '4',
+        #   train_limit: { minor: 1, major: 3 },
+        #   tiles: %i[yellow green],
+        #   operating_rounds: 2,
+        #   status: ['can_buy_companies'],
+        # },
+        # {
+        #   name: '5',
+        #   on: '5',
+        #   train_limit: 3,
+        #   tiles: %i[yellow green brown],
+        #   operating_rounds: 3,
+        # },
+        # {
+        #   name: '6',
+        #   on: '6',
+        #   train_limit: 2,
+        #   tiles: %i[yellow green brown],
+        #   operating_rounds: 3,
+        # },
+        # {
+        #   name: '8',
+        #   on: 'D',
+        #   train_limit: 2,
+        #   tiles: %i[yellow green brown gray],
+        #   operating_rounds: 3,
+        # }.freeze
 
         TRAINS = [
 
@@ -272,7 +278,7 @@ module Engine
             name: '2',
             distance: 2,
             price: 90,
-            num: 12,
+            num: 4,
             rusts_on: '4',
             variants: [
               {
@@ -361,8 +367,7 @@ module Engine
             distance: 8,
             price: 800,
             num: 30,
-            events: [{ 'type' => 'renfe_founded' },
-                     { 'type' => 'signal_end_game' }],
+            events: [{ 'type' => 'renfe_founded' }],
             variants: [
                       {
                         name: '5+5',
@@ -395,8 +400,6 @@ module Engine
         EVENTS_TEXT = Base::EVENTS_TEXT.merge(
                 'south_majors_available' => ['South Majors Available',
                                              'Major Corporations in the south map can open'],
-                'signal_end_game' => ['End Game',
-                                      'Game Ends at the end of complete set of ORs'],
                 'companies_bought_150' => ['Companies 150%', 'Companies can be bought in for maximum 150% of value'],
                 'companies_bought_200' => ['Companies 200%', 'Companies can be bought in for maximum 200% of value'],
                 'renfe_founded' => ['RFNE founded'],
@@ -455,9 +458,9 @@ module Engine
         end
 
         def setup
-          @corporations, @future_corporations = @corporations.partition do |corporation|
-            corporation.type == :minor || north_corp?(corporation)
-          end
+          # @corporations, @future_corporations = @corporations.partition do |corporation|
+          #   corporation.type == :minor || north_corp?(corporation)
+          # end
 
           @corporations.each { |c| c.shares.last.buyable = false unless c.type == :minor }
           @minors_graph = Graph.new(self, home_as_token: true)
@@ -466,10 +469,16 @@ module Engine
           @company_trains['P4'] = find_and_remove_train_for_minor
 
           setup_company_price(1)
+
+          @nationalized_corps = []
         end
 
         def setup_company_price(mulitplier)
           @companies.each { |company| company.max_price = company.value * mulitplier }
+        end
+
+        def operating_order
+          @corporations.select { |c| c.floated? && !nationalized?(c) }.sort
         end
 
         def init_company_abilities
@@ -513,7 +522,7 @@ module Engine
         end
 
         def event_south_majors_available!
-          @corporations.concat(@future_corporations)
+          # @corporations.concat(@future_corporations)
           @log << '-- Major corporations in the south now available --'
         end
 
@@ -541,6 +550,10 @@ module Engine
             c.goal_reached!(:takeover) if c.taken_over_minor
           end
           @partial_cap = true
+        end
+
+        def event_renfe_founded!
+          @renfe_formed = true
         end
 
         # market
@@ -879,7 +892,7 @@ module Engine
           corporation.goal_reached!(:takeover)
 
           # pay compensation
-          pay_compnesation(corporation, minor)
+          pay_compensation(corporation, minor)
 
           # get share
           get_reserved_share(minor.owner, corporation)
@@ -888,7 +901,7 @@ module Engine
           close_corporation(minor)
         end
 
-        def pay_compnesation(corporation, minor)
+        def pay_compensation(corporation, minor)
           per_share = minor.share_price.price
           payouts = {}
           @players.each do |player|
@@ -1040,6 +1053,86 @@ module Engine
 
           mea.owner = entity
           entity.companies << mea
+        end
+
+        # OR has just finished, find two lowest revenues and nationalize the corporations
+        # associated with each
+        def nationalize_corps!
+          revenues = @corporations.select { |c| c.floated? && !nationalized?(c) && !north_corp?(c) }
+            .to_h { |c| [c, get_or_revenue(c.operating_history[c.operating_history.keys.max])] }
+
+          sorted_corps = revenues.keys.sort_by { |c| revenues[c] }
+
+          if sorted_corps.size < 3
+            # if two or less corps left, they are both nationalized
+            sorted_corps.each { |c| make_nationalized!(c) }
+          else
+            # all companies with the lowest revenue are nationalized
+            # if only one has the lowest revenue, then all companies with the next lowest revenue are nationalized
+            min_revenue = revenues[sorted_corps[0]]
+            next_revenue_corp = sorted_corps.find { |c| revenues[c] > min_revenue }
+            next_revenue = revenues[next_revenue_corp] if next_revenue_corp
+
+            grouped = revenues.keys.group_by { |c| revenues[c] }
+            grouped[min_revenue].each { |c| make_nationalized!(c) }
+            grouped[next_revenue].each { |c| make_nationalized!(c) } if next_revenue_corp && grouped[min_revenue].one?
+          end
+        end
+
+        def make_nationalized!(corp)
+          return if nationalized?(corp)
+
+          corp.tokens.each { |t| t.logo = RENFE_LOGO }
+          corp.tokens.each { |t| t.simple_logo = RENFE_LOGO }
+
+          @nationalized_corps << corp
+          @log << "#{corp.name} is Nationalized and will cease to operate."
+        end
+
+        def nationalized?(corp)
+          @nationalized_corps.include?(corp)
+        end
+
+        def pay_nationalization_compensation(corporation)
+          per_share = @stock_market.find_share_price(corporation, :right).price
+          payouts = {}
+          @players.each do |player|
+            amount = player.num_shares_of(corporation) * per_share
+            next if amount.zero?
+
+            payouts[player] = amount
+            corporation.spend(amount, player, check_cash: false, borrow_from: corporation.owner)
+          end
+
+          return if payouts.empty?
+
+          receivers = payouts
+                        .sort_by { |_r, c| -c }
+                        .map { |receiver, cash| "#{format_currency(cash)} to #{receiver.name}" }.join(', ')
+
+          @log << "Shareholders of #{corporation.name} receive compensation "\
+                  "#{format_currency(per_share)} per share (#{receivers})"
+        end
+
+        def get_or_revenue(info)
+          !info.dividend.is_a?(Action::Dividend) || info.dividend.kind == 'withhold' ? 0 : info.revenue
+        end
+
+        def next_round!
+          return super unless final_ors?
+
+          nationalize_corps!
+          super
+        end
+
+        def or_set_finished
+          @depot.export!
+
+          @corporations = @corporations.dup.select(&:floated?)
+        end
+
+        def final_ors?
+          @turn == @final_turn && @round.is_a?(Round::Operating)
         end
       end
     end
