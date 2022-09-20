@@ -532,7 +532,7 @@ module Engine
         end
 
         def event_south_majors_available!
-          # @corporations.concat(@future_corporations)
+          @corporations.concat(@future_corporations)
           @log << '-- Major corporations in the south now available --'
         end
 
@@ -1194,6 +1194,13 @@ module Engine
 
         def final_ors?
           @turn == @final_turn && @round.is_a?(Round::Operating)
+        end
+
+        # HACK: to fix visual mz city selection
+        def abilities(entity, type = nil, time: nil, on_phase: nil, passive_ok: nil, strict_time: nil)
+          return super unless entity.name == 'MZ' && type == :token
+
+          Ability::Token.new(type: 'token', hexes: [], cheater: true, price: 0)
         end
       end
     end
