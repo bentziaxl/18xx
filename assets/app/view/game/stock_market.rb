@@ -259,7 +259,7 @@ module View
                 align = { left: 0, bottom: 0 }
                 arrow = '⭣'
               # last cell on right, not top row
-              elsif !row_i.zero? && @game.stock_market.right_ledge?(row_i, col_i)
+              elsif (!row_i.zero? && @game.stock_market.right_ledge?(row_i, col_i)) || price.types.include?(:up_arrow)
                 align = { right: 0, top: 0 }
                 arrow = '⭡'
               else
