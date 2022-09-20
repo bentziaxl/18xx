@@ -114,10 +114,10 @@ module Engine
              172
              188
              204
-             222
+             222U
              240
              260
-             280i
+             280iU
              300i
              325i
              350i
@@ -136,10 +136,10 @@ module Engine
              144
              158
              172
-             188
+             188U
              204
              222
-             240
+             240U
              260i
              280i
              300i
@@ -158,10 +158,10 @@ module Engine
              120
              132
              144
-             158
+             158U
              172
              188
-             204
+             204U
              222
              240i
              260i
@@ -180,10 +180,10 @@ module Engine
              100
              110
              120
-             132
+             132U
              144
              158
-             172
+             172U
              188
              204
              222i
@@ -202,10 +202,10 @@ module Engine
              82
              90
              100
-             110
+             110U
              120
              132
-             144
+             144U
              158
              172
              188
@@ -983,7 +983,7 @@ module Engine
         def must_buy_train?(entity)
           trains = entity.trains
           trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || entity.type == :minor
-          trains = trains.dup.reject { |t| t.track_type == :broad } if north_corp?(entity)
+          trains = trains.dup.reject { |t| t.track_type == :broad } if north_corp?(entity) && !entity.interchange?
           trains.empty? && !depot.depot_trains.empty?
         end
 

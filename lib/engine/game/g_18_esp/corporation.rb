@@ -99,6 +99,12 @@ module Engine
           trains = trains.dup.reject { |t| t.track_type == :narrow } if !@game.north_corp?(self) || type == :minor
           trains
         end
+
+        def interchange?
+          return false unless @game.north_corp?(self)
+
+          tokens.any? { |t| %w[E18 I16].include?(t.hex) }
+        end
       end
     end
   end
