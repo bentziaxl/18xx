@@ -747,7 +747,13 @@ module Engine
         def opening_new_mountain_pass(entity)
           return {} unless entity
 
-          openable_passes = @graph.reachable_hexes(entity).keys.select { |hex| mountain_pass_token_hex?(hex) }
+          gray_seen = false
+          openable_passes = @graph.reachable_hexes(entity).keys.select do |hex|
+            gray_seen = true if hex.tile.color == :gray
+            next if north_corp?(entity) && gray_seen
+
+            mountain_pass_token_hex?(hex)
+          end
           openable_passes = openable_passes.reject { |hex| opened_mountain_passes.key?(hex.id) }
 
           return {} if openable_passes.empty? || last_track_type?(entity, openable_passes)
@@ -848,13 +854,16 @@ module Engine
         def revenue_for(route, stops)
           return revenue_for_f(route, stops) if route.train.name == 'F'
 
+          revenue = super
           bonus = route.hexes.sum do |hex|
             tokened_mountain_pass(hex, route.train.owner) ? MOUNTAIN_PASS_TOKEN_BONUS[hex.id] : 0
           end
+          revenue += bonus
+          revenue += p2_bonus(route, stops) ? 20 : 0
+          revenue += east_west_bonus(stops)[:revenue]
+          revenue += gbi_bm_bonus(stops)[:revenue]
 
-          p2_bonus = p2_bonus(route, stops) ? 20 : 0
-
-          super + bonus + p2_bonus
+          revenue
         end
 
         def p2_bonus(route, stops)
@@ -872,6 +881,34 @@ module Engine
           end
         end
 
+        def east_west_bonus(stops)
+          bonus = { revenue: 0 }
+
+          east = stops.find { |stop| stop.tile.label&.to_s == 'E' }
+          west = stops.find { |stop| stop.tile.label&.to_s == 'W' }
+
+          if east && west
+            bonus[:revenue] += 50
+            bonus[:description] = 'E/W'
+          end
+
+          bonus
+        end
+
+        def gbi_bm_bonus(stops)
+          bonus = { revenue: 0 }
+
+          bm = stops.find { |stop| %w[M B].include?(stop.tile.label&.to_s) }
+          gbi = stops.find { |stop| %w[G Bi].include?(stop.tile.label&.to_s) }
+
+          if bm && gbi
+            bonus[:revenue] += 100
+            bonus[:description] = 'G/Bi to B/M'
+          end
+
+          bonus
+        end
+
         def tokened_mountain_pass(hex, entity)
           mountain_pass_token_hex?(hex) &&
           hex.tile.stops.first.tokened_by?(entity)
@@ -881,6 +918,12 @@ module Engine
           rev_str = super
           rev_str += ' + mountain pass' if route.hexes.any? { |hex| mountain_pass_token_hex?(hex) }
           rev_str += ' + strawberry' if p2_bonus(route, route.stops)
+
+          ewbonus = east_west_bonus(route.stops)[:description]
+          rev_str += " + #{ewbonus}" if ewbonus
+
+          bonus = gbi_bm_bonus(route.stops)[:description]
+          rev_str += " + #{bonus}" if bonus
 
           rev_str
         end
