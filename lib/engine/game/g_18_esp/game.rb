@@ -130,8 +130,8 @@ module Engine
              82p
              90p
              100p
-             110
-             120
+             110p
+             120p
              132
              144
              158
@@ -458,9 +458,9 @@ module Engine
         end
 
         def setup
-          # @corporations, @future_corporations = @corporations.partition do |corporation|
-          #   corporation.type == :minor || north_corp?(corporation)
-          # end
+          @corporations, @future_corporations = @corporations.partition do |corporation|
+            corporation.type == :minor || north_corp?(corporation)
+          end
 
           @corporations.each { |c| c.shares.last.buyable = false unless c.type == :minor }
           @minors_graph = Graph.new(self, home_as_token: true)
@@ -475,6 +475,12 @@ module Engine
 
         def setup_company_price(mulitplier)
           @companies.each { |company| company.max_price = company.value * mulitplier }
+        end
+
+        def init_stock_market
+          G1822::StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
+                          multiple_buy_types: self.class::MULTIPLE_BUY_TYPES,
+                          continuous: self.class::CONTINUOUS_MARKET)
         end
 
         def operating_order
