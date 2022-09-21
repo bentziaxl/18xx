@@ -232,7 +232,7 @@ module Engine
           train_limit: 4,
           tiles: %i[yellow],
           operating_rounds: 1,
-          status: %w[can_buy_companies can_build_mountain_pass],
+          status: %w[can_buy_companies],
         },
                   {
                     name: '3',
@@ -276,25 +276,25 @@ module Engine
 
           {
             name: '2',
-            distance: 99,
-            price: 90,
+            distance: 2,
+            price: 100,
             num: 12,
             rusts_on: '4',
             variants: [
               {
                 name: '1+1',
-                distance: [{ 'nodes' => %w[city offboard], 'pay' => 99, 'visit' => 99 },
-                           { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 1, 'visit' => 1 },
+                           { 'nodes' => ['town'], 'pay' => 1, 'visit' => 1 }],
                 track_type: :narrow,
                 no_local: true,
-                price: 70,
+                price: 100,
               },
             ],
           },
           {
             name: '3',
             distance: 3,
-            price: 180,
+            price: 200,
             num: 10,
             rusts_on: '6',
             variants: [
@@ -791,6 +791,7 @@ module Engine
         end
 
         def check_distance(route, visits, train = nil)
+          entity = route.corporation
           unless route.train.name != 'F' || f_train_correct_route?(route, visits, @round.mea_hex)
             raise GameError, 'Route must connect Mine Tile placed and home token'
           end
@@ -801,6 +802,15 @@ module Engine
           end
 
           raise GameError, 'Route can only use one mountain pass' if route.hexes.count { |hex| mountain_pass_token_hex?(hex) } > 1
+
+          # north corp running broad
+          if north_corp?(entity) && route.train.track_type == :broad
+            first = route.stops.first
+            last = route.stops.last
+            valid_broad = (first.tokened_by?(entity) && valid_interchange(first)) ||
+                          (last.tokened_by?(entity) && valid_interchange(last))
+            raise GameError, 'Broad train must run out of a valid interchange' unless valid_broad
+          end
 
           train ||= route.train
           distance = train.distance
@@ -843,6 +853,15 @@ module Engine
 
             raise RouteTooLong, 'Route has too many stops' if num.positive?
           end
+        end
+
+        def valid_interchange(stop)
+          uniq_tracks = stop.tile.paths.map(&:track).uniq
+          valid = false
+          if (uniq_tracks.length == 1 && uniq_tracks.include?(:dual)) || (uniq_tracks.length > 1 && uniq_tracks.include?(:narrow))
+            valid = true
+          end
+          valid
         end
 
         def revenue_for_f(route, stops)
