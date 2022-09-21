@@ -37,6 +37,8 @@ module Engine
             tile = action.tile
             tile.add_temp_halt('halt')
             super
+            corp = action.entity.owner
+            corp.goal_reached!(:destination) if @game.check_for_destination_connection(corp)
           end
 
           def potential_tiles(entity, hex)
