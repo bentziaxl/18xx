@@ -54,7 +54,7 @@ module Engine
             value: 120,
             revenue: 20,
             min_price: 1,
-            desc: 'Owning Corporation receives 2H train. The train can not run in the same OR this company is purchased',
+            desc: 'Owning Corporation receives 2 train. The train can not run in the same OR this company is purchased',
             color: nil,
           },
           {
@@ -300,6 +300,7 @@ module Engine
             max_ownership_percent: 75,
             startable: true,
             destination: 'K20',
+            abilities: [{ type: 'token', hexes: ['G24'], cheater: true, when: 'track', price: 0 }],
           },
           {
             sym: 'ZP',
