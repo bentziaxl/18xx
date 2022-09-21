@@ -232,7 +232,7 @@ module Engine
           train_limit: 4,
           tiles: %i[yellow],
           operating_rounds: 1,
-          status: ['can_buy_companies'],
+          status: %w[can_buy_companies can_build_mountain_pass],
         },
                   {
                     name: '3',
@@ -276,15 +276,15 @@ module Engine
 
           {
             name: '2',
-            distance: 2,
+            distance: 99,
             price: 90,
             num: 12,
             rusts_on: '4',
             variants: [
               {
                 name: '1+1',
-                distance: [{ 'nodes' => %w[city offboard], 'pay' => 1, 'visit' => 1 },
-                           { 'nodes' => ['town'], 'pay' => 1, 'visit' => 1 }],
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 99, 'visit' => 99 },
+                           { 'nodes' => ['town'], 'pay' => 99, 'visit' => 99 }],
                 track_type: :narrow,
                 no_local: true,
                 price: 70,
@@ -909,6 +909,21 @@ module Engine
           bonus
         end
 
+        def gbi_bm_interchange_bonus(routes)
+          bonus = { revenue: 0 }
+          return bonus unless north_corp?(routes.first&.train&.owner)
+
+          leon = routes.select { |r| r.stops.find { |st| st.hex.id == 'E18' } }
+          sanseb = routes.select { |r| r.stops.find { |st| st.hex.id == 'I16' } }
+
+          if leon.length > 1
+            bonus = gbi_bm_bonus(leon.flat_map(&:stops))
+          elsif sanseb.length > 1
+            bonus = gbi_bm_bonus(sanseb.flat_map(&:stops))
+          end
+          bonus
+        end
+
         def tokened_mountain_pass(hex, entity)
           mountain_pass_token_hex?(hex) &&
           hex.tile.stops.first.tokened_by?(entity)
@@ -929,7 +944,18 @@ module Engine
         end
 
         def routes_revenue(routes)
-          super - f_train_revenue(routes)
+          revenue = super - f_train_revenue(routes)
+          bonus = gbi_bm_interchange_bonus(routes)[:revenue]
+          revenue += bonus if bonus
+          revenue
+        end
+
+        def submit_revenue_str(routes, show_subsidy)
+          rev_str = super
+
+          bonus = gbi_bm_interchange_bonus(routes)[:description]
+          rev_str += " + #{bonus}" if bonus
+          rev_str
         end
 
         def f_train_revenue(routes)
