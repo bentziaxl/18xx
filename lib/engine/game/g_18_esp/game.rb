@@ -462,9 +462,9 @@ module Engine
         end
 
         def setup
-          # @corporations, @future_corporations = @corporations.partition do |corporation|
-          #   corporation.type == :minor || north_corp?(corporation)
-          # end
+          @corporations, @future_corporations = @corporations.partition do |corporation|
+            corporation.type == :minor || north_corp?(corporation)
+          end
 
           @corporations.each { |c| c.shares.last.buyable = false unless c.type == :minor }
           @minors_graph = Graph.new(self, home_as_token: true)
