@@ -1234,7 +1234,7 @@ module Engine
         def or_set_finished
           @depot.export!
 
-          @corporations = @corporations.dup.select(&:floated?)
+          @corporations = @corporations.dup.select(&:floated?) if @turn == @final_turn
         end
 
         def final_ors?
