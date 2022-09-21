@@ -1249,6 +1249,10 @@ module Engine
         def next_sr_player_order
           @round_counter.zero? ? :least_cash : :most_cash
         end
+
+        def can_hold_above_corp_limit?(_entity)
+          true
+        end
       end
     end
   end
