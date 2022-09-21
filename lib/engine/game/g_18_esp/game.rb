@@ -462,9 +462,9 @@ module Engine
         end
 
         def setup
-          @corporations, @future_corporations = @corporations.partition do |corporation|
-            corporation.type == :minor || north_corp?(corporation)
-          end
+          # @corporations, @future_corporations = @corporations.partition do |corporation|
+          #   corporation.type == :minor || north_corp?(corporation)
+          # end
 
           @corporations.each { |c| c.shares.last.buyable = false unless c.type == :minor }
           @minors_graph = Graph.new(self, home_as_token: true)
@@ -1194,13 +1194,6 @@ module Engine
 
         def final_ors?
           @turn == @final_turn && @round.is_a?(Round::Operating)
-        end
-
-        # HACK: to fix visual mz city selection
-        def abilities(entity, type = nil, time: nil, on_phase: nil, passive_ok: nil, strict_time: nil)
-          return super unless entity.name == 'MZ' && type == :token
-
-          Ability::Token.new(type: 'token', hexes: [], cheater: true, price: 0)
         end
       end
     end
