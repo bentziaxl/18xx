@@ -17,6 +17,8 @@ module Engine
 
         attr_reader :minors_graph
 
+        attr_accessor :player_debts
+
         CURRENCY_FORMAT_STR = '$%d'
 
         BANK_CASH = 99_999
@@ -58,6 +60,8 @@ module Engine
         CONTINUOUS_MARKET = true
 
         BANKRUPTCY_ALLOWED = false
+
+        EBUY_PRES_SWAP = false
 
         GAME_END_CHECK = { final_phase: :one_more_full_or_set }.freeze
 
@@ -277,7 +281,7 @@ module Engine
           {
             name: '2',
             distance: 2,
-            price: 100,
+            price: 1000,
             num: 12,
             rusts_on: '4',
             variants: [
@@ -287,7 +291,7 @@ module Engine
                            { 'nodes' => ['town'], 'pay' => 1, 'visit' => 1 }],
                 track_type: :narrow,
                 no_local: true,
-                price: 100,
+                price: 1000,
               },
             ],
           },
@@ -475,6 +479,9 @@ module Engine
           setup_company_price(1)
 
           @nationalized_corps = []
+
+          # Initialize the player depts, if player have to take an emergency loan
+          @player_debts = Hash.new { |h, k| h[k] = 0 }
         end
 
         def setup_company_price(mulitplier)
@@ -485,6 +492,16 @@ module Engine
           G18ESP::StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
                                   multiple_buy_types: self.class::MULTIPLE_BUY_TYPES,
                                   continuous: self.class::CONTINUOUS_MARKET)
+        end
+
+        def init_train_handler
+          trains = self.class::TRAINS.flat_map do |train|
+            Array.new((train[:num] || num_trains(train))) do |index|
+              Train.new(**train, index: index)
+            end
+          end
+
+          G18ESP::Depot.new(trains, self)
         end
 
         def operating_order
@@ -1232,7 +1249,7 @@ module Engine
         end
 
         def or_set_finished
-          @depot.export!
+          @depot.export! if @corporations.any?(&:floated?)
 
           @corporations = @corporations.dup.select(&:floated?) if @turn == @final_turn
         end
@@ -1252,6 +1269,53 @@ module Engine
 
         def can_hold_above_corp_limit?(_entity)
           true
+        end
+
+        def player_debt(player)
+          @player_debts[player] || 0
+        end
+
+        def take_player_loan(player, loan)
+          # Give the player the money. The money for loans is outside money, doesnt count towards the normal bank money.
+          player.cash += loan
+
+          # Add interest to the loan, must atleast pay 150% of the loaned value
+          @player_debts[player] += loan + player_loan_interest(loan)
+        end
+
+        def player_loan_interest(loan)
+          (loan * 0.2).ceil
+        end
+
+        def payoff_player_loan(player)
+          # Pay full or partial of the player loan. The money from loans is outside money, doesnt count towards
+          # the normal bank money.
+          if player.cash >= @player_debts[player]
+            player.cash -= @player_debts[player]
+            @log << "#{player.name} pays off their loan of #{format_currency(@player_debts[player])}"
+            @player_debts[player] = 0
+          else
+            @player_debts[player] -= player.cash
+            @log << "#{player.name} decreases their loan by #{format_currency(player.cash)} "\
+                    "(#{format_currency(@player_debts[player])})"
+            player.cash = 0
+          end
+        end
+
+        def player_value(player)
+          player.value - @player_debts[player]
+        end
+
+        def add_interest_player_loans!
+          @player_debts.each do |player, loan|
+            next unless loan.positive?
+
+            interest = player_loan_interest(loan)
+            new_loan = loan + interest
+            @player_debts[player] = new_loan
+            @log << "#{player.name} increases their loan by 20% (#{format_currency(interest)}) to "\
+                    "#{format_currency(new_loan)}"
+          end
         end
       end
     end
