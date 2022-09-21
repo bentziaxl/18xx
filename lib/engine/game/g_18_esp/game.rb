@@ -1240,6 +1240,15 @@ module Engine
         def final_ors?
           @turn == @final_turn && @round.is_a?(Round::Operating)
         end
+
+        def holder_for_corporation(_entity)
+          # Incremental corps DON'T get paid from IPO shares.
+          @game.share_pool
+        end
+
+        def next_sr_player_order
+          @round_counter.zero? ? :least_cash : :most_cash
+        end
       end
     end
   end
