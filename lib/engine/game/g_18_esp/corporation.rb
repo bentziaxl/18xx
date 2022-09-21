@@ -5,7 +5,7 @@ module Engine
     module G18ESP
       class Corporation < Engine::Corporation
         attr_reader :destination, :goals_reached_counter
-        attr_accessor :destination_connected, :ran_offboard, :ran_southern_map, :taken_over_minor
+        attr_accessor :destination_connected, :ran_offboard, :ran_southern_map, :taken_over_minor, :moved_token
 
         def initialize(game, sym:, name:, **opts)
           @game = game
