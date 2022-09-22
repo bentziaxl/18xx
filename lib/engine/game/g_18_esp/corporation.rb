@@ -69,6 +69,7 @@ module Engine
         def destination_goal_reached!
           return if @destination_connected
 
+          @game.remove_dest_icon(self)
           @destination_connected = true
           @goals_reached_counter += 1
         end
