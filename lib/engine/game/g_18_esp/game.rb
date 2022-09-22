@@ -1318,9 +1318,9 @@ module Engine
           end
         end
 
-        # ignore labels on mine hexes
-        def upgrades_to_correct_label?(from, to)
-          mine_hex?(from.hex) ? true : super
+        def remove_dest_icon(corp)
+          tile = hex_by_id(corp.destination).tile
+          tile.icons = tile.icons.dup.reject { |icon| icon.name == corp.name }
         end
       end
     end
