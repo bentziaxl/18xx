@@ -1322,6 +1322,27 @@ module Engine
           tile = hex_by_id(corp.destination).tile
           tile.icons = tile.icons.dup.reject { |icon| icon.name == corp.name }
         end
+
+        def train_help(entity, runnable_trains, _routes)
+          help = []
+
+          f_train = runnable_trains.any? { |t| t.name == 'F' }
+
+          help << 'Plus trains (N+N) run on narrow track. Regular trains run on iberian track.'
+          help << if north_corp?(entity)
+                    "#{entity.name} can own at most one iberian track train. If it has a valid tokened interchange" \
+                      ' it can run a regular train and count it as an owned train.' \
+                      "Otherwise a regular train doesn't count as an owned train"
+                  else
+                    "#{entity.name} can own at most one narrow track train. The train doesn't count as an owned train"
+                  end
+          if f_train
+            help << 'F trains run from the mine tile laid this OR to the home token, ' \
+                    'counting +10 for every town, city and mine passed. Revenue is split 50-50'
+          end
+
+          help
+        end
       end
     end
   end

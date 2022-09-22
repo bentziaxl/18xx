@@ -9,7 +9,7 @@ module Engine
         TILES = {
           '3' => 4,
           '4' => 6,
-          '5' => 4,
+          '5' => 3,
           '6' => 4,
           '7' => 4,
           '8' => 14,
@@ -24,6 +24,8 @@ module Engine
           '77' => 5,
           '79' => 6,
           '78' => 6,
+          '201' => 2,
+          '202' => 2,
           '956' => 2,
           'L0' => {
             'count' => 1,
@@ -35,12 +37,13 @@ module Engine
 
           # greens
 
-          '14' => 4,
-          '15' => 4,
+          '14' => 3,
+          '15' => 3,
           '16' => 1,
+          '18' => 1,
           '19' => 1,
           '20' => 1,
-          '23' => 1,
+          '23' => 3,
           '24' => 3,
           '25' => 2,
           '26' => 2,
@@ -52,7 +55,9 @@ module Engine
           '87' => 2,
           '88' => 2,
           '204' => 2,
-          '619' => 4,
+          '208' => 2,
+          '207' => 2,
+          '619' => 3,
           '710' => 1,
           '711' => 1,
           '712' => 1,
@@ -64,14 +69,14 @@ module Engine
             'count' => 1,
             'color' => 'green',
             'code' =>
-            'city=revenue:40,slots:2;path=a:1,b:_0;path=a:2,b:_0;label=B',
+            'city=revenue:50,slots:2;path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;path=a:5,b:_0;label=B',
           },
           'L2' =>
           {
             'count' => 1,
             'color' => 'green',
             'code' =>
-            'city=revenue:40;city=revenue:40;city=revenue:40;path=a:0,b:_0;path=a:1,b:_0;' \
+            'city=revenue:60;city=revenue:60;city=revenue:60;path=a:0,b:_0;path=a:1,b:_0;' \
             'path=a:2,b:_1;path=a:3,b:_1;path=a:4,b:_2;path=a:0,b:_2;label=M',
           },
           'tL3' => {
@@ -168,22 +173,19 @@ module Engine
           '46' => 1,
           '47' => 1,
           '70' => 1,
-          '611' => 8,
+          '216' => 2,
+          '611' => 6,
           '105a' => {
             'count' => 1,
             'color' => 'brown',
-            'code' => 'city=revenue:50,slots:3;path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;label=B',
+            'code' => 'city=revenue:70,slots:3;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;'\
+                      'path=a:4,b:_0;path=a:5,b:_0;label=B',
           },
           '795a' => {
             'count' => 1,
             'color' => 'brown',
-            'code' => 'city=revenue:60,slots:4;path=a:0,b:_0;path=a:1,b:_0;path=a:2,b:_0;'\
+            'code' => 'city=revenue:80,slots:4;path=a:0,b:_0;path=a:1,b:_0;path=a:1,b:_0;path=a:2,b:_0;'\
                       'path=a:3,b:_0;path=a:4,b:_0;label=M',
-          },
-          '193a' => {
-            'count' => 1,
-            'color' => 'brown',
-            'code' => 'city=revenue:50,slots:2;path=a:0,b:_0;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;label=V',
           },
           '933' =>
           {
@@ -236,6 +238,11 @@ module Engine
           },
 
           # gray
+          '123y' => {
+            'count' => 1,
+            'color' => 'gray',
+            'code' => 'city=revenue:60,slots:3;path=a:0,b:_0;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;path=a:4,b:_0;label=Y',
+          },
           '455' => 2,
           '895a' => {
             'count' => 1,
@@ -246,17 +253,18 @@ module Engine
           '240a' => {
             'count' => 1,
             'color' => 'gray',
-            'code' => 'city=revenue:70,slots:3;path=a:0,b:_0;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;label=B',
+            'code' => 'city=revenue:00,slots:3;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0' \
+                      'path=a:4,b:_0;path=a:5,b:_0;label=B',
           },
           '910a' => {
             'count' => 1,
             'color' => 'gray',
-            'code' => 'city=revenue:80,slots:4;path=a:0,b:_0;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;path=a:4,b:_0;label=M',
+            'code' => 'city=revenue:100,slots:4;path=a:0,b:_0;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;path=a:4,b:_0;label=M',
           },
           '912a' => {
             'count' => 1,
             'color' => 'gray',
-            'code' => 'town=revenue:10;path=a:0,b:_0;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;path=a:4,b:_0;path=a:5,b:_0',
+            'code' => 'town=revenue:30;path=a:0,b:_0;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;path=a:4,b:_0;path=a:5,b:_0',
           },
 
         }.freeze
