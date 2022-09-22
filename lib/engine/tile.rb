@@ -624,8 +624,12 @@ module Engine
       end
     end
 
+    def only_paths_originally?
+      only_paths?(code: @original_code)
+    end
+
     def remove_temp_halt
-      return unless only_paths?(code: @original_code)
+      return unless only_paths_originally?
 
       @paths = []
       @_paths = nil
