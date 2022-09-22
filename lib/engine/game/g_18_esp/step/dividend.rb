@@ -36,7 +36,7 @@ module Engine
             train.operated = false
             @game.depot.reclaim_train(train)
             mea_tile = @round.mea_hex&.tile
-            return unless mea_tile.only_paths?
+            return unless mea_tile.only_paths_originally?
 
             mea_tile&.remove_temp_halt
             @round.mea_hex&.lay_downgrade(mea_tile)
