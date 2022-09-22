@@ -646,11 +646,15 @@ module Engine
           hex.tile.paths.all? { |path| path.track == :narrow } ? total_cost / 2 : total_cost
         end
 
-        def subsidy_for(route, _stops)
+        def subsidy_for(route, stops)
           return 0 if route.train.name == 'F'
 
           count = route.all_hexes.count { |hex| MINE_HEXES.include?(hex.name) }
-          count * BASE_MINE_BONUS
+          subsidy = count * BASE_MINE_BONUS
+
+          subsidy += harbor_revenue(route, stops)
+
+          subsidy
         end
 
         def routes_subsidy(routes)
@@ -822,10 +826,10 @@ module Engine
 
           # north corp running broad
           if north_corp?(entity) && route.train.track_type == :broad
-            first = route.stops.first&.tile
-            last = route.stops.last&.tile
-            valid_broad = (first.tokened_by?(entity) && valid_interchange?(first)) ||
-                          (last.tokened_by?(entity) && valid_interchange?(last))
+            first = route.stops.first
+            last = route.stops.last
+            valid_broad = (first.tokened_by?(entity) && valid_interchange?(first.tile)) ||
+                          (last.tokened_by?(entity) && valid_interchange?(last.tile))
             raise GameError, 'Broad train must run out of a valid interchange' unless valid_broad
           end
 
@@ -899,7 +903,13 @@ module Engine
           revenue += east_west_bonus(stops)[:revenue]
           revenue += gbi_bm_bonus(stops)[:revenue]
 
+          revenue -= harbor_revenue(route, stops)
+
           revenue
+        end
+
+        def harbor_revenue(route, stops)
+          stops.sum { |stop| stop.tile.color == :blue ? stop.route_revenue(route.phase, route.train) : 0 }
         end
 
         def p2_bonus(route, stops)
