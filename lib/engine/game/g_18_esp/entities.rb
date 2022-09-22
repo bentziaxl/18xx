@@ -112,7 +112,7 @@ module Engine
             tokens: [0, 50, 50, 50, 100],
             color: '#C29137',
             type: 'major',
-            destination: 'F7',
+            destination: 'F21',
           },
           {
             float_percent: 40,

@@ -281,7 +281,7 @@ module Engine
           {
             name: '2',
             distance: 2,
-            price: 1000,
+            price: 100,
             num: 12,
             rusts_on: '4',
             variants: [
@@ -291,7 +291,7 @@ module Engine
                            { 'nodes' => ['town'], 'pay' => 1, 'visit' => 1 }],
                 track_type: :narrow,
                 no_local: true,
-                price: 1000,
+                price: 100,
               },
             ],
           },
@@ -1316,6 +1316,11 @@ module Engine
             @log << "#{player.name} increases their loan by 20% (#{format_currency(interest)}) to "\
                     "#{format_currency(new_loan)}"
           end
+        end
+
+        # ignore labels on mine hexes
+        def upgrades_to_correct_label?(from, to)
+          mine_hex?(from.hex) ? true : super
         end
       end
     end
