@@ -104,7 +104,7 @@ module Engine
         def interchange?
           return false unless @game.north_corp?(self)
 
-          tokens.any? { |t| %w[E18 I16].include?(t.hex) }
+          tokens.any? { |t| t.hex && @game.valid_interchange?(t.hex.tile) }
         end
       end
     end
