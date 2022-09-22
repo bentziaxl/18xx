@@ -590,7 +590,7 @@ module Engine
     end
 
     def add_temp_halt(code)
-      return unless only_paths?(@code)
+      return unless only_paths?(code: @code)
 
       @original_code = @code
       @original_paths = @paths.clone
@@ -617,7 +617,8 @@ module Engine
       new_code
     end
 
-    def only_paths?(code)
+    def only_paths?(code: nil)
+      code ||= @code
       return false unless code
 
       code.split(';').all? do |part_code|
@@ -627,7 +628,7 @@ module Engine
     end
 
     def remove_temp_halt
-      return unless only_paths?(@original_code)
+      return unless only_paths?(code: @original_code)
 
       @paths = []
       @_paths = nil
