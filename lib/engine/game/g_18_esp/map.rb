@@ -107,28 +107,28 @@ module Engine
             'count' => 1,
             'color' => 'green',
             'code' =>
-            'city=revenue:40;path=a:0,b:_0,track:narrow;path=a:2,b:_0,track:narrow;' \
+            'city=revenue:40,slots:2;path=a:0,b:_0,track:narrow;path=a:2,b:_0,track:narrow;' \
             'path=a:5,b:_0,track:narrow;path=a:3,b:_0,track:dual;label=G',
           },
           'L8' => {
             'count' => 1,
             'color' => 'green',
             'code' =>
-              'city=revenue:40;path=a:0,b:_0,track:narrow;path=a:1,b:_0,track:narrow;' \
+              'city=revenue:40,slots:2;path=a:0,b:_0,track:narrow;path=a:1,b:_0,track:narrow;' \
               'path=a:2,b:_0,track:narrow;path=a:3,b:_0,track:dual;label=G',
           },
           'L9' => {
             'count' => 1,
             'color' => 'green',
             'code' =>
-                'city=revenue:40;path=a:0,b:_0,track:narrow;path=a:1,b:_0,track:narrow;' \
+                'city=revenue:40,slots:2;path=a:0,b:_0,track:narrow;path=a:1,b:_0,track:narrow;' \
                 'path=a:2,b:_0,track:narrow;path=a:3,b:_0,track:dual;label=Bi',
           },
           'L10' => {
             'count' => 1,
             'color' => 'green',
             'code' =>
-                  'city=revenue:40;path=a:1,b:_0,track:narrow;path=a:2,b:_0,track:narrow;' \
+                  'city=revenue:40,slots:2;path=a:1,b:_0,track:narrow;path=a:2,b:_0,track:narrow;' \
                   'path=a:4,b:_0,track:narrow;path=a:3,b:_0,track:dual;label=Bi',
           },
           'IR26' => { 'count' => 1, 'color' => 'green', 'code' => 'path=a:0,b:3;path=a:1,b:2,track:narrow' },
