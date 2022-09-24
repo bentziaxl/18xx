@@ -407,7 +407,8 @@ module Engine
                 'companies_bought_150' => ['Companies 150%', 'Companies can be bought in for maximum 150% of value'],
                 'companies_bought_200' => ['Companies 200%', 'Companies can be bought in for maximum 200% of value'],
                 'renfe_founded' => ['RENFE founded'],
-                'close_minors' => ['Minors close']
+                'close_minors' => ['Minors close'],
+                'partial_capitalization' => ['Partial Capitalization', 'Corporations launched are partial cap']
               ).freeze
 
         STATUS_TEXT = Base::STATUS_TEXT.merge(
@@ -1121,7 +1122,10 @@ module Engine
         end
 
         def place_home_token(corporation)
-          super unless special_minor?(corporation)
+          return if special_minor?(corporation)
+
+          super
+          corporation.goal_reached!(:destination) if check_for_destination_connection(corporation)
         end
 
         def graph_for_entity(entity)
