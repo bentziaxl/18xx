@@ -173,6 +173,11 @@ module Engine
             entities.each(&:unpass!)
             @round.goto_entity!(@auction_triggerer)
           end
+
+          def post_win_bid(_winner, _company)
+            @round.goto_entity!(@auction_triggerer)
+            @round.next_entity!
+          end
         end
       end
     end
