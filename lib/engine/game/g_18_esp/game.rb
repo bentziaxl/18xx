@@ -282,7 +282,7 @@ module Engine
             name: '2',
             distance: 2,
             price: 100,
-            num: 12,
+            num: 6,
             rusts_on: '4',
             variants: [
               {
@@ -311,7 +311,8 @@ module Engine
               },
             ],
             events: [{ 'type' => 'south_majors_available' },
-                     { 'type' => 'companies_bought_150' }],
+                     { 'type' => 'companies_bought_150' },
+                     { 'type' => 'partial_capitalization' }],
           },
           {
             name: '4',
@@ -574,9 +575,11 @@ module Engine
         end
 
         def event_partial_capitalization!
-          @corporations.each do |c|
-            c.goal_reached!(:takeover) if c.taken_over_minor
+          @corporations.select(&:floated).each do |c|
+            c.goal_reached!(:takeover) unless c.taken_over_minor
           end
+          @corporations.each { |c| c.shares.last.buyable = true unless c.type == :minor }
+
           @partial_cap = true
         end
 
@@ -593,7 +596,13 @@ module Engine
         def float_corporation(corporation)
           if @partial_cap
             corporation.capitalization = :incremental
-            return super
+            # release tokens
+            corporation.tokens.each { |token| token.used = false if token.used == true && !token.hex }
+            # all goals reached, no extra cap
+            corporation.destination_connected = true
+            corporation.ran_offboard = true
+            corporation.ran_southern_map = true
+            corporation.taken_over_minor = true
           end
           @log << "#{corporation.name} floats"
           share_count = corporation.type == 'major' ? 4 : 2
