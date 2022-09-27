@@ -114,7 +114,9 @@ module Engine
         return if !ability.hexes&.empty? && !ability.hexes&.include?(hex.id)
 
         operator = entity.owner.corporation? ? entity.owner : @game.current_entity
-        return if ability.type == :tile_lay && ability.reachable && !@game.graph.connected_hexes(operator)[hex]
+        if ability.type == :tile_lay && ability.reachable && !@game.graph_for_entity(operator).connected_hexes(operator)[hex]
+          return
+        end
 
         @game.hex_by_id(hex.id).neighbors.keys
       end

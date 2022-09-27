@@ -540,8 +540,9 @@ module Engine
         end
 
         def tile_lays(entity)
-          return MINOR_TILE_LAYS if entity.type == :minor
-          return MAJOR_TILE_LAYS if entity.type == :major
+          return MINOR_TILE_LAYS if entity.type == :minor || north_corp?(entity)
+
+          MAJOR_TILE_LAYS
         end
 
         def north_corp?(entity)
