@@ -396,7 +396,7 @@ module Engine
             ['F3'] => 'city=revenue:30;path=a:0,b:_0,track:narrow;path=a:2,b:_0,track:narrow;path=a:3,b:_0,track:dual;label=G',
             ['L5'] => 'city=revenue:30;path=a:1,b:_0,track:narrow;path=a:2,b:_0,track:narrow;path=a:3,b:_0,track:dual;label=Bi;' \
                       'icon=image:18_esp/FdSB,sticky:1;icon=image:18_esp/FdLR,sticky:1',
-            ['G24'] => 'city=revenue:30;city=revenue:40;city=revenue:40;path=a:0,b:_0;path=a:1,b:_0;' \
+            ['G24'] => 'city=revenue:40;city=revenue:40;city=revenue:40;path=a:0,b:_0;path=a:1,b:_0;' \
                        'path=a:2,b:_1;path=a:3,b:_1;path=a:4,b:_2;path=a:0,b:_2;label=M',
             ['N21'] => 'city=revenue:30;city=revenue:30;path=a:1,b:_0;path=a:2,b:_1;label=B;icon=image:18_esp/ZP,sticky:1',
           },
