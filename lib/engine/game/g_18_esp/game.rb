@@ -282,7 +282,7 @@ module Engine
             name: '2',
             distance: 2,
             price: 100,
-            num: 6,
+            num: 12,
             rusts_on: '4',
             variants: [
               {
