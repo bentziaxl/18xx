@@ -2147,6 +2147,10 @@ module Engine
 
       def after_buying_train(train, source); end
 
+      def render_halts?
+        true
+      end
+
       private
 
       def init_graph
