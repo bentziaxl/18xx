@@ -58,6 +58,8 @@ module View
         end
 
         def render_part
+          return if @town.halt? && !@game.render_halts?
+
           height = (@width.to_i / 2) + 4
           width = height * 4
           children = [h(:rect, attrs: {
