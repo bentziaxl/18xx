@@ -833,6 +833,18 @@ module Engine
                   'Route can not end or start in Mountain pass'
           end
 
+          if route.train.name != 'F' && (visits.first&.halt? || visits.last&.halt?)
+            raise GameError,
+                  'Regular train can not start or stop at at a mine tile without a city or town'
+          end
+
+          visits = visits.dup.reject(&:halt?) if route.train.name != 'F'
+
+          if mountain_pass_token_hex?(route.hexes.first) || mountain_pass_token_hex?(route.hexes.last)
+            raise GameError,
+                  'Route can not end or start in Mountain pass'
+          end
+
           raise GameError, 'Route can only use one mountain pass' if route.hexes.count { |hex| mountain_pass_token_hex?(hex) } > 1
 
           # north corp running broad
@@ -1020,8 +1032,10 @@ module Engine
         end
 
         def route_distance_str(route)
-          towns = route.visited_stops.count { |visit| mountain_pass_token_hex?(visit.hex) ? 1 : visit.town? }
+          towns = route.visited_stops.count { |visit| mountain_pass_token_hex?(visit.hex) ? 1 : (visit.town? && !visit.halt?) }
+          halts = route.visited_stops.count(&:halt?)
           cities = route_distance(route) - towns
+          cities = route.train.name == 'F' ? cities : cities - halts
           towns.positive? ? "#{cities}+#{towns}" : cities.to_s
         end
 
