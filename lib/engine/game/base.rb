@@ -2080,6 +2080,10 @@ module Engine
         true
       end
 
+      def render_halts?
+        true
+      end
+
       private
 
       def init_graph

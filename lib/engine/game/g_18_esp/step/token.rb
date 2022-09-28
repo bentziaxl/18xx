@@ -43,7 +43,7 @@ module Engine
           def can_move_token?(entity)
             return false unless entity.corporation?
 
-            !entity.moved_token && entity.tokens.map(&:used).length > 1
+            !entity.moved_token && entity.tokens.dup.count { |token| token.used && token.hex } > 1
           end
 
           def process_remove_token(action)
