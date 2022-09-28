@@ -1361,6 +1361,10 @@ module Engine
           tile.icons = tile.icons.dup.reject { |icon| icon.name == corp.name }
         end
 
+        def render_halts?
+          false
+        end
+
         def train_help(entity, runnable_trains, _routes)
           help = []
 
