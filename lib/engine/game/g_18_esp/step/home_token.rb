@@ -29,6 +29,10 @@ module Engine
             )
             @round.pending_tokens.shift
           end
+
+          def help
+            'Select which of the three Madrid locations MZ should place its home token'
+          end
         end
       end
     end
