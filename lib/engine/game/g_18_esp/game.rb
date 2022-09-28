@@ -835,7 +835,7 @@ module Engine
 
           if route.train.name != 'F' && (visits.first&.halt? || visits.last&.halt?)
             raise GameError,
-                  'Regular train can not start or stop at at a mine tile without a city or town'
+                  'Regular train can not start or end at at a mine tile without a city or town'
           end
 
           visits = visits.dup.reject(&:halt?) if route.train.name != 'F'
