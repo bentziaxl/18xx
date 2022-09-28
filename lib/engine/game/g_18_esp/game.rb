@@ -692,9 +692,10 @@ module Engine
         end
 
         def f_train_correct_route?(route, visits, mea_hex)
-          start_city = route.train.owner.tokens.first
-          (visits.first.hex == mea_hex || visits.first.hex == start_city.hex) &&
-          (visits.last.hex == mea_hex || visits.last.hex == start_city.hex)
+          start_city_hex = route.train.owner.tokens.first.hex
+          start_city_hex ||= hex_by_id(route.train.owner.coordinates)
+          (visits.first.hex == mea_hex || visits.first.hex == start_city_hex) &&
+          (visits.last.hex == mea_hex || visits.last.hex == start_city_hex)
         end
 
         def train_type(train)
