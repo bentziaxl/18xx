@@ -91,7 +91,7 @@ module Engine
         hex = action.hex
         rotation = action.rotation
         old_tile = hex.tile
-        graph = @game.graph_for_entity(entity)
+        graph = @game.graph_for_entity(spender)
 
         if !@game.loading && (blocking_ability = ability_blocking_hex(entity, hex))
           raise GameError, "#{hex.id} is blocked by #{blocking_ability.owner.name}"
