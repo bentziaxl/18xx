@@ -26,23 +26,18 @@ module Engine
           end
 
           def process_place_token(action)
-            puts("===== here in place token #{action} #{action.token}")
             if @state == :move_token
               raise GameError, "Can't place token in original spot" if @removed_token == action.city.hex
 
               action.entity.moved_token = true
               action.entity.tokens.find { |token| !token.used }.price = @game.phase.name.to_i <= 4 ? 40 : 80
             end
-
-            entity = action.entity
-            place_token(entity, action.city, action.token)
-            pass!
+            super
           end
 
           def place_token(entity, city, token)
+            token.type = :neutral if @game.mountain_pass_token_hex?(city.hex)
             super(entity, city, token)
-            @tokened = true
-            @city = city
           end
 
           def can_move_token?(entity)
@@ -69,11 +64,6 @@ module Engine
             return true unless token
 
             token.corporation == entity
-          end
-
-          def pass!
-            @city.tokens.first.type = :neutral if @city && @game.mountain_pass_token_hex?(@city.hex)
-            super
           end
         end
       end
