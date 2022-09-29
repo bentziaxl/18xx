@@ -21,6 +21,11 @@ module Engine
             end
           end
 
+          def setup
+            super
+            @round.tokened_mountain_pass = nil
+          end
+
           def description
             'Place a Token or Move existing Token'
           end
@@ -35,8 +40,16 @@ module Engine
             super
           end
 
+          def round_state
+            super.merge(
+              {
+                tokened_mountain_pass: nil,
+              }
+            )
+          end
+
           def place_token(entity, city, token)
-            token.type = :neutral if @game.mountain_pass_token_hex?(city.hex)
+            @round.tokened_mountain_pass = city if @game.mountain_pass?(city.hex)
             super(entity, city, token)
           end
 

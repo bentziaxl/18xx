@@ -1365,6 +1365,12 @@ module Engine
           false
         end
 
+        def fix_mine_token(city)
+          return unless mountain_pass?(city.hex)
+
+          city.tokens.first.type = :neutral
+        end
+
         def train_help(entity, runnable_trains, _routes)
           help = []
 
