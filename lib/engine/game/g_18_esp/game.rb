@@ -1335,10 +1335,14 @@ module Engine
             @log << "#{player.name} pays off their loan of #{format_currency(@player_debts[player])}"
             @player_debts[player] = 0
           else
-            @player_debts[player] -= player.cash
-            @log << "#{player.name} decreases their loan by #{format_currency(player.cash)} "\
-                    "(#{format_currency(@player_debts[player])})"
-            player.cash = 0
+            principal_raw = (player.cash / 1.2).floor
+            principal = (principal_raw / 10).floor * 10
+            interest = principal * 0.2
+            payment = principal + interest
+            @player_debts[player] -= payment
+            @log << "#{player.name} pays #{format_currency(payment)}. Loan decreases by #{format_currency(interest)}. "\
+                    "#{player.name} pays #{format_currency(interest)} in interest"
+            player.cash -= payment
           end
         end
 
