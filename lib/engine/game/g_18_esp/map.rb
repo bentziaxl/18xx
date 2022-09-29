@@ -407,7 +407,7 @@ module Engine
             %w[D33] => 'town=revenue:0;icon=image:18_esp/SC,sticky:1',
             %w[H5] => 'town=revenue:0;icon=image:18_esp/CFEA,sticky:1;border=edge:0,type:impassable',
             %w[B3 C10 J5 L19 M22] => 'city=revenue:0',
-            %w[F33] => 'city=revenue:0;icon=image:18_esp/CM,sticky:1',
+            %w[F33] => 'city=revenue:0;icon=image:18_esp/CM,sticky:1,;label=Y',
             %w[L25] => 'city=revenue:0;label=Y',
             %w[D5 D9 F9 F11 H9 J7 D23 H21 E32 F31 J23] => 'icon=image:18_esp/mine,sticky:1',
             %w[I6] => 'icon=image:18_esp/mine,sticky:1;border=edge:1,type:impassable',
