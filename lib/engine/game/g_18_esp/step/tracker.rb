@@ -81,6 +81,10 @@ module Engine
 
           []
         end
+
+        def can_buy_tile_laying_company?(entity)
+          entity.companies.none? { |comp| comp.sym == 'MEA' } && !@round.mea_hex
+        end
       end
     end
   end
