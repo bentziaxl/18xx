@@ -35,8 +35,11 @@ module Engine
 
           def lay_tile(action, extra_cost: 0, entity: nil, spender: nil)
             tile = action.tile
+            old_tile = action.hex.tile
             tile.add_temp_halt('halt')
             super
+            old_tile&.icons = []
+
             corp = action.entity.owner
             corp.goal_reached!(:destination) if @game.check_for_destination_connection(corp)
           end

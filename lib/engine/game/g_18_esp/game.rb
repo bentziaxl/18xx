@@ -605,7 +605,7 @@ module Engine
             corporation.taken_over_minor = true
           end
           @log << "#{corporation.name} floats"
-          share_count = corporation.type == 'major' ? 4 : 2
+          share_count = corporation.type == :major ? 4 : 2
 
           @bank.spend(corporation.par_price.price * share_count, corporation)
           @log << "#{corporation.name} receives #{format_currency(corporation.cash)}"
