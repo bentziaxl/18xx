@@ -1316,22 +1316,18 @@ module Engine
         end
 
         def take_player_loan(player, loan)
-          # Give the player the money. The money for loans is outside money, doesnt count towards the normal bank money.
-          player.cash += loan
+          # Give the player the money.from the bank
+          @bank.spend(loan, player)
 
           # Add interest to the loan, must atleast pay 150% of the loaned value
-          @player_debts[player] += loan + player_loan_interest(loan)
-        end
-
-        def player_loan_interest(loan)
-          (loan * 0.2).ceil
+          @player_debts[player] += loan
         end
 
         def payoff_player_loan(player)
           # Pay full or partial of the player loan. The money from loans is outside money, doesnt count towards
           # the normal bank money.
           if player.cash >= @player_debts[player]
-            player.cash -= @player_debts[player]
+            player.spend(@player_debts[player], @bank)
             @log << "#{player.name} pays off their loan of #{format_currency(@player_debts[player])}"
             @player_debts[player] = 0
           else
@@ -1342,7 +1338,7 @@ module Engine
             @player_debts[player] -= payment
             @log << "#{player.name} pays #{format_currency(payment)}. Loan decreases by #{format_currency(interest)}. "\
                     "#{player.name} pays #{format_currency(interest)} in interest"
-            player.cash -= payment
+            player.spend(payment, @bank)
           end
         end
 
@@ -1354,10 +1350,10 @@ module Engine
           @player_debts.each do |player, loan|
             next unless loan.positive?
 
-            interest = player_loan_interest(loan)
+            interest = loan * 0.5
             new_loan = loan + interest
             @player_debts[player] = new_loan
-            @log << "#{player.name} increases their loan by 20% (#{format_currency(interest)}) to "\
+            @log << "#{player.name} increases their loan by 50% (#{format_currency(interest)}) to "\
                     "#{format_currency(new_loan)}"
           end
         end
