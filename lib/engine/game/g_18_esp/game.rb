@@ -469,7 +469,7 @@ module Engine
             corporation.type == :minor || north_corp?(corporation)
           end
 
-          @corporations.each { |c| c.shares.last.buyable = false unless c.type == :minor }
+          @future_corporations.each { |c| c.shares.last.buyable = false }
           @minors_graph = Graph.new(self, home_as_token: true)
 
           @company_trains = {}
@@ -1176,7 +1176,7 @@ module Engine
           reserved_2t = train_by_id('2-0')
           return super unless reserved_2t
 
-          @depot.reclaim_train(train) if rust?(reserved_2t, train)
+          @depot.reclaim_train(reserved_2t) if rust?(reserved_2t, train)
           super
         end
 
