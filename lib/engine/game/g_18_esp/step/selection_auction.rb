@@ -50,10 +50,11 @@ module Engine
               resolve_bids
             else
               @log << "#{entity.name} passes bidding"
+              @active_bidders.delete(entity)
               entity.pass!
               all_passed! if entities.all?(&:passed?)
+              next_entity!
             end
-            next_entity!
           end
 
           def next_entity!
@@ -67,6 +68,9 @@ module Engine
 
             if auctioning
               add_bid(action)
+            elsif @active_bidders.length == 1
+              add_bid(action)
+              resolve_bids
             else
               selection_bid(action)
               next_entity! if auctioning
@@ -87,6 +91,12 @@ module Engine
             setup_auction
             @companies = @game.companies.reject { |comp| comp.id == 'MEA' }.sort_by(&:value)
             @cheapest = @companies.first
+            auction_entity(@companies.first)
+            @auction_triggerer = current_entity
+          end
+
+          def selection_bid(bid)
+            add_bid(bid)
           end
 
           def starting_bid(company)
@@ -155,6 +165,7 @@ module Engine
               new_value = @cheapest.min_bid
               @log << "#{@cheapest.name} minimum bid decreases from "\
                       "#{@game.format_currency(value)} to #{@game.format_currency(new_value)}"
+              auction_entity(@cheapest)
               if new_value <= 0
                 # It's now free so the next player is forced to take it.
                 @round.next_entity_index!
@@ -163,20 +174,18 @@ module Engine
             else
               @game.payout_companies
               @game.or_set_finished
+              auction_entity(@companies.first)
             end
 
             entities.each(&:unpass!)
           end
 
-          def resolve_bids
-            super
-            entities.each(&:unpass!)
-            @round.goto_entity!(@auction_triggerer)
-          end
-
           def post_win_bid(_winner, _company)
             @round.goto_entity!(@auction_triggerer)
+            entities.each(&:unpass!)
             next_entity!
+            @auction_triggerer = current_entity
+            auction_entity(@companies.first)
           end
         end
       end
