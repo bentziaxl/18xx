@@ -185,7 +185,7 @@ module Engine
             entities.each(&:unpass!)
             next_entity!
             @auction_triggerer = current_entity
-            auction_entity(@companies.first)
+            auction_entity(@companies.first) unless companies.empty?
           end
         end
       end
