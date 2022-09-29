@@ -15,7 +15,7 @@ module Engine
         include Map
         include CitiesPlusTownsRouteDistanceStr
 
-        attr_reader :minors_graph
+        attr_reader :minors_graph, :can_build_mountain_pass
 
         attr_accessor :player_debts
 
@@ -233,7 +233,7 @@ module Engine
 
         PHASES = [{
           name: '2',
-          train_limit: 4,
+          train_limit: { minor: 2, major: 4 },
           tiles: %i[yellow],
           operating_rounds: 1,
           status: %w[can_buy_companies],
@@ -241,10 +241,10 @@ module Engine
                   {
                     name: '3',
                     on: '3',
-                    train_limit: 4,
+                    train_limit: { minor: 2, major: 4 },
                     tiles: %i[yellow green],
                     operating_rounds: 2,
-                    status: %w[can_build_mountain_pass can_buy_companies],
+                    status: %w[can_buy_companies],
                   },
                   {
                     name: '4',
@@ -311,7 +311,8 @@ module Engine
               },
             ],
             events: [{ 'type' => 'south_majors_available' },
-                     { 'type' => 'companies_bought_150' }],
+                     { 'type' => 'companies_bought_150' },
+                     { 'type' => 'mountain_pass' }],
           },
           {
             name: '4',
@@ -408,12 +409,9 @@ module Engine
                 'companies_bought_200' => ['Companies 200%', 'Companies can be bought in for maximum 200% of value'],
                 'renfe_founded' => ['RENFE founded'],
                 'close_minors' => ['Minors close'],
-                'partial_capitalization' => ['Partial Capitalization', 'Corporations launched are partial cap']
+                'partial_capitalization' => ['Partial Capitalization', 'Corporations launched are partial cap'],
+                'mountain_pass' => ['Can build mountain passes']
               ).freeze
-
-        STATUS_TEXT = Base::STATUS_TEXT.merge(
-          'can_build_mountain_pass' => ['Can build mountain passes']
-        ).freeze
 
         def init_corporations(stock_market)
           game_corporations.map do |corporation|
@@ -557,6 +555,10 @@ module Engine
 
         def event_companies_bought_150!
           setup_company_price(1.5)
+        end
+
+        def event_mountain_pass!
+          @can_build_mountain_pass = true
         end
 
         def event_companies_bought_200!
