@@ -31,7 +31,7 @@ module Engine
           end
 
           def help
-            'Select which of the three Madrid locations MZ should place its home token'
+            'Select which of the three Madrid locations MZ should place its home token' if current_entity.name == 'MZ'
           end
         end
       end
