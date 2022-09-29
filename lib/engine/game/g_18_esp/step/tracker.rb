@@ -33,11 +33,11 @@ module Engine
         end
 
         def tile_valid_for_entity(entity, tile)
-          narrow_only?(entity) ? tile.paths.any? { |p| p.track == :narrow } : tile.paths.any? { |p| p.track == :broad }
+          narrow_only?(entity) ? tile.paths.any? { |p| p.track == :narrow } : true
         end
 
         def narrow_only?(entity)
-          @game.north_corp?(entity) && entity.tokens.none? { |token| %w[E18 I16].include?(token.hex&.id) }
+          @game.north_corp?(entity) && !entity.interchange?
         end
 
         def ability_blocking_hex(_entity, hex)
