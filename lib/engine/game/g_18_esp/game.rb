@@ -744,7 +744,7 @@ module Engine
           return true if entity.ran_offboard?
 
           # logic to check if routes include offboard
-          routes.any? { |route| route.visited_stops.any?(&:offboard?) }
+          routes.any? { |route| route.visited_stops.any? { |visit| visit.offboard? && visit.tile.color == :red } }
         end
 
         def check_southern_map_goal(entity, routes)
