@@ -311,8 +311,7 @@ module Engine
               },
             ],
             events: [{ 'type' => 'south_majors_available' },
-                     { 'type' => 'companies_bought_150' },
-                     { 'type' => 'partial_capitalization' }],
+                     { 'type' => 'companies_bought_150' }],
           },
           {
             name: '4',
