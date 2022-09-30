@@ -26,6 +26,11 @@ module Engine
           '78' => 6,
           '201' => 2,
           '202' => 2,
+          '293y' => {
+            'count' => 2,
+            'color' => 'yellow',
+            'code' => 'city=revenue:40;path=a:0,b:_0;path=a:3,b:_0;label=Y',
+          },
           '956' => 2,
           'L0' => {
             'count' => 1,
@@ -57,6 +62,12 @@ module Engine
           '204' => 2,
           '208' => 2,
           '207' => 2,
+          '296y' => {
+            'count' => 2,
+            'color' => 'green',
+            'code' => 'city=revenue:50,slots:2;path=a:0,b:_0;path=a:2,b:_0;path=a:3,b:_0;'\
+                      'path=a:4,b:_0;label=Y',
+          },
           '619' => 3,
           '710' => 1,
           '711' => 1,
