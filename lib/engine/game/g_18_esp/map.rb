@@ -26,6 +26,7 @@ module Engine
           '78' => 6,
           '201' => 2,
           '202' => 2,
+          '293' => 2,
           '956' => 2,
           'L0' => {
             'count' => 1,
@@ -57,6 +58,7 @@ module Engine
           '204' => 2,
           '208' => 2,
           '207' => 2,
+          '296' => 2,
           '619' => 3,
           '710' => 1,
           '711' => 1,
@@ -401,7 +403,7 @@ module Engine
             ['N21'] => 'city=revenue:30;city=revenue:30;path=a:1,b:_0;path=a:2,b:_1;label=B;icon=image:18_esp/ZP,sticky:1',
           },
           white: {
-            %w[B5 C6 C8 M4 C28 I26 J27 J31 K26 L27 M20] => '',
+            %w[B5 C6 C8 M4 C28 I26 J27 J31 K26 L27 M20 E34] => '',
             %w[C4 E2 E4 I4 K4] => 'town=revenue:0',
             %w[K30] => 'town=revenue:0;icon=image:18_esp/AC,sticky:1',
             %w[D33] => 'town=revenue:0;icon=image:18_esp/SC,sticky:1',
