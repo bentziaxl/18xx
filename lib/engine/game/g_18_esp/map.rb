@@ -369,13 +369,13 @@ module Engine
 
         HEXES = {
           blue: {
-            %w[D1] => 'offboard=revenue:yellow_40|green_30|brown_20|gray_20;path=a:0,b:_0,track:dual',
-            %w[F1 L3] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50;path=a:0,b:_0,track:dual',
-            %w[M24] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;path=a:1,b:_0,track:dual',
-            %w[K32] => 'offboard=revenue:yellow_40|green_30|brown_30|gray_40;path=a:3,b:_0,track:dual',
-            %w[G34] => 'offboard=revenue:yellow_20|green_30|brown_30|gray_40;path=a:2,b:_0,track:dual',
-            %w[C34] => 'offboard=revenue:yellow_20|green_30|brown_30|gray_40;path=a:4,b:_0,track:dual',
-            %w[O22] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;path=a:2,b:_0,track:dual',
+            %w[D1] => 'town=revenue:yellow_40|green_30|brown_20|gray_20;path=a:0,b:_0,track:dual',
+            %w[F1 L3] => 'town=revenue:yellow_20|green_30|brown_40|gray_50;path=a:0,b:_0,track:dual',
+            %w[M24] => 'town=revenue:yellow_20|green_30|brown_50|gray_60;path=a:1,b:_0,track:dual',
+            %w[K32] => 'town=revenue:yellow_40|green_30|brown_30|gray_40;path=a:3,b:_0,track:dual',
+            %w[G34] => 'town=revenue:yellow_20|green_30|brown_30|gray_40;path=a:2,b:_0,track:dual',
+            %w[C34] => 'town=revenue:yellow_20|green_30|brown_30|gray_40;path=a:4,b:_0,track:dual',
+            %w[O22] => 'town=revenue:yellow_20|green_30|brown_50|gray_60;path=a:2,b:_0,track:dual',
           },
           red: {
             %w[A4 B9] =>
