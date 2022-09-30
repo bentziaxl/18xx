@@ -1134,9 +1134,9 @@ module Engine
           # privates
           nonsurvivor.companies.each do |c|
             c.owner = survivor
-            owner.companies << c
+            survivor.companies << c
           end
-
+          nonsurvivor.companies.clear
           @log << "Moved assets from #{nonsurvivor.name} to #{survivor.name}"
         end
 
