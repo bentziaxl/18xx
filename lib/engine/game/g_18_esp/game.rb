@@ -1336,7 +1336,7 @@ module Engine
             interest = principal * 0.2
             payment = principal + interest
             @player_debts[player] -= payment
-            @log << "#{player.name} pays #{format_currency(payment)}. Loan decreases by #{format_currency(interest)}. "\
+            @log << "#{player.name} pays #{format_currency(payment)}. Loan decreases by #{format_currency(principal)}. "\
                     "#{player.name} pays #{format_currency(interest)} in interest"
             player.spend(payment, @bank)
           end
