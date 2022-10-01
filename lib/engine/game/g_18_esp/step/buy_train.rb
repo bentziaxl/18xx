@@ -37,8 +37,7 @@ module Engine
 
             difference = cost - entity.cash
             @game.take_player_loan(entity, difference)
-            @log << "#{entity.name} takes a loan of #{@game.format_currency(difference)} with "\
-                    "#{@game.format_currency(@game.player_loan_interest(difference))} in interest"
+            @log << "#{entity.name} takes a loan of #{@game.format_currency(difference)}"
           end
         end
       end
