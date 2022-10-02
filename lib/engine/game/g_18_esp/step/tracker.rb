@@ -13,7 +13,7 @@ module Engine
             .reject(&:blocks_lay)
 
           tiles = tiles.reject { |tile| tile.city_towns.empty? && tile.color != :yellow } if @game.north_corp?(entity)
-          tiles = tiles.reject { |tile| tile.paths.any? { |path| path.track == :narrow } } unless @game.north_hex?(hex)
+          tiles = tiles.reject { |tile| tile.paths.any? { |path| path.track == :narrow ||  path.track == :dual } } unless @game.north_hex?(hex)
           if @game.north_hex?(hex) && @game.north_corp?(entity)
             tiles = tiles.reject do |tile|
               tile.paths.any? do |path|
