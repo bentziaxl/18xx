@@ -16354,6 +16354,52 @@
         }
       ],
       "kind": "payout"
+    },
+    {
+      "type": "undo",
+      "entity": "N",
+      "entity_type": "corporation",
+      "id": 1102,
+      "created_at": 1664743411
+    },
+    {
+      "type": "dividend",
+      "entity": "N",
+      "entity_type": "corporation",
+      "id": 1103,
+      "created_at": 1664743426,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "N",
+          "entity_type": "corporation",
+          "created_at": 1664743426
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "undo",
+      "entity": "N",
+      "entity_type": "corporation",
+      "id": 1104,
+      "created_at": 1664743663
+    },
+    {
+      "type": "dividend",
+      "entity": "N",
+      "entity_type": "corporation",
+      "id": 1105,
+      "created_at": 1664743666,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "N",
+          "entity_type": "corporation",
+          "created_at": 1664743666
+        }
+      ],
+      "kind": "payout"
     }
   ],
   "id": "hs_lgnpskap_1664544255",
@@ -16399,5 +16445,5 @@
     3,
     1
   ],
-  "updated_at": 1664742958
+  "updated_at": 1664743666
 }

@@ -1284,7 +1284,7 @@ module Engine
             next if amount.zero?
 
             payouts[player] = amount
-            corporation.spend(amount, player, check_cash: false, borrow_from: corporation.owner)
+            @bank.spend(amount, player, check_cash: false, borrow_from: corporation.owner)
           end
 
           return if payouts.empty?
