@@ -63,6 +63,8 @@ module Engine
 
         EBUY_PRES_SWAP = false
 
+        EBUY_DEPOT_TRAIN_MUST_BE_CHEAPEST = false
+
         GAME_END_CHECK = { final_phase: :one_more_full_or_set }.freeze
 
         MINOR_TILE_LAYS = [{ lay: true, upgrade: true, cost: 0 }].freeze
@@ -270,7 +272,7 @@ module Engine
                   },
                   {
                     name: '8',
-                    on: 'D',
+                    on: '8',
                     train_limit: 2,
                     tiles: %i[yellow green brown gray],
                     operating_rounds: 3,
@@ -1267,6 +1269,7 @@ module Engine
 
           @nationalized_corps << corp
           @log << "#{corp.name} is Nationalized and will cease to operate."
+          pay_nationalization_compensation(corp)
         end
 
         def nationalized?(corp)
