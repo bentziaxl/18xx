@@ -567,7 +567,7 @@ module Engine
 
         def event_close_minors!
           @corporations.each do |c|
-            next unless c&.floated?
+            next unless c
 
             c.shares.last&.buyable = true
             next unless c.type == :minor
