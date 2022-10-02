@@ -49,6 +49,8 @@ module Engine
           end
 
           def place_token(entity, city, token)
+            return unless token
+
             @round.tokened_mountain_pass = city if @game.mountain_pass?(city.hex)
             super(entity, city, token)
           end
