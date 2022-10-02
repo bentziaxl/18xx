@@ -89,7 +89,7 @@ module Engine
         end
 
         def minor_takeover_reached!
-          return if @taken_over_minor
+          return if @taken_over_minor || @game.north_corp?(self)
 
           @taken_over_minor = true
           @goals_reached_counter += 1
