@@ -51,6 +51,10 @@ module Engine
             @log << "#{entity.owner.name} receives #{@game.format_currency(amount)} for Freight Train route"
             @game.bank.spend(amount, entity.owner)
           end
+
+          def payout_per_share(entity, revenue)
+            revenue * 1.0 / entity.total_shares
+          end
         end
       end
     end
