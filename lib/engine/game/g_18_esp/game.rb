@@ -566,13 +566,26 @@ module Engine
         end
 
         def event_close_minors!
-          @corporations.each do |c|
+          @corporations.dup.each do |c|
             next unless c
 
             c.shares.last&.buyable = true
             next unless c.type == :minor
 
             close_corporation(c)
+          end
+        end
+
+        def event_close_companies!
+          @log << '-- Event: Private companies close --'
+          @companies.each do |company|
+            next if company.sym == 'MEA'
+            if (ability = abilities(company, :close, on_phase: 'any')) && (ability.on_phase == 'never' ||
+                      @phase.phases.any? { |phase| ability.on_phase == phase[:name] })
+              next
+            end
+
+            company.close!
           end
         end
 
