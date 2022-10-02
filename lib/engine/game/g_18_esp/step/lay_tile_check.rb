@@ -2,11 +2,12 @@
 
 module LayTileCheck
   def potential_tiles(entity, hex)
+    corp = entity.corporation? ? entity : entity.owner
     tiles = selected_tiles(entity, hex).uniq(&:name)
       .select { |t| @game.upgrades_to?(hex.tile, t) }
       .reject(&:blocks_lay)
 
-    tiles = tiles.reject { |tile| tile.city_towns.empty? && tile.color != :yellow } if @game.north_corp?(entity)
+    tiles = tiles.reject { |tile| tile.city_towns.empty? && tile.color != :yellow } if @game.north_corp?(corp)
     unless @game.north_hex?(hex)
       tiles = tiles.reject do |tile|
         tile.paths.any? do |path|
@@ -14,7 +15,7 @@ module LayTileCheck
         end
       end
     end
-    if @game.north_hex?(hex) && @game.north_corp?(entity)
+    if @game.north_hex?(hex) && @game.north_corp?(corp)
       tiles = tiles.reject do |tile|
         tile.paths.any? do |path|
           path.track == :broad

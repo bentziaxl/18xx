@@ -1385,7 +1385,7 @@ module Engine
         end
 
         def fix_mine_token(city)
-          return unless mountain_pass?(city.hex)
+          return unless mountain_pass_token_hex?(city.hex)
 
           city.tokens.first.type = :neutral
         end
