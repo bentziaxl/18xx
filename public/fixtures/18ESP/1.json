@@ -59,34 +59,6 @@
       "price": 70
     },
     {
-      "type": "pass",
-      "entity": 2,
-      "entity_type": "player",
-      "id": 8,
-      "created_at": 1664544272
-    },
-    {
-      "type": "pass",
-      "entity": 3,
-      "entity_type": "player",
-      "id": 9,
-      "created_at": 1664544272
-    },
-    {
-      "type": "undo",
-      "entity": 0,
-      "entity_type": "player",
-      "id": 10,
-      "created_at": 1664544276
-    },
-    {
-      "type": "undo",
-      "entity": 3,
-      "entity_type": "player",
-      "id": 11,
-      "created_at": 1664544277
-    },
-    {
       "type": "bid",
       "entity": 2,
       "entity_type": "player",
