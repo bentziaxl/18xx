@@ -483,6 +483,10 @@ module Engine
           @player_debts = Hash.new { |h, k| h[k] = 0 }
         end
 
+        def company_header(_company)
+          'PIONEER COMPANY'
+        end
+
         def setup_company_price(mulitplier)
           @companies.each { |company| company.max_price = company.value * mulitplier }
         end
@@ -577,7 +581,7 @@ module Engine
         end
 
         def event_close_companies!
-          @log << '-- Event: Private companies close --'
+          @log << '-- Event: Pioneer companies close --'
           @companies.each do |company|
             next if company.sym == 'MEA'
             if (ability = abilities(company, :close, on_phase: 'any')) && (ability.on_phase == 'never' ||
