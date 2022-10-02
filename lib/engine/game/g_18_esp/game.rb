@@ -567,9 +567,9 @@ module Engine
 
         def event_close_minors!
           @corporations.each do |c|
-            next unless c.floated?
+            next unless c&.floated?
 
-            c.shares.last.buyable = true
+            c.shares.last&.buyable = true
             next unless c.type == :minor
 
             close_corporation(c)
@@ -580,7 +580,7 @@ module Engine
           @corporations.select(&:floated).each do |c|
             c.goal_reached!(:takeover) unless c.taken_over_minor
           end
-          @corporations.each { |c| c.shares.last.buyable = true unless c.type == :minor }
+          @corporations.each { |c| c.shares.last&.buyable = true unless c.type == :minor }
 
           @partial_cap = true
         end
