@@ -1,1429 +1,6160 @@
 {
-    "status": "active",
-    "actions": [
-      {
-        "type": "bid",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 1,
-        "created_at": 1663270460,
-        "company": "P1",
-        "price": 50
-      },
-      {
-        "type": "bid",
-        "entity": 1,
-        "entity_type": "player",
-        "id": 2,
-        "created_at": 1663270461,
-        "company": "P1",
-        "price": 55
-      },
-      {
-        "type": "pass",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 3,
-        "created_at": 1663270461
-      },
-      {
-        "type": "pass",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 4,
-        "created_at": 1663270462
-      },
-      {
-        "type": "bid",
-        "entity": 1,
-        "entity_type": "player",
-        "id": 5,
-        "created_at": 1663270463,
-        "company": "P2",
-        "price": 70
-      },
-      {
-        "type": "pass",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 6,
-        "created_at": 1663270464
-      },
-      {
-        "type": "pass",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 7,
-        "created_at": 1663270464
-      },
-      {
-        "type": "bid",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 8,
-        "created_at": 1663270465,
-        "company": "P3",
-        "price": 100
-      },
-      {
-        "type": "pass",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 9,
-        "created_at": 1663270465
-      },
-      {
-        "type": "pass",
-        "entity": 1,
-        "entity_type": "player",
-        "id": 10,
-        "created_at": 1663270465
-      },
-      {
-        "type": "bid",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 11,
-        "created_at": 1663270466,
-        "company": "P4",
-        "price": 120
-      },
-      {
-        "type": "pass",
-        "entity": 1,
-        "entity_type": "player",
-        "id": 12,
-        "created_at": 1663270467
-      },
-      {
-        "type": "pass",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 13,
-        "created_at": 1663270467
-      },
-      {
-        "type": "bid",
-        "entity": 1,
-        "entity_type": "player",
-        "id": 14,
-        "created_at": 1663270468,
-        "company": "P5",
-        "price": 160
-      },
-      {
-        "type": "pass",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 15,
-        "created_at": 1663270468
-      },
-      {
-        "type": "pass",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 16,
-        "created_at": 1663270468
-      },
-      {
-        "type": "bid",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 17,
-        "created_at": 1663270469,
-        "company": "P6",
-        "price": 180
-      },
-      {
-        "type": "pass",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 18,
-        "created_at": 1663270470
-      },
-      {
-        "type": "pass",
-        "entity": 1,
-        "entity_type": "player",
-        "id": 19,
-        "created_at": 1663270470
-      },
-      {
-        "type": "par",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 20,
-        "created_at": 1663270472,
-        "corporation": "FdLR",
-        "share_price": "100,2,5"
-      },
-      {
-        "type": "par",
-        "entity": 1,
-        "entity_type": "player",
-        "id": 21,
-        "created_at": 1663270476,
-        "corporation": "MZ",
-        "share_price": "82,4,5"
-      },
-      {
-        "type": "pass",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 22,
-        "created_at": 1663270479
-      },
-      {
-        "type": "pass",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 23,
-        "created_at": 1663835844
-      },
-      {
-        "type": "buy_shares",
-        "entity": 1,
-        "entity_type": "player",
-        "id": 24,
-        "created_at": 1663835848,
-        "shares": [
-          "FdLR_2"
-        ],
-        "percent": 10,
-        "share_price": false
-      },
-      {
-        "type": "par",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 25,
-        "created_at": 1663835851,
-        "corporation": "FdSB",
-        "share_price": "100,2,5"
-      },
-      {
-        "type": "buy_shares",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 26,
-        "created_at": 1663835852,
-        "shares": [
-          "FdSB_1"
-        ],
-        "percent": 10,
-        "share_price": false
-      },
-      {
-        "type": "buy_shares",
-        "entity": 1,
-        "entity_type": "player",
-        "id": 27,
-        "created_at": 1663835852,
-        "shares": [
-          "FdSB_2"
-        ],
-        "percent": 10,
-        "share_price": false
-      },
-      {
-        "type": "pass",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 28,
-        "created_at": 1663835853
-      },
-      {
-        "type": "pass",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 29,
-        "created_at": 1663835854
-      },
-      {
-        "type": "pass",
-        "entity": 1,
-        "entity_type": "player",
-        "id": 30,
-        "created_at": 1663835854
-      },
-      {
-        "type": "pass",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 31,
-        "created_at": 1663835861
-      },
-      {
-        "type": "undo",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 32,
-        "created_at": 1663835862
-      },
-      {
-        "type": "special_buy",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 33,
-        "created_at": 1663835863,
-        "description": "MEA",
-        "cost": 30
-      },
-      {
-        "type": "lay_tile",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 34,
-        "created_at": 1663835865,
-        "hex": "I8",
-        "tile": "956-0",
-        "rotation": 1
-      },
-      {
-        "type": "lay_tile",
-        "entity": "MEA",
-        "entity_type": "company",
-        "id": 35,
-        "created_at": 1663835869,
-        "hex": "J7",
-        "tile": "79-0",
-        "rotation": 1
-      },
-      {
-        "type": "lay_tile",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 36,
-        "created_at": 1663835873,
-        "hex": "K6",
-        "tile": "74-0",
-        "rotation": 1
-      },
-      {
-        "type": "undo",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 37,
-        "created_at": 1663836272
-      },
-      {
-        "type": "lay_tile",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 38,
-        "created_at": 1663836275,
-        "hex": "K6",
-        "tile": "74-0",
-        "rotation": 1
-      },
-      {
-        "type": "undo",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 39,
-        "created_at": 1663836282
-      },
-      {
-        "type": "lay_tile",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 40,
-        "created_at": 1663836285,
-        "hex": "K6",
-        "tile": "74-0",
-        "rotation": 1
-      },
-      {
-        "type": "undo",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 41,
-        "created_at": 1663836417
-      },
-      {
-        "type": "lay_tile",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 42,
-        "created_at": 1663836419,
-        "hex": "K6",
-        "tile": "74-0",
-        "rotation": 1
-      },
-      {
-        "type": "undo",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 43,
-        "created_at": 1663837176,
-        "action_id": 30
-      },
-      {
-        "type": "undo",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 44,
-        "created_at": 1663837178,
-        "action_id": 29
-      },
-      {
-        "type": "par",
-        "entity": 1,
-        "entity_type": "player",
-        "id": 45,
-        "created_at": 1663837188,
-        "corporation": "CFLG",
-        "share_price": "100,2,5"
-      },
-      {
-        "type": "pass",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 46,
-        "created_at": 1663837189
-      },
-      {
-        "type": "pass",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 47,
-        "created_at": 1663837189
-      },
-      {
-        "type": "undo",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 48,
-        "created_at": 1663837194,
-        "action_id": 46
-      },
-      {
-        "type": "buy_shares",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 49,
-        "created_at": 1663837197,
-        "shares": [
-          "CFLG_1"
-        ],
-        "percent": 10,
-        "share_price": false
-      },
-      {
-        "type": "buy_shares",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 50,
-        "created_at": 1663837198,
-        "shares": [
-          "CFLG_2"
-        ],
-        "percent": 10,
-        "share_price": false
-      },
-      {
-        "type": "pass",
-        "entity": 0,
-        "entity_type": "player",
-        "id": 51,
-        "created_at": 1663837199
-      },
-      {
-        "type": "pass",
-        "entity": 2,
-        "entity_type": "player",
-        "id": 52,
-        "created_at": 1663837199
-      },
-      {
-        "type": "pass",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 53,
-        "created_at": 1663837200
-      },
-      {
-        "type": "pass",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 54,
-        "created_at": 1663837201
-      },
-      {
-        "type": "pass",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 55,
-        "created_at": 1663837201,
-        "auto_actions": [
-          {
-            "type": "pass",
-            "entity": "FdLR",
-            "entity_type": "corporation",
-            "created_at": 1663837201
-          }
-        ]
-      },
-      {
-        "type": "buy_train",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 56,
-        "created_at": 1663837204,
-        "train": "2-1",
-        "price": 100,
-        "variant": "1+1"
-      },
-      {
-        "type": "pass",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 57,
-        "created_at": 1663837205
-      },
-      {
-        "type": "pass",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 58,
-        "created_at": 1663837205
-      },
-      {
-        "type": "pass",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 59,
-        "created_at": 1663837208
-      },
-      {
-        "type": "lay_tile",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 60,
-        "created_at": 1663837211,
-        "hex": "J5",
-        "tile": "956-0",
-        "rotation": 1
-      },
-      {
-        "type": "pass",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 61,
-        "created_at": 1663837213
-      },
-      {
-        "type": "pass",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 62,
-        "created_at": 1663837213,
-        "auto_actions": [
-          {
-            "type": "pass",
-            "entity": "FdSB",
-            "entity_type": "corporation",
-            "created_at": 1663837213
-          }
-        ]
-      },
-      {
-        "type": "buy_train",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 63,
-        "created_at": 1663837215,
-        "train": "2-2",
-        "price": 100,
-        "variant": "1+1"
-      },
-      {
-        "type": "pass",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 64,
-        "created_at": 1663837215
-      },
-      {
-        "type": "pass",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 65,
-        "created_at": 1663837216
-      },
-      {
-        "type": "special_buy",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 66,
-        "created_at": 1663837219,
-        "description": "MEA",
-        "cost": 30
-      },
-      {
-        "type": "lay_tile",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 67,
-        "created_at": 1663837222,
-        "hex": "F5",
-        "tile": "74-0",
-        "rotation": 0
-      },
-      {
-        "type": "lay_tile",
-        "entity": "MEA",
-        "entity_type": "company",
-        "id": 68,
-        "created_at": 1663837226,
-        "hex": "F7",
-        "tile": "76-0",
-        "rotation": 1
-      },
-      {
-        "type": "pass",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 69,
-        "created_at": 1663837227
-      },
-      {
-        "type": "place_token",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 70,
-        "created_at": 1663837228,
-        "city": "76-0-0",
-        "slot": 0,
-        "tokener": "CFLG"
-      },
-      {
-        "type": "run_routes",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 71,
-        "created_at": 1663837287,
-        "auto_actions": [
-          {
-            "type": "pass",
-            "entity": "CFLG",
-            "entity_type": "corporation",
-            "created_at": 1663837287
-          }
-        ],
-        "routes": [
-          {
-            "train": "F-0",
-            "connections": [
-              [
-                "F3",
-                "F5"
-              ],
-              [
-                "F5",
-                "F7"
-              ]
-            ],
-            "hexes": [
-              "F3",
-              "F5",
-              "F7"
-            ],
-            "revenue": 40,
-            "revenue_str": "F3-F5-F7",
-            "subsidy": 0,
-            "nodes": [
-              "F3-0",
-              "F5-0",
-              "F7-0"
+  "status": "active",
+  "actions": [
+    {
+      "type": "bid",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 1,
+      "created_at": 1664544265,
+      "company": "P1",
+      "price": 50
+    },
+    {
+      "type": "bid",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 2,
+      "created_at": 1664544266,
+      "company": "P1",
+      "price": 55
+    },
+    {
+      "type": "bid",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 3,
+      "created_at": 1664544268,
+      "company": "P1",
+      "price": 60
+    },
+    {
+      "type": "pass",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 4,
+      "created_at": 1664544268
+    },
+    {
+      "type": "pass",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 5,
+      "created_at": 1664544269
+    },
+    {
+      "type": "pass",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 6,
+      "created_at": 1664544269
+    },
+    {
+      "type": "bid",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 7,
+      "created_at": 1664544271,
+      "company": "P2",
+      "price": 70
+    },
+    {
+      "type": "pass",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 8,
+      "created_at": 1664544272
+    },
+    {
+      "type": "pass",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 9,
+      "created_at": 1664544272
+    },
+    {
+      "type": "undo",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 10,
+      "created_at": 1664544276
+    },
+    {
+      "type": "undo",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 11,
+      "created_at": 1664544277
+    },
+    {
+      "type": "bid",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 12,
+      "created_at": 1664544278,
+      "company": "P2",
+      "price": 75
+    },
+    {
+      "type": "bid",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 13,
+      "created_at": 1664544281,
+      "company": "P2",
+      "price": 80
+    },
+    {
+      "type": "pass",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 14,
+      "created_at": 1664544282
+    },
+    {
+      "type": "pass",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 15,
+      "created_at": 1664544282
+    },
+    {
+      "type": "pass",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 16,
+      "created_at": 1664544283
+    },
+    {
+      "type": "bid",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 17,
+      "created_at": 1664544287,
+      "company": "P3",
+      "price": 100
+    },
+    {
+      "type": "bid",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 18,
+      "created_at": 1664544290,
+      "company": "P3",
+      "price": 105
+    },
+    {
+      "type": "bid",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 19,
+      "created_at": 1664544290,
+      "company": "P3",
+      "price": 110
+    },
+    {
+      "type": "bid",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 20,
+      "created_at": 1664544291,
+      "company": "P3",
+      "price": 115
+    },
+    {
+      "type": "bid",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 21,
+      "created_at": 1664544292,
+      "company": "P3",
+      "price": 120
+    },
+    {
+      "type": "pass",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 22,
+      "created_at": 1664544293
+    },
+    {
+      "type": "pass",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 23,
+      "created_at": 1664544293
+    },
+    {
+      "type": "pass",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 24,
+      "created_at": 1664544294
+    },
+    {
+      "type": "bid",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 25,
+      "created_at": 1664544311,
+      "company": "P4",
+      "price": 120
+    },
+    {
+      "type": "bid",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 26,
+      "created_at": 1664544313,
+      "company": "P4",
+      "price": 125
+    },
+    {
+      "type": "pass",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 27,
+      "created_at": 1664544314
+    },
+    {
+      "type": "pass",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 28,
+      "created_at": 1664544315
+    },
+    {
+      "type": "pass",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 29,
+      "created_at": 1664544315
+    },
+    {
+      "type": "bid",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 30,
+      "created_at": 1664544316,
+      "company": "P5",
+      "price": 160
+    },
+    {
+      "type": "bid",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 31,
+      "created_at": 1664544317,
+      "company": "P5",
+      "price": 165
+    },
+    {
+      "type": "bid",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 32,
+      "created_at": 1664544318,
+      "company": "P5",
+      "price": 170
+    },
+    {
+      "type": "bid",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 33,
+      "created_at": 1664544318,
+      "company": "P5",
+      "price": 175
+    },
+    {
+      "type": "bid",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 34,
+      "created_at": 1664544322,
+      "company": "P5",
+      "price": 180
+    },
+    {
+      "type": "pass",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 35,
+      "created_at": 1664544323
+    },
+    {
+      "type": "pass",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 36,
+      "created_at": 1664544323
+    },
+    {
+      "type": "pass",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 37,
+      "created_at": 1664544323
+    },
+    {
+      "type": "bid",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 38,
+      "created_at": 1664544327,
+      "company": "P6",
+      "price": 180
+    },
+    {
+      "type": "bid",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 39,
+      "created_at": 1664544327,
+      "company": "P6",
+      "price": 185
+    },
+    {
+      "type": "bid",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 40,
+      "created_at": 1664544328,
+      "company": "P6",
+      "price": 190
+    },
+    {
+      "type": "bid",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 41,
+      "created_at": 1664544331,
+      "company": "P6",
+      "price": 195
+    },
+    {
+      "type": "bid",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 42,
+      "created_at": 1664544332,
+      "company": "P6",
+      "price": 200
+    },
+    {
+      "type": "pass",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 43,
+      "created_at": 1664544334
+    },
+    {
+      "type": "pass",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 44,
+      "created_at": 1664544334
+    },
+    {
+      "type": "pass",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 45,
+      "created_at": 1664544335
+    },
+    {
+      "type": "par",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 46,
+      "created_at": 1664544338,
+      "corporation": "FdSB",
+      "share_price": "120,2,7"
+    },
+    {
+      "type": "par",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 47,
+      "created_at": 1664544361,
+      "corporation": "SC",
+      "share_price": "82,4,5"
+    },
+    {
+      "type": "par",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 48,
+      "created_at": 1664544375,
+      "corporation": "MZ",
+      "share_price": "82,4,5"
+    },
+    {
+      "type": "par",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 49,
+      "created_at": 1664544379,
+      "corporation": "CM",
+      "share_price": "82,4,5"
+    },
+    {
+      "type": "par",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 50,
+      "created_at": 1664544385,
+      "corporation": "AC",
+      "share_price": "82,4,5"
+    },
+    {
+      "type": "par",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 51,
+      "created_at": 1664544392,
+      "corporation": "ZP",
+      "share_price": "82,4,5"
+    },
+    {
+      "type": "buy_shares",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 52,
+      "created_at": 1664544407,
+      "shares": [
+        "SC_1"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "undo",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 53,
+      "created_at": 1664544412
+    },
+    {
+      "type": "buy_shares",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 54,
+      "created_at": 1664544413,
+      "shares": [
+        "MZ_1"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 55,
+      "created_at": 1664544426,
+      "shares": [
+        "CM_1"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 56,
+      "created_at": 1664544436,
+      "shares": [
+        "AC_1"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 57,
+      "created_at": 1664544442,
+      "shares": [
+        "FdSB_1"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "par",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 58,
+      "created_at": 1664544456,
+      "corporation": "MS",
+      "share_price": "82,4,5"
+    },
+    {
+      "type": "par",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 59,
+      "created_at": 1664544460,
+      "corporation": "FdLR",
+      "share_price": "120,2,7"
+    },
+    {
+      "type": "buy_shares",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 60,
+      "created_at": 1664544469,
+      "shares": [
+        "FdSB_2"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 61,
+      "created_at": 1664544478,
+      "shares": [
+        "SC_1"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 62,
+      "created_at": 1664544481,
+      "shares": [
+        "FdLR_2"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 63,
+      "created_at": 1664544495,
+      "hex": "J5",
+      "tile": "76-0",
+      "rotation": 4
+    },
+    {
+      "type": "special_buy",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 64,
+      "created_at": 1664544496,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 65,
+      "created_at": 1664544512,
+      "hex": "J7",
+      "tile": "78-0",
+      "rotation": 3
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 66,
+      "created_at": 1664544514,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdSB",
+          "entity_type": "corporation",
+          "created_at": 1664544514
+        }
+      ],
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "J5",
+              "J7"
             ]
-          }
-        ]
-      },
-      {
-        "type": "undo",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 72,
-        "created_at": 1663837289
-      },
-      {
-        "type": "undo",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 73,
-        "created_at": 1663837289
-      },
-      {
-        "type": "undo",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 74,
-        "created_at": 1663837476
-      },
-      {
-        "type": "undo",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 75,
-        "created_at": 1663837477
-      },
-      {
-        "type": "lay_tile",
-        "entity": "MEA",
-        "entity_type": "company",
-        "id": 76,
-        "created_at": 1663837688,
-        "hex": "F7",
-        "tile": "76-0",
-        "rotation": 1
-      },
-      {
-        "type": "pass",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 77,
-        "created_at": 1663837692
-      },
-      {
-        "type": "place_token",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 78,
-        "created_at": 1663837692,
-        "city": "76-0-0",
-        "slot": 0,
-        "tokener": "CFLG"
-      },
-      {
-        "type": "run_routes",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 79,
-        "created_at": 1663837731,
-        "auto_actions": [
-          {
-            "type": "pass",
-            "entity": "CFLG",
-            "entity_type": "corporation",
-            "created_at": 1663837731
-          }
-        ],
-        "routes": [
-          {
-            "train": "F-0",
-            "connections": [
-              [
-                "F3",
-                "F5"
-              ],
-              [
-                "F5",
-                "F7"
-              ]
-            ],
-            "hexes": [
-              "F3",
-              "F5",
-              "F7"
-            ],
-            "revenue": 40,
-            "revenue_str": "F3-F5-F7",
-            "subsidy": 0,
-            "nodes": [
-              "F3-0",
-              "F5-0",
-              "F7-0"
-            ]
-          }
-        ]
-      },
-      {
-        "type": "undo",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 80,
-        "created_at": 1663837733,
-        "action_id": 65
-      },
-      {
-        "type": "undo",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 81,
-        "created_at": 1663837734,
-        "action_id": 58
-      },
-      {
-        "type": "special_buy",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 82,
-        "created_at": 1663837737,
-        "description": "MEA",
-        "cost": 30
-      },
-      {
-        "type": "lay_tile",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 83,
-        "created_at": 1663837739,
-        "hex": "J5",
-        "tile": "956-0",
-        "rotation": 1
-      },
-      {
-        "type": "lay_tile",
-        "entity": "MEA",
-        "entity_type": "company",
-        "id": 84,
-        "created_at": 1663837742,
-        "hex": "I6",
-        "tile": "79-0",
-        "rotation": 1
-      },
-      {
-        "type": "pass",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 85,
-        "created_at": 1663837744
-      },
-      {
-        "type": "pass",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 86,
-        "created_at": 1663837745
-      },
-      {
-        "type": "run_routes",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 87,
-        "created_at": 1663837747,
-        "auto_actions": [
-          {
-            "type": "pass",
-            "entity": "FdSB",
-            "entity_type": "corporation",
-            "created_at": 1663837747
-          }
-        ],
-        "routes": [
-          {
-            "train": "F-0",
-            "connections": [
-              [
-                "J5",
-                "I6"
-              ]
-            ],
-            "hexes": [
+          ],
+          "hexes": [
+            "J5",
+            "J7"
+          ],
+          "revenue": 20,
+          "revenue_str": "J5-J7",
+          "subsidy": 0,
+          "nodes": [
+            "J5-0",
+            "J7-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "undo",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 67,
+      "created_at": 1664544521
+    },
+    {
+      "type": "undo",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 68,
+      "created_at": 1664544522
+    },
+    {
+      "type": "undo",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 69,
+      "created_at": 1664544524
+    },
+    {
+      "type": "undo",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 70,
+      "created_at": 1664544525
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 71,
+      "created_at": 1664544528,
+      "hex": "J5",
+      "tile": "956-0",
+      "rotation": 1
+    },
+    {
+      "type": "special_buy",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 72,
+      "created_at": 1664544529,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 73,
+      "created_at": 1664544545,
+      "hex": "I6",
+      "tile": "78-0",
+      "rotation": 2
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 74,
+      "created_at": 1664544550,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdSB",
+          "entity_type": "corporation",
+          "created_at": 1664544550
+        }
+      ],
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
               "J5",
               "I6"
-            ],
-            "revenue": 20,
-            "revenue_str": "J5-I6",
-            "subsidy": 0,
-            "nodes": [
-              "J5-0",
-              "I6-0"
             ]
-          }
-        ]
-      },
-      {
-        "type": "buy_train",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 88,
-        "created_at": 1663837749,
-        "train": "2-2",
-        "price": 100,
-        "variant": "1+1"
-      },
-      {
-        "type": "undo",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 89,
-        "created_at": 1663838289
-      },
-      {
-        "type": "undo",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 90,
-        "created_at": 1663838303
-      },
-      {
-        "type": "undo",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 91,
-        "created_at": 1663838304
-      },
-      {
-        "type": "undo",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 92,
-        "created_at": 1663838305
-      },
-      {
-        "type": "undo",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 93,
-        "created_at": 1663838306
-      },
-      {
-        "type": "undo",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 94,
-        "created_at": 1663838306
-      },
-      {
-        "type": "undo",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 95,
-        "created_at": 1663838308,
-        "action_id": 58
-      },
-      {
-        "type": "undo",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 96,
-        "created_at": 1663838311,
-        "action_id": 52
-      },
-      {
-        "type": "special_buy",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 97,
-        "created_at": 1663842567,
-        "description": "MEA",
-        "cost": 30
-      },
-      {
-        "type": "lay_tile",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 98,
-        "created_at": 1663842572,
-        "hex": "I8",
-        "tile": "956-0",
-        "rotation": 1
-      },
-      {
-        "type": "lay_tile",
-        "entity": "MEA",
-        "entity_type": "company",
-        "id": 99,
-        "created_at": 1663842576,
-        "hex": "J7",
-        "tile": "79-0",
-        "rotation": 1
-      },
-      {
-        "type": "lay_tile",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 100,
-        "created_at": 1663842579,
-        "hex": "K6",
-        "tile": "74-0",
-        "rotation": 1
-      },
-      {
-        "type": "pass",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 101,
-        "created_at": 1663842581
-      },
-      {
-        "type": "run_routes",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 102,
-        "created_at": 1663842583,
-        "auto_actions": [
-          {
-            "type": "pass",
-            "entity": "FdLR",
-            "entity_type": "corporation",
-            "created_at": 1663842583
-          }
-        ],
-        "routes": [
-          {
-            "train": "F-0",
-            "connections": [
-              [
-                "I8",
-                "J7"
-              ]
-            ],
-            "hexes": [
+          ],
+          "hexes": [
+            "J5",
+            "I6"
+          ],
+          "revenue": 20,
+          "revenue_str": "J5-I6",
+          "subsidy": 0,
+          "nodes": [
+            "J5-0",
+            "I6-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 75,
+      "created_at": 1664544552,
+      "train": "2-1",
+      "price": 100,
+      "variant": "1+1"
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 76,
+      "created_at": 1664544553,
+      "train": "2-2",
+      "price": 100,
+      "variant": "1+1"
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 77,
+      "created_at": 1664544553,
+      "train": "2-3",
+      "price": 100,
+      "variant": "2"
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 78,
+      "created_at": 1664544555
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 79,
+      "created_at": 1664544559
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 80,
+      "created_at": 1664544562,
+      "hex": "I8",
+      "tile": "956-1",
+      "rotation": 1
+    },
+    {
+      "type": "special_buy",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 81,
+      "created_at": 1664544563,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 82,
+      "created_at": 1664544568,
+      "hex": "J7",
+      "tile": "79-0",
+      "rotation": 1
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 83,
+      "created_at": 1664544570,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdLR",
+          "entity_type": "corporation",
+          "created_at": 1664544570
+        }
+      ],
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
               "I8",
               "J7"
-            ],
-            "revenue": 20,
-            "revenue_str": "I8-J7",
-            "subsidy": 0,
-            "nodes": [
-              "I8-0",
-              "J7-0"
             ]
-          }
-        ]
-      },
-      {
-        "type": "buy_train",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 103,
-        "created_at": 1663842586,
-        "train": "2-1",
-        "price": 100,
-        "variant": "1+1"
-      },
-      {
-        "type": "pass",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 104,
-        "created_at": 1663842587
-      },
-      {
-        "type": "pass",
-        "entity": "FdLR",
-        "entity_type": "corporation",
-        "id": 105,
-        "created_at": 1663842588
-      },
-      {
-        "type": "special_buy",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 106,
-        "created_at": 1663842592,
-        "description": "MEA",
-        "cost": 30
-      },
-      {
-        "type": "lay_tile",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 107,
-        "created_at": 1663842594,
-        "hex": "J5",
-        "tile": "956-1",
-        "rotation": 1
-      },
-      {
-        "type": "lay_tile",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 108,
-        "created_at": 1663842596,
-        "hex": "K4",
-        "tile": "73-0",
-        "rotation": 5
-      },
-      {
-        "type": "lay_tile",
-        "entity": "MEA",
-        "entity_type": "company",
-        "id": 109,
-        "created_at": 1663842601,
-        "hex": "I6",
-        "tile": "78-0",
-        "rotation": 2
-      },
-      {
-        "type": "pass",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 110,
-        "created_at": 1663842603
-      },
-      {
-        "type": "run_routes",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 111,
-        "created_at": 1663842604,
-        "auto_actions": [
-          {
-            "type": "pass",
-            "entity": "FdSB",
-            "entity_type": "corporation",
-            "created_at": 1663842604
-          }
-        ],
-        "routes": [
-          {
-            "train": "F-0",
-            "connections": [
-              [
-                "J5",
-                "I6"
-              ]
-            ],
-            "hexes": [
-              "J5",
-              "I6"
-            ],
-            "revenue": 20,
-            "revenue_str": "J5-I6",
-            "subsidy": 0,
-            "nodes": [
-              "J5-0",
-              "I6-0"
-            ]
-          }
-        ]
-      },
-      {
-        "type": "undo",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 112,
-        "created_at": 1663842607
-      },
-      {
-        "type": "run_routes",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 113,
-        "created_at": 1663842609,
-        "auto_actions": [
-          {
-            "type": "pass",
-            "entity": "FdSB",
-            "entity_type": "corporation",
-            "created_at": 1663842609
-          }
-        ],
-        "routes": [
-          {
-            "train": "F-0",
-            "connections": [
-              [
-                "J5",
-                "I6"
-              ]
-            ],
-            "hexes": [
-              "J5",
-              "I6"
-            ],
-            "revenue": 20,
-            "revenue_str": "J5-I6",
-            "subsidy": 0,
-            "nodes": [
-              "J5-0",
-              "I6-0"
-            ]
-          }
-        ]
-      },
-      {
-        "type": "buy_train",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 114,
-        "created_at": 1663842610,
-        "train": "2-2",
-        "price": 100,
-        "variant": "1+1"
-      },
-      {
-        "type": "pass",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 115,
-        "created_at": 1663842611
-      },
-      {
-        "type": "pass",
-        "entity": "FdSB",
-        "entity_type": "corporation",
-        "id": 116,
-        "created_at": 1663842611
-      },
-      {
-        "type": "special_buy",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 117,
-        "created_at": 1663842616,
-        "description": "MEA",
-        "cost": 30
-      },
-      {
-        "type": "lay_tile",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 118,
-        "created_at": 1663842618,
-        "hex": "F5",
-        "tile": "74-1",
-        "rotation": 0
-      },
-      {
-        "type": "lay_tile",
-        "entity": "MEA",
-        "entity_type": "company",
-        "id": 119,
-        "created_at": 1663842625,
-        "hex": "F7",
-        "tile": "76-0",
-        "rotation": 1
-      },
-      {
-        "type": "pass",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 120,
-        "created_at": 1663842626
-      },
-      {
-        "type": "pass",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 121,
-        "created_at": 1663842629
-      },
-      {
-        "type": "run_routes",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 122,
-        "created_at": 1663842630,
-        "auto_actions": [
-          {
-            "type": "pass",
-            "entity": "CFLG",
-            "entity_type": "corporation",
-            "created_at": 1663842630
-          }
-        ],
-        "routes": [
-          {
-            "train": "F-0",
-            "connections": [
-              [
-                "F3",
-                "F5"
-              ],
-              [
-                "F5",
-                "F7"
-              ]
-            ],
-            "hexes": [
-              "F3",
-              "F5",
-              "F7"
-            ],
-            "revenue": 40,
-            "revenue_str": "F3-F5-F7",
-            "subsidy": 0,
-            "nodes": [
-              "F3-0",
-              "F5-0",
-              "F7-0"
-            ]
-          }
-        ]
-      },
-      {
-        "type": "buy_train",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 123,
-        "created_at": 1663842633,
-        "train": "2-3",
-        "price": 100,
-        "variant": "1+1"
-      },
-      {
-        "type": "pass",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 124,
-        "created_at": 1663842634
-      },
-      {
-        "type": "pass",
-        "entity": "CFLG",
-        "entity_type": "corporation",
-        "id": 125,
-        "created_at": 1663842635
-      },
-      {
-        "type": "place_token",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 126,
-        "created_at": 1663842640,
-        "city": "G24-0-0",
-        "slot": 0,
-        "tokener": "MZ"
-      },
-      {
-        "type": "pass",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 127,
-        "created_at": 1663842643
-      },
-      {
-        "type": "lay_tile",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 128,
-        "created_at": 1663842649,
-        "auto_actions": [
-          {
-            "type": "pass",
-            "entity": "MZ",
-            "entity_type": "corporation",
-            "created_at": 1663842649
-          }
-        ],
-        "hex": "G26",
-        "tile": "L0-0",
-        "rotation": 1
-      },
-      {
-        "type": "undo",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 129,
-        "created_at": 1663842651,
-        "action_id": 125
-      },
-      {
-        "type": "place_token",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 130,
-        "created_at": 1663842657,
-        "city": "G24-0-2",
-        "slot": 0,
-        "tokener": "MZ"
-      },
-      {
-        "type": "special_buy",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 131,
-        "created_at": 1663842659,
-        "description": "MEA",
-        "cost": 30
-      },
-      {
-        "type": "undo",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 132,
-        "created_at": 1663842662
-      },
-      {
-        "type": "pass",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 133,
-        "created_at": 1663842663
-      },
-      {
-        "type": "lay_tile",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 134,
-        "created_at": 1663842667,
-        "auto_actions": [
-          {
-            "type": "pass",
-            "entity": "MZ",
-            "entity_type": "corporation",
-            "created_at": 1663842667
-          }
-        ],
-        "hex": "G26",
-        "tile": "L0-0",
-        "rotation": 1
-      },
-      {
-        "type": "buy_train",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 135,
-        "created_at": 1663842670,
-        "train": "2-4",
-        "price": 100,
-        "variant": "2"
-      },
-      {
-        "type": "pass",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 136,
-        "created_at": 1663842671
-      },
-      {
-        "type": "pass",
-        "entity": "MZ",
-        "entity_type": "corporation",
-        "id": 137,
-        "created_at": 1663842672
-      }
-    ],
-    "id": "hs_pccifxpn_1663270458",
-    "players": [
-      {
-        "name": "Player 1",
-        "id": 0
-      },
-      {
-        "name": "Player 2",
-        "id": 1
-      },
-      {
-        "name": "Player 3",
-        "id": 2
-      }
-    ],
-    "title": "18ESP",
-    "description": "",
-    "min_players": "3",
-    "max_players": "3",
-    "settings": {
-      "optional_rules": []
+          ],
+          "hexes": [
+            "I8",
+            "J7"
+          ],
+          "revenue": 20,
+          "revenue_str": "I8-J7",
+          "subsidy": 0,
+          "nodes": [
+            "I8-0",
+            "J7-0"
+          ]
+        }
+      ]
     },
-    "mode": "hotseat",
-    "user": {
-      "id": 0,
-      "name": "You"
+    {
+      "type": "buy_train",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 84,
+      "created_at": 1664544573,
+      "train": "2-4",
+      "price": 100,
+      "variant": "1+1"
     },
-    "created_at": "2022-09-22",
-    "loaded": true,
-    "result": {},
-    "turn": 2,
-    "round": "Stock Round",
-    "acting": [
-      0
-    ],
-    "updated_at": 1663842672,
-    "manually_ended": null
-  }
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 85,
+      "created_at": 1664544581
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 86,
+      "created_at": 1664544588
+    },
+    {
+      "type": "lay_tile",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 87,
+      "created_at": 1664544605,
+      "hex": "D31",
+      "tile": "201-0",
+      "rotation": 5
+    },
+    {
+      "type": "special_buy",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 88,
+      "created_at": 1664544608,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 89,
+      "created_at": 1664544614,
+      "hex": "E32",
+      "tile": "9-0",
+      "rotation": 2
+    },
+    {
+      "type": "run_routes",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 90,
+      "created_at": 1664544621,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "SC",
+          "entity_type": "corporation",
+          "created_at": 1664544621
+        }
+      ],
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "D31",
+              "E32"
+            ]
+          ],
+          "hexes": [
+            "D31",
+            "E32"
+          ],
+          "revenue": 20,
+          "revenue_str": "D31-E32",
+          "subsidy": 0,
+          "nodes": [
+            "D31-0",
+            "E32-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 91,
+      "created_at": 1664544622,
+      "train": "2-5",
+      "price": 100,
+      "variant": "2"
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 92,
+      "created_at": 1664544623
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 93,
+      "created_at": 1664544653
+    },
+    {
+      "type": "place_token",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 94,
+      "created_at": 1664544668,
+      "city": "G24-0-2",
+      "slot": 0,
+      "tokener": "MZ"
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 95,
+      "created_at": 1664544674,
+      "hex": "H23",
+      "tile": "58-0",
+      "rotation": 1
+    },
+    {
+      "type": "special_buy",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 96,
+      "created_at": 1664544676,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 97,
+      "created_at": 1664544683,
+      "hex": "H21",
+      "tile": "8-0",
+      "rotation": 4
+    },
+    {
+      "type": "run_routes",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 98,
+      "created_at": 1664544686,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "MZ",
+          "entity_type": "corporation",
+          "created_at": 1664544686
+        }
+      ],
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "G24",
+              "H23"
+            ],
+            [
+              "H23",
+              "H21"
+            ]
+          ],
+          "hexes": [
+            "G24",
+            "H23",
+            "H21"
+          ],
+          "revenue": 30,
+          "revenue_str": "G24-H23-H21",
+          "subsidy": 0,
+          "nodes": [
+            "G24-2",
+            "H23-0",
+            "H21-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 99,
+      "created_at": 1664544704,
+      "train": "2-6",
+      "price": 100,
+      "variant": "2"
+    },
+    {
+      "type": "pass",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 100,
+      "created_at": 1664544705
+    },
+    {
+      "type": "pass",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 101,
+      "created_at": 1664544709
+    },
+    {
+      "type": "lay_tile",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 102,
+      "created_at": 1664544721,
+      "hex": "F29",
+      "tile": "5-0",
+      "rotation": 4
+    },
+    {
+      "type": "special_buy",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 103,
+      "created_at": 1664544726,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "undo",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 104,
+      "created_at": 1664544752,
+      "action_id": 75
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 105,
+      "created_at": 1664544757,
+      "train": "2-2",
+      "price": 100,
+      "variant": "1+1"
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 106,
+      "created_at": 1664544758,
+      "train": "2-3",
+      "price": 100,
+      "variant": "2"
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 107,
+      "created_at": 1664544758,
+      "train": "2-4",
+      "price": 100,
+      "variant": "1+1"
+    },
+    {
+      "type": "undo",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 108,
+      "created_at": 1664544763
+    },
+    {
+      "type": "undo",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 109,
+      "created_at": 1664544769
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 110,
+      "created_at": 1664544771,
+      "train": "2-3",
+      "price": 100,
+      "variant": "2"
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 111,
+      "created_at": 1664544778,
+      "train": "2-4",
+      "price": 100,
+      "variant": "1+1"
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 112,
+      "created_at": 1664544785
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 113,
+      "created_at": 1664544791,
+      "hex": "I8",
+      "tile": "956-1",
+      "rotation": 1
+    },
+    {
+      "type": "special_buy",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 114,
+      "created_at": 1664544791,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 115,
+      "created_at": 1664544796,
+      "hex": "J7",
+      "tile": "79-0",
+      "rotation": 1
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 116,
+      "created_at": 1664544798,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdLR",
+          "entity_type": "corporation",
+          "created_at": 1664544798
+        }
+      ],
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "I8",
+              "J7"
+            ]
+          ],
+          "hexes": [
+            "I8",
+            "J7"
+          ],
+          "revenue": 20,
+          "revenue_str": "I8-J7",
+          "subsidy": 0,
+          "nodes": [
+            "I8-0",
+            "J7-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 117,
+      "created_at": 1664544799,
+      "train": "2-5",
+      "price": 100,
+      "variant": "1+1"
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 118,
+      "created_at": 1664544802
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 119,
+      "created_at": 1664544804
+    },
+    {
+      "type": "undo",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 120,
+      "created_at": 1664544807
+    },
+    {
+      "type": "undo",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 121,
+      "created_at": 1664544810
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 122,
+      "created_at": 1664544811,
+      "train": "2-6",
+      "price": 100,
+      "variant": "2"
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 123,
+      "created_at": 1664544812
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 124,
+      "created_at": 1664544813
+    },
+    {
+      "type": "lay_tile",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 125,
+      "created_at": 1664544821,
+      "hex": "D31",
+      "tile": "201-0",
+      "rotation": 5
+    },
+    {
+      "type": "special_buy",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 126,
+      "created_at": 1664544823,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 127,
+      "created_at": 1664544827,
+      "hex": "E32",
+      "tile": "9-0",
+      "rotation": 2
+    },
+    {
+      "type": "run_routes",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 128,
+      "created_at": 1664544830,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "SC",
+          "entity_type": "corporation",
+          "created_at": 1664544830
+        }
+      ],
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "D31",
+              "E32"
+            ]
+          ],
+          "hexes": [
+            "D31",
+            "E32"
+          ],
+          "revenue": 20,
+          "revenue_str": "D31-E32",
+          "subsidy": 0,
+          "nodes": [
+            "D31-0",
+            "E32-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 129,
+      "created_at": 1664544832,
+      "train": "2-7",
+      "price": 100,
+      "variant": "2"
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 130,
+      "created_at": 1664544833
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 131,
+      "created_at": 1664544834
+    },
+    {
+      "type": "place_token",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 132,
+      "created_at": 1664544836,
+      "city": "G24-0-2",
+      "slot": 0,
+      "tokener": "MZ"
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 133,
+      "created_at": 1664544839,
+      "hex": "H23",
+      "tile": "58-0",
+      "rotation": 1
+    },
+    {
+      "type": "special_buy",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 134,
+      "created_at": 1664544842,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 135,
+      "created_at": 1664544848,
+      "hex": "H21",
+      "tile": "8-0",
+      "rotation": 4
+    },
+    {
+      "type": "run_routes",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 136,
+      "created_at": 1664544850,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "MZ",
+          "entity_type": "corporation",
+          "created_at": 1664544850
+        }
+      ],
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "G24",
+              "H23"
+            ],
+            [
+              "H23",
+              "H21"
+            ]
+          ],
+          "hexes": [
+            "G24",
+            "H23",
+            "H21"
+          ],
+          "revenue": 30,
+          "revenue_str": "G24-H23-H21",
+          "subsidy": 0,
+          "nodes": [
+            "G24-2",
+            "H23-0",
+            "H21-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 137,
+      "created_at": 1664544854,
+      "train": "2-8",
+      "price": 100,
+      "variant": "2"
+    },
+    {
+      "type": "buy_train",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 138,
+      "created_at": 1664544873,
+      "train": "2-3",
+      "price": 1
+    },
+    {
+      "type": "pass",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 139,
+      "created_at": 1664544876
+    },
+    {
+      "type": "lay_tile",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 140,
+      "created_at": 1664544882,
+      "hex": "F29",
+      "tile": "5-0",
+      "rotation": 4
+    },
+    {
+      "type": "special_buy",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 141,
+      "created_at": 1664544885,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 142,
+      "created_at": 1664544889,
+      "hex": "G30",
+      "tile": "58-1",
+      "rotation": 0
+    },
+    {
+      "type": "run_routes",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 143,
+      "created_at": 1664544894,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "CM",
+          "entity_type": "corporation",
+          "created_at": 1664544894
+        }
+      ],
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "F29",
+              "G30"
+            ]
+          ],
+          "hexes": [
+            "F29",
+            "G30"
+          ],
+          "revenue": 30,
+          "revenue_str": "F29-G30",
+          "subsidy": 0,
+          "nodes": [
+            "F29-0",
+            "G30-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 144,
+      "created_at": 1664544896,
+      "train": "2-9",
+      "price": 100,
+      "variant": "2"
+    },
+    {
+      "type": "pass",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 145,
+      "created_at": 1664544897
+    },
+    {
+      "type": "pass",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 146,
+      "created_at": 1664544898
+    },
+    {
+      "type": "lay_tile",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 147,
+      "created_at": 1664544905,
+      "hex": "I28",
+      "tile": "58-2",
+      "rotation": 0
+    },
+    {
+      "type": "special_buy",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 148,
+      "created_at": 1664544907,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 149,
+      "created_at": 1664544917,
+      "hex": "I30",
+      "tile": "7-0",
+      "rotation": 3
+    },
+    {
+      "type": "run_routes",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 150,
+      "created_at": 1664544922,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "AC",
+          "entity_type": "corporation",
+          "created_at": 1664544922
+        }
+      ],
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "I28",
+              "I30"
+            ]
+          ],
+          "hexes": [
+            "I28",
+            "I30"
+          ],
+          "revenue": 20,
+          "revenue_str": "I28-I30",
+          "subsidy": 0,
+          "nodes": [
+            "I28-0",
+            "I30-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 151,
+      "created_at": 1664544923,
+      "train": "2-10",
+      "price": 100,
+      "variant": "2"
+    },
+    {
+      "type": "buy_train",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 152,
+      "created_at": 1664544924,
+      "train": "2-6",
+      "price": 1
+    },
+    {
+      "type": "pass",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 153,
+      "created_at": 1664544936
+    },
+    {
+      "type": "lay_tile",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 154,
+      "created_at": 1664544972,
+      "hex": "K20",
+      "tile": "6-0",
+      "rotation": 5
+    },
+    {
+      "type": "special_buy",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 155,
+      "created_at": 1664544975,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 156,
+      "created_at": 1664545015,
+      "hex": "J21",
+      "tile": "58-3",
+      "rotation": 4
+    },
+    {
+      "type": "run_routes",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 157,
+      "created_at": 1664545017,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "ZP",
+          "entity_type": "corporation",
+          "created_at": 1664545017
+        }
+      ],
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "K20",
+              "J21"
+            ]
+          ],
+          "hexes": [
+            "K20",
+            "J21"
+          ],
+          "revenue": 30,
+          "revenue_str": "K20-J21",
+          "subsidy": 0,
+          "nodes": [
+            "K20-0",
+            "J21-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 158,
+      "created_at": 1664545020,
+      "train": "2-11",
+      "price": 100,
+      "variant": "2"
+    },
+    {
+      "type": "pass",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 159,
+      "created_at": 1664545024
+    },
+    {
+      "type": "pass",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 160,
+      "created_at": 1664545025
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 161,
+      "created_at": 1664545041,
+      "hex": "D27",
+      "tile": "58-4",
+      "rotation": 1
+    },
+    {
+      "type": "pass",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 162,
+      "created_at": 1664545048,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "MS",
+          "entity_type": "corporation",
+          "created_at": 1664545048
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 163,
+      "created_at": 1664545049,
+      "train": "3-0",
+      "price": 200,
+      "variant": "3"
+    },
+    {
+      "type": "pass",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 164,
+      "created_at": 1664545075
+    },
+    {
+      "type": "buy_shares",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 165,
+      "created_at": 1664545082,
+      "shares": [
+        "FdSB_3"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "pass",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 166,
+      "created_at": 1664545088
+    },
+    {
+      "type": "pass",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 167,
+      "created_at": 1664545097
+    },
+    {
+      "type": "pass",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 168,
+      "created_at": 1664545101
+    },
+    {
+      "type": "pass",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 169,
+      "created_at": 1664545103
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 170,
+      "created_at": 1664545106,
+      "hex": "K4",
+      "tile": "73-0",
+      "rotation": 5
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 171,
+      "created_at": 1664545109
+    },
+    {
+      "type": "place_token",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 172,
+      "created_at": 1664545110,
+      "city": "L5-0-0",
+      "slot": 0,
+      "tokener": "FdSB"
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 173,
+      "created_at": 1664545116,
+      "routes": [
+        {
+          "train": "2-4",
+          "connections": [
+            [
+              "L5",
+              "L3"
+            ]
+          ],
+          "hexes": [
+            "L5",
+            "L3"
+          ],
+          "revenue": 30,
+          "revenue_str": "L5-L3",
+          "subsidy": 30,
+          "nodes": [
+            "L5-0",
+            "L3-0"
+          ]
+        },
+        {
+          "train": "2-2",
+          "connections": [
+            [
+              "J5",
+              "K4"
+            ]
+          ],
+          "hexes": [
+            "J5",
+            "K4"
+          ],
+          "revenue": 30,
+          "revenue_str": "J5-K4",
+          "subsidy": 0,
+          "nodes": [
+            "J5-0",
+            "K4-0"
+          ]
+        },
+        {
+          "train": "2-1",
+          "connections": [
+            [
+              "L5",
+              "K4"
+            ]
+          ],
+          "hexes": [
+            "L5",
+            "K4"
+          ],
+          "revenue": 40,
+          "revenue_str": "L5-K4",
+          "subsidy": 0,
+          "nodes": [
+            "L5-0",
+            "K4-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 174,
+      "created_at": 1664545130,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdSB",
+          "entity_type": "corporation",
+          "created_at": 1664545130
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 175,
+      "created_at": 1664545153
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 176,
+      "created_at": 1664545157
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 177,
+      "created_at": 1664545164,
+      "hex": "K6",
+      "tile": "74-0",
+      "rotation": 1
+    },
+    {
+      "type": "special_buy",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 178,
+      "created_at": 1664545176,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 179,
+      "created_at": 1664545185,
+      "hex": "H9",
+      "tile": "78-1",
+      "rotation": 2
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 180,
+      "created_at": 1664545188,
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "I8",
+              "H9"
+            ]
+          ],
+          "hexes": [
+            "I8",
+            "H9"
+          ],
+          "revenue": 20,
+          "revenue_str": "I8-H9",
+          "subsidy": 0,
+          "nodes": [
+            "I8-0",
+            "H9-0"
+          ]
+        },
+        {
+          "train": "2-5",
+          "connections": [
+            [
+              "I8",
+              "J7",
+              "K6"
+            ]
+          ],
+          "hexes": [
+            "I8",
+            "K6"
+          ],
+          "revenue": 30,
+          "revenue_str": "I8-K6",
+          "subsidy": 10,
+          "nodes": [
+            "I8-0",
+            "K6-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 181,
+      "created_at": 1664545190,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdLR",
+          "entity_type": "corporation",
+          "created_at": 1664545190
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 182,
+      "created_at": 1664545191,
+      "train": "3-2",
+      "price": 200,
+      "variant": "2+2"
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 183,
+      "created_at": 1664545191
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 184,
+      "created_at": 1664545195
+    },
+    {
+      "type": "lay_tile",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 185,
+      "created_at": 1664545201,
+      "hex": "F33",
+      "tile": "293y-0",
+      "rotation": 2
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 186,
+      "created_at": 1664545205
+    },
+    {
+      "type": "run_routes",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 187,
+      "created_at": 1664545207,
+      "routes": [
+        {
+          "train": "2-7",
+          "connections": [
+            [
+              "D31",
+              "E32",
+              "F33"
+            ]
+          ],
+          "hexes": [
+            "D31",
+            "F33"
+          ],
+          "revenue": 60,
+          "revenue_str": "D31-F33",
+          "subsidy": 10,
+          "nodes": [
+            "D31-0",
+            "F33-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 188,
+      "created_at": 1664545208,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "SC",
+          "entity_type": "corporation",
+          "created_at": 1664545208
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 189,
+      "created_at": 1664545209
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 190,
+      "created_at": 1664545211
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 191,
+      "created_at": 1664545219,
+      "hex": "G26",
+      "tile": "L0-0",
+      "rotation": 1
+    },
+    {
+      "type": "pass",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 192,
+      "created_at": 1664545221
+    },
+    {
+      "type": "run_routes",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 193,
+      "created_at": 1664545223,
+      "routes": [
+        {
+          "train": "2-3",
+          "connections": [
+            [
+              "G24",
+              "H23"
+            ]
+          ],
+          "hexes": [
+            "G24",
+            "H23"
+          ],
+          "revenue": 50,
+          "revenue_str": "G24-H23",
+          "subsidy": 0,
+          "nodes": [
+            "G24-2",
+            "H23-0"
+          ]
+        },
+        {
+          "train": "2-8",
+          "connections": [
+            [
+              "G24",
+              "G26"
+            ]
+          ],
+          "hexes": [
+            "G24",
+            "G26"
+          ],
+          "revenue": 50,
+          "revenue_str": "G24-G26",
+          "subsidy": 0,
+          "nodes": [
+            "G24-2",
+            "G26-1"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 194,
+      "created_at": 1664545224,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "MZ",
+          "entity_type": "corporation",
+          "created_at": 1664545224
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 195,
+      "created_at": 1664545227
+    },
+    {
+      "type": "special_buy",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 196,
+      "created_at": 1664545234,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 197,
+      "created_at": 1664545241,
+      "hex": "G32",
+      "tile": "58-5",
+      "rotation": 1
+    },
+    {
+      "type": "pass",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 198,
+      "created_at": 1664545244
+    },
+    {
+      "type": "run_routes",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 199,
+      "created_at": 1664545251,
+      "routes": [
+        {
+          "train": "2-9",
+          "connections": [
+            [
+              "F29",
+              "G30"
+            ]
+          ],
+          "hexes": [
+            "F29",
+            "G30"
+          ],
+          "revenue": 30,
+          "revenue_str": "F29-G30",
+          "subsidy": 10,
+          "nodes": [
+            "F29-0",
+            "G30-0"
+          ]
+        },
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "G30",
+              "G32"
+            ],
+            [
+              "F29",
+              "G30"
+            ]
+          ],
+          "hexes": [
+            "G32",
+            "G30",
+            "F29"
+          ],
+          "revenue": 50,
+          "revenue_str": "G32-G30-F29",
+          "subsidy": 0,
+          "nodes": [
+            "G30-0",
+            "G32-0",
+            "F29-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 200,
+      "created_at": 1664545252,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "CM",
+          "entity_type": "corporation",
+          "created_at": 1664545252
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 201,
+      "created_at": 1664545253
+    },
+    {
+      "type": "pass",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 202,
+      "created_at": 1664545255
+    },
+    {
+      "type": "lay_tile",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 203,
+      "created_at": 1664545262,
+      "hex": "J29",
+      "tile": "6-1",
+      "rotation": 5
+    },
+    {
+      "type": "pass",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 204,
+      "created_at": 1664545264
+    },
+    {
+      "type": "run_routes",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 205,
+      "created_at": 1664545265,
+      "routes": [
+        {
+          "train": "2-6",
+          "connections": [
+            [
+              "J29",
+              "I30",
+              "I28"
+            ]
+          ],
+          "hexes": [
+            "J29",
+            "I28"
+          ],
+          "revenue": 30,
+          "revenue_str": "J29-I28",
+          "subsidy": 10,
+          "nodes": [
+            "J29-0",
+            "I28-0"
+          ]
+        },
+        {
+          "train": "2-10",
+          "connections": [
+            [
+              "H27",
+              "I28"
+            ]
+          ],
+          "hexes": [
+            "H27",
+            "I28"
+          ],
+          "revenue": 40,
+          "revenue_str": "H27-I28",
+          "subsidy": 0,
+          "nodes": [
+            "H27-0",
+            "I28-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 206,
+      "created_at": 1664545266,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "AC",
+          "entity_type": "corporation",
+          "created_at": 1664545266
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 207,
+      "created_at": 1664545267
+    },
+    {
+      "type": "lay_tile",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 208,
+      "created_at": 1664545274,
+      "hex": "L21",
+      "tile": "8-1",
+      "rotation": 2
+    },
+    {
+      "type": "pass",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 209,
+      "created_at": 1664545276
+    },
+    {
+      "type": "run_routes",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 210,
+      "created_at": 1664545278,
+      "routes": [
+        {
+          "train": "2-11",
+          "connections": [
+            [
+              "K20",
+              "J21"
+            ]
+          ],
+          "hexes": [
+            "K20",
+            "J21"
+          ],
+          "revenue": 30,
+          "revenue_str": "K20-J21",
+          "subsidy": 10,
+          "nodes": [
+            "K20-0",
+            "J21-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 211,
+      "created_at": 1664545279,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "ZP",
+          "entity_type": "corporation",
+          "created_at": 1664545279
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 212,
+      "created_at": 1664545280
+    },
+    {
+      "type": "pass",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 213,
+      "created_at": 1664545285
+    },
+    {
+      "type": "pass",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 214,
+      "created_at": 1664545300,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "MS",
+          "entity_type": "corporation",
+          "created_at": 1664545300
+        }
+      ]
+    },
+    {
+      "type": "undo",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 215,
+      "created_at": 1664545303
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 216,
+      "created_at": 1664545308,
+      "hex": "C28",
+      "tile": "8-2",
+      "rotation": 2
+    },
+    {
+      "type": "pass",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 217,
+      "created_at": 1664545310
+    },
+    {
+      "type": "run_routes",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 218,
+      "created_at": 1664545313,
+      "routes": [
+        {
+          "train": "3-0",
+          "connections": [
+            [
+              "B27",
+              "C28",
+              "D27"
+            ]
+          ],
+          "hexes": [
+            "B27",
+            "D27"
+          ],
+          "revenue": 40,
+          "revenue_str": "B27-D27",
+          "subsidy": 0,
+          "nodes": [
+            "B27-0",
+            "D27-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 219,
+      "created_at": 1664545314,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "MS",
+          "entity_type": "corporation",
+          "created_at": 1664545314
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 220,
+      "created_at": 1664545315
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 221,
+      "created_at": 1664545343,
+      "hex": "I8",
+      "tile": "L5t-0",
+      "rotation": 1
+    },
+    {
+      "type": "undo",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 222,
+      "created_at": 1664545346
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 223,
+      "created_at": 1664545355,
+      "hex": "L5",
+      "tile": "L10-0",
+      "rotation": 0
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 224,
+      "created_at": 1664545356
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 225,
+      "created_at": 1664545360
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 226,
+      "created_at": 1664545370,
+      "routes": [
+        {
+          "train": "2-4",
+          "connections": [
+            [
+              "L5",
+              "L3"
+            ]
+          ],
+          "hexes": [
+            "L5",
+            "L3"
+          ],
+          "revenue": 40,
+          "revenue_str": "L5-L3",
+          "subsidy": 30,
+          "nodes": [
+            "L5-0",
+            "L3-0"
+          ]
+        },
+        {
+          "train": "2-2",
+          "connections": [
+            [
+              "L5",
+              "K6"
+            ]
+          ],
+          "hexes": [
+            "L5",
+            "K6"
+          ],
+          "revenue": 50,
+          "revenue_str": "L5-K6",
+          "subsidy": 0,
+          "nodes": [
+            "L5-0",
+            "K6-0"
+          ]
+        },
+        {
+          "train": "2-1",
+          "connections": [
+            [
+              "L5",
+              "K4"
+            ]
+          ],
+          "hexes": [
+            "L5",
+            "K4"
+          ],
+          "revenue": 50,
+          "revenue_str": "L5-K4",
+          "subsidy": 0,
+          "nodes": [
+            "L5-0",
+            "K4-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 227,
+      "created_at": 1664545373,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdSB",
+          "entity_type": "corporation",
+          "created_at": 1664545373
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 228,
+      "created_at": 1664545375
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 229,
+      "created_at": 1664545377
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 230,
+      "created_at": 1664545380,
+      "hex": "M4",
+      "tile": "78-2",
+      "rotation": 5
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 231,
+      "created_at": 1664545382
+    },
+    {
+      "type": "place_token",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 232,
+      "created_at": 1664545384,
+      "city": "L10-0-0",
+      "slot": 1,
+      "tokener": "FdLR"
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 233,
+      "created_at": 1664545386,
+      "routes": [
+        {
+          "train": "3-2",
+          "connections": [
+            [
+              "N5",
+              "M4",
+              "L5"
+            ],
+            [
+              "L5",
+              "K6"
+            ]
+          ],
+          "hexes": [
+            "N5",
+            "L5",
+            "K6"
+          ],
+          "revenue": 80,
+          "revenue_str": "N5-L5-K6",
+          "subsidy": 0,
+          "nodes": [
+            "N5-0",
+            "L5-0",
+            "K6-0"
+          ]
+        },
+        {
+          "train": "2-5",
+          "connections": [
+            [
+              "L5",
+              "K4"
+            ]
+          ],
+          "hexes": [
+            "L5",
+            "K4"
+          ],
+          "revenue": 50,
+          "revenue_str": "L5-K4",
+          "subsidy": 0,
+          "nodes": [
+            "L5-0",
+            "K4-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 234,
+      "created_at": 1664545389,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdLR",
+          "entity_type": "corporation",
+          "created_at": 1664545389
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 235,
+      "created_at": 1664545470
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 236,
+      "created_at": 1664545489
+    },
+    {
+      "type": "lay_tile",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 237,
+      "created_at": 1664545501,
+      "hex": "D31",
+      "tile": "208-0",
+      "rotation": 2
+    },
+    {
+      "type": "special_buy",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 238,
+      "created_at": 1664545504,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 239,
+      "created_at": 1664545509,
+      "hex": "C30",
+      "tile": "4-0",
+      "rotation": 2
+    },
+    {
+      "type": "run_routes",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 240,
+      "created_at": 1664545513,
+      "routes": [
+        {
+          "train": "2-7",
+          "connections": [
+            [
+              "D31",
+              "E32",
+              "F33"
+            ]
+          ],
+          "hexes": [
+            "D31",
+            "F33"
+          ],
+          "revenue": 70,
+          "revenue_str": "D31-F33",
+          "subsidy": 10,
+          "nodes": [
+            "D31-0",
+            "F33-0"
+          ]
+        },
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "D31",
+              "C30"
+            ]
+          ],
+          "hexes": [
+            "D31",
+            "C30"
+          ],
+          "revenue": 30,
+          "revenue_str": "D31-C30",
+          "subsidy": 0,
+          "nodes": [
+            "D31-0",
+            "C30-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 241,
+      "created_at": 1664545515,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "SC",
+          "entity_type": "corporation",
+          "created_at": 1664545515
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 242,
+      "created_at": 1664545516
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 243,
+      "created_at": 1664545519
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 244,
+      "created_at": 1664545593,
+      "hex": "H23",
+      "tile": "88-0",
+      "rotation": 0
+    },
+    {
+      "type": "pass",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 245,
+      "created_at": 1664545595
+    },
+    {
+      "type": "run_routes",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 246,
+      "created_at": 1664545596,
+      "routes": [
+        {
+          "train": "2-3",
+          "connections": [
+            [
+              "G24",
+              "H23"
+            ]
+          ],
+          "hexes": [
+            "G24",
+            "H23"
+          ],
+          "revenue": 50,
+          "revenue_str": "G24-H23",
+          "subsidy": 0,
+          "nodes": [
+            "G24-2",
+            "H23-0"
+          ]
+        },
+        {
+          "train": "2-8",
+          "connections": [
+            [
+              "G24",
+              "G26"
+            ]
+          ],
+          "hexes": [
+            "G24",
+            "G26"
+          ],
+          "revenue": 50,
+          "revenue_str": "G24-G26",
+          "subsidy": 0,
+          "nodes": [
+            "G24-2",
+            "G26-1"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 247,
+      "created_at": 1664545597,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "MZ",
+          "entity_type": "corporation",
+          "created_at": 1664545597
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 248,
+      "created_at": 1664545599
+    },
+    {
+      "type": "lay_tile",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 249,
+      "created_at": 1664545607,
+      "hex": "F33",
+      "tile": "207-0",
+      "rotation": 2
+    },
+    {
+      "type": "special_buy",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 250,
+      "created_at": 1664545617,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 251,
+      "created_at": 1664545622,
+      "hex": "C30",
+      "tile": "88-1",
+      "rotation": 1
+    },
+    {
+      "type": "run_routes",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 252,
+      "created_at": 1664545638,
+      "routes": [
+        {
+          "train": "2-9",
+          "connections": [
+            [
+              "F29",
+              "G30"
+            ]
+          ],
+          "hexes": [
+            "F29",
+            "G30"
+          ],
+          "revenue": 30,
+          "revenue_str": "F29-G30",
+          "subsidy": 10,
+          "nodes": [
+            "F29-0",
+            "G30-0"
+          ]
+        },
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "G30",
+              "F29"
+            ],
+            [
+              "G32",
+              "G30"
+            ],
+            [
+              "F33",
+              "G32"
+            ],
+            [
+              "D31",
+              "E32",
+              "F33"
+            ],
+            [
+              "C30",
+              "D31"
+            ]
+          ],
+          "hexes": [
+            "F29",
+            "G30",
+            "G32",
+            "F33",
+            "D31",
+            "C30"
+          ],
+          "revenue": 100,
+          "revenue_str": "F29-G30-G32-F33-D31-C30",
+          "subsidy": 0,
+          "nodes": [
+            "G30-0",
+            "F29-0",
+            "G32-0",
+            "F33-0",
+            "D31-0",
+            "C30-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 253,
+      "created_at": 1664545717,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "CM",
+          "entity_type": "corporation",
+          "created_at": 1664545717
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "buy_train",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 254,
+      "created_at": 1664545719,
+      "train": "3-3",
+      "price": 200,
+      "variant": "3"
+    },
+    {
+      "type": "pass",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 255,
+      "created_at": 1664545720
+    },
+    {
+      "type": "lay_tile",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 256,
+      "created_at": 1664545746,
+      "hex": "J29",
+      "tile": "14-0",
+      "rotation": 1
+    },
+    {
+      "type": "pass",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 257,
+      "created_at": 1664545749
+    },
+    {
+      "type": "run_routes",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 258,
+      "created_at": 1664545751,
+      "routes": [
+        {
+          "train": "2-6",
+          "connections": [
+            [
+              "J29",
+              "I30",
+              "I28"
+            ]
+          ],
+          "hexes": [
+            "J29",
+            "I28"
+          ],
+          "revenue": 40,
+          "revenue_str": "J29-I28",
+          "subsidy": 10,
+          "nodes": [
+            "J29-0",
+            "I28-0"
+          ]
+        },
+        {
+          "train": "2-10",
+          "connections": [
+            [
+              "H27",
+              "I28"
+            ]
+          ],
+          "hexes": [
+            "H27",
+            "I28"
+          ],
+          "revenue": 40,
+          "revenue_str": "H27-I28",
+          "subsidy": 0,
+          "nodes": [
+            "H27-0",
+            "I28-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 259,
+      "created_at": 1664545753,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "AC",
+          "entity_type": "corporation",
+          "created_at": 1664545753
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 260,
+      "created_at": 1664545754
+    },
+    {
+      "type": "lay_tile",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 261,
+      "created_at": 1664545861,
+      "hex": "M20",
+      "tile": "8-3",
+      "rotation": 5
+    },
+    {
+      "type": "special_buy",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 262,
+      "created_at": 1664545864,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 263,
+      "created_at": 1664545873,
+      "hex": "J23",
+      "tile": "8-4",
+      "rotation": 3
+    },
+    {
+      "type": "run_routes",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 264,
+      "created_at": 1664545878,
+      "routes": [
+        {
+          "train": "2-11",
+          "connections": [
+            [
+              "K20",
+              "L21",
+              "M20",
+              "N21"
+            ]
+          ],
+          "hexes": [
+            "K20",
+            "N21"
+          ],
+          "revenue": 50,
+          "revenue_str": "K20-N21",
+          "subsidy": 0,
+          "nodes": [
+            "K20-0",
+            "N21-1"
+          ]
+        },
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "K20",
+              "J21"
+            ],
+            [
+              "J21",
+              "J23"
+            ]
+          ],
+          "hexes": [
+            "K20",
+            "J21",
+            "J23"
+          ],
+          "revenue": 40,
+          "revenue_str": "K20-J21-J23",
+          "subsidy": 0,
+          "nodes": [
+            "K20-0",
+            "J21-0",
+            "J23-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 265,
+      "created_at": 1664545879,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "ZP",
+          "entity_type": "corporation",
+          "created_at": 1664545879
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 266,
+      "created_at": 1664545889
+    },
+    {
+      "type": "pass",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 267,
+      "created_at": 1664545890
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 268,
+      "created_at": 1664545899,
+      "hex": "D27",
+      "tile": "204-0",
+      "rotation": 1
+    },
+    {
+      "type": "pass",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 269,
+      "created_at": 1664545901
+    },
+    {
+      "type": "run_routes",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 270,
+      "created_at": 1664545904,
+      "routes": [
+        {
+          "train": "3-0",
+          "connections": [
+            [
+              "B27",
+              "C28",
+              "D27"
+            ]
+          ],
+          "hexes": [
+            "B27",
+            "D27"
+          ],
+          "revenue": 40,
+          "revenue_str": "B27-D27",
+          "subsidy": 0,
+          "nodes": [
+            "B27-0",
+            "D27-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 271,
+      "created_at": 1664545905,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "MS",
+          "entity_type": "corporation",
+          "created_at": 1664545905
+        }
+      ],
+      "kind": "withhold"
+    },
+    {
+      "type": "pass",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 272,
+      "created_at": 1664545907
+    },
+    {
+      "type": "pass",
+      "entity": "MS",
+      "entity_type": "corporation",
+      "id": 273,
+      "created_at": 1664545909
+    },
+    {
+      "type": "sell_shares",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 274,
+      "created_at": 1664545927,
+      "shares": [
+        "FdSB_1",
+        "FdSB_2"
+      ],
+      "percent": 20
+    },
+    {
+      "type": "par",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 275,
+      "created_at": 1664545939,
+      "corporation": "MZA",
+      "share_price": "120,2,7"
+    },
+    {
+      "type": "buy_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 276,
+      "created_at": 1664545960,
+      "shares": [
+        "FdLR_3"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "undo",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 277,
+      "created_at": 1664545968
+    },
+    {
+      "type": "buy_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 278,
+      "created_at": 1664545995,
+      "shares": [
+        "SC_2"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "sell_shares",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 279,
+      "created_at": 1664546015,
+      "shares": [
+        "SC_1"
+      ],
+      "percent": 25
+    },
+    {
+      "type": "sell_shares",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 280,
+      "created_at": 1664546018,
+      "shares": [
+        "CM_1"
+      ],
+      "percent": 25
+    },
+    {
+      "type": "par",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 281,
+      "created_at": 1664546049,
+      "corporation": "MCP",
+      "share_price": "110,2,6"
+    },
+    {
+      "type": "buy_shares",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 282,
+      "created_at": 1664546069,
+      "shares": [
+        "SC_1"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 283,
+      "created_at": 1664546079,
+      "shares": [
+        "MZA_1"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "sell_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 284,
+      "created_at": 1664546085,
+      "shares": [
+        "SC_2"
+      ],
+      "percent": 25
+    },
+    {
+      "type": "buy_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 285,
+      "created_at": 1664546103,
+      "shares": [
+        "MZ_2"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 286,
+      "created_at": 1664546109,
+      "shares": [
+        "MCP_1"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 287,
+      "created_at": 1664546119,
+      "shares": [
+        "SC_2"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 288,
+      "created_at": 1664546124,
+      "shares": [
+        "MZA_2"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "sell_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 289,
+      "created_at": 1664546129,
+      "shares": [
+        "MZ_2"
+      ],
+      "percent": 25
+    },
+    {
+      "type": "sell_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 290,
+      "created_at": 1664546135,
+      "shares": [
+        "AC_1"
+      ],
+      "percent": 25
+    },
+    {
+      "type": "sell_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 291,
+      "created_at": 1664546138,
+      "shares": [
+        "FdLR_2"
+      ],
+      "percent": 10
+    },
+    {
+      "type": "par",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 292,
+      "created_at": 1664546161,
+      "corporation": "ZPB",
+      "share_price": "120,2,7"
+    },
+    {
+      "type": "buy_shares",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 293,
+      "created_at": 1664546166,
+      "shares": [
+        "MCP_2"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 294,
+      "created_at": 1664546227,
+      "shares": [
+        "ZP_1"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 295,
+      "created_at": 1664546233,
+      "shares": [
+        "ZP_2"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 296,
+      "created_at": 1664546245,
+      "shares": [
+        "ZPB_1"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "pass",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 297,
+      "created_at": 1664546250
+    },
+    {
+      "type": "pass",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 298,
+      "created_at": 1664546254
+    },
+    {
+      "type": "buy_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 299,
+      "created_at": 1664546255,
+      "shares": [
+        "ZPB_2"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "pass",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 300,
+      "created_at": 1664546259
+    },
+    {
+      "type": "pass",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 301,
+      "created_at": 1664546260
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 302,
+      "created_at": 1664546260
+    },
+    {
+      "type": "undo",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 303,
+      "created_at": 1664546262
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 304,
+      "created_at": 1664546278,
+      "hex": "I8",
+      "tile": "L6-0",
+      "rotation": 4
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 305,
+      "created_at": 1664546280
+    },
+    {
+      "type": "undo",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 306,
+      "created_at": 1664546282
+    },
+    {
+      "type": "special_buy",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 307,
+      "created_at": 1664546285,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "undo",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 308,
+      "created_at": 1664546289
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 309,
+      "created_at": 1664546294
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 310,
+      "created_at": 1664546297
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 311,
+      "created_at": 1664546323,
+      "routes": [
+        {
+          "train": "3-2",
+          "connections": [
+            [
+              "N5",
+              "M4",
+              "L5"
+            ],
+            [
+              "L5",
+              "K6"
+            ]
+          ],
+          "hexes": [
+            "N5",
+            "L5",
+            "K6"
+          ],
+          "revenue": 80,
+          "revenue_str": "N5-L5-K6",
+          "subsidy": 0,
+          "nodes": [
+            "N5-0",
+            "L5-0",
+            "K6-0"
+          ]
+        },
+        {
+          "train": "2-5",
+          "connections": [
+            [
+              "L3",
+              "L5"
+            ]
+          ],
+          "hexes": [
+            "L5",
+            "L3"
+          ],
+          "revenue": 40,
+          "revenue_str": "L5-L3",
+          "subsidy": 30,
+          "nodes": [
+            "L3-0",
+            "L5-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "undo",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 312,
+      "created_at": 1664546327
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 313,
+      "created_at": 1664546346,
+      "routes": [
+        {
+          "train": "3-2",
+          "connections": [
+            [
+              "K6",
+              "J7",
+              "I8"
+            ],
+            [
+              "L5",
+              "K6"
+            ],
+            [
+              "K4",
+              "L5"
+            ]
+          ],
+          "hexes": [
+            "I8",
+            "K6",
+            "L5",
+            "K4"
+          ],
+          "revenue": 90,
+          "revenue_str": "I8-K6-L5-K4",
+          "subsidy": 10,
+          "nodes": [
+            "K6-0",
+            "I8-0",
+            "L5-0",
+            "K4-0"
+          ]
+        },
+        {
+          "train": "2-5",
+          "connections": [
+            [
+              "L5",
+              "L3"
+            ]
+          ],
+          "hexes": [
+            "L3",
+            "L5"
+          ],
+          "revenue": 40,
+          "revenue_str": "L3-L5",
+          "subsidy": 30,
+          "nodes": [
+            "L5-0",
+            "L3-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 314,
+      "created_at": 1664546347,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdLR",
+          "entity_type": "corporation",
+          "created_at": 1664546347
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 315,
+      "created_at": 1664546356,
+      "train": "3-5",
+      "price": 200,
+      "variant": "2+2"
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 316,
+      "created_at": 1664546358
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 317,
+      "created_at": 1664546361
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 318,
+      "created_at": 1664546369,
+      "hex": "G24",
+      "tile": "L2-0",
+      "rotation": 0
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 319,
+      "created_at": 1664546371,
+      "hex": "K28",
+      "tile": "6-2",
+      "rotation": 1
+    },
+    {
+      "type": "pass",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 320,
+      "created_at": 1664546384
+    },
+    {
+      "type": "pass",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 321,
+      "created_at": 1664546389
+    },
+    {
+      "type": "pass",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 322,
+      "created_at": 1664546429
+    },
+    {
+      "type": "buy_train",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 323,
+      "created_at": 1664546433,
+      "train": "2-3",
+      "price": 70
+    },
+    {
+      "type": "buy_train",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 324,
+      "created_at": 1664546435,
+      "train": "3-6",
+      "price": 200,
+      "variant": "3"
+    },
+    {
+      "type": "pass",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 325,
+      "created_at": 1664546436
+    },
+    {
+      "type": "pass",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 326,
+      "created_at": 1664546438
+    },
+    {
+      "type": "place_token",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 327,
+      "created_at": 1664546442,
+      "city": "N21-0-1",
+      "slot": 0,
+      "tokener": "ZPB"
+    },
+    {
+      "type": "lay_tile",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 328,
+      "created_at": 1664546449,
+      "hex": "K20",
+      "tile": "14-1",
+      "rotation": 1
+    },
+    {
+      "type": "lay_tile",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 329,
+      "created_at": 1664546455,
+      "hex": "L19",
+      "tile": "57-0",
+      "rotation": 1
+    },
+    {
+      "type": "special_buy",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 330,
+      "created_at": 1664546467,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 331,
+      "created_at": 1664546473,
+      "hex": "J21",
+      "tile": "204-1",
+      "rotation": 0
+    },
+    {
+      "type": "place_token",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 332,
+      "created_at": 1664546479,
+      "city": "14-1-0",
+      "slot": 1,
+      "tokener": "ZPB"
+    },
+    {
+      "type": "run_routes",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 333,
+      "created_at": 1664546482,
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "N21",
+              "M20",
+              "L21",
+              "K20"
+            ],
+            [
+              "K20",
+              "J21"
+            ]
+          ],
+          "hexes": [
+            "N21",
+            "K20",
+            "J21"
+          ],
+          "revenue": 40,
+          "revenue_str": "N21-K20-J21",
+          "subsidy": 0,
+          "nodes": [
+            "N21-1",
+            "K20-0",
+            "J21-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "pass",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 334,
+      "created_at": 1664546493
+    },
+    {
+      "type": "buy_train",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 335,
+      "created_at": 1664546511,
+      "train": "3-7",
+      "price": 200,
+      "variant": "3"
+    },
+    {
+      "type": "pass",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 336,
+      "created_at": 1664546512
+    },
+    {
+      "type": "pass",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 337,
+      "created_at": 1664546513
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 338,
+      "created_at": 1664546523,
+      "hex": "H5",
+      "tile": "73-1",
+      "rotation": 5
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 339,
+      "created_at": 1664546525
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 340,
+      "created_at": 1664546527
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 341,
+      "created_at": 1664546529,
+      "routes": [
+        {
+          "train": "2-4",
+          "connections": [
+            [
+              "L5",
+              "L3"
+            ]
+          ],
+          "hexes": [
+            "L5",
+            "L3"
+          ],
+          "revenue": 40,
+          "revenue_str": "L5-L3",
+          "subsidy": 30,
+          "nodes": [
+            "L5-0",
+            "L3-0"
+          ]
+        },
+        {
+          "train": "2-2",
+          "connections": [
+            [
+              "L5",
+              "K6"
+            ]
+          ],
+          "hexes": [
+            "L5",
+            "K6"
+          ],
+          "revenue": 50,
+          "revenue_str": "L5-K6",
+          "subsidy": 0,
+          "nodes": [
+            "L5-0",
+            "K6-0"
+          ]
+        },
+        {
+          "train": "2-1",
+          "connections": [
+            [
+              "L5",
+              "K4"
+            ]
+          ],
+          "hexes": [
+            "L5",
+            "K4"
+          ],
+          "revenue": 50,
+          "revenue_str": "L5-K4",
+          "subsidy": 0,
+          "nodes": [
+            "L5-0",
+            "K4-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 342,
+      "created_at": 1664546531,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdSB",
+          "entity_type": "corporation",
+          "created_at": 1664546531
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "buy_train",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 343,
+      "created_at": 1664546532,
+      "train": "3-8",
+      "price": 200,
+      "variant": "2+2"
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 344,
+      "created_at": 1664546533
+    },
+    {
+      "type": "pass",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 345,
+      "created_at": 1664546535
+    },
+    {
+      "type": "undo",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 346,
+      "created_at": 1664546536
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 347,
+      "created_at": 1664546558,
+      "hex": "F25",
+      "tile": "8-5",
+      "rotation": 2
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 348,
+      "created_at": 1664546560,
+      "hex": "E24",
+      "tile": "8-6",
+      "rotation": 5
+    },
+    {
+      "type": "undo",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 349,
+      "created_at": 1664546579
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 350,
+      "created_at": 1664546583,
+      "hex": "G28",
+      "tile": "4-1",
+      "rotation": 1
+    },
+    {
+      "type": "special_buy",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 351,
+      "created_at": 1664546585,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "undo",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 352,
+      "created_at": 1664546593
+    },
+    {
+      "type": "undo",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 353,
+      "created_at": 1664546595
+    },
+    {
+      "type": "undo",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 354,
+      "created_at": 1664546596
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 355,
+      "created_at": 1664546602,
+      "hex": "G28",
+      "tile": "4-1",
+      "rotation": 1
+    },
+    {
+      "type": "undo",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 356,
+      "created_at": 1664546608
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 357,
+      "created_at": 1664546659,
+      "hex": "G28",
+      "tile": "4-1",
+      "rotation": 1
+    },
+    {
+      "type": "undo",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 358,
+      "created_at": 1664546664
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 359,
+      "created_at": 1664548610,
+      "hex": "G28",
+      "tile": "4-1",
+      "rotation": 1
+    },
+    {
+      "type": "undo",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 360,
+      "created_at": 1664548613
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 361,
+      "created_at": 1664548640,
+      "hex": "G28",
+      "tile": "4-1",
+      "rotation": 1
+    },
+    {
+      "type": "undo",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 362,
+      "created_at": 1664548644
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 363,
+      "created_at": 1664548650,
+      "hex": "K26",
+      "tile": "9-1",
+      "rotation": 0
+    },
+    {
+      "type": "undo",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 364,
+      "created_at": 1664548654
+    },
+    {
+      "type": "undo",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 365,
+      "created_at": 1664548659
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 366,
+      "created_at": 1664548663
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 367,
+      "created_at": 1664548669,
+      "hex": "G28",
+      "tile": "4-1",
+      "rotation": 1
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 368,
+      "created_at": 1664548709,
+      "hex": "F29",
+      "tile": "619-0",
+      "rotation": 1
+    },
+    {
+      "type": "special_buy",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 369,
+      "created_at": 1664548712,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 370,
+      "created_at": 1664548726,
+      "hex": "G32",
+      "tile": "87-0",
+      "rotation": 1
+    },
+    {
+      "type": "run_routes",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 371,
+      "created_at": 1664548739,
+      "routes": [
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "G24",
+              "G26"
+            ],
+            [
+              "G26",
+              "H27"
+            ],
+            [
+              "H27",
+              "G28"
+            ],
+            [
+              "G28",
+              "F29"
+            ],
+            [
+              "F29",
+              "G30"
+            ],
+            [
+              "G30",
+              "G32"
+            ]
+          ],
+          "hexes": [
+            "G24",
+            "G26",
+            "H27",
+            "G28",
+            "F29",
+            "G30",
+            "G32"
+          ],
+          "revenue": 90,
+          "revenue_str": "G24-G26-H27-G28-F29-G30-G32",
+          "subsidy": 0,
+          "nodes": [
+            "G24-0",
+            "G26-1",
+            "H27-0",
+            "G28-0",
+            "F29-0",
+            "G30-0",
+            "G32-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "merge",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 372,
+      "created_at": 1664548749,
+      "corporation": "MS"
+    },
+    {
+      "type": "choose",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 373,
+      "created_at": 1664548751,
+      "choice": "charter"
+    },
+    {
+      "type": "buy_train",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 374,
+      "created_at": 1664548756,
+      "train": "3-9",
+      "price": 200,
+      "variant": "3"
+    },
+    {
+      "type": "buy_train",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 375,
+      "created_at": 1664548757,
+      "train": "4-0",
+      "price": 300,
+      "variant": "4"
+    },
+    {
+      "type": "pass",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 376,
+      "created_at": 1664548759
+    },
+    {
+      "type": "lay_tile",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 377,
+      "created_at": 1664548779,
+      "hex": "L19",
+      "tile": "14-2",
+      "rotation": 0
+    },
+    {
+      "type": "pass",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 378,
+      "created_at": 1664548781,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "ZP",
+          "entity_type": "corporation",
+          "created_at": 1664548781
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 379,
+      "created_at": 1664654897,
+      "train": "4-1",
+      "price": 300,
+      "variant": "4"
+    },
+    {
+      "type": "special_buy",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 380,
+      "created_at": 1664655276,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 381,
+      "created_at": 1664655289,
+      "hex": "F31",
+      "tile": "7-1",
+      "rotation": 0
+    },
+    {
+      "type": "pass",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 382,
+      "created_at": 1664655299
+    },
+    {
+      "type": "undo",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 383,
+      "created_at": 1664655302
+    },
+    {
+      "type": "pass",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 384,
+      "created_at": 1664655313
+    },
+    {
+      "type": "run_routes",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 385,
+      "created_at": 1664655321,
+      "routes": [
+        {
+          "train": "3-3",
+          "connections": [
+            [
+              "F29",
+              "G28"
+            ],
+            [
+              "G28",
+              "H27"
+            ]
+          ],
+          "hexes": [
+            "F29",
+            "G28",
+            "H27"
+          ],
+          "revenue": 70,
+          "revenue_str": "F29-G28-H27",
+          "subsidy": 0,
+          "nodes": [
+            "F29-0",
+            "G28-0",
+            "H27-0"
+          ]
+        },
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "F29",
+              "G30"
+            ],
+            [
+              "G30",
+              "G32"
+            ],
+            [
+              "G32",
+              "F33"
+            ],
+            [
+              "F33",
+              "F31"
+            ]
+          ],
+          "hexes": [
+            "F29",
+            "G30",
+            "G32",
+            "F33",
+            "F31"
+          ],
+          "revenue": 70,
+          "revenue_str": "F29-G30-G32-F33-F31",
+          "subsidy": 0,
+          "nodes": [
+            "F29-0",
+            "G30-0",
+            "G32-0",
+            "F33-0",
+            "F31-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 386,
+      "created_at": 1664655323,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "CM",
+          "entity_type": "corporation",
+          "created_at": 1664655323
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 387,
+      "created_at": 1664655325
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 388,
+      "created_at": 1664655334,
+      "hex": "I20",
+      "tile": "8-5",
+      "rotation": 5
+    },
+    {
+      "type": "pass",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 389,
+      "created_at": 1664655337,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "MZ",
+          "entity_type": "corporation",
+          "created_at": 1664655337
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "MZ",
+      "entity_type": "corporation",
+      "id": 390,
+      "created_at": 1664655339,
+      "train": "4-2",
+      "price": 300,
+      "variant": "4"
+    },
+    {
+      "type": "lay_tile",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 391,
+      "created_at": 1664655344,
+      "hex": "K30",
+      "tile": "58-0",
+      "rotation": 0
+    },
+    {
+      "type": "pass",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 392,
+      "created_at": 1664655355,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "AC",
+          "entity_type": "corporation",
+          "created_at": 1664655355
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "AC",
+      "entity_type": "corporation",
+      "id": 393,
+      "created_at": 1664655361,
+      "train": "4-3",
+      "price": 300,
+      "variant": "4"
+    },
+    {
+      "type": "lay_tile",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 394,
+      "created_at": 1664655375,
+      "hex": "D33",
+      "tile": "58-4",
+      "rotation": 1
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 395,
+      "created_at": 1664655377,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "SC",
+          "entity_type": "corporation",
+          "created_at": 1664655377
+        }
+      ]
+    },
+    {
+      "type": "buy_train",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 396,
+      "created_at": 1664655383,
+      "train": "4-4",
+      "price": 300,
+      "variant": "4"
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 397,
+      "created_at": 1664655390,
+      "hex": "I10",
+      "tile": "79-1",
+      "rotation": 0
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 398,
+      "created_at": 1664655394
+    },
+    {
+      "type": "choose",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 399,
+      "created_at": 1664655401,
+      "choice": "I12"
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 400,
+      "created_at": 1664655404
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 401,
+      "created_at": 1664655411,
+      "routes": [
+        {
+          "train": "3-5",
+          "connections": [
+            [
+              "N5",
+              "M4",
+              "L5"
+            ],
+            [
+              "L5",
+              "L3"
+            ]
+          ],
+          "hexes": [
+            "N5",
+            "L5",
+            "L3"
+          ],
+          "revenue": 70,
+          "revenue_str": "N5-L5-L3",
+          "subsidy": 30,
+          "nodes": [
+            "N5-0",
+            "L5-0",
+            "L3-0"
+          ]
+        },
+        {
+          "train": "3-2",
+          "connections": [
+            [
+              "I8",
+              "J7",
+              "K6"
+            ],
+            [
+              "K6",
+              "L5"
+            ],
+            [
+              "L5",
+              "K4"
+            ]
+          ],
+          "hexes": [
+            "I8",
+            "K6",
+            "L5",
+            "K4"
+          ],
+          "revenue": 90,
+          "revenue_str": "I8-K6-L5-K4",
+          "subsidy": 10,
+          "nodes": [
+            "I8-0",
+            "K6-0",
+            "L5-0",
+            "K4-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 402,
+      "created_at": 1664655413,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdLR",
+          "entity_type": "corporation",
+          "created_at": 1664655413
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 403,
+      "created_at": 1664655415
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 404,
+      "created_at": 1664655417
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 405,
+      "created_at": 1664655424,
+      "hex": "J5",
+      "tile": "L5t-0",
+      "rotation": 4
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 406,
+      "created_at": 1664655428
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 407,
+      "created_at": 1664655429
+    },
+    {
+      "type": "run_routes",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 408,
+      "created_at": 1664655446,
+      "routes": [
+        {
+          "train": "3-8",
+          "connections": [
+            [
+              "I8",
+              "J7",
+              "K6"
+            ],
+            [
+              "K6",
+              "L5"
+            ],
+            [
+              "L5",
+              "L3"
+            ]
+          ],
+          "hexes": [
+            "I8",
+            "K6",
+            "L5",
+            "L3"
+          ],
+          "revenue": 80,
+          "revenue_str": "I8-K6-L5-L3",
+          "subsidy": 40,
+          "nodes": [
+            "I8-0",
+            "K6-0",
+            "L5-0",
+            "L3-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 409,
+      "created_at": 1664655447,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "FdSB",
+          "entity_type": "corporation",
+          "created_at": 1664655447
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 410,
+      "created_at": 1664655451
+    },
+    {
+      "type": "pass",
+      "entity": "FdSB",
+      "entity_type": "corporation",
+      "id": 411,
+      "created_at": 1664655453
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 412,
+      "created_at": 1664655464,
+      "hex": "E30",
+      "tile": "8-6",
+      "rotation": 2
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 413,
+      "created_at": 1664655468,
+      "hex": "D29",
+      "tile": "9-1",
+      "rotation": 2
+    },
+    {
+      "type": "pass",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 414,
+      "created_at": 1664655471
+    },
+    {
+      "type": "place_token",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 415,
+      "created_at": 1664655473,
+      "city": "619-0-0",
+      "slot": 1,
+      "tokener": "MZA"
+    },
+    {
+      "type": "run_routes",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 416,
+      "created_at": 1664655477,
+      "routes": [
+        {
+          "train": "3-6",
+          "connections": [
+            [
+              "G24",
+              "G26"
+            ],
+            [
+              "G26",
+              "H27"
+            ]
+          ],
+          "hexes": [
+            "G24",
+            "G26",
+            "H27"
+          ],
+          "revenue": 100,
+          "revenue_str": "G24-G26-H27",
+          "subsidy": 0,
+          "nodes": [
+            "G24-2",
+            "G26-1",
+            "H27-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 417,
+      "created_at": 1664655478,
+      "kind": "payout"
+    },
+    {
+      "type": "merge",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 418,
+      "created_at": 1664655482,
+      "corporation": "MZ"
+    },
+    {
+      "type": "choose",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 419,
+      "created_at": 1664655484,
+      "choice": "charter"
+    },
+    {
+      "type": "pass",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 420,
+      "created_at": 1664655486
+    },
+    {
+      "type": "pass",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 421,
+      "created_at": 1664655487
+    },
+    {
+      "type": "undo",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 422,
+      "created_at": 1664655489
+    },
+    {
+      "type": "pass",
+      "entity": "MZA",
+      "entity_type": "corporation",
+      "id": 423,
+      "created_at": 1664655496
+    },
+    {
+      "type": "lay_tile",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 424,
+      "created_at": 1664655513,
+      "hex": "L21",
+      "tile": "28-0",
+      "rotation": 4
+    },
+    {
+      "type": "lay_tile",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 425,
+      "created_at": 1664655516,
+      "hex": "M18",
+      "tile": "9-2",
+      "rotation": 1
+    },
+    {
+      "type": "pass",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 426,
+      "created_at": 1664655530
+    },
+    {
+      "type": "pass",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 427,
+      "created_at": 1664655536
+    },
+    {
+      "type": "run_routes",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 428,
+      "created_at": 1664655538,
+      "routes": [
+        {
+          "train": "3-7",
+          "connections": [
+            [
+              "K20",
+              "L19"
+            ],
+            [
+              "L19",
+              "M18",
+              "N17"
+            ]
+          ],
+          "hexes": [
+            "K20",
+            "L19",
+            "N17"
+          ],
+          "revenue": 90,
+          "revenue_str": "K20-L19-N17",
+          "subsidy": 0,
+          "nodes": [
+            "K20-0",
+            "L19-0",
+            "N17-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 429,
+      "created_at": 1664655550,
+      "kind": "payout"
+    },
+    {
+      "type": "merge",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 430,
+      "created_at": 1664655553,
+      "corporation": "AC"
+    },
+    {
+      "type": "choose",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 431,
+      "created_at": 1664655554,
+      "choice": "charter"
+    },
+    {
+      "type": "pass",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 432,
+      "created_at": 1664655559
+    },
+    {
+      "type": "buy_company",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 433,
+      "created_at": 1664655563,
+      "company": "P2",
+      "price": 140
+    },
+    {
+      "type": "pass",
+      "entity": "ZPB",
+      "entity_type": "corporation",
+      "id": 434,
+      "created_at": 1664655566
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 435,
+      "created_at": 1664655587,
+      "hex": "K28",
+      "tile": "15-0",
+      "rotation": 0
+    },
+    {
+      "type": "pass",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 436,
+      "created_at": 1664655589
+    },
+    {
+      "type": "place_token",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 437,
+      "created_at": 1664655590,
+      "city": "H27-0-0",
+      "slot": 0,
+      "tokener": "MCP"
+    },
+    {
+      "type": "run_routes",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 438,
+      "created_at": 1664655603,
+      "routes": [
+        {
+          "train": "4-0",
+          "connections": [
+            [
+              "H27",
+              "I28"
+            ],
+            [
+              "I28",
+              "I30",
+              "J29"
+            ],
+            [
+              "J29",
+              "K28"
+            ]
+          ],
+          "hexes": [
+            "H27",
+            "I28",
+            "J29",
+            "K28"
+          ],
+          "revenue": 100,
+          "revenue_str": "H27-I28-J29-K28",
+          "subsidy": 10,
+          "nodes": [
+            "H27-0",
+            "I28-0",
+            "J29-0",
+            "K28-0"
+          ]
+        },
+        {
+          "train": "3-9",
+          "connections": [
+            [
+              "H27",
+              "G28"
+            ],
+            [
+              "G28",
+              "F29"
+            ]
+          ],
+          "hexes": [
+            "H27",
+            "G28",
+            "F29"
+          ],
+          "revenue": 70,
+          "revenue_str": "H27-G28-F29",
+          "subsidy": 0,
+          "nodes": [
+            "H27-0",
+            "G28-0",
+            "F29-0"
+          ]
+        },
+        {
+          "train": "3-0",
+          "connections": [
+            [
+              "H27",
+              "G26"
+            ],
+            [
+              "G26",
+              "G24"
+            ]
+          ],
+          "hexes": [
+            "H27",
+            "G26",
+            "G24"
+          ],
+          "revenue": 100,
+          "revenue_str": "H27-G26-G24",
+          "subsidy": 0,
+          "nodes": [
+            "H27-0",
+            "G26-1",
+            "G24-2"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 439,
+      "created_at": 1664655605,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "MCP",
+          "entity_type": "corporation",
+          "created_at": 1664655605
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "MCP",
+      "entity_type": "corporation",
+      "id": 440,
+      "created_at": 1664655612
+    },
+    {
+      "type": "lay_tile",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 441,
+      "created_at": 1664655620,
+      "hex": "D29",
+      "tile": "27-0",
+      "rotation": 5
+    },
+    {
+      "type": "special_buy",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 442,
+      "created_at": 1664655630,
+      "description": "MEA",
+      "cost": 30
+    },
+    {
+      "type": "lay_tile",
+      "entity": "MEA",
+      "entity_type": "company",
+      "id": 443,
+      "created_at": 1664655635,
+      "hex": "G30",
+      "tile": "87-1",
+      "rotation": 0
+    },
+    {
+      "type": "run_routes",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 444,
+      "created_at": 1664655644,
+      "routes": [
+        {
+          "train": "3-3",
+          "connections": [
+            [
+              "F29",
+              "G28"
+            ],
+            [
+              "G28",
+              "H27"
+            ]
+          ],
+          "hexes": [
+            "F29",
+            "G28",
+            "H27"
+          ],
+          "revenue": 70,
+          "revenue_str": "F29-G28-H27",
+          "subsidy": 0,
+          "nodes": [
+            "F29-0",
+            "G28-0",
+            "H27-0"
+          ]
+        },
+        {
+          "train": "F-0",
+          "connections": [
+            [
+              "F29",
+              "E30",
+              "D29",
+              "D31"
+            ],
+            [
+              "D31",
+              "E32",
+              "F33"
+            ],
+            [
+              "F33",
+              "G32"
+            ],
+            [
+              "G32",
+              "G30"
+            ]
+          ],
+          "hexes": [
+            "F29",
+            "D31",
+            "F33",
+            "G32",
+            "G30"
+          ],
+          "revenue": 80,
+          "revenue_str": "F29-D31-F33-G32-G30",
+          "subsidy": 0,
+          "nodes": [
+            "F29-0",
+            "D31-0",
+            "F33-0",
+            "G32-0",
+            "G30-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 445,
+      "created_at": 1664655647,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "CM",
+          "entity_type": "corporation",
+          "created_at": 1664655647
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 446,
+      "created_at": 1664655648
+    },
+    {
+      "type": "undo",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 447,
+      "created_at": 1664655650
+    },
+    {
+      "type": "buy_company",
+      "entity": "CM",
+      "entity_type": "corporation",
+      "id": 448,
+      "created_at": 1664655660,
+      "company": "P1",
+      "price": 89
+    },
+    {
+      "type": "pass",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 449,
+      "created_at": 1664655676
+    },
+    {
+      "type": "run_routes",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 450,
+      "created_at": 1664655680,
+      "routes": [
+        {
+          "train": "4-1",
+          "connections": [
+            [
+              "N17",
+              "M18",
+              "L19"
+            ],
+            [
+              "L19",
+              "K20"
+            ],
+            [
+              "K20",
+              "L21",
+              "M20",
+              "N21"
+            ]
+          ],
+          "hexes": [
+            "N17",
+            "L19",
+            "K20",
+            "N21"
+          ],
+          "revenue": 120,
+          "revenue_str": "N17-L19-K20-N21",
+          "subsidy": 0,
+          "nodes": [
+            "N17-0",
+            "L19-0",
+            "K20-0",
+            "N21-1"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "ZP",
+      "entity_type": "corporation",
+      "id": 451,
+      "created_at": 1664655683,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "ZP",
+          "entity_type": "corporation",
+          "created_at": 1664655683
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 452,
+      "created_at": 1664655702
+    },
+    {
+      "type": "run_routes",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 453,
+      "created_at": 1664655708,
+      "routes": [
+        {
+          "train": "4-4",
+          "connections": [
+            [
+              "F29",
+              "E30",
+              "D29",
+              "D31"
+            ],
+            [
+              "D31",
+              "E32",
+              "F33"
+            ],
+            [
+              "F33",
+              "G32"
+            ]
+          ],
+          "hexes": [
+            "F29",
+            "D31",
+            "F33",
+            "G32"
+          ],
+          "revenue": 120,
+          "revenue_str": "F29-D31-F33-G32",
+          "subsidy": 20,
+          "nodes": [
+            "F29-0",
+            "D31-0",
+            "F33-0",
+            "G32-0"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "dividend",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 454,
+      "created_at": 1664655711,
+      "auto_actions": [
+        {
+          "type": "pass",
+          "entity": "SC",
+          "entity_type": "corporation",
+          "created_at": 1664655711
+        }
+      ],
+      "kind": "payout"
+    },
+    {
+      "type": "pass",
+      "entity": "SC",
+      "entity_type": "corporation",
+      "id": 455,
+      "created_at": 1664655712
+    },
+    {
+      "type": "par",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 456,
+      "created_at": 1664655733,
+      "corporation": "A",
+      "share_price": "120,2,7"
+    },
+    {
+      "type": "payoff_player_debt",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 457,
+      "created_at": 1664655744
+    },
+    {
+      "type": "payoff_player_debt",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 458,
+      "created_at": 1664655749
+    },
+    {
+      "type": "payoff_player_debt",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 459,
+      "created_at": 1664655751
+    },
+    {
+      "type": "buy_shares",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 460,
+      "created_at": 1664655756,
+      "shares": [
+        "A_1"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 461,
+      "created_at": 1664655760,
+      "shares": [
+        "FdLR_3"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "sell_shares",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 462,
+      "created_at": 1664655772,
+      "shares": [
+        "FdLR_1"
+      ],
+      "percent": 10
+    },
+    {
+      "type": "sell_shares",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 463,
+      "created_at": 1664655775,
+      "shares": [
+        "FdSB_3"
+      ],
+      "percent": 10
+    },
+    {
+      "type": "sell_shares",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 464,
+      "created_at": 1664655784,
+      "shares": [
+        "SC_1",
+        "SC_2"
+      ],
+      "percent": 50
+    },
+    {
+      "type": "undo",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 465,
+      "created_at": 1664655790
+    },
+    {
+      "type": "sell_shares",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 466,
+      "created_at": 1664655794,
+      "shares": [
+        "SC_1"
+      ],
+      "percent": 25
+    },
+    {
+      "type": "undo",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 467,
+      "created_at": 1664655796
+    },
+    {
+      "type": "sell_shares",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 468,
+      "created_at": 1664655803,
+      "shares": [
+        "ZP_1"
+      ],
+      "percent": 25
+    },
+    {
+      "type": "par",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 469,
+      "created_at": 1664655835,
+      "corporation": "N",
+      "share_price": "120,2,7"
+    },
+    {
+      "type": "buy_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 470,
+      "created_at": 1664655878,
+      "shares": [
+        "FdLR_4"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 471,
+      "created_at": 1664655884,
+      "shares": [
+        "A_2"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "pass",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 472,
+      "created_at": 1664656101
+    },
+    {
+      "type": "buy_shares",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 473,
+      "created_at": 1664656106,
+      "shares": [
+        "N_1"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 474,
+      "created_at": 1664656120,
+      "shares": [
+        "ZP_1"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "buy_shares",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 475,
+      "created_at": 1664656131,
+      "shares": [
+        "CM_2"
+      ],
+      "percent": 25,
+      "share_price": false
+    },
+    {
+      "type": "pass",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 476,
+      "created_at": 1664656140
+    },
+    {
+      "type": "pass",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 477,
+      "created_at": 1664656141
+    },
+    {
+      "type": "undo",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 478,
+      "created_at": 1664656142
+    },
+    {
+      "type": "buy_shares",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 479,
+      "created_at": 1664656146,
+      "shares": [
+        "N_2"
+      ],
+      "percent": 10,
+      "share_price": false
+    },
+    {
+      "type": "pass",
+      "entity": 3,
+      "entity_type": "player",
+      "id": 480,
+      "created_at": 1664656147
+    },
+    {
+      "type": "pass",
+      "entity": 2,
+      "entity_type": "player",
+      "id": 481,
+      "created_at": 1664656147
+    },
+    {
+      "type": "pass",
+      "entity": 1,
+      "entity_type": "player",
+      "id": 482,
+      "created_at": 1664656147
+    },
+    {
+      "type": "pass",
+      "entity": 0,
+      "entity_type": "player",
+      "id": 483,
+      "created_at": 1664656148
+    },
+    {
+      "type": "lay_tile",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 484,
+      "created_at": 1664656457,
+      "hex": "I18",
+      "tile": "8-7",
+      "rotation": 3
+    },
+    {
+      "type": "pass",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 485,
+      "created_at": 1664656460
+    },
+    {
+      "type": "place_token",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 486,
+      "created_at": 1664656463,
+      "city": "I12-0-0",
+      "slot": 0,
+      "tokener": "FdLR",
+      "token_type": "neutral"
+    },
+    {
+      "type": "undo",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 487,
+      "created_at": 1664656466
+    },
+    {
+      "type": "place_token",
+      "entity": "FdLR",
+      "entity_type": "corporation",
+      "id": 488,
+      "created_at": 1664656469,
+      "city": "I12-0-0",
+      "slot": 0,
+      "tokener": "FdLR",
+      "token_type": "neutral"
+    }
+  ],
+  "id": "hs_xigqdoeo_1664544255",
+  "players": [
+    {
+      "name": "Player 1",
+      "id": 0
+    },
+    {
+      "name": "Player 2",
+      "id": 1
+    },
+    {
+      "name": "Player 3",
+      "id": 2
+    },
+    {
+      "name": "Player 4",
+      "id": 3
+    }
+  ],
+  "title": "18ESP",
+  "description": "",
+  "min_players": "4",
+  "max_players": "4",
+  "settings": {
+    "optional_rules": [
+
+    ]
+  },
+  "mode": "hotseat",
+  "user": {
+    "id": 0,
+    "name": "You"
+  },
+  "created_at": "2022-10-01",
+  "loaded": true,
+  "result": {
+  },
+  "manually_ended": null,
+  "turn": 4,
+  "round": "Operating Round",
+  "acting": [
+    3
+  ],
+  "updated_at": 1664656469
+}
