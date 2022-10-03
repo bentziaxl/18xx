@@ -808,18 +808,24 @@ module Engine
         def opening_new_mountain_pass(entity)
           return {} unless entity
 
-          gray_seen = false
+          opened_mountain_passes.keys.each do |hex|
+            block_token = Token.new(nil, price: 0, logo: '/logos/18_esp/block.svg')
+            hex_by_id(hex).tile.cities.first.exchange_token(block_token)
+          end
+          @graph.clear
           openable_passes = @graph.reachable_hexes(entity).keys.select do |hex|
-            gray_seen = true if hex.tile.color == :gray
-            next if north_corp?(entity) && gray_seen
-
             mountain_pass_token_hex?(hex)
           end
           openable_passes = openable_passes.reject { |hex| opened_mountain_passes.key?(hex.id) }
 
+          opened_mountain_passes.keys.each do |hex|
+            hex_by_id(hex).tile.cities.first.tokens.each(&:remove!)
+          end
+          @graph.clear
+
           return {} if openable_passes.empty? || last_track_type?(entity, openable_passes)
 
-          openable_passes = [openable_passes.first] if north_corp?(entity)
+          # openable_passes = [openable_passes.first] if north_corp?(entity)
           openable_passes.to_h { |hex| [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex))})"] }
         end
 

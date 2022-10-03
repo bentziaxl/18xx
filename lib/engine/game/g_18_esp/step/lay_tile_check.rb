@@ -52,8 +52,13 @@ module LayTileCheck
 
   def legal_tile_rotation?(entity, hex, tile)
     legal = super
-    legal = legal && !mountain_pass_exit(hex, tile) unless can_open_mountain_pass?(entity)
+    legal &&= !mountain_pass_exit(hex, tile) unless can_open_mountain_pass?(entity)
     legal && matching_track_type(entity, hex, tile)
+  end
+
+  def can_open_mountain_pass?(entity)
+    corp = entity.corporation? ? entity : entity.owner
+    corp.type != :minor && @game.can_build_mountain_pass
   end
 
   def matching_track_type(entity, hex, tile)
@@ -66,12 +71,8 @@ module LayTileCheck
 
       neighboring_tile = hex.neighbors[dir].tile
       neighboring_path = neighboring_tile.paths.find { |p| p.exits.include?(Engine::Hex.invert(dir)) }
-      if neighboring_path
-        ever_not_nil = true
-        return false unless connecting_path.tracks_match?(neighboring_path, dual_ok: true)
-      end
+      return false if neighboring_path && !connecting_path.tracks_match?(neighboring_path, dual_ok: true)
     end
     true
   end
-
 end

@@ -45,10 +45,6 @@ module Engine
           end
         end
 
-        def can_open_mountain_pass?(entity)
-          entity.type != :minor && @game.can_build_mountain_pass
-        end
-
         def legal_tile_rotation?(entity, hex, tile)
           can_open_mountain_pass?(entity) ? super : super && !mountain_pass_exit(hex, tile)
         end
