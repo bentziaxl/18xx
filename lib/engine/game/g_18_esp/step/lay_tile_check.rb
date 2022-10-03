@@ -22,6 +22,14 @@ module LayTileCheck
         end
       end
     end
+
+    unless @game.north_corp?(corp)
+      tiles = tiles.reject do |tile|
+        tile.paths.all? do |path|
+          path.track == :narrow
+        end
+      end
+    end
     tiles
   end
 
