@@ -483,6 +483,13 @@ module Engine
 
           # Initialize the player depts, if player have to take an emergency loan
           @player_debts = Hash.new { |h, k| h[k] = 0 }
+
+          # place tokens on mountain passes
+
+          MOUNTAIN_PASS_TOKEN_HEXES.each do |hex|
+            block_token = Token.new(nil, price: 0, logo: '/logos/18_esp/block.svg')
+            hex_by_id(hex).tile.cities.first.exchange_token(block_token)
+          end
         end
 
         def company_header(_company)
@@ -793,6 +800,7 @@ module Engine
           entity.spend(mount_pass_cost, @bank)
 
           opened_mountain_passes[pass_hex] = track_type
+          pass_tile.cities.first.tokens.each(&:remove!)
 
           @log << "#{entity.name} spends #{format_currency(mount_pass_cost)} to open mountain pass"
         end
