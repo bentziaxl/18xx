@@ -7,7 +7,7 @@ module LayTileCheck
       .select { |t| @game.upgrades_to?(hex.tile, t) }
       .reject(&:blocks_lay)
 
-    tiles = tiles.reject { |tile| tile.city_towns.empty? && tile.color != :yellow } if @game.north_corp?(corp)
+    tiles = tiles.reject { |tile| tile.city_towns.empty? && tile.color != :yellow } if narrow_only?(entity)
     unless @game.north_hex?(hex)
       tiles = tiles.reject do |tile|
         tile.paths.any? do |path|
@@ -15,7 +15,7 @@ module LayTileCheck
         end
       end
     end
-    if @game.north_hex?(hex) && @game.north_corp?(corp)
+    if @game.north_hex?(hex) && narrow_only?(entity)
       tiles = tiles.reject do |tile|
         tile.paths.any? do |path|
           path.track == :broad
