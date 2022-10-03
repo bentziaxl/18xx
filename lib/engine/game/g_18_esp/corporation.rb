@@ -91,6 +91,7 @@ module Engine
         def minor_takeover_reached!
           return if @taken_over_minor || @game.north_corp?(self)
 
+          @game.gain_token(self, nil) # gain token if triggered in phase 6. no impact if already swaped or gained
           @taken_over_minor = true
           @goals_reached_counter += 1
         end

@@ -1128,7 +1128,7 @@ module Engine
         def gain_token(corporation, minor)
           blocked_token = corporation.tokens.find { |token| token.used == true && !token.hex && token.price == 100 }
           blocked_token&.used = false
-          delete_token(minor) if minor.name == 'MZ'
+          delete_token(minor) if minor&.name == 'MZ'
         end
 
         def delete_token(minor)
