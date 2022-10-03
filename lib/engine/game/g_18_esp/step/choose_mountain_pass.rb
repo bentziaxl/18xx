@@ -31,6 +31,7 @@ module Engine
 
           def process_choose(action)
             @game.open_mountain_pass(action.entity, action.choice)
+            @game.graph_for_entity(action.entity).clear
             pass!
           end
 
