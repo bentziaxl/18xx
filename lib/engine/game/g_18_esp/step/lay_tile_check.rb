@@ -49,4 +49,29 @@ module LayTileCheck
     corp = entity.corporation? ? entity : entity.owner
     @game.north_corp?(corp) && !corp.interchange?
   end
+
+  def legal_tile_rotation?(entity, hex, tile)
+    legal = super
+    legal = legal && !mountain_pass_exit(hex, tile) unless can_open_mountain_pass?(entity)
+    legal && matching_track_type(entity, hex, tile)
+  end
+
+  def matching_track_type(entity, hex, tile)
+    corp = entity.corporation? ? entity : entity.owner
+    graph = @game.graph_for_entity(corp)
+    connection_directions = graph.connected_hexes(corp).find { |k, _| k.id == hex.id }[1]
+    connection_directions.each do |dir|
+      connecting_path = tile.paths.find { |p| p.exits.include?(dir) }
+      next unless connecting_path
+
+      neighboring_tile = hex.neighbors[dir].tile
+      neighboring_path = neighboring_tile.paths.find { |p| p.exits.include?(Engine::Hex.invert(dir)) }
+      if neighboring_path
+        ever_not_nil = true
+        return false unless connecting_path.tracks_match?(neighboring_path, dual_ok: true)
+      end
+    end
+    true
+  end
+
 end
