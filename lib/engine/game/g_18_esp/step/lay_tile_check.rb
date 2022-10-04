@@ -61,6 +61,21 @@ module LayTileCheck
     corp.type != :minor && @game.can_build_mountain_pass
   end
 
+  def mountain_pass_exit(hex, tile)
+    return false unless @game.mountain_pass_access?(hex)
+
+    new_exits = tile.exits - hex.tile.exits
+
+    new_exits.find do |exit|
+      neighbor = hex.neighbors[exit]
+      ntile = neighbor&.tile
+      next false unless ntile
+      next false unless @game.mountain_pass?(ntile.hex)
+
+      ntile.exits.any? { |e| e == Hex.invert(exit) }
+    end
+  end
+
   def matching_track_type(entity, hex, tile)
     corp = entity.corporation? ? entity : entity.owner
     graph = @game.graph_for_entity(corp)
