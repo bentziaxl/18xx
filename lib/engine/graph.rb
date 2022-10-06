@@ -17,6 +17,7 @@ module Engine
       @routes = {}
       @tokens = {}
       @cheater_tokens = {}
+      @ignore_skip_path = opts[:ignore_skip_path] || false
       @home_as_token = opts[:home_as_token] || false
       @no_blocking = opts[:no_blocking] || false
       @skip_track = opts[:skip_track]
@@ -273,6 +274,7 @@ module Engine
         end
       end
 
+      # puts("here #{skip_paths}  #{hexes}") if @game.current_action_id.to_i > 890 && corporation.name == "FdLR"
       hexes.default = nil
       hexes.transform_values!(&:keys)
 

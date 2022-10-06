@@ -472,7 +472,8 @@ module Engine
           end
 
           @future_corporations.each { |c| c.shares.last.buyable = false }
-          @minors_graph = Graph.new(self, home_as_token: true)
+          @minors_graph = Graph.new(self, home_as_token: true, ignore_skip_path: true)
+          @north_corp_mountain_pass_graph = Graph.new(self)
 
           @company_trains = {}
           @company_trains['P4'] = find_and_remove_train_for_minor
@@ -490,6 +491,10 @@ module Engine
             block_token = Token.new(nil, price: 0, logo: '/logos/18_esp/block.svg')
             hex_by_id(hex).tile.cities.first.exchange_token(block_token)
           end
+        end
+
+        def init_graph
+          Graph.new(self, ignore_skip_path: true)
         end
 
         def company_header(_company)
@@ -808,11 +813,9 @@ module Engine
         def opening_new_mountain_pass(entity)
           return {} unless entity
 
-          gray_seen = false
-          openable_passes = @graph.reachable_hexes(entity).keys.select do |hex|
-            gray_seen = true if hex.tile.color == :gray
-            next if north_corp?(entity) && gray_seen
-
+          @north_corp_mountain_pass_graph.clear if north_corp?(entity)
+          graph = north_corp?(entity) ? @north_corp_mountain_pass_graph : graph_for_entity(entity)
+          openable_passes = graph.reachable_hexes(entity).keys.select do |hex|
             mountain_pass_token_hex?(hex)
           end
           openable_passes = openable_passes.reject { |hex| opened_mountain_passes.key?(hex.id) }
@@ -821,6 +824,26 @@ module Engine
 
           openable_passes = [openable_passes.first] if north_corp?(entity)
           openable_passes.to_h { |hex| [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex))})"] }
+        end
+
+        def graph_skip_paths(_entity)
+          @skip_paths ||= {}
+          return @skip_paths unless @skip_paths.empty?
+
+          MOUNTAIN_PASS_TOKEN_HEXES.each do |hex_id|
+            hex = hex_by_id(hex_id)
+            hex.tile.paths.each do |path|
+              path.exits.each do |exit|
+                neighbor = hex.neighbors[exit]
+                ntile = neighbor&.tile
+                next false unless ntile&.color == :orange
+
+                @skip_paths[path] = true
+                ntile.paths.each { |ntile_path| @skip_paths[ntile_path] = true }
+              end
+            end
+          end
+          @skip_paths.empty? ? nil : @skip_paths
         end
 
         def last_track_type?(_entity, openable_passes)
