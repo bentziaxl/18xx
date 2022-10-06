@@ -10,6 +10,11 @@ module Engine
         include Engine::Step::Tracker
         include LayTileCheck
 
+        def setup
+          super
+          @round.north_corp_southern_hex = false
+        end
+
         def selected_tiles(entity, hex)
           colors = potential_tile_colors(entity, hex)
           @game.tiles.select do |tile|
@@ -26,9 +31,7 @@ module Engine
         end
 
         def lay_tile_action(action)
-          if mountain_pass_track_restriction(
-action.hex, action.tile, action.rotation
-)
+          if mountain_pass_track_restriction(action.hex, action.tile, action.rotation)
             raise GameError,
                   'Tiles connecting into the 4 mountain passes can not be of the same track type'
           end
@@ -81,6 +84,35 @@ action.hex, action.tile, action.rotation
 
         def can_buy_tile_laying_company?(entity, time:)
           entity.companies.none? { |comp| comp.sym == 'MEA' } && !@round.mea_hex
+        end
+
+        def round_state
+          super.merge(
+            {
+              north_corp_southern_hex: false,
+            }
+          )
+        end
+
+        def tracker_available_hex(entity, hex)
+          @round.north_corp_southern_hex ? super && !@game.north_hex?(hex) : super
+        end
+
+        def get_tile_lay(entity)
+          action = super
+          return action unless @game.north_corp?(entity)
+
+          if @round.num_laid_track == 1 && !@game.north_hex?(@round.laid_hexes.first)
+            @round.north_corp_southern_hex = true
+            action = @game.tile_lays_north_corp_south
+
+            action[:lay] = !@round.upgraded_track if action[:lay] == :not_if_upgraded
+            action[:upgrade] = !@round.upgraded_track if action[:upgrade] == :not_if_upgraded
+            action[:cost] = action[:cost] || 0
+            action[:upgrade_cost] = action[:upgrade_cost] || action[:cost]
+            action[:cannot_reuse_same_hex] = action[:cannot_reuse_same_hex] || false
+          end
+          action
         end
       end
     end
