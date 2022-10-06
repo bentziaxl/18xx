@@ -72,6 +72,7 @@ module Engine
           { lay: true, upgrade: true, cost: 0 },
           { lay: true, upgrade: :not_if_upgraded, cost: 20, cannot_reuse_same_hex: true },
         ].freeze
+        NORTH_CORP_SOUTH_TILE_LAYS = { lay: true, upgrade: :not_if_upgraded, cost: 20, cannot_reuse_same_hex: true }.freeze
 
         ABILITY_ICONS = {
           P2: 'strawberry',
@@ -558,6 +559,10 @@ module Engine
           return MINOR_TILE_LAYS if entity.type == :minor || north_corp?(entity)
 
           MAJOR_TILE_LAYS
+        end
+
+        def tile_lays_north_corp_south
+          NORTH_CORP_SOUTH_TILE_LAYS
         end
 
         def north_corp?(entity)
