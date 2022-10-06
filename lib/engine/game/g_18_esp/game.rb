@@ -31,7 +31,7 @@ module Engine
 
         SPECIAL_MINORS = %w[MS AC].freeze
 
-        MOUNTAIN_PASS_ACCESS_HEX = %w[D19 E20 F21 G20 H19 I18 J17 E10 I10 K8 L7].freeze
+        MOUNTAIN_PASS_ACCESS_HEX = %w[E10 I10 K8 L7].freeze
 
         MOUNTAIN_PASS_HEX = %w[M8 K10 I12 E12 E18 F19 G18 H17 I16].freeze
 
@@ -822,7 +822,6 @@ module Engine
 
           return {} if openable_passes.empty? || last_track_type?(entity, openable_passes)
 
-          openable_passes = [openable_passes.first] if north_corp?(entity)
           openable_passes.to_h { |hex| [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex))})"] }
         end
 
