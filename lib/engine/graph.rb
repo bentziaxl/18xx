@@ -13,6 +13,7 @@ module Engine
       @tokenable_cities = {}
       @routes = {}
       @tokens = {}
+      @ignore_skip_path = opts[:ignore_skip_path] || false
       @home_as_token = opts[:home_as_token] || false
       @no_blocking = opts[:no_blocking] || false
       @skip_track = opts[:skip_track]
@@ -184,7 +185,7 @@ module Engine
 
       routes = @routes[corporation] || {}
       walk_corporation = @no_blocking ? nil : corporation
-      skip_paths = @game.graph_skip_paths(corporation)
+      skip_paths = @ignore_skip_path ? nil : @game.graph_skip_paths(corporation)
 
       tokens.keys.each do |node|
         return nil if routes[:route_train_purchase] && routes_only
@@ -234,6 +235,7 @@ module Engine
         end
       end
 
+      # puts("here #{skip_paths}  #{hexes}") if @game.current_action_id.to_i > 890 && corporation.name == "FdLR"
       hexes.default = nil
       hexes.transform_values!(&:keys)
 

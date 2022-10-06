@@ -168,7 +168,7 @@ module Engine
             next unless lane_match?(@exit_lanes[edge], np.exit_lanes[np_edge])
             next if !@ignore_gauge_walk && !tracks_match?(np, dual_ok: true)
 
-            np.walk(skip: np_edge, visited: visited, counter: counter, skip_track: skip_track,
+            np.walk(skip: np_edge, visited: visited, counter: counter, skip_track: skip_track, skip_paths: skip_paths,
                     converging: converging || @tile.converging_exit?(edge), &block)
           end
 
