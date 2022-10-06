@@ -7,6 +7,7 @@ module LayTileCheck
       .select { |t| @game.upgrades_to?(hex.tile, t) }
       .reject(&:blocks_lay)
 
+    puts("here in module #{selected_tiles(corp, hex).uniq(&:name).map(&:id)}") if hex.id == 'E8'
     tiles = tiles.reject { |tile| tile.city_towns.empty? && tile.color != :yellow } if narrow_only?(entity)
     unless @game.north_hex?(hex)
       tiles = tiles.reject do |tile|
@@ -42,7 +43,7 @@ module LayTileCheck
   end
 
   def tile_valid_for_entity(entity, tile)
-    narrow_only?(entity) ? tile.paths.any? { |p| p.track == :narrow } : true
+    narrow_only?(entity) ? tile.paths.any? { |p| p.track == :narrow || p.track == :dual } : true
   end
 
   def narrow_only?(entity)
