@@ -104,7 +104,7 @@ module Engine
           {
             float_percent: 40,
             sym: 'N',
-            name: 'Norte',
+            name: 'Compañía de los Caminos de Hierro del Norte de España',
             logo: '18_esp/N',
             coordinates: 'G24',
             city: 1,
@@ -117,7 +117,7 @@ module Engine
           {
             float_percent: 40,
             sym: 'MZA',
-            name: 'Madrid – Zaragoza – Alicante',
+            name: 'Compañía de los ferrocarriles de Madrid a Zaragoza y Alicante ',
             logo: '18_esp/MZA',
             coordinates: 'G24',
             city: 2,
@@ -130,7 +130,7 @@ module Engine
           {
             float_percent: 40,
             sym: 'A',
-            name: 'Andaluces',
+            name: 'Compañía de los Ferrocarriles Andaluces',
             logo: '18_esp/A',
             coordinates: 'F33',
             max_ownership_percent: 60,
@@ -142,7 +142,7 @@ module Engine
           {
             float_percent: 40,
             sym: 'CRB',
-            name: 'Ciudad Real – Badajoz',
+            name: 'Compañía de los Caminos de Hierro de Ciudad Real a Badajoz',
             logo: '18_esp/CRB',
             coordinates: 'C26',
             max_ownership_percent: 60,
@@ -154,7 +154,7 @@ module Engine
           {
             float_percent: 40,
             sym: 'MCP',
-            name: 'Madrid – Cáceres – Portugal',
+            name: 'Compañía de los ferrocarriles de Madrid a Cáceres y Portugal',
             logo: '18_esp/MCP',
             coordinates: 'G24',
             city: 0,
@@ -168,7 +168,8 @@ module Engine
           {
             float_percent: 40,
             sym: 'ZPB',
-            name: 'Zaragoza – Pamplona – Barcelona',
+            name: 'Compañía de los Ferrocarriles de Zaragoza a Pamplona y
+            Barcelona',
             logo: '18_esp/ZPB',
             coordinates: 'N21',
             max_ownership_percent: 60,
@@ -194,7 +195,7 @@ module Engine
           {
             float_percent: 40,
             sym: 'CFEA',
-            name: 'Ferrocarriles Económicos de Asturias',
+            name: 'Compañía de los Ferrocarriles Económicos de Asturias',
             logo: '18_esp/CFEA',
             coordinates: 'E6',
             max_ownership_percent: 60,
@@ -207,7 +208,7 @@ module Engine
           {
             float_percent: 40,
             sym: 'CFLG',
-            name: 'Langreo – Gijón',
+            name: 'Compañía del Ferrocarril de Langreo en Asturias',
             logo: '18_esp/CFLG',
             coordinates: 'F3',
             max_ownership_percent: 60,
