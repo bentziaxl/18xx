@@ -427,6 +427,14 @@ module Engine
           end
         end
 
+        def init_phase
+          G18ESP::Phase.new(game_phases, self)
+        end
+
+        def game_phases
+          self.class::PHASES
+        end
+
         def new_auction_round
           Engine::Round::Auction.new(self, [
             G18ESP::Step::CompanyPendingPar,
@@ -1345,6 +1353,7 @@ module Engine
 
         def or_set_finished
           @depot.export! if @corporations.any?(&:floated?)
+          game_end_check
 
           @corporations = @corporations.dup.select(&:floated?) if @turn == @final_turn
         end

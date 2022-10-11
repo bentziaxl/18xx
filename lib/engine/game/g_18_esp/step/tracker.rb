@@ -104,7 +104,7 @@ module Engine
 
           if @round.num_laid_track == 1 && !@game.north_hex?(@round.laid_hexes.first)
             @round.north_corp_southern_hex = true
-            action = @game.tile_lays_north_corp_south
+            action = @game.tile_lays_north_corp_south.dup
 
             action[:lay] = !@round.upgraded_track if action[:lay] == :not_if_upgraded
             action[:upgrade] = !@round.upgraded_track if action[:upgrade] == :not_if_upgraded
