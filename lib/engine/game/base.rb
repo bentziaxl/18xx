@@ -2480,13 +2480,12 @@ module Engine
             reorder_players
             new_operating_round
           when Round::Operating
+            or_round_finished
             if @round.round_num < @operating_rounds
-              or_round_finished
               new_operating_round(@round.round_num + 1)
             else
-              @turn += 1
-              or_round_finished
               or_set_finished
+              @turn += 1
               new_stock_round
             end
           when init_round.class
