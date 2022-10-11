@@ -31,6 +31,8 @@ module Engine
 
         SPECIAL_MINORS = %w[MS AC].freeze
 
+        TRACK_RESTRICTION = :permissive
+
         MOUNTAIN_PASS_ACCESS_HEX = %w[E10 I10 K8 L7].freeze
 
         MOUNTAIN_PASS_HEX = %w[M8 K10 I12 E12 E18 F19 G18 H17 I16].freeze
@@ -806,9 +808,16 @@ module Engine
           end
         end
 
+        def mountain_pass_proposed_track_type(entity)
+          return :broad unless north_corp?(entity)
+
+          entity.interchange? ? :dual : :narrow
+        end
+
         def open_mountain_pass(entity, pass_hex)
           pass_tile = hex_by_id(pass_hex).tile
-          track_type = north_corp?(entity) ? :narrow : :broad
+          track_type = mountain_pass_proposed_track_type(entity)
+          track_type = track_type_into_mountain_pass(hex_by_id(pass_hex)) if track_type == :dual
 
           pass_tile.paths.each do |path|
             path.walk { |p| p.track = track_type if p.tile.color == :orange }
@@ -833,6 +842,16 @@ module Engine
           end
           openable_passes = openable_passes.reject { |hex| opened_mountain_passes.key?(hex.id) }
 
+          # reject passes if track type is wrong
+          openable_passes = openable_passes.reject do |pass_hex|
+            track_restriction = track_type_into_mountain_pass(pass_hex)
+            next false unless track_restriction
+
+            proposed_track_type = mountain_pass_proposed_track_type(entity)
+            next false if proposed_track_type == :dual
+
+            proposed_track_type != track_restriction
+          end
           return {} if openable_passes.empty? || last_track_type?(entity, openable_passes)
 
           openable_passes.to_h { |hex| [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex))})"] }
@@ -858,14 +877,36 @@ module Engine
           @skip_paths.empty? ? nil : @skip_paths
         end
 
-        def last_track_type?(_entity, openable_passes)
+        def track_type_into_mountain_pass(hex)
+          return unless hex.tile
+
+          npath = hex.tile.paths.map do |path|
+            path.exits.map do |exit|
+              neighbor = hex.neighbors[exit]
+              ntile = neighbor&.tile
+              next unless ntile
+              next if ntile.color == :orange
+
+              npath = ntile.paths.map { |b| b if path.connects_to?(b, nil) }
+              npath.first if npath
+            end.compact
+          end.compact.flatten
+
+          return unless npath&.first
+
+          npath.first.track
+        end
+
+        def last_track_type?(entity, openable_passes)
           return false unless openable_passes.length == 1
 
           opened_passes_uniq = opened_mountain_passes.values.uniq
           last_pass_different = opened_passes_uniq.length == 1 && opened_mountain_passes.length == 3
           return false unless last_pass_different
 
-          proposed_track_type = north_corp? ? :narrow : :broad
+          proposed_track_type = mountain_pass_proposed_track_type(entity)
+          last_mountain_pass = MOUNTAIN_PASS_TOKEN_HEXES - openable_passes
+          proposed_track_type = track_type_into_mountain_pass(last_mountain_pass) if proposed_track_type == :dual
 
           return false unless opened_passes_uniq.first == proposed_track_type
 
