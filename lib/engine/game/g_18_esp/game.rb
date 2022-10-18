@@ -549,7 +549,7 @@ module Engine
                 share = random_corporation.shares[0]
                 real_shares << share
                 company.desc = "Purchasing player takes a president's share (20%) of #{random_corporation.name} \
-                and immediately sets its par value."
+                and immediately sets its par value. It closes when #{random_corporation.name} buys its first train."
                 @log << "#{company.name} comes with the president's share of #{random_corporation.name}"
                 company.add_ability(Ability::Close.new(
                 type: :close,
