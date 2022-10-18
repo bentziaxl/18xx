@@ -19,7 +19,7 @@ module Engine
 
         attr_accessor :player_debts
 
-        CURRENCY_FORMAT_STR = '$%d'
+        CURRENCY_FORMAT_STR = '₧%d'
 
         BANK_CASH = 99_999
 
