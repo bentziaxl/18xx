@@ -460,7 +460,7 @@ module Engine
 
           },
           gray: {
-            ['D3'] => 'town=revenue:0;path=a:1,b:_0,track:narrow;path=a:3,b:_0,track:narrow;path=a:5,b:_0,track:narrow;',
+            ['D3'] => 'town=revenue:10;path=a:1,b:_0,track:narrow;path=a:3,b:_0,track:narrow;path=a:5,b:_0,track:narrow;',
             ['E18'] => 'city=revenue:30,slots:2;path=a:0,b:_0,track:dual;path=a:1,b:_0,track:dual;'\
                        'path=a:3,b:_0,track:dual;path=a:5,b:_0,track:dual',
             ['F19'] => 'town=revenue:10;path=a:0,b:_0,track:dual;path=a:1,b:_0,track:dual;'\
