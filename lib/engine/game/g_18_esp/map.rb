@@ -291,7 +291,7 @@ module Engine
           'E4' => 'Avilés',
           'E6' => 'Oviedo (Uviéu)',
           'E8' => 'Mieres',
-          'D3' => 'San Esteban',
+          'D3' => 'Muros de Nalón',
           'F3' => 'Gijón (Xixón)',
           'F5' => 'Siero',
           'F7' => 'Langero (Llangréu)',
