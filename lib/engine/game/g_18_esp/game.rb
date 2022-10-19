@@ -292,8 +292,8 @@ module Engine
             variants: [
               {
                 name: '1+1',
-                distance: [{ 'nodes' => %w[city offboard], 'pay' => 1, 'visit' => 1 },
-                           { 'nodes' => ['town'], 'pay' => 1, 'visit' => 1 }],
+                distance: [{ 'nodes' => ['town'], 'pay' => 1, 'visit' => 1 },
+                           { 'nodes' => %w[city offboard town], 'pay' => 1, 'visit' => 1 }],
                 track_type: :narrow,
                 no_local: true,
                 price: 100,
@@ -309,8 +309,8 @@ module Engine
             variants: [
               {
                 name: '2+2',
-                distance: [{ 'nodes' => %w[city offboard town], 'pay' => 2, 'visit' => 2 },
-                           { 'nodes' => ['town'], 'pay' => 2, 'visit' => 2 }],
+                distance: [{ 'nodes' => ['town'], 'pay' => 2, 'visit' => 2 },
+                           { 'nodes' => %w[city offboard town], 'pay' => 2, 'visit' => 2 }],
                 track_type: :narrow,
                 price: 200,
               },
@@ -328,8 +328,8 @@ module Engine
             variants: [
               {
                 name: '3+3',
-                distance: [{ 'nodes' => %w[city offboard town], 'pay' => 3, 'visit' => 3 },
-                           { 'nodes' => ['town'], 'pay' => 3, 'visit' => 3 }],
+                distance: [{ 'nodes' => ['town'], 'pay' => 3, 'visit' => 3 },
+                           { 'nodes' => %w[city offboard town], 'pay' => 3, 'visit' => 3 }],
                 track_type: :narrow,
                 price: 300,
               },
@@ -346,8 +346,8 @@ module Engine
             variants: [
               {
                 name: '4+4',
-                distance: [{ 'nodes' => %w[city offboard town], 'pay' => 4, 'visit' => 4 },
-                           { 'nodes' => ['town'], 'pay' => 4, 'visit' => 4 }],
+                distance: [{ 'nodes' => ['town'], 'pay' => 4, 'visit' => 4 },
+                           { 'nodes' => %w[city offboard town], 'pay' => 4, 'visit' => 4 }],
                 track_type: :narrow,
                 price: 500,
               },
@@ -363,8 +363,8 @@ module Engine
             variants: [
               {
                 name: '5+5',
-                distance: [{ 'nodes' => %w[city offboard town], 'pay' => 5, 'visit' => 5 },
-                           { 'nodes' => ['town'], 'pay' => 5, 'visit' => 5 }],
+                distance: [{ 'nodes' => ['town'], 'pay' => 5, 'visit' => 5 },
+                           { 'nodes' => %w[city offboard town], 'pay' => 5, 'visit' => 5 }],
                 track_type: :narrow,
                 price: 600,
               },
@@ -381,8 +381,8 @@ module Engine
             variants: [
                       {
                         name: '5+5',
-                        distance: [{ 'nodes' => %w[city offboard town], 'pay' => 5, 'visit' => 5 },
-                                   { 'nodes' => ['town'], 'pay' => 5, 'visit' => 5 }],
+                        distance: [{ 'nodes' => ['town'], 'pay' => 5, 'visit' => 5 },
+                                   { 'nodes' => %w[city offboard town], 'pay' => 5, 'visit' => 5 }],
                         track_type: :narrow,
                         price: 600,
                       },
