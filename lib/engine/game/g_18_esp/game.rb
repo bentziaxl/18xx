@@ -605,6 +605,7 @@ module Engine
             c.shares.last&.buyable = true
             next unless c.type == :minor
 
+            delete_token(c) if c&.name == 'MZ'
             close_corporation(c)
           end
         end
