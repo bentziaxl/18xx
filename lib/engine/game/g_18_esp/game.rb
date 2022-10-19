@@ -292,7 +292,7 @@ module Engine
             variants: [
               {
                 name: '1+1',
-                distance: [{ 'nodes' => %w[city offboard town], 'pay' => 1, 'visit' => 1 },
+                distance: [{ 'nodes' => %w[city offboard], 'pay' => 1, 'visit' => 1 },
                            { 'nodes' => ['town'], 'pay' => 1, 'visit' => 1 }],
                 track_type: :narrow,
                 no_local: true,
