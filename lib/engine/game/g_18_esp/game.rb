@@ -598,6 +598,10 @@ module Engine
           setup_company_price(2)
         end
 
+        def pajares_broad?
+          @pajares_broad ||= @optional_rules.include?(:pajares_broad)
+        end
+
         def event_close_minors!
           @corporations.dup.each do |c|
             next unless c
@@ -853,6 +857,9 @@ module Engine
             next false unless track_restriction
 
             proposed_track_type = mountain_pass_proposed_track_type(entity)
+
+            next true if pajares_broad? && pass_hex.id == 'E12' && proposed_track_type != :broad
+
             next false if proposed_track_type == :dual
 
             proposed_track_type != track_restriction
