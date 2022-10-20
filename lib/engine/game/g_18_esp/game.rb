@@ -605,7 +605,7 @@ module Engine
             c.shares.last&.buyable = true
             next unless c.type == :minor
 
-            delete_token(c) if c&.name == 'MZ'
+            delete_token_mz(c) if c&.name == 'MZ'
             close_corporation(c)
           end
         end
@@ -658,6 +658,10 @@ module Engine
 
           @bank.spend(corporation.par_price.price * share_count, corporation)
           @log << "#{corporation.name} receives #{format_currency(corporation.cash)}"
+        end
+
+        def home_token_can_be_cheater
+          true
         end
 
         def north_hex?(hex)
@@ -1205,14 +1209,21 @@ module Engine
         def gain_token(corporation, minor)
           blocked_token = corporation.tokens.find { |token| token.used == true && !token.hex && token.price == 100 }
           blocked_token&.used = false
-          delete_token(minor) if minor&.name == 'MZ'
+          delete_token_mz(minor) if minor&.name == 'MZ'
         end
 
-        def delete_token(minor)
+        def delete_token_mz(minor)
           token = minor.tokens.first
           return unless token.used
 
-          token.city.delete_token!(token, remove_slot: true)
+          city = token.city
+          # check if there's another slot
+          delete_slot = city.slots > 1
+          # check if slot is already used, if not reserve
+          corp = @corporations.find { |c| c.city == city.index }
+
+          city.delete_token!(token, remove_slot: delete_slot)
+          city.add_reservation!(corp) unless delete_slot
         end
 
         def swap_token(survivor, nonsurvivor)
@@ -1254,7 +1265,56 @@ module Engine
         def place_home_token(corporation)
           return if special_minor?(corporation)
 
-          super
+          return unless corporation.next_token # 1882
+          # If a corp has laid it's first token assume it's their home token
+          return if corporation.tokens.first&.used
+
+          hex = hex_by_id(corporation.coordinates)
+
+          tile = hex&.tile
+          if !tile || (tile.reserved_by?(corporation) && tile.paths.any?)
+
+            if @round.pending_tokens.any? { |p| p[:entity] == corporation }
+              # 1867: Avoid adding the same token twice
+              @round.clear_cache!
+              return
+            end
+
+            # If the tile does not have any paths at the present time, clear up the ambiguity when the tile is laid
+            # otherwise the entity must choose now.
+            hexes =
+              if hex
+                [hex]
+              else
+                home_token_locations(corporation)
+              end
+
+            return unless hexes
+
+            @log << "#{corporation.name} must choose city for home token"
+            @round.pending_tokens << {
+              entity: corporation,
+              hexes: hexes,
+              token: corporation.find_token_by_type,
+            }
+
+            @round.clear_cache!
+            return
+          end
+
+          cities = tile.cities
+
+          city = cities.find { |c| c.reserved_by?(corporation) || c.index == corporation.city } || cities.first
+          token = corporation.find_token_by_type
+
+          if city.tokenable?(corporation, tokens: token)
+            @log << "#{corporation.name} places a token on #{hex.name}"
+            city.place_token(corporation, token)
+          elsif home_token_can_be_cheater
+            @log << "#{corporation.name} places a token on #{hex.name}"
+            city.place_token(corporation, token, cheater: true)
+          end
+
           corporation.goal_reached!(:destination) if check_for_destination_connection(corporation)
         end
 
