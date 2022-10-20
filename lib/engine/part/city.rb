@@ -101,7 +101,7 @@ module Engine
             @error = :existing_token
             next false
           end
-          next true if reserved_by?(corporation)
+          next true if reserved_by?(corporation) && !tokened?
 
           if @tile.token_blocked_by_reservation?(corporation)
             @error = :blocked_reservation

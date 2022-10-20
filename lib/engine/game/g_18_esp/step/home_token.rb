@@ -12,20 +12,16 @@ module Engine
             raise GameError, "Cannot place token on #{hex.name} as the hex is not available" unless available_hex(action.entity,
                                                                                                                   hex)
 
-            check_tokenable = true
-            cheater = nil
             if action.entity.name == 'MZ'
-              check_tokenable = false
-              cheater = 0
+              # remove reservation in the chosen slot
+              action.city.remove_all_reservations!
             end
             place_token(
               token.corporation,
               action.city,
               token,
               connected: false,
-              extra_action: true,
-              check_tokenable: check_tokenable,
-              cheater: cheater
+              extra_action: true
             )
             @round.pending_tokens.shift
           end

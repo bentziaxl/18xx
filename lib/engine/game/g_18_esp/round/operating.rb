@@ -15,6 +15,9 @@ module Engine
           end
 
           def start_operating
+            if current_entity.corporation? && @game.check_for_destination_connection(current_entity)
+              current_entity.goal_reached!(:destination)
+            end
             @mea_hex = nil
             super
           end
