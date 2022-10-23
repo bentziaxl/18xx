@@ -51,7 +51,6 @@ module Engine
         @active_bidders, cannot_bid = initial_auction_entities.partition do |player|
           player == @auction_triggerer || max_bid(player, @auctioning) >= min
         end
-        puts(cannot_bid)
         cannot_bid.each do |player|
           @game.log << "#{player.name} cannot bid #{@game.format_currency(min)}"\
                        " and is out of the auction for #{@auctioning.name}"
