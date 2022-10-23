@@ -235,7 +235,6 @@ module Engine
         end
       end
 
-      # puts("here #{skip_paths}  #{hexes}") if @game.current_action_id.to_i > 890 && corporation.name == "FdLR"
       hexes.default = nil
       hexes.transform_values!(&:keys)
 
