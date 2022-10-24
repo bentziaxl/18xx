@@ -143,7 +143,7 @@ module Engine
                   'path=a:4,b:_0,track:narrow;path=a:3,b:_0,track:dual;label=Bi',
           },
           'L11t' => {
-            'count' => 3,
+            'count' => 2,
             'color' => 'green',
             'code' =>
             'city=revenue:30,slots:2;path=a:0,b:_0,track:narrow;path=a:2,b:_0,track:narrow;'\
