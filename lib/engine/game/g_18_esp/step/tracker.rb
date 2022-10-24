@@ -24,7 +24,7 @@ module Engine
         end
 
         def ability_blocking_hex(_entity, hex)
-          return unless @game.mine_hexes.any? { |h| h == hex.name }
+          return if @game.mine_hexes.none? { |h| h == hex.name } || hex.tile.color != :white
 
           @mine_blocking ||= Engine::Ability::BlocksHexes.new(type: :blocks_hexes, owner_type: :player,
                                                               hexes: @game.mine_hexes)
