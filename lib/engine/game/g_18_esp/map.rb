@@ -142,6 +142,13 @@ module Engine
                   'city=revenue:40,slots:2;path=a:1,b:_0,track:narrow;path=a:2,b:_0,track:narrow;' \
                   'path=a:4,b:_0,track:narrow;path=a:3,b:_0,track:dual;label=Bi',
           },
+          'L11t' => {
+            'count' => 3,
+            'color' => 'green',
+            'code' =>
+            'city=revenue:30,slots:2;path=a:0,b:_0,track:narrow;path=a:2,b:_0,track:narrow;'\
+            'path=a:3,b:_0,track:narrow;path=a:4,b:_0,track:narrow',
+          },
           'IR26' => { 'count' => 1, 'color' => 'green', 'code' => 'path=a:0,b:3;path=a:1,b:2,track:narrow' },
           'IR27' => { 'count' => 1, 'color' => 'green', 'code' => 'path=a:0,b:3,track:narrow;path=a:1,b:2' },
           'IR28' => { 'count' => 1, 'color' => 'green', 'code' => 'path=a:1,b:3,track:narrow;path=a:0,b:4' },
