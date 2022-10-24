@@ -89,7 +89,7 @@ module Engine
 
     def move_down(corporation)
       r, c = corporation.share_price.coordinates
-      return move_left(corporation) if one_d? || (@continuous && r + 1 == @market.size)
+      return move_left(corporation) if one_d? || (@continuous && r + 1 == @market.size && c - 1 >= 0)
 
       r += 1 if r + 1 < @market.size && share_price(r + 1, c)
       move(corporation, r, c)
