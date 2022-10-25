@@ -25,7 +25,8 @@ module Engine
         actions << 'buy_company' if !purchasable_companies(entity).empty? || !buyable_bank_owned_companies(entity).empty?
         actions << 'sell_shares' if can_sell_any?(entity)
 
-        actions << 'pass' unless actions.empty?
+        actions << 'pass' if !actions.empty? || can_exchange?(entity)
+
         actions
       end
 
@@ -491,6 +492,14 @@ module Engine
 
       def from_market?(program)
         program.from_market
+      end
+
+      def ability_timing
+        %w[%current_step% stock owning_player_sr_turn]
+      end
+
+      def can_exchange?(entity)
+        entity.companies.any? { |c| @game.abilities(c, :exchange, time: ability_timing) }
       end
     end
   end
