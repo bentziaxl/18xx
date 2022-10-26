@@ -950,6 +950,11 @@ module Engine
                   'Route can not end or start in Mountain pass'
           end
 
+          if entity.type == :minor && visits.any?(&:offboard?)
+            raise GameError,
+                  'Minors can not run to offboard locations'
+          end
+
           if route.train.name != 'F' && (visits.first&.halt? || visits.last&.halt?)
             raise GameError,
                   'Regular train can not start or end at at a mine tile without a city or town'
