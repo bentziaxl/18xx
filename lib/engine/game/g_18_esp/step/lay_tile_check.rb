@@ -77,7 +77,7 @@ module LayTileCheck
   end
 
   def mountain_pass_exit(hex, tile)
-    return false unless @game.mountain_pass_access?(hex)
+    return false unless @game.mountain_pass_access_incl_south?(hex)
 
     new_exits = tile.exits - hex.tile.exits
 
