@@ -35,6 +35,8 @@ module Engine
 
         MOUNTAIN_PASS_ACCESS_HEX = %w[E10 I10 K8 L7].freeze
 
+        MOUNTAIN_PASS_ACCESS_HEX_INCL_SOUTH = %w[E10 I10 K8 L7 D19 E20 F21 G20 H19 I18 J17].freeze
+
         MOUNTAIN_PASS_HEX = %w[M8 K10 I12 E12 E18 F19 G18 H17 I16].freeze
 
         MOUNTAIN_PASS_TOKEN_HEXES = %w[M8 K10 I12 E12].freeze
@@ -676,6 +678,11 @@ module Engine
           MOUNTAIN_PASS_ACCESS_HEX.include?(hex&.id)
         end
 
+        
+        def mountain_pass_access_incl_south?(hex)
+          MOUNTAIN_PASS_ACCESS_HEX_INCL_SOUTH.include?(hex&.id)
+        end
+
         def mountain_pass?(hex)
           MOUNTAIN_PASS_HEX.include?(hex.id)
         end
@@ -1263,6 +1270,8 @@ module Engine
             c.owner = survivor
             survivor.companies << c
           end
+          #strawberry token
+          #code to move strawberry token
           nonsurvivor.companies.clear
           @log << "Moved assets from #{nonsurvivor.name} to #{survivor.name}"
         end

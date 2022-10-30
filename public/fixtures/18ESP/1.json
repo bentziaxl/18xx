@@ -6746,7 +6746,7 @@
       "id": 535,
       "created_at": 1664738668,
       "hex": "G24",
-      "tile": "L104-0",
+      "tile": "L103-0",
       "rotation": 0
     },
     {
@@ -6855,7 +6855,7 @@
       "id": 546,
       "created_at": 1664738730,
       "hex": "G24",
-      "tile": "L104-0",
+      "tile": "L103-0",
       "rotation": 0
     },
     {
@@ -7556,7 +7556,7 @@
       "entity_type": "corporation",
       "id": 589,
       "created_at": 1664739159,
-      "city": "L104-0-0",
+      "city": "L103-0-0",
       "slot": 3,
       "tokener": "ZPB"
     },
@@ -7896,7 +7896,7 @@
       "entity_type": "corporation",
       "id": 610,
       "created_at": 1664739689,
-      "city": "L104-0-0",
+      "city": "L103-0-0",
       "slot": 3,
       "tokener": "ZPB"
     },
@@ -11051,7 +11051,7 @@
       "id": 785,
       "created_at": 1664741086,
       "hex": "N21",
-      "tile": "L103-0",
+      "tile": "L102-0",
       "rotation": 0
     },
     {
@@ -11074,7 +11074,7 @@
       "entity_type": "corporation",
       "id": 788,
       "created_at": 1664741104,
-      "city": "L103-0-0",
+      "city": "L102-0-0",
       "slot": 1,
       "tokener": "A"
     },
@@ -11108,7 +11108,7 @@
       "id": 792,
       "created_at": 1664741121,
       "hex": "N21",
-      "tile": "L103-0",
+      "tile": "L102-0",
       "rotation": 0
     },
     {
@@ -14515,7 +14515,7 @@
       "id": 1017,
       "created_at": 1664742514,
       "hex": "G24",
-      "tile": "L109-0",
+      "tile": "L107-0",
       "rotation": 0
     },
     {
@@ -15135,7 +15135,7 @@
       "id": 1047,
       "created_at": 1664742703,
       "hex": "N21",
-      "tile": "L108-0",
+      "tile": "L106-0",
       "rotation": 0
     },
     {
