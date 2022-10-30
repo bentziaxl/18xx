@@ -1270,9 +1270,11 @@ module Engine
             c.owner = survivor
             survivor.companies << c
           end
-          #strawberry token
+
           #code to move strawberry token
+          survivor.assign!("P2") if nonsurvivor.assignments.any? {|a, _| a == "P2"}
           nonsurvivor.companies.clear
+
           @log << "Moved assets from #{nonsurvivor.name} to #{survivor.name}"
         end
 
