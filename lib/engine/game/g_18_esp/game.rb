@@ -41,7 +41,7 @@ module Engine
 
         MOUNTAIN_PASS_TOKEN_COST = { 'M8' => 120, 'K10' => 120, 'I12' => 100, 'E12' => 160 }.freeze
 
-        MOUNTAIN_PASS_TOKEN_BONUS = { 'M8' => 50, 'K10' => 30, 'I12' => 40, 'E12' => 40 }.freeze
+        MOUNTAIN_PASS_TOKEN_BONUS = { 'M8' => 40, 'K10' => 40, 'I12' => 30, 'E12' => 50 }.freeze
 
         SELL_AFTER = :operate
 
