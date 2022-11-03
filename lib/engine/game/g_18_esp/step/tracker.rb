@@ -37,7 +37,7 @@ module Engine
           end
           old_tile = action.hex.tile
           super
-          old_tile&.icons = old_tile&.icons.dup.reject { |i| i.name == 'mine' }
+          old_tile&.icons = []
 
           action.entity.goal_reached!(:destination) if @game.check_for_destination_connection(action.entity)
         end
