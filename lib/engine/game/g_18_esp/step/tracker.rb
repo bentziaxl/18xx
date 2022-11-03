@@ -35,8 +35,10 @@ module Engine
             raise GameError,
                   'Tiles connecting into the 4 mountain passes can not be of the same track type'
           end
-
+          old_tile = action.hex.tile
           super
+          old_tile&.icons = old_tile&.icons.dup.reject { |i| i.name == 'mine' }
+
           action.entity.goal_reached!(:destination) if @game.check_for_destination_connection(action.entity)
         end
 
