@@ -678,7 +678,6 @@ module Engine
           MOUNTAIN_PASS_ACCESS_HEX.include?(hex&.id)
         end
 
-        
         def mountain_pass_access_incl_south?(hex)
           MOUNTAIN_PASS_ACCESS_HEX_INCL_SOUTH.include?(hex&.id)
         end
@@ -1271,8 +1270,8 @@ module Engine
             survivor.companies << c
           end
 
-          #code to move strawberry token
-          survivor.assign!("P2") if nonsurvivor.assignments.any? {|a, _| a == "P2"}
+          # code to move strawberry token
+          survivor.assign!('P2') if nonsurvivor.assignments.any? { |a, _| a == 'P2' }
           nonsurvivor.companies.clear
 
           @log << "Moved assets from #{nonsurvivor.name} to #{survivor.name}"
