@@ -605,6 +605,7 @@ module Engine
         end
 
         def event_close_minors!
+          @log << '-- Event: Minors close --'
           @corporations.dup.each do |c|
             next unless c
 
@@ -627,6 +628,11 @@ module Engine
 
             company.close!
           end
+
+          @corporations.each do |corp|
+            corp.remove_assignment!('P2') if corp.assigned?('P2')
+          end
+          hex_by_id('G26').remove_assignment!('P2')
         end
 
         def event_partial_capitalization!
