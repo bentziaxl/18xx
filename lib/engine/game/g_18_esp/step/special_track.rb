@@ -45,7 +45,7 @@ module Engine
             old_tile = action.hex.tile
             tile.add_temp_halt('halt')
             super
-            old_tile&.icons = old_tile&.icons.dup.reject { |i| i.name == 'mine' }
+            old_tile&.icons = []
 
             corp = action.entity.owner
             corp.goal_reached!(:destination) if @game.check_for_destination_connection(corp)
