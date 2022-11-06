@@ -39,6 +39,10 @@ module Engine
           super
           old_tile&.icons = []
 
+          # clear graphs
+          @game.graph.clear
+          @game.minors_graph.clear
+
           action.entity.goal_reached!(:destination) if @game.check_for_destination_connection(action.entity)
         end
 
