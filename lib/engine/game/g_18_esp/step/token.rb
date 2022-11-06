@@ -38,6 +38,8 @@ module Engine
               action.entity.tokens.find { |token| !token.used }.price = @game.phase.name.to_i <= 4 ? 40 : 80
             end
             super
+            @game.graph.clear
+            @game.minors_graph.clear
           end
 
           def round_state
