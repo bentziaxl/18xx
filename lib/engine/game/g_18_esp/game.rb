@@ -613,6 +613,7 @@ module Engine
             next unless c.type == :minor
 
             delete_token_mz(c) if c&.name == 'MZ'
+            hex_by_id(c.destination).tile.icons.reject! { |i| i.name == c.name }
             close_corporation(c)
           end
         end
@@ -1188,6 +1189,9 @@ module Engine
 
           # get share
           get_reserved_share(minor.owner, corporation)
+
+          # remvoe destination token
+          hex_by_id(minor.destination).tile.icons.reject! { |i| i.name == minor.name }
 
           # close corp
           close_corporation(minor)
