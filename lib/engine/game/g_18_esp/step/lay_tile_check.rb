@@ -91,15 +91,12 @@ module LayTileCheck
     end
   end
 
-  def matching_track_type(entity, hex, tile)
-    corp = entity.corporation? ? entity : entity.owner
-    graph = @game.graph_for_entity(corp)
-    connection_directions = graph.connected_hexes(corp).find { |k, _| k.id == hex.id }[1]
-    connection_directions.each do |dir|
-      connecting_path = tile.paths.find { |p| p.exits.include?(dir) }
-      next unless connecting_path
+  def matching_track_type(_entity, hex, tile)
+    # All tile exits must match neighboring tiles
+    tile.exits.each do |dir|
+      next unless (connecting_path = tile.paths.find { |p| p.exits.include?(dir) })
+      next unless (neighboring_tile = hex.neighbors[dir]&.tile)
 
-      neighboring_tile = hex.neighbors[dir].tile
       neighboring_path = neighboring_tile.paths.find { |p| p.exits.include?(Engine::Hex.invert(dir)) }
       return false if neighboring_path && !connecting_path.tracks_match?(neighboring_path, dual_ok: true)
     end

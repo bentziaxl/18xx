@@ -26,6 +26,12 @@ module Engine
             @round.tokened_mountain_pass = nil
           end
 
+          def help
+            help_text = ['Once a game a corporation can move a non-home token to another location.']
+            help_text << 'Click on the city with the token to remove, then another city to place the token.'
+            help_text if can_move_token?(current_entity)
+          end
+
           def description
             'Place a Token or Move existing Token'
           end
