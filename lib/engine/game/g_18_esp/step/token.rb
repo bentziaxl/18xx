@@ -55,6 +55,7 @@ module Engine
 
             @round.tokened_mountain_pass = city if @game.mountain_pass?(city.hex)
             super(entity, city, token)
+            @state = nil
           end
 
           def can_move_token?(entity)
