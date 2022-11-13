@@ -1408,6 +1408,10 @@ module Engine
           return unless mea
           raise GameError, "#{entity.name} already owned MEA in this OR. Can not buy P3" if mea.owner == entity || @round.mea_hex
 
+          if @round.steps.find { |step| step.passed? && step.is_a?(Step::ChooseMountainPass) }
+            @log << "#{company_by_id('P3').name} is purchased after the track step, MEA is discarded"
+            return
+          end
           mea.reset_ability_count_this_or!
 
           mea.owner = entity
