@@ -1384,9 +1384,6 @@ module Engine
         def company_bought(company, entity)
           # On acquired abilities
           on_acquired_train(company, entity) if company.id == 'P4'
-
-          # process mea
-          on_acquired_mea(entity) if company.id == 'P3'
         end
 
         def on_acquired_train(company, entity)
@@ -1399,20 +1396,6 @@ module Engine
           end
           train.operated = true
           @company_trains.delete(company.id)
-        end
-
-        def on_acquired_mea(entity)
-          return unless mea
-          raise GameError, "#{entity.name} already owned MEA in this OR. Can not buy P3" if mea.owner == entity || @round.mea_hex
-
-          if @round.steps.find { |step| step.passed? && step.is_a?(Step::ChooseMountainPass) }
-            @log << "#{company_by_id('P3').name} is purchased after the track step, MEA is discarded"
-            return
-          end
-          mea.reset_ability_count_this_or!
-
-          mea.owner = entity
-          entity.companies << mea
         end
 
         # OR has just finished, find two lowest revenues and nationalize the corporations
