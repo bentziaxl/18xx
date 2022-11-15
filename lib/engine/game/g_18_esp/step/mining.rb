@@ -30,8 +30,13 @@ module Engine
             'Skip (MEA)'
           end
 
-          def buyable_items(_entity)
-            [Item.new(description: 'MEA', cost: 30)]
+          def buyable_items(entity)
+            cost = mea_ability?(entity) ? 0 : 30
+            [Item.new(description: 'MEA', cost: cost)]
+          end
+
+          def mea_ability?(entity)
+            @mea_ability ||= entity.all_abilities.find { |ability| ability&.description&.start_with?('MEA') }
           end
 
           def assignable_corporations(_company = nil)
@@ -51,7 +56,9 @@ module Engine
             @game.mea.reset_ability_count_this_or!
 
             entity = action.entity
-            entity.spend(@game.mea.value, @game.bank)
+            cost = mea_ability?(entity) ? 0 : 30
+            entity.spend(@game.mea.value, @game.bank) if cost.positive?
+            entity.remove_ability(mea_ability?(entity)) if mea_ability?(entity)
             @game.mea.owner = entity
             entity.companies << @game.mea
             pass!
