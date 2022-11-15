@@ -47,6 +47,12 @@ module Engine
             min_price: 1,
             desc: 'Comes with 1 Mining Exploitation Authorization (MEA) license. Using the MEA does not close the company.',
             color: nil,
+            abilities: [{
+              type: 'base',
+              description: 'MEA discount',
+              desc_detail: 'Next MEA purchase is free',
+              count: 1,
+            }],
           },
           {
             sym: 'P4',
