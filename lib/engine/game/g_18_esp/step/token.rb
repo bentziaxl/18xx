@@ -41,7 +41,7 @@ module Engine
               raise GameError, "Can't place token in original spot" if @removed_token == action.city.hex
 
               action.entity.moved_token = true
-              action.entity.tokens.find { |token| !token.used }.price = @game.phase.name.to_i <= 4 ? 40 : 80
+              action.entity.tokens.find { |token| !token.used }.price = move_token_price
             end
             super
             @game.graph.clear
@@ -54,6 +54,16 @@ module Engine
                 tokened_mountain_pass: nil,
               }
             )
+          end
+
+          def min_token_price(tokens)
+            return super unless @state == :move_token
+
+            move_token_price
+          end
+
+          def move_token_price
+            @game.phase.name.to_i <= 4 ? 40 : 80
           end
 
           def place_token(entity, city, token)
