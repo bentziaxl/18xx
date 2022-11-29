@@ -88,6 +88,7 @@ module Engine
             home_token = @entity.tokens.first == token
             raise GameError, 'Cannot remove home token' if home_token
 
+            token.type = :normal if token.type == :neutral
             token.remove!
             @log << "Remove token from #{action.city.hex.name}"
             @removed_token = action.city.hex
