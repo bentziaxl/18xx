@@ -10,7 +10,7 @@ module Engine
           ACTIONS = %w[choose pass].freeze
 
           def actions(entity)
-            return [] if !entity.corporation? || entity != current_entity
+            return [] if !entity.corporation? || entity != current_entity || entity.type == :minor
 
             return [] if @game.opening_new_mountain_pass(entity).empty?
 
