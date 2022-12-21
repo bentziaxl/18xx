@@ -984,10 +984,7 @@ module Engine
 
           # north corp running broad
           if north_corp?(entity) && route.train.track_type == :broad
-            first = route.stops.first
-            last = route.stops.last
-            valid_broad = (first.tokened_by?(entity) && valid_interchange?(first.tile)) ||
-                          (last.tokened_by?(entity) && valid_interchange?(last.tile))
+            valid_broad = route.stops.any? {|stop| stop.tokened_by?(entity) && valid_interchange?(stop.tile)}
             raise GameError, 'Broad train must run out of a valid interchange' unless valid_broad
           end
 
@@ -1037,7 +1034,7 @@ module Engine
         def valid_interchange?(tile)
           uniq_tracks = tile.paths.map(&:track).uniq
           valid = false
-          if (uniq_tracks.length == 1 && uniq_tracks.include?(:dual)) || (uniq_tracks.length > 1 && uniq_tracks.include?(:narrow))
+          if (uniq_tracks.length == 1 && uniq_tracks.include?(:dual)) || uniq_tracks.include?(:broad)
             valid = true
           end
           valid
