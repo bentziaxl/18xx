@@ -19,7 +19,7 @@ module Engine
           colors = potential_tile_colors(entity, hex)
           @game.tiles.select do |tile|
             @game.tile_valid_for_phase?(tile, hex: hex,
-                                              phase_color_cache: colors) && tile_valid_for_entity(entity, tile)
+                                              phase_color_cache: colors) && tile_valid_for_entity(entity, tile, hex)
           end
         end
 
@@ -42,6 +42,7 @@ module Engine
           # clear graphs
           @game.graph.clear
           @game.minors_graph.clear
+          @game.north_corp_broad_graph.clear
 
           action.entity.goal_reached!(:destination) if @game.check_for_destination_connection(action.entity)
         end
