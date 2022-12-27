@@ -15,7 +15,7 @@ module Engine
         include Map
         include CitiesPlusTownsRouteDistanceStr
 
-        attr_reader :minors_graph, :can_build_mountain_pass
+        attr_reader :minors_graph, :can_build_mountain_pass, :north_corp_broad_graph
 
         attr_accessor :player_debts
 
@@ -487,6 +487,7 @@ module Engine
           @future_corporations.each { |c| c.shares.last.buyable = false }
           @minors_graph = Graph.new(self, home_as_token: true, ignore_skip_path: true)
           @north_corp_mountain_pass_graph = Graph.new(self)
+          @north_corp_broad_graph = Graph.new(self, skip_track: :narrow)
 
           @company_trains = {}
           @company_trains['P4'] = find_and_remove_train_for_minor
@@ -984,8 +985,8 @@ module Engine
 
           # north corp running broad
           if north_corp?(entity) && route.train.track_type == :broad
-            valid_broad = route.stops.any? {|stop| stop.tokened_by?(entity) && valid_interchange?(stop.tile)}
-            raise GameError, 'Broad train must run out of a valid interchange' unless valid_broad
+            valid_broad = route.stops.any? { |stop| stop.tokened_by?(entity) && valid_interchange?(stop.tile) }
+            raise GameError, 'Broad train must include a valid interchange' unless valid_broad
           end
 
           train ||= route.train
@@ -1033,11 +1034,7 @@ module Engine
 
         def valid_interchange?(tile)
           uniq_tracks = tile.paths.map(&:track).uniq
-          valid = false
-          if (uniq_tracks.length == 1 && uniq_tracks.include?(:dual)) || uniq_tracks.include?(:broad)
-            valid = true
-          end
-          valid
+          uniq_tracks.include?(:dual) || uniq_tracks.include?(:broad)
         end
 
         def revenue_for_f(route, stops)

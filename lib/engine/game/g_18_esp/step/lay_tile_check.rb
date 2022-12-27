@@ -7,7 +7,7 @@ module LayTileCheck
       .select { |t| @game.upgrades_to?(hex.tile, t) }
       .reject(&:blocks_lay)
 
-    if narrow_only?(entity) || @game.mine_hex?(hex)
+    if @game.mine_hex?(hex)
       tiles = tiles.reject do |tile|
         tile.city_towns.empty? && tile.color != :yellow
       end
@@ -19,7 +19,7 @@ module LayTileCheck
         end
       end
     end
-    if @game.north_hex?(hex) && narrow_only?(entity)
+    if @game.north_hex?(hex) && narrow_only?(entity, hex)
       tiles = tiles.reject do |tile|
         tile.paths.any? do |path|
           path.track == :broad
@@ -41,17 +41,21 @@ module LayTileCheck
     colors = potential_tile_colors(entity, hex)
     @game.tiles.select do |tile|
       @game.tile_valid_for_phase?(tile, hex: hex,
-                                        phase_color_cache: colors) && tile_valid_for_entity(entity, tile)
+                                        phase_color_cache: colors) && tile_valid_for_entity(entity, tile, hex)
     end
   end
 
-  def tile_valid_for_entity(entity, tile)
-    narrow_only?(entity) ? tile.paths.any? { |p| p.track == :narrow || p.track == :dual } : true
+  def tile_valid_for_entity(entity, tile, hex)
+    narrow_only?(entity, hex) ? tile.paths.any? { |p| p.track == :narrow || p.track == :dual } : true
   end
 
-  def narrow_only?(entity)
+  def narrow_only?(entity, hex)
     corp = entity.corporation? ? entity : entity.owner
-    @game.north_corp?(corp) && !corp.interchange?
+    @game.north_corp?(corp) && !(corp.interchange? && hex_reached_by_broad(entity, hex))
+  end
+
+  def hex_reached_by_broad(entity, hex)
+    @game.north_corp_broad_graph.reachable_hexes(entity).include?(hex)
   end
 
   def legal_tile_rotation?(entity, hex, tile)
