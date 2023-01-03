@@ -36,7 +36,7 @@ module Engine
           end
 
           def mea_ability?(entity)
-            @mea_ability ||= entity.all_abilities.find { |ability| ability&.description&.start_with?('MEA') }
+            entity.all_abilities.find { |ability| ability&.description&.start_with?('MEA') }
           end
 
           def assignable_corporations(_company = nil)
