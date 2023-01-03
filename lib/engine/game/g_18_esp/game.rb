@@ -464,8 +464,6 @@ module Engine
             G18ESP::Step::Mining,
             G18ESP::Step::SpecialTrack,
             G18ESP::Step::Track,
-            G18ESP::Step::ChooseMountainPass,
-            G18ESP::Step::Token,
             G18ESP::Step::Route,
             G18ESP::Step::Dividend,
             Engine::Step::DiscardTrain,
