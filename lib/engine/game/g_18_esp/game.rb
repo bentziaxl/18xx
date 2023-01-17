@@ -953,7 +953,7 @@ module Engine
 
         def check_distance(route, visits, train = nil)
           entity = route.corporation
-          unless route.train.name != 'F' || f_train_correct_route?(route, visits, @round.mea_hex)
+          if route.train.name == 'F' && f_train_correct_route?(route, visits, @round.mea_hex)
             raise GameError, 'Route must connect Mine Tile placed and home token'
           end
 
