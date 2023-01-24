@@ -249,7 +249,7 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
-            destination: 'D25',
+            destination: 'D31',
           },
           {
             sym: 'CM',
