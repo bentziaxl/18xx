@@ -89,144 +89,9 @@ module Engine
         RENFE_LOGO = '/logos/18_esp/renfe.svg'
 
         MARKET = [
-          %w[76
-             82
-             90
-             100
-             110
-             120
-             132
-             144
-             158
-             172
-             188
-             204
-             222
-             240
-             260
-             280
-             300i
-             325i
-             350i
-             375i
-             400i
-             425i
-             450i],
-          %w[72
-             76
-             82
-             90
-             100
-             110
-             120
-             132
-             144
-             158
-             172
-             188
-             204
-             222U
-             240
-             260
-             280iU
-             300i
-             325i
-             350i
-             375i
-             400i
-             425i],
-          %w[68p
-             72p
-             76p
-             82p
-             90p
-             100p
-             110p
-             120p
-             132
-             144
-             158
-             172
-             188U
-             204
-             222
-             240U
-             260i
-             280i
-             300i
-             325i
-             350i
-             375i
-             400i],
-          %w[64
-             68
-             72
-             76
-             82
-             90
-             100
-             110
-             120
-             132
-             144
-             158U
-             172
-             188
-             204U
-             222
-             240i
-             260i
-             280i
-             300i
-             325i
-             350i
-             375i],
-          %w[60P
-             64P
-             68P
-             72P
-             76P
-             82P
-             90
-             100
-             110
-             120
-             132U
-             144
-             158
-             172U
-             188
-             204
-             222i
-             240i
-             260i
-             280i
-             300i
-             325i
-             350i],
-          %w[56
-             60
-             64
-             68
-             72
-             76
-             82
-             90
-             100
-             110U
-             120
-             132
-             144U
-             158
-             172
-             188
-             204i
-             222i
-             240i
-             260i
-             280i
-             300i
-             325i],
+          %w[50 55 60 65P 70p 75P 80p 85P 90p 95P 100p 115 120p
+             126 132 138 144 151 158 165 172 180 188 196 204 213 222 231 240 250 260
+             270 280 290 300 310 320 330 340 350 362 375 390 400],
         ].freeze
 
         STOCKMARKET_COLORS = Base::STOCKMARKET_COLORS.merge(
@@ -520,7 +385,7 @@ module Engine
         def init_stock_market
           G18ESP::StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
                                   multiple_buy_types: self.class::MULTIPLE_BUY_TYPES,
-                                  continuous: self.class::CONTINUOUS_MARKET)
+                                  continuous: self.class::CONTINUOUS_MARKET, zigzag: true)
         end
 
         def init_train_handler
