@@ -377,7 +377,7 @@ module Engine
           'M8' => 'Vacongadas Mountain Pass 2',
 
           # south map
-          'C20' => 'Porto',
+          'D21' => 'Porto',
           'C24' => 'Castelo Branco',
           'B25' => 'Lisboa',
           'B29' => 'Faro',
@@ -449,9 +449,7 @@ module Engine
             ['N5'] =>
                    'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
                    'path=a:1,b:_0,track:dual;path=a:2,b:_0,track:dual;label=E',
-            ['C20'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60,hide:1;'\
-                       'path=a:4,b:_0,track:dual;border=edge:5;label=W',
-            ['D21'] => 'offboard=revenue:yellow_10|green_20|brown_40|gray_60;path=a:3,b:_0,track:dual;'\
+            ['D21'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
                        'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;border=edge:2;label=W',
             ['C24'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_50;path=a:0,b:_0,track:dual;'\
                        'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
