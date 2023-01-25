@@ -543,7 +543,7 @@ module Engine
             ['E12'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:0,b:_0,track:dual;label=120;icon=image:18_esp/60',
             ['I12'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:1,b:_0,track:dual;label=60;icon=image:18_esp/30',
             ['K10'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:0,b:_0,track:dual;label=80;icon=image:18_esp/40',
-            ['M8'] => 'city=revenue:0;path=a:2,b:_0,track:dual;path=a:0,b:_0,track:dual;label=60;icon=image:18_esp/40',
+            ['M8'] => 'city=revenue:0;path=a:2,b:_0,track:dual;path=a:0,b:_0,track:dual;label=80;icon=image:18_esp/40',
             %w[E16 E14 F17] => 'path=a:0,b:3,track:dual',
             %w[F15] => 'path=a:0,b:4,track:dual',
             %w[G14 H13 L11] => 'path=a:1,b:4,track:dual',
