@@ -139,7 +139,8 @@ module Engine
             player.companies << company
 
             player.spend(price, @game.bank) if price.positive?
-
+            company.value = price if company == @game.p2
+            company.max_price = company.value if company == @game.p2
             @companies.delete(company)
             @game.after_buy_company(player, company, price)
             @log << "#{player.name} wins the auction for #{company.name} "\
