@@ -18,6 +18,16 @@ module Engine
           },
           {
             sym: 'P2',
+            name: 'Ferrocarril de Barcelona a Mataró',
+            value: 5,
+            revenue: 5,
+            min_price: 1,
+            desc: 'Owning Corporation receives 2 train. The train can not run in the same OR this company is purchased. '\
+                  'Closes when 2 train runs. Purchased for winning bid value',
+            color: nil,
+          },
+          {
+            sym: 'P3',
             name: 'Ferrocarril de Madrid a Aranjuez o El tren de la fresa',
             value: 70,
             revenue: 15,
@@ -40,27 +50,25 @@ module Engine
                         }],
           },
           {
-            sym: 'P3',
-            name: 'Ferrocarril de Murcia a Cartagena',
-            value: 100,
-            revenue: 20,
-            min_price: 1,
-            desc: 'Comes with 1 Mining Exploitation Authorization (MEA) license. Using the MEA does not close the company.',
-            color: nil,
-            abilities: [{
-              type: 'base',
-              description: 'MEA discount',
-              desc_detail: 'Next MEA purchase is free',
-              count: 1,
-            }],
-          },
-          {
             sym: 'P4',
-            name: 'Ferrocarril de Barcelona a Mataró',
-            value: 120,
-            revenue: 20,
+            name: 'Ferrocarril de Valencia a Játiva',
+            value: 100,
+            revenue: 15,
             min_price: 1,
-            desc: 'Owning Corporation receives 2 train. The train can not run in the same OR this company is purchased',
+            desc: 'Owning corporation receives 4 luxury carriage tokens. '\
+                  'They are attached to trains and provide one more town to the range. '\
+                  'Can only be used by iberian gauge companies. closes when all 4 tokens have been used.',
+            abilities: [
+                      {
+                        type: 'base',
+                        owner_type: 'corporation',
+                        description: 'Luxury carriage tokens',
+                        desc_detail: 'Private allows to attach Luxury crriage tokens to regular trains '\
+                                      'extending their distance by one town.',
+                        count: 4,
+                        when: 'owning_corp_or_turn',
+                      },
+                    ],
             color: nil,
           },
           {
@@ -69,8 +77,7 @@ module Engine
             value: 160,
             revenue: 15,
             min_price: 1,
-            desc: '10% share of El Ferrocarril de La Robla',
-            abilities: [{ type: 'shares', shares: 'FdLR_1' }],
+            desc: '20 discount on Alar del Rey mountain pass',
             color: nil,
           },
           {

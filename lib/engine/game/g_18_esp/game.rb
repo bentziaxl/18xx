@@ -41,9 +41,9 @@ module Engine
 
         MOUNTAIN_PASS_TOKEN_HEXES = %w[M8 K10 I12 E12].freeze
 
-        MOUNTAIN_PASS_TOKEN_COST = { 'M8' => 120, 'K10' => 120, 'I12' => 100, 'E12' => 160 }.freeze
+        MOUNTAIN_PASS_TOKEN_COST = { 'M8' => 80, 'K10' => 80, 'I12' => 60, 'E12' => 120 }.freeze
 
-        MOUNTAIN_PASS_TOKEN_BONUS = { 'M8' => 40, 'K10' => 40, 'I12' => 30, 'E12' => 50 }.freeze
+        MOUNTAIN_PASS_TOKEN_BONUS = { 'M8' => 40, 'K10' => 40, 'I12' => 30, 'E12' => 60 }.freeze
 
         SELL_AFTER = :operate
 
@@ -79,11 +79,11 @@ module Engine
         NORTH_CORP_SOUTH_TILE_LAYS = { lay: true, upgrade: :not_if_upgraded, cost: 20, cannot_reuse_same_hex: true }.freeze
 
         ABILITY_ICONS = {
-          P2: 'strawberry',
+          P3: 'strawberry',
         }.freeze
 
         ASSIGNMENT_TOKENS = {
-          'P2' => '/icons/18_esp/strawberry.svg',
+          'P3' => '/icons/18_esp/strawberry.svg',
         }.freeze
 
         RENFE_LOGO = '/logos/18_esp/renfe.svg'
@@ -338,6 +338,10 @@ module Engine
           ], round_num: round_num)
         end
 
+        def p3
+          @p3 ||= company_by_id('P3')
+        end
+
         def p2
           @p2 ||= company_by_id('P2')
         end
@@ -353,7 +357,7 @@ module Engine
           @north_corp_broad_graph = Graph.new(self, skip_track: :narrow)
 
           @company_trains = {}
-          @company_trains['P4'] = find_and_remove_train_for_minor
+          @company_trains['P2'] = find_and_remove_train_for_minor
 
           setup_company_price(1)
 
@@ -495,9 +499,9 @@ module Engine
           end
 
           @corporations.each do |corp|
-            corp.remove_assignment!('P2') if corp.assigned?('P2')
+            corp.remove_assignment!('P3') if corp.assigned?('P3')
           end
-          hex_by_id('G26').remove_assignment!('P2')
+          hex_by_id('G26').remove_assignment!('P3')
         end
 
         def event_partial_capitalization!
@@ -709,7 +713,7 @@ module Engine
             path.walk { |p| p.track = track_type if p.tile.color == :orange }
           end
 
-          mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex))
+          mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex), entity)
           entity.spend(mount_pass_cost, @bank)
 
           opened_mountain_passes[pass_hex] = track_type
@@ -743,7 +747,9 @@ module Engine
           end
           return {} if openable_passes.empty? || last_track_type?(entity, openable_passes)
 
-          openable_passes.to_h { |hex| [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex))})"] }
+          openable_passes.to_h do |hex|
+            [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex, entity))})"]
+          end
         end
 
         def graph_skip_paths(_entity)
@@ -803,8 +809,10 @@ module Engine
           true
         end
 
-        def mountain_pass_token_cost(hex)
-          MOUNTAIN_PASS_TOKEN_COST[hex.id]
+        def mountain_pass_token_cost(hex, entity)
+          base_cost = MOUNTAIN_PASS_TOKEN_COST[hex.id]
+          base_cost -= 20 if entity.companies.include?(p5) && hex.id == 'I2'
+          base_cost
         end
 
         def mountain_pass_token_hex?(hex)
@@ -914,7 +922,7 @@ module Engine
             tokened_mountain_pass(hex, route.train.owner) ? MOUNTAIN_PASS_TOKEN_BONUS[hex.id] : 0
           end
           revenue += bonus
-          revenue += p2_bonus(route, stops) ? 20 : 0
+          revenue += p3_bonus(route, stops) ? 20 : 0
           revenue += east_west_bonus(stops)[:revenue]
           revenue += gbi_bm_bonus(stops)[:revenue]
 
@@ -927,9 +935,9 @@ module Engine
           stops.sum { |stop| stop.tile.color == :blue ? stop.route_revenue(route.phase, route.train) : 0 }
         end
 
-        def p2_bonus(route, stops)
-          route.corporation.assigned?('P2') && (assigned_stop = stops.find do |s|
-                                                  s.hex.assigned?('P2')
+        def p3_bonus(route, stops)
+          route.corporation.assigned?('P3') && (assigned_stop = stops.find do |s|
+                                                  s.hex.assigned?('P3')
                                                 end) && aranjuez?(assigned_stop)
         end
 
@@ -993,7 +1001,7 @@ module Engine
         def revenue_str(route)
           rev_str = super
           rev_str += ' + mountain pass' if route.hexes.any? { |hex| mountain_pass_token_hex?(hex) }
-          rev_str += ' + strawberry' if p2_bonus(route, route.stops)
+          rev_str += ' + strawberry' if p3_bonus(route, route.stops)
 
           ewbonus = east_west_bonus(route.stops)[:description]
           rev_str += " + #{ewbonus}" if ewbonus
@@ -1138,7 +1146,7 @@ module Engine
           end
 
           # code to move strawberry token
-          survivor.assign!('P2') if nonsurvivor.assignments.any? { |a, _| a == 'P2' }
+          survivor.assign!('P3') if nonsurvivor.assignments.any? { |a, _| a == 'P3' }
           nonsurvivor.companies.clear
 
           @log << "Moved assets from #{nonsurvivor.name} to #{survivor.name}"
@@ -1243,7 +1251,7 @@ module Engine
 
         def company_bought(company, entity)
           # On acquired abilities
-          on_acquired_train(company, entity) if company.id == 'P4'
+          on_acquired_train(company, entity) if company.id == 'P2'
         end
 
         def on_acquired_train(company, entity)

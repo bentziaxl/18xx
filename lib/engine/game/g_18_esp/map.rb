@@ -445,7 +445,7 @@ module Engine
                      'offboard=revenue:yellow_10|green_30|brown_40|gray_50;'\
                      'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
             ['B9'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
-                    'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
+                      'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
             %w[B11] =>
                      'offboard=revenue:yellow_20|green_30|brown_50|gray_60;path=a:4,b:_0,track:dual;label=W',
             ['N5'] =>
