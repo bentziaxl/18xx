@@ -55,18 +55,16 @@ module Engine
             value: 100,
             revenue: 15,
             min_price: 1,
-            desc: 'Owning corporation receives 4 luxury carriage tokens. '\
-                  'They are attached to trains and provide one more town to the range. '\
-                  'Can only be used by iberian gauge companies. closes when all 4 tokens have been used. '\
-                  'One luxury token per train, can be used for multiple trains in the same OR.',
+            desc: 'Owning corporation receives can upgrade one train per OR and attach a luxury carrier '\
+                  'luxury carriers provide one more town to the range. '\
+                  'Can only be used by iberian gauge companies '
             abilities: [
                       {
                         type: 'base',
                         owner_type: 'corporation',
-                        description: 'Luxury carriage tokens',
-                        desc_detail: 'Private allows to attach Luxury crriage tokens to regular trains '\
+                        description: 'Luxury carriage',
+                        desc_detail: 'Private allows to attach Luxury crriage to regular trains '\
                                      'extending their distance by one town.',
-                        count: 4,
                         when: 'owning_corp_or_turn',
                       },
                     ],

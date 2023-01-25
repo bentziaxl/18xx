@@ -45,7 +45,7 @@ module Engine
           end
 
           def luxury_ability(entity)
-            entity.all_abilities.find { |a| a.descroption == 'Luxury carriage tokens' }
+            entity.all_abilities.find { |a| a.descroption == 'Luxury Carriage' }
           end
 
           def luxury_train_choices(entity)
@@ -60,14 +60,6 @@ module Engine
 
             @orginal_train = nil
             @luxury_train = nil
-            ability = luxury_ability(current_entity)
-            ability.use!
-
-            return unless ability.count.zero?
-
-            company = ability.owner
-            @log << "#{company.name} closes"
-            company.close!
           end
 
           def process_run_routes(action)

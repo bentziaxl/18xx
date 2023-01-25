@@ -481,11 +481,11 @@ module Engine
           },
           white: {
             %w[C6 C8 M4 C28 I26 J27 J31 K26 L27 M20 E4 E34] => '',
-            %w[B3 C4 E2 I4 K4] => 'town=revenue:0',
+            %w[B3 C4 C10 E2 I4 K4] => 'town=revenue:0',
             %w[K30] => 'town=revenue:0;icon=image:18_esp/AC,sticky:1;frame=color:#35A7FF;icon=image:anchor',
             %w[D33] => 'town=revenue:0;icon=image:18_esp/SC,sticky:1;frame=color:#35A7FF;icon=image:anchor',
             %w[H5] => 'town=revenue:0;icon=image:18_esp/CFEA,sticky:1;border=edge:0,type:impassable',
-            %w[C10 J5 L19 M22] => 'city=revenue:0',
+            %w[J5 L19 M22] => 'city=revenue:0',
             ['F3'] => 'city=revenue:0;frame=color:#35A7FF;icon=image:anchor;label=G',
             %w[F33] => 'city=revenue:0;icon=image:18_esp/CM,sticky:1,;label=K;frame=color:#35A7FF;icon=image:anchor',
             %w[L25] => 'city=revenue:0;label=K;frame=color:#35A7FF;icon=image:anchor',
