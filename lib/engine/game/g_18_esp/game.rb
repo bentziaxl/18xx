@@ -826,7 +826,7 @@ module Engine
 
         def check_distance(route, visits, train = nil)
           entity = route.corporation
-          if route.train.name == 'F' && f_train_correct_route?(route, visits, @round.mea_hex)
+          if route.train.name == 'F' && !f_train_correct_route?(route, visits, @round.mea_hex)
             raise GameError, 'Route must connect Mine Tile placed and home token'
           end
 
@@ -1160,58 +1160,8 @@ module Engine
         end
 
         def place_home_token(corporation)
-          return if special_minor?(corporation)
-
-          return unless corporation.next_token # 1882
-          # If a corp has laid it's first token assume it's their home token
-          return if corporation.tokens.first&.used
-
-          hex = hex_by_id(corporation.coordinates)
-
-          tile = hex&.tile
-          if !tile || (tile.reserved_by?(corporation) && tile.paths.any?)
-
-            if @round.pending_tokens.any? { |p| p[:entity] == corporation }
-              # 1867: Avoid adding the same token twice
-              @round.clear_cache!
-              return
-            end
-
-            # If the tile does not have any paths at the present time, clear up the ambiguity when the tile is laid
-            # otherwise the entity must choose now.
-            hexes =
-              if hex
-                [hex]
-              else
-                home_token_locations(corporation)
-              end
-
-            return unless hexes
-
-            @log << "#{corporation.name} must choose city for home token"
-            @round.pending_tokens << {
-              entity: corporation,
-              hexes: hexes,
-              token: corporation.find_token_by_type,
-            }
-
-            @round.clear_cache!
-            return
-          end
-
-          cities = tile.cities
-
-          city = cities.find { |c| c.reserved_by?(corporation) || c.index == corporation.city } || cities.first
-          token = corporation.find_token_by_type
-
-          if city.tokenable?(corporation, tokens: token)
-            @log << "#{corporation.name} places a token on #{hex.name}"
-            city.place_token(corporation, token)
-          elsif home_token_can_be_cheater
-            @log << "#{corporation.name} places a token on #{hex.name}"
-            city.place_token(corporation, token, cheater: true)
-          end
-
+          super
+          clear_graph_for_entity(corporation)
           corporation.goal_reached!(:destination) if check_for_destination_connection(corporation)
         end
 
