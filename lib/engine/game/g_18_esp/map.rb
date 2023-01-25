@@ -347,8 +347,8 @@ module Engine
 
         LOCATION_NAMES = {
           'B5' => 'Galicia',
-          'B9' => 'Ourense Lugo Pontevedra',
-          'B11' => 'Vigo Portgual',
+          'B9' => 'Vigo',
+          'B11' => 'Vigo',
           'B3' => 'Ribadeo',
           'C4' => 'Luarca (Ḷḷuarca)',
           'C10' => 'Ponferrada',
@@ -441,26 +441,28 @@ module Engine
             %w[O22] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60',
           },
           red: {
-            %w[B5 B9] =>
+            %w[B5] =>
                      'offboard=revenue:yellow_10|green_30|brown_40|gray_50;'\
                      'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
-            ['B9'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
+            ['B9'] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50;'\
                       'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
             %w[B11] =>
-                     'offboard=revenue:yellow_20|green_30|brown_50|gray_60;path=a:4,b:_0,track:dual;label=W',
+                     'offboard=revenue:yellow_20|green_30|brown_40|gray_50,hide:1;path=a:4,b:_0,track:dual;label=W',
             ['N5'] =>
                    'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
                    'path=a:1,b:_0,track:dual;path=a:2,b:_0,track:dual;label=E',
             ['D21'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
                        'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;border=edge:2;label=W',
-            ['C24'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_50;path=a:0,b:_0,track:dual;'\
+            ['C24'] => 'offboard=revenue:yellow_10|green_20|brown_40|gray_50;path=a:0,b:_0,track:dual;'\
                        'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
             %w[B25 B29] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_50,hide:1;path=a:5,b:_0,track:dual;label=W',
             ['B27'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
                        'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
             ['B31'] => 'offboard=revenue:yellow_10|green_20|brown_40|gray_50;path=a:4,b:_0,track:dual;label=W',
-            %w[O18 N17
+            %w[N17
                J15] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
+                       'path=a:0,b:_0,track:dual;path=a:1,b:_0,track:dual;label=E',
+            %w[O18] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50;'\
                        'path=a:0,b:_0,track:dual;path=a:1,b:_0,track:dual;label=E',
             %w[K16] => 'offboard=revenue:yellow_30|green_50|brown_60|gray_80'\
                        ';path=a:0,b:_0,track:dual;path=a:5,b:_0,track:dual;label=E',
@@ -538,7 +540,7 @@ module Engine
             %w[J11 L9] => 'offboard=revenue:10;path=a:2,b:_0,track:dual;path=a:3,b:_0,track:dual',
           },
           orange: {
-            ['E12'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:0,b:_0,track:dual;label=160;icon=image:18_esp/50',
+            ['E12'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:0,b:_0,track:dual;label=160;icon=image:18_esp/60',
             ['I12'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:1,b:_0,track:dual;label=100;icon=image:18_esp/30',
             ['K10'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:0,b:_0,track:dual;label=120;icon=image:18_esp/40',
             ['M8'] => 'city=revenue:0;path=a:2,b:_0,track:dual;path=a:0,b:_0,track:dual;label=120;icon=image:18_esp/40',
