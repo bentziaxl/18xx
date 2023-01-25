@@ -373,8 +373,8 @@ module Engine
           'L3' => 'Bilbao harbor',
           'E12' => 'Pajares Mountain Pass',
           'I12' => 'Alar del Rey Mountain Pass',
-          'K10' => 'Vacongadas Mountain Pass 1',
-          'M8' => 'Vacongadas Mountain Pass 2',
+          'K10' => 'País Vasco (Euskadi) Mountain Pass 1',
+          'M8' => 'País Vasco (Euskadi) Mountain Pass 2',
 
           # south map
           'D21' => 'Porto',
@@ -444,8 +444,10 @@ module Engine
             %w[B5 B9] =>
                      'offboard=revenue:yellow_10|green_30|brown_40|gray_50;'\
                      'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
+            ['B9'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
+                    'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
             %w[B11] =>
-                     'offboard=revenue:yellow_10|green_30|brown_40|gray_50;path=a:4,b:_0,track:dual;label=W',
+                     'offboard=revenue:yellow_20|green_30|brown_50|gray_60;path=a:4,b:_0,track:dual;label=W',
             ['N5'] =>
                    'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
                    'path=a:1,b:_0,track:dual;path=a:2,b:_0,track:dual;label=E',
