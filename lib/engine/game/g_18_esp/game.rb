@@ -89,18 +89,20 @@ module Engine
         RENFE_LOGO = '/logos/18_esp/renfe.svg'
 
         MARKET = [
-          %w[50 55 60 65P 70p 75P 80p 85P 90p 95P 100p 115 120p
+          %w[50 55 60 65P 70p 75P 80p 85P 90p 95P 100p 105 110x 115 120x
              126 132 138 144 151 158 165 172 180 188 196 204 213 222 231 240 250 260
              270 280 290 300 310 320 330 340 350 362 375 390 400],
         ].freeze
 
         STOCKMARKET_COLORS = Base::STOCKMARKET_COLORS.merge(
-          par_overlap: :blue
+          par_overlap: :blue,
+          par_1: :green
         ).freeze
 
         MARKET_TEXT = Base::MARKET_TEXT.merge(
-          par: 'Major Corporation Par',
+          par: 'All Major Corporation Par',
           par_overlap: 'Minor Corporation Par',
+          par_1: 'Southern Major Corporation Par'
         ).freeze
 
         PHASES = [{
@@ -419,7 +421,8 @@ module Engine
                 share = random_corporation.shares[0]
                 real_shares << share
                 company.desc = "Purchasing player takes a president's share (20%) of #{random_corporation.name} \
-                and immediately sets its par value. It closes when #{random_corporation.name} buys its first train."
+                (The president's share is randomized) and immediately sets its par value. \
+                It closes when #{random_corporation.name} buys its first train."
                 @log << "#{company.name} comes with the president's share of #{random_corporation.name}"
                 company.add_ability(Ability::Close.new(
                 type: :close,
@@ -519,7 +522,8 @@ module Engine
 
         # market
         def par_prices(corp)
-          par_type = corp.type == 'major' ? %i[par] : %i[par_overlap]
+          par_type = corp.type == 'major' ? %i[par par_1] : %i[par_overlap]
+          par_type = %i[par] if north_corp?(corp)
           stock_market.share_prices_with_types(par_type)
         end
 
