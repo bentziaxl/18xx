@@ -588,6 +588,18 @@ module Engine
           @opened_mountain_passes  ||= {}
         end
 
+        def status_array(corporation)
+          return if corporation.type == :minor
+
+          status = ['Goals Left:']
+          status << ["Destination #{corporation.destination}"] unless corporation.destination_connected?
+          status << ['Offboard'] unless corporation.ran_offboard?
+          status << ['Run South'] if north_corp?(corporation) && !corporation.ran_southern_map?
+          status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor
+
+          status
+        end
+
         def f_train
           @depot.trains.find { |t| t.name == 'F' }
         end
