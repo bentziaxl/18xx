@@ -35,8 +35,13 @@ module Engine
             raise GameError,
                   'Tiles connecting into the 4 mountain passes can not be of the same track type'
           end
-          old_tile = action.hex.tile
+          hex = action.hex
+          old_tile = hex.tile
+          tile_frame = old_tile.frame
           super
+
+          old_tile.reframe!(nil)
+          hex.tile.reframe!(tile_frame.color, tile_frame.color2) if tile_frame
           old_tile&.icons = []
 
           # clear graphs

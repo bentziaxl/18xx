@@ -17,6 +17,8 @@ module Engine
             token.used = true unless price.zero?
             token
           end
+          first_token = @tokens.find { |t| t.used == true }
+          first_token&.used = false
         end
 
         def destination_connected?
