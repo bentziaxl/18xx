@@ -55,9 +55,9 @@ module Engine
             value: 100,
             revenue: 15,
             min_price: 1,
-            desc: 'Owning corporation receives can upgrade one train per OR and attach a luxury carrier '\
+            desc: 'Owning corporation can upgrade one train per OR and attach a luxury carrier '\
                   'luxury carriers provide one more town to the range. '\
-                  'Can only be used by iberian gauge companies ',
+                  'Can only be attached to iberian gauge trains ',
             abilities: [
                       {
                         type: 'base',
