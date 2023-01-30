@@ -597,6 +597,7 @@ module Engine
           status << ['Run South'] if north_corp?(corporation) && !corporation.ran_southern_map?
           status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor
 
+          status = nil if status.length == 1
           status
         end
 
