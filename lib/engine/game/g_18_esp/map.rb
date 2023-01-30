@@ -37,19 +37,19 @@ module Engine
             'count' => 1,
             'color' => 'yellow',
             'code' =>
-              'town=revenue:30;path=a:0,b:_0,track:narrow;path=a:3,b:_0,track:narrow;label=GO',
+              'city=revenue:30;path=a:0,b:_0,track:narrow;path=a:3,b:_0,track:narrow;label=G;label=O',
           },
           'L103' => {
             'count' => 1,
             'color' => 'yellow',
             'code' =>
-              'town=revenue:30;path=a:0,b:_0,track:narrow;path=a:4,b:_0,track:narrow;label=GO',
+              'city=revenue:30;path=a:0,b:_0,track:narrow;path=a:4,b:_0,track:narrow;label=G;label=O',
           },
           'L104' => {
             'count' => 1,
             'color' => 'yellow',
             'code' =>
-              'town=revenue:30;path=a:3,b:_0,track:narrow;path=a:4,b:_0,track:narrow;label=GO',
+              'city=revenue:30;path=a:3,b:_0,track:narrow;path=a:4,b:_0,track:narrow;label=G;label=O',
           },
 
           # greens

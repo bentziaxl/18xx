@@ -69,6 +69,8 @@ module Engine
 
         EBUY_DEPOT_TRAIN_MUST_BE_CHEAPEST = false
 
+        HARBOR_BLUE = '#35A7FF'
+
         GAME_END_CHECK = { final_phase: :one_more_full_or_set }.freeze
 
         MINOR_TILE_LAYS = [{ lay: true, upgrade: true, cost: 0 }].freeze
@@ -238,7 +240,7 @@ module Engine
                 price: 600,
               },
             ],
-            events: [{ 'type' => 'partial_capitalization' }],
+            events: [{ 'type' => 'float_60' }],
           },
 
           {
@@ -249,9 +251,9 @@ module Engine
             events: [{ 'type' => 'renfe_founded' }],
             variants: [
                       {
-                        name: '5+5',
-                        distance: [{ 'nodes' => ['town'], 'pay' => 5, 'visit' => 5 },
-                                   { 'nodes' => %w[city offboard town], 'pay' => 5, 'visit' => 5 }],
+                        name: '6+6',
+                        distance: [{ 'nodes' => ['town'], 'pay' => 6, 'visit' => 6 },
+                                   { 'nodes' => %w[city offboard town], 'pay' => 6, 'visit' => 6 }],
                         track_type: :narrow,
                         price: 600,
                       },
@@ -283,7 +285,7 @@ module Engine
                 'companies_bought_200' => ['Companies 200%', 'Companies can be bought in for maximum 200% of value'],
                 'renfe_founded' => ['RENFE founded'],
                 'close_minors' => ['Minors close'],
-                'partial_capitalization' => ['Partial Capitalization', 'Corporations launched are partial cap'],
+                'float_60' => ['60% to Float', "Corporation's President must own 60% or corporation sold out to float"],
                 'mountain_pass' => ['Can build mountain passes']
               ).freeze
 
@@ -507,13 +509,18 @@ module Engine
           hex_by_id('G26').remove_assignment!('P3')
         end
 
-        def event_partial_capitalization!
-          @corporations.select(&:floated).each do |c|
-            c.goal_reached!(:takeover) unless c.taken_over_minor
-          end
-          @corporations.each { |c| c.shares.last&.buyable = true unless c.type == :minor }
+        def event_float_60!
+          # @corporations.select(&:floated).each do |c|
+          #   c.goal_reached!(:takeover) unless c.taken_over_minor
+          # end
+          @corporations.each do |c|
+            next if c.type == :minor || c.floated?
 
-          @partial_cap = true
+            c.shares.last&.buyable = true
+            c.float_percent = 60
+          end
+
+          @full_cap = true
         end
 
         def event_renfe_founded!
@@ -528,8 +535,7 @@ module Engine
         end
 
         def float_corporation(corporation)
-          if @partial_cap
-            corporation.capitalization = :incremental
+          if @full_cap
             # release tokens
             corporation.tokens.each { |token| token.used = false if token.used == true && !token.hex }
             # all goals reached, no extra cap
@@ -537,9 +543,10 @@ module Engine
             corporation.ran_offboard = true
             corporation.ran_southern_map = true
             corporation.taken_over_minor = true
+            share_count = 10 if @full_cap
           end
           @log << "#{corporation.name} floats"
-          share_count = corporation.type == :major ? 4 : 2
+          share_count ||= corporation.type == :major ? 4 : 2
 
           @bank.spend(corporation.par_price.price * share_count, corporation)
           @log << "#{corporation.name} receives #{format_currency(corporation.cash)}"
@@ -596,6 +603,12 @@ module Engine
         def upgrade_cost(old_tile, hex, entity, spender)
           total_cost = super
           hex.tile.paths.all? { |path| path.track == :narrow } ? total_cost / 2 : total_cost
+        end
+
+        def upgrades_to_correct_label?(from, to)
+          return super if to.labels.length < 2 && from.labels.length < 2
+
+          !to.labels.empty? { |t| t == from.label } && !from.labels.empty? { |f| f == to.label }
         end
 
         def subsidy_for(route, stops)
@@ -930,13 +943,26 @@ module Engine
           revenue += east_west_bonus(stops)[:revenue]
           revenue += gbi_bm_bonus(stops)[:revenue]
 
-          revenue -= harbor_revenue(route, stops)
-
           revenue
         end
 
         def harbor_revenue(route, stops)
-          stops.sum { |stop| stop.tile.color == :blue ? stop.route_revenue(route.phase, route.train) : 0 }
+          puts("here in harbour #{stops.map { |stop| associated_harbor(stop) }}")
+          stops.sum do |stop|
+            if stop.tile.frame&.color == HARBOR_BLUE && associated_harbor(stop)
+              associated_harbor(stop).route_revenue(route.phase,
+                                                    route.train)
+            else
+              0
+            end
+          end
+        end
+
+        def associated_harbor(stop)
+          harbor = stop.hex.all_neighbors.values.find { |h| h.tile.color == :blue }
+          return unless harbor
+
+          harbor.tile.offboards.first
         end
 
         def p3_bonus(route, stops)
