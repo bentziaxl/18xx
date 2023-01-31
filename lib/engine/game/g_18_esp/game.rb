@@ -285,7 +285,7 @@ module Engine
                 'companies_bought_200' => ['Companies 200%', 'Companies can be bought in for maximum 200% of value'],
                 'renfe_founded' => ['RENFE founded'],
                 'close_minors' => ['Minors close'],
-                'float_60' => ['60% to Float', "Corporation's President must own 60% or corporation sold out to float"],
+                'float_60' => ['60% to Float', "Corporations must have 60% of their shares sold to float"],
                 'mountain_pass' => ['Can build mountain passes']
               ).freeze
 
