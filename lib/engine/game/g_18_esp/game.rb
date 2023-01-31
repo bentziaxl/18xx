@@ -1169,10 +1169,12 @@ module Engine
           city = old_token.city
           return gain_token(survivor) unless city
 
-          @log << "Replaced #{nonsurvivor.name} token in #{city.hex.id} with #{survivor.name} token"
+          @log << "Replaced #{nonsurvivor.name} token in #{city.hex.id} with #{survivor.name}"\
+                  " token for #{@game.format_currency(100)}"
           new_token.place(city)
           city.tokens[city.tokens.find_index(old_token)] = new_token
           nonsurvivor.tokens.delete(old_token)
+          survivor.spend(100)
         end
 
         def move_assets(survivor, nonsurvivor)
