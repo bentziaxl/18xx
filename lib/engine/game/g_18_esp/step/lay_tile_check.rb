@@ -19,13 +19,6 @@ module LayTileCheck
         end
       end
     end
-    if @game.north_hex?(hex) && narrow_only?(entity, hex)
-      tiles = tiles.reject do |tile|
-        tile.paths.any? do |path|
-          path.track == :broad
-        end
-      end
-    end
 
     unless @game.north_corp?(corp)
       tiles = tiles.reject do |tile|
@@ -55,7 +48,7 @@ module LayTileCheck
   end
 
   def hex_reached_by_broad(entity, hex)
-    @game.north_corp_broad_graph.reachable_hexes(entity).include?(hex)
+    @game.north_corp_broad_graph.connected_hexes(entity).include?(hex)
   end
 
   def legal_tile_rotation?(entity, hex, tile)

@@ -4,7 +4,7 @@ module Engine
   module Game
     module G18ESP
       module Map
-        MINE_HEXES = %w[D5 D9 F9 F11 H9 I6 J7 D23 H21 E18 E32 F31 I30 J23 E8 F7 C30 G30 G32 J21].freeze
+        MINE_HEXES = %w[D5 D9 F9 F11 F19 H9 I6 J7 D23 H21 E18 E32 F31 I30 J23 E8 F7 C30 G30 G32 J21].freeze
         LAYOUT = :flat
         TILES = {
           '3' => 3,
