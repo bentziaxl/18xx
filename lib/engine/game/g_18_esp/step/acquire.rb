@@ -84,8 +84,14 @@ module Engine
             options = {
               charter: 'Charter',
             }
-            options[:map] = 'Map' if @merging.last.tokens.first.used && !special_minor_or_mz?(@merging.last)
+            options[:map] = 'Map' if can_swap?
             options
+          end
+
+          def can_swap?
+            @merging.last.tokens.first.used &&
+            !special_minor_or_mz?(@merging.last) &&
+            current_entity.cash >= 100
           end
 
           def special_minor_or_mz?(entity)

@@ -7,6 +7,14 @@ module Engine
     module G18ESP
       module Step
         class HomeToken < Engine::Step::HomeToken
+          def auto_actions(entity)
+            return super unless entity.name == 'MZ'
+
+            [Engine::Action::PlaceToken.new(entity,
+                                            city: @game.city_by_id('G24-0-2'),
+                                            slot: 0)]
+          end
+
           def process_place_token(action)
             hex = action.city.hex
             raise GameError, "Cannot place token on #{hex.name} as the hex is not available" unless available_hex(action.entity,
