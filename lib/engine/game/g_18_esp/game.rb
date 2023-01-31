@@ -29,7 +29,7 @@ module Engine
 
         NORTH_CORPS = %w[FdSB FdLR CFEA CFLG].freeze
 
-        SPECIAL_MINORS = %w[MS AC].freeze
+        SPECIAL_MINORS = %w[].freeze
 
         TRACK_RESTRICTION = :permissive
 
@@ -346,6 +346,10 @@ module Engine
           @p3 ||= company_by_id('P3')
         end
 
+        def p5
+          @p5 ||= company_by_id('P5')
+        end
+
         def p2
           @p2 ||= company_by_id('P2')
         end
@@ -622,7 +626,7 @@ module Engine
         def upgrades_to_correct_label?(from, to)
           return super if to.labels.length < 2 && from.labels.length < 2
 
-          !to.labels.empty? { |t| t == from.label } && !from.labels.empty? { |f| f == to.label }
+          to.labels.any? { |t| t == from.label } || from.labels.any? { |f| f == to.label }
         end
 
         def subsidy_for(route, stops)
@@ -961,7 +965,6 @@ module Engine
         end
 
         def harbor_revenue(route, stops)
-          puts("here in harbour #{stops.map { |stop| associated_harbor(stop) }}")
           stops.sum do |stop|
             if stop.tile.frame&.color == HARBOR_BLUE && associated_harbor(stop)
               associated_harbor(stop).route_revenue(route.phase,
@@ -1206,7 +1209,13 @@ module Engine
         end
 
         def place_home_token(corporation)
-          super
+          if corporation.id == 'MZA' && corporation_by_id('MZ').ipoed
+            token = corporation.tokens.first
+            city = city_by_id('G24-0-2')
+            city.place_token(corporation, token, cheater: true)
+          else
+            super
+          end
           clear_graph_for_entity(corporation)
           corporation.goal_reached!(:destination) if check_for_destination_connection(corporation)
         end
