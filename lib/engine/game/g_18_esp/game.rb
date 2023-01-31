@@ -255,7 +255,7 @@ module Engine
                         distance: [{ 'nodes' => ['town'], 'pay' => 6, 'visit' => 6 },
                                    { 'nodes' => %w[city offboard town], 'pay' => 6, 'visit' => 6 }],
                         track_type: :narrow,
-                        price: 600,
+                        price: 800,
                       },
                     ],
 
