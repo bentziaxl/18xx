@@ -4,7 +4,7 @@ module Engine
   module Game
     module G18ESP
       module Entities
-        MINE_HEXES = %w[D5 D9 F9 F11 H9 I6 J7 D23 H21 E32 F31 I30 J23 E8 F7 C30 G30 G32 J21].freeze
+        MINE_HEXES = %w[D5 D9 F9 F19 F11 H9 I6 J7 D23 H21 E32 F31 I30 J23 E8 F7 C30 G30 G32 J21].freeze
 
         COMPANIES = [
           {
@@ -55,14 +55,14 @@ module Engine
             value: 100,
             revenue: 15,
             min_price: 1,
-            desc: 'Owning corporation can upgrade one train per OR and attach a luxury carrier. '\
-                  "luxury carriers provide one more town to the train's range. "\
+            desc: 'Owning corporation can upgrade one train per OR and attach a luxury carriage. '\
+                  "Luxury carriages provide one more town to the train's range. "\
                   'Can only be attached to iberian gauge trains. ',
             abilities: [
                       {
                         type: 'base',
                         owner_type: 'corporation',
-                        description: 'Luxury carriage',
+                        description: 'Luxury Carriage',
                         desc_detail: 'Private allows to attach Luxury crriage to regular trains '\
                                      'extending their distance by one town.',
                         when: 'owning_corp_or_turn',

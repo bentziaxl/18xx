@@ -45,7 +45,7 @@ module Engine
           end
 
           def luxury_ability(entity)
-            entity.all_abilities.find { |a| a.descroption == 'Luxury Carriage' }
+            entity.all_abilities.find { |a| a.description == 'Luxury Carriage' }
           end
 
           def luxury_train_choices(entity)
