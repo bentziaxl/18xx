@@ -41,6 +41,8 @@ module Engine
 
         MOUNTAIN_PASS_TOKEN_HEXES = %w[M8 K10 I12 E12].freeze
 
+        SPECIAL_HEXES = %w[I16 H17 G18 F19].freeze
+
         MOUNTAIN_PASS_TOKEN_COST = { 'M8' => 80, 'K10' => 80, 'I12' => 60, 'E12' => 120 }.freeze
 
         MOUNTAIN_PASS_TOKEN_BONUS = { 'M8' => 40, 'K10' => 40, 'I12' => 30, 'E12' => 60 }.freeze
@@ -285,7 +287,7 @@ module Engine
                 'companies_bought_200' => ['Companies 200%', 'Companies can be bought in for maximum 200% of value'],
                 'renfe_founded' => ['RENFE founded'],
                 'close_minors' => ['Minors close'],
-                'float_60' => ['60% to Float', "Corporations must have 60% of their shares sold to float"],
+                'float_60' => ['60% to Float', 'Corporations must have 60% of their shares sold to float'],
                 'mountain_pass' => ['Can build mountain passes']
               ).freeze
 
@@ -395,7 +397,7 @@ module Engine
         end
 
         def init_stock_market
-          G18ESP::StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
+          Engine::StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
                                   multiple_buy_types: self.class::MULTIPLE_BUY_TYPES,
                                   continuous: self.class::CONTINUOUS_MARKET, zigzag: true)
         end
@@ -561,7 +563,11 @@ module Engine
         end
 
         def north_hex?(hex)
-          hex.y < NORTH_SOUTH_DIVIDE
+          hex.y < NORTH_SOUTH_DIVIDE || special_hex?(hex)
+        end
+
+        def special_hex?(hex)
+          SPECIAL_HEXES.include?(hex&.id)
         end
 
         def mountain_pass_access?(hex)
@@ -1311,7 +1317,7 @@ module Engine
         end
 
         def pay_nationalization_compensation(corporation)
-          per_share = @stock_market.find_share_price(corporation, :right).price
+          per_share = @stock_market.find_share_price(corporation, [:right] * (4 - @turn)).price
           payouts = {}
           @players.each do |player|
             amount = player.num_shares_of(corporation) * per_share

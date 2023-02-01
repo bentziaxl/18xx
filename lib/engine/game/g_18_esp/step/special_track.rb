@@ -22,9 +22,6 @@ module Engine
                         })
           end
 
-          def available_hex(entity, hex)
-            hex.tile.color == :white ? super : nil
-          end
 
           def convert_to_train(company)
             return unless company
