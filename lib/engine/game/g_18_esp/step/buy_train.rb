@@ -10,14 +10,18 @@ module Engine
         class BuyTrain < Engine::Step::BuyTrain
           def buyable_trains(entity)
             # Cannot buy F train
-            super.reject { |t| t.name == 'F' }
+            trains = super
+            trains.reject! { |t| t.name == 'F' }
+            trains.reject! { |t| t.track_type == :narrow } if entity.type == :minor
+            trains
           end
 
           def buyable_train_variants(train, entity)
             trains = super
             type = @game.north_corp?(entity) ? :broad : :narrow
 
-            trains = trains.reject { |v| type?(v[:name], type) } if owns_type?(entity, type)
+            trains.reject! { |v| type?(v[:name], type) } if owns_type?(entity, type)
+            trains.reject! { |v| type?(v[:name], :narrow) } if entity.type == :minor
             trains
           end
 
