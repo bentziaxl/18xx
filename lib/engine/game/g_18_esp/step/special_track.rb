@@ -22,7 +22,6 @@ module Engine
                         })
           end
 
-
           def convert_to_train(company)
             return unless company
 

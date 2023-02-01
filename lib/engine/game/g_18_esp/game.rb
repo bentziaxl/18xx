@@ -318,7 +318,7 @@ module Engine
         end
 
         def stock_round
-          Engine::Round::Stock.new(self, [
+          G18ESP::Round::Stock.new(self, [
             Engine::Step::DiscardTrain,
             G18ESP::Step::BuySellParShares,
           ])
@@ -516,9 +516,6 @@ module Engine
         end
 
         def event_float_60!
-          # @corporations.select(&:floated).each do |c|
-          #   c.goal_reached!(:takeover) unless c.taken_over_minor
-          # end
           @corporations.each do |c|
             next if c.type == :minor || c.floated?
 
