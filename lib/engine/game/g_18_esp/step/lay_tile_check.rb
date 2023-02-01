@@ -56,12 +56,27 @@ module LayTileCheck
     mount_pass_exit = mountain_pass_exit(hex, tile)
     legal &&= !mount_pass_exit unless can_open_mountain_pass?(entity)
     legal &&= !(@game.pajares_broad? && hex.id == 'E10' && tile_lay_into_pass(hex, tile, mount_pass_exit) == :narrow)
+    legal &&= special_hex_narrow(hex, tile) if @game.special_hex?(hex)
     legal && matching_track_type(entity, hex, tile)
   end
 
   def can_open_mountain_pass?(entity)
     corp = entity.corporation? ? entity : entity.owner
     corp.type != :minor && @game.can_build_mountain_pass
+  end
+
+  def special_hex_narrow(hex, tile)
+    # no narrow track into non special hex or offboard
+    tile.exits.each do |dir|
+      next unless (connecting_path = tile.paths.find { |p| p.exits.include?(dir) })
+      next unless (neighboring_tile = hex.neighbors[dir]&.tile)
+
+      next if neighboring_tile.color == :red || @game.special_hex?(neighboring_tile.hex) || neighboring_tile.color == :orange
+      next if connecting_path.track == :broad
+
+      return false
+    end
+    true
   end
 
   def tile_lay_into_pass(_hex, tile, mount_pass_exit)
