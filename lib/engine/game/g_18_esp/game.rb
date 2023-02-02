@@ -1213,7 +1213,7 @@ module Engine
           trains = entity.trains
           trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || entity.type == :minor
           trains = trains.dup.reject { |t| t.track_type == :broad } if north_corp?(entity) && !entity.interchange?
-          trains.empty? && !depot.depot_trains.empty?
+          super && trains.empty? && !depot.depot_trains.empty? 
         end
 
         def place_home_token(corporation)
