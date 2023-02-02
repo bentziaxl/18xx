@@ -404,7 +404,7 @@ module Engine
         def init_stock_market
           Engine::StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
                                   multiple_buy_types: self.class::MULTIPLE_BUY_TYPES,
-                                  continuous: self.class::CONTINUOUS_MARKET, zigzag: true)
+                                  continuous: self.class::CONTINUOUS_MARKET, zigzag: :flip)
         end
 
         def init_train_handler
