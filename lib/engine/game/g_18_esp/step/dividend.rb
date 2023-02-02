@@ -17,15 +17,19 @@ module Engine
 
           def share_price_change(entity, revenue = 0)
             price = entity.share_price.price
-            return { share_direction: :left, share_times: 1 } unless revenue.positive?
+            return { share_direction: :left, share_times: 2 } unless revenue.positive?
 
-            times = 1 if revenue.positive?
-            times = 2 if revenue >= price * 2
+            times = 2 if revenue.positive?
+            times = 4 if revenue >= price * 2
             if times.positive?
               { share_direction: :right, share_times: times }
             else
               {}
             end
+          end
+
+          def movement_str(times, dir)
+            "#{times / 2} #{dir}"
           end
 
           def process_dividend(action)
