@@ -1233,6 +1233,10 @@ module Engine
           north_corp?(entity) ? @graph : @broad_graph
         end
 
+        def token_graph_for_entity(entity)
+          graph_for_entity(entity)
+        end
+
         def special_minor?(entity)
           return false unless entity.corporation?
 
