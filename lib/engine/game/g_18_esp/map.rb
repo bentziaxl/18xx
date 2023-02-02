@@ -255,7 +255,17 @@ module Engine
             'color' => 'brown',
             'code' => 'town=revenue:20;path=a:0,b:_0;path=a:2,b:_0;path=a:3,b:_0;path=a:4,b:_0;path=a:5,b:_0',
           },
-
+          'L83' => {
+            'count' => 1,
+            'color' => 'brown',
+            'code' => 'city=revenue:50,slots:2;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;path=a:4,b:_0;label=B',
+          },
+          'L84' => {
+            'count' => 1,
+            'color' => 'brown',
+            'code' =>  'city=revenue:60;city=revenue:60;city=revenue:60;path=a:0,b:_0;path=a:1,b:_0;' \
+                        'path=a:2,b:_1;path=a:4,b:_2;path=a:0,b:_2;label=M',,
+          },
           'L85' => {
             'count' => 1,
             'color' => 'brown',
