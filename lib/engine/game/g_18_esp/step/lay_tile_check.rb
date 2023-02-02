@@ -43,7 +43,7 @@ module LayTileCheck
   end
 
   def hex_reached_by_broad(entity, hex)
-    @game.north_corp_broad_graph.connected_hexes(entity).include?(hex)
+    @game.broad_graph.connected_hexes(entity).include?(hex)
   end
 
   def legal_tile_rotation?(entity, hex, tile)
