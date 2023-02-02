@@ -7,11 +7,6 @@ module LayTileCheck
       .select { |t| @game.upgrades_to?(hex.tile, t) }
       .reject(&:blocks_lay)
 
-    if @game.mine_hex?(hex)
-      tiles = tiles.reject do |tile|
-        tile.city_towns.empty? && tile.color != :yellow
-      end
-    end
     unless @game.north_hex?(hex)
       tiles = tiles.reject do |tile|
         tile.paths.any? do |path|

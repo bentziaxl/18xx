@@ -31,6 +31,10 @@ module Engine
             @log << "#{company.name} closes and is converted to a Freight train"
           end
 
+          def available_hex(entity, hex)
+            hex.tile.color == :white || hex.id == 'G18' ? super : nil
+          end
+
           def close!(company, owner)
             owner.companies.delete(company)
             company.owner = nil
