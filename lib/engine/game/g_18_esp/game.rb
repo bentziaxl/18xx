@@ -53,8 +53,6 @@ module Engine
 
         NORTH_SOUTH_DIVIDE = 13
 
-        MUST_BUY_TRAIN = :always
-
         BASE_MINE_BONUS = 10
 
         BASE_F_TRAIN = 10
@@ -130,7 +128,7 @@ module Engine
                     train_limit: { minor: 1, major: 3 },
                     tiles: %i[yellow green],
                     operating_rounds: 2,
-                    status: ['can_buy_companies'],
+                    status: %w[can_buy_companies major_other_train],
                   },
                   {
                     name: '5',
@@ -138,6 +136,7 @@ module Engine
                     train_limit: 3,
                     tiles: %i[yellow green brown],
                     operating_rounds: 3,
+                    status: %w[major_other_train],
                   },
                   {
                     name: '6',
@@ -145,6 +144,7 @@ module Engine
                     train_limit: 2,
                     tiles: %i[yellow green brown],
                     operating_rounds: 3,
+                    status: %w[major_other_train],
                   },
                   {
                     name: '8',
@@ -152,6 +152,7 @@ module Engine
                     train_limit: 2,
                     tiles: %i[yellow green brown gray],
                     operating_rounds: 3,
+                    status: %w[major_other_train],
                   }].freeze
 
         TRAINS = [
@@ -280,6 +281,11 @@ module Engine
           buyable: false,
         }].freeze
 
+        STATUS_TEXT = Base::STATUS_TEXT.merge(
+          'major_other_train' => ['Major additional train',
+                                  'Limit 1 train of the other type for Major Corporations in addition to regular train limit'],
+        ).freeze
+
         EVENTS_TEXT = Base::EVENTS_TEXT.merge(
                 'south_majors_available' => ['South Majors Available',
                                              'Major Corporations in the south map can open'],
@@ -363,7 +369,7 @@ module Engine
 
           @future_corporations.each { |c| c.shares.last.buyable = false }
           @north_corp_mountain_pass_graph = Graph.new(self)
-          @broad_graph = Graph.new(self, skip_track: :narrow)
+          @broad_graph = Graph.new(self, skip_track: :narrow, ignore_skip_path: true)
 
           @company_trains = {}
           @company_trains['P2'] = find_and_remove_train_for_minor
@@ -1429,6 +1435,16 @@ module Engine
           return unless mountain_pass_token_hex?(city.hex)
 
           city.tokens.first.type = :neutral
+        end
+
+        def train_limit_by_type(entity, track_type)
+          return train_limit(entity) unless entity.corporation?
+
+          if north_corp?(entity)
+            track_type == :narrow ? train_limit(entity) : 1
+          else
+            track_type == :broad ? train_limit(entity) : 1
+          end
         end
 
         def train_help(entity, runnable_trains, _routes)
