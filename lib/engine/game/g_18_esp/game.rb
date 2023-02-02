@@ -35,13 +35,13 @@ module Engine
 
         MOUNTAIN_PASS_ACCESS_HEX = %w[E10 I10 K8 L7].freeze
 
-        MOUNTAIN_PASS_ACCESS_HEX_INCL_SOUTH = %w[E10 I10 K8 L7 D19 E20 F21 G20 H19 I18 J17].freeze
+        MOUNTAIN_PASS_ACCESS_HEX_INCL_SOUTH = %w[E10 I10 K8 L7 E18 F19 G18 H17 I16].freeze
 
         MOUNTAIN_PASS_HEX = %w[M8 K10 I12 E12 E18 F19 G18 H17 I16].freeze
 
         MOUNTAIN_PASS_TOKEN_HEXES = %w[M8 K10 I12 E12].freeze
 
-        SPECIAL_HEXES = %w[I16 H17 G18 F19].freeze
+        SPECIAL_HEXES = %w[I16 H17 G18 F19 E18].freeze
 
         MOUNTAIN_PASS_TOKEN_COST = { 'M8' => 80, 'K10' => 80, 'I12' => 60, 'E12' => 120 }.freeze
 
