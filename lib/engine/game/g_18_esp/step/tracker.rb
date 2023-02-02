@@ -46,8 +46,7 @@ module Engine
 
           # clear graphs
           @game.graph.clear
-          @game.minors_graph.clear
-          @game.north_corp_broad_graph.clear
+          @game.broad_graph.clear
 
           action.entity.goal_reached!(:destination) if @game.check_for_destination_connection(action.entity)
         end

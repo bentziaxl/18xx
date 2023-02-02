@@ -15,7 +15,7 @@ module Engine
         include Map
         include CitiesPlusTownsRouteDistanceStr
 
-        attr_reader :minors_graph, :can_build_mountain_pass, :north_corp_broad_graph
+        attr_reader :can_build_mountain_pass, :broad_graph
 
         attr_accessor :player_debts
 
@@ -362,9 +362,8 @@ module Engine
           end
 
           @future_corporations.each { |c| c.shares.last.buyable = false }
-          @minors_graph = Graph.new(self, home_as_token: true, ignore_skip_path: true)
           @north_corp_mountain_pass_graph = Graph.new(self)
-          @north_corp_broad_graph = Graph.new(self, skip_track: :narrow)
+          @broad_graph = Graph.new(self, skip_track: :narrow)
 
           @company_trains = {}
           @company_trains['P2'] = find_and_remove_train_for_minor
@@ -1224,7 +1223,8 @@ module Engine
         end
 
         def graph_for_entity(entity)
-          special_minor?(entity) ? @minors_graph : @graph
+          entity = entity.owner if entity.id == 'MEA'
+          north_corp?(entity) ? @graph : @broad_graph
         end
 
         def special_minor?(entity)
