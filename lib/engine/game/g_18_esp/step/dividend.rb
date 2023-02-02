@@ -19,8 +19,7 @@ module Engine
             price = entity.share_price.price
             return { share_direction: :left, share_times: 1 } unless revenue.positive?
 
-            times = 0
-            times = 1 if revenue >= price
+            times = 1 if revenue.positive?
             times = 2 if revenue >= price * 2
             if times.positive?
               { share_direction: :right, share_times: times }
