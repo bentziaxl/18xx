@@ -264,7 +264,7 @@ module Engine
             'count' => 1,
             'color' => 'brown',
             'code' =>  'city=revenue:60;city=revenue:60;city=revenue:60;path=a:0,b:_0;path=a:1,b:_0;' \
-                        'path=a:2,b:_1;path=a:4,b:_2;path=a:0,b:_2;label=M',,
+                        'path=a:2,b:_1;path=a:4,b:_2;path=a:0,b:_2;label=M',
           },
           'L85' => {
             'count' => 1,
