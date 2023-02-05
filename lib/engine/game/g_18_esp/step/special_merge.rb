@@ -6,24 +6,24 @@ module Engine
   module Game
     module G18ESP
       module Step
-        class Acquire < Engine::Step::Base
+        class SpecialMerge < Engine::Step::Base
           def actions(entity)
             return [] if !entity.corporation? || entity != current_entity
+            return [] if @game.corporations.empty? do |c|
+                           c.floated? && !c.taken_over_minor && c.type != :minor && !@game.north_corp?(c)
+                         end
 
             return ['choose'] if @merging
 
-            %w[merge pass]
-          end
-
-          def auto_actions(entity)
-            return super if @merging
-            return [Engine::Action::Pass.new(entity)] unless can_merge?(entity)
-
-            super
+            %w[merge]
           end
 
           def merge_name(_entity = nil)
             'Aquire'
+          end
+
+          def active_entities
+            @game.corporations.select { |c| c.type != :minor && !c.taken_over_minor && c.floated? && !@game.north_corp?(c) }.sort
           end
 
           def merger_auto_pass_entity
@@ -31,6 +31,7 @@ module Engine
           end
 
           def can_merge?(entity)
+            entity.corporation? &&
             entity.type != :minor &&
             !entity.taken_over_minor &&
             !mergeable_candidates(entity).empty?
@@ -65,7 +66,9 @@ module Engine
           def mergeable_candidates(corporation)
             return [] if @game.north_corp?(corporation)
 
-            @game.corporations.select { |c| c.type == :minor && c.floated? }
+            mergables = @game.corporations.select { |c| c.type == :minor && c.floated? }
+            mergables = @game.corporations.select { |c| c.type == :minor } if mergables.empty?
+            mergables
           end
 
           def mergeable(corporation)
@@ -95,7 +98,7 @@ module Engine
           end
 
           def show_other_players
-            false
+            true
           end
 
           def show_other
