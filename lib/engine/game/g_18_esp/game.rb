@@ -325,6 +325,7 @@ module Engine
 
         def stock_round
           G18ESP::Round::Stock.new(self, [
+            G18ESP::Step::Acquire,
             Engine::Step::DiscardTrain,
             G18ESP::Step::BuySellParShares,
           ])
@@ -494,6 +495,15 @@ module Engine
             next unless c.floated?
 
             c.shares.last&.buyable = true
+          end
+        end
+
+        def close_all_minors!
+          @corporations.dup.each do |c|
+            next unless c
+            next unless c.type == :minor
+
+            close_corporation(c)
           end
         end
 
@@ -1208,7 +1218,7 @@ module Engine
           trains = entity.trains
           trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || entity.type == :minor
           trains = trains.dup.reject { |t| t.track_type == :broad } if north_corp?(entity) && !entity.interchange?
-          super && trains.empty? && !depot.depot_trains.empty? 
+          super && trains.empty? && !depot.depot_trains.empty?
         end
 
         def place_home_token(corporation)
@@ -1344,14 +1354,41 @@ module Engine
         end
 
         def next_round!
-          return super unless final_ors?
-
-          nationalize_corps!
-          super
+          nationalize_corps! if final_ors?
+          @round =
+            case @round
+            when Round::Stock
+              @operating_rounds = @phase.operating_rounds
+              reorder_players
+              new_operating_round
+            when Round::Operating
+              or_round_finished
+              if @round.round_num < @operating_rounds
+                new_operating_round(@round.round_num + 1)
+              elsif @phase.available?('5') && !@corporations.empty? { |c| c.type == :minor && !c.closed? }
+                @special_merge_step = true
+                @log << "-- #{round_description('Merger', @round.round_num)} --"
+                G18ESP::Round::Merger.new(self, [
+                  G18ESP::Step::SpecialMerge,
+                ], round_num: @round.round_num)
+              else
+                or_set_finished
+                @turn += 1
+                new_stock_round
+              end
+            when G18ESP::Round::Merger
+              close_all_minors!
+              or_set_finished
+              @turn += 1
+              new_stock_round
+            when init_round.class
+              init_round_finished
+              reorder_players
+              new_stock_round
+            end
         end
 
         def or_set_finished
-          @special_merge_step = true if phase.available?('5')
           @depot.export! if @corporations.any?(&:floated?)
           game_end_check
 
