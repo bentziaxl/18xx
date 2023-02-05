@@ -15,7 +15,7 @@ module Engine
         include Map
         include CitiesPlusTownsRouteDistanceStr
 
-        attr_reader :can_build_mountain_pass, :broad_graph
+        attr_reader :can_build_mountain_pass, :broad_graph, :special_merge_step
 
         attr_accessor :player_debts
 
@@ -489,16 +489,11 @@ module Engine
         end
 
         def event_close_minors!
-          @log << '-- Event: Minors close --'
           @corporations.dup.each do |c|
             next unless c
+            next unless c.floated?
 
             c.shares.last&.buyable = true
-            next unless c.type == :minor
-
-            delete_token_mz(c) if c&.name == 'MZ'
-            hex_by_id(c.destination).tile.icons.reject! { |i| i.name == c.name }
-            close_corporation(c)
           end
         end
 
@@ -1356,6 +1351,7 @@ module Engine
         end
 
         def or_set_finished
+          @special_merge_step = true if phase.available?('5')
           @depot.export! if @corporations.any?(&:floated?)
           game_end_check
 
