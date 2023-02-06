@@ -486,7 +486,7 @@ module Engine
         end
 
         def pajares_broad?
-          @pajares_broad ||= @optional_rules.include?(:pajares_broad)
+          true
         end
 
         def event_close_minors!
