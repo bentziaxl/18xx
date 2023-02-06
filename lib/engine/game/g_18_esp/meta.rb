@@ -18,14 +18,6 @@ module Engine
         GAME_INFO_URL = ''
 
         PLAYER_RANGE = [3, 6].freeze
-
-        OPTIONAL_RULES = [
-          {
-            sym: :pajares_broad,
-            short_name: 'Pajares mountain pass MUST be built with iberian width gauge',
-            players: [3, 4, 5, 6],
-          },
-        ].freeze
       end
     end
   end
