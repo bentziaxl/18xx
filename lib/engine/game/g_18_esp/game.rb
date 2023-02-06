@@ -1186,11 +1186,11 @@ module Engine
           return gain_token(survivor) unless city
 
           @log << "Replaced #{nonsurvivor.name} token in #{city.hex.id} with #{survivor.name}"\
-                  " token for #{@game.format_currency(100)}"
+                  " token for #{format_currency(100)}"
           new_token.place(city)
           city.tokens[city.tokens.find_index(old_token)] = new_token
           nonsurvivor.tokens.delete(old_token)
-          survivor.spend(100)
+          survivor.spend(100, @bank)
         end
 
         def move_assets(survivor, nonsurvivor)
@@ -1222,7 +1222,7 @@ module Engine
         end
 
         def place_home_token(corporation)
-          if corporation.id == 'MZA' && corporation_by_id('MZ').ipoed
+          if corporation.id == 'MZA' && corporation_by_id('MZ').ipoed && !corporation.tokens.first.city
             token = corporation.tokens.first
             city = city_by_id('G24-0-2')
             city.place_token(corporation, token, cheater: true)
