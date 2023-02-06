@@ -1221,6 +1221,11 @@ module Engine
           super && trains.empty? && !depot.depot_trains.empty?
         end
 
+        def num_corp_trains(entity)
+          type_to_ignore = north_corp?(entity) ? :broad : :narrow
+          entity.trains.count { |t| t.track_type != type_to_ignore }
+        end
+
         def place_home_token(corporation)
           if corporation.id == 'MZA' && corporation_by_id('MZ').ipoed && !corporation.tokens.first.city
             token = corporation.tokens.first
