@@ -6,7 +6,7 @@ module Engine
   module Game
     module G18ESP
       class Phase < Engine::Phase
-        def buying_train!(entity, train)
+        def buying_train!(entity, train, source)
           return if train.name == '5+5' && train.sym == '8'
 
           super
