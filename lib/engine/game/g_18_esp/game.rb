@@ -1489,6 +1489,10 @@ module Engine
           end
         end
 
+        def ignore_bought_train(train)
+          train.name == 'F'
+        end
+
         def train_help(entity, runnable_trains, _routes)
           help = []
 
