@@ -1929,7 +1929,11 @@ module Engine
         operator.trains << train
         @crowded_corps = nil
 
-        close_companies_on_event!(operator, 'bought_train')
+        close_companies_on_event!(operator, 'bought_train') unless ignore_bought_train(train)
+      end
+
+      def ignore_bought_train(_train)
+        false
       end
 
       def discountable_trains_for(corporation)
