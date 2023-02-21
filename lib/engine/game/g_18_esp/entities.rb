@@ -23,7 +23,7 @@ module Engine
             revenue: 5,
             min_price: 1,
             desc: 'Owning Corporation receives 2 train. The train can not run in the same OR this company is purchased. '\
-                  'Closes when 2 train runs. Purchased for winning bid value',
+                  'Closes when 2 train runs.',
             color: nil,
           },
           {
