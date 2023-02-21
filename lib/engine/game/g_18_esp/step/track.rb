@@ -108,7 +108,7 @@ module Engine
           end
 
           def opening_mountain_pass?(entity)
-            entity.type != :minor && @game.opening_new_mountain_pass(entity).any?
+            entity.type != :minor && !@game.opening_new_mountain_pass(entity).empty?
           end
 
           def choice_name

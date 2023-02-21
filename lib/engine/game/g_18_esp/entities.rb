@@ -19,7 +19,7 @@ module Engine
           {
             sym: 'P2',
             name: 'Ferrocarril de Barcelona a Mataró',
-            value: 5,
+            value: 50,
             revenue: 5,
             min_price: 1,
             desc: 'Owning Corporation receives 2 train. The train can not run in the same OR this company is purchased. '\
@@ -76,7 +76,16 @@ module Engine
             value: 160,
             revenue: 15,
             min_price: 1,
-            desc: '20 discount on Alar del Rey mountain pass',
+            desc: 'Free build of Alar del Rey mountain pass. if Alar is already built '\
+                  'it provides 50% on any other mountain pass build. '\
+                  'Additionally, the owning corporation places an extra free token in the opened mountain pass. '\
+                  'The action counts as a regular opening mountain pass step. This closes the company.',
+            abilities: [{
+              type: 'choose_ability',
+              owner_type: 'corporation',
+              when: 'track',
+              choices: { close: 'Close P5' },
+            }],
             color: nil,
           },
           {

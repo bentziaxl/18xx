@@ -341,6 +341,7 @@ module Engine
             G18ESP::Step::HomeToken,
             G18ESP::Step::Mining,
             G18ESP::Step::SpecialTrack,
+            G18ESP::Step::SpecialChoose,
             G18ESP::Step::Track,
             G18ESP::Step::Route,
             G18ESP::Step::Dividend,
@@ -752,7 +753,7 @@ module Engine
           entity.interchange? ? :dual : :narrow
         end
 
-        def open_mountain_pass(entity, pass_hex)
+        def open_mountain_pass(entity, pass_hex, p5_ability = false)
           pass_tile = hex_by_id(pass_hex).tile
           track_type = mountain_pass_proposed_track_type(entity)
           track_type = track_type_into_mountain_pass(hex_by_id(pass_hex)) if track_type == :dual
@@ -761,16 +762,18 @@ module Engine
             path.walk { |p| p.track = track_type if p.tile.color == :orange }
           end
 
-          mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex), entity)
-          entity.spend(mount_pass_cost, @bank)
+          mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex), entity, p5_ability)
+          entity.spend(mount_pass_cost, @bank) if mount_pass_cost.positive?
 
           opened_mountain_passes[pass_hex] = track_type
           pass_tile.cities.first.tokens.each(&:remove!)
 
-          @log << "#{entity.name} spends #{format_currency(mount_pass_cost)} to open mountain pass"
+          entity_name = p5_ability ? "#{entity.name} (#{p5.name})" : entity.name
+
+          @log << "#{entity_name} spends #{format_currency(mount_pass_cost)} to open mountain pass"
         end
 
-        def opening_new_mountain_pass(entity)
+        def opening_new_mountain_pass(entity, p5_ability = false)
           return {} unless entity
 
           @north_corp_mountain_pass_graph.clear if north_corp?(entity)
@@ -795,8 +798,13 @@ module Engine
           end
           return {} if openable_passes.empty? || last_track_type?(entity, openable_passes)
 
+          if p5_ability && !opened_mountain_passes.key?('I12')
+            alar_pass = openable_passes.select { |hex| hex.id == 'I12' }
+            openable_passes = alar_pass || {}
+          end
+
           openable_passes.to_h do |hex|
-            [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex, entity))})"]
+            [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex, entity, p5_ability))})"]
           end
         end
 
@@ -857,10 +865,11 @@ module Engine
           true
         end
 
-        def mountain_pass_token_cost(hex, entity)
-          base_cost = MOUNTAIN_PASS_TOKEN_COST[hex.id]
-          base_cost -= 20 if entity.companies.include?(p5) && hex.id == 'I2'
-          base_cost
+        def mountain_pass_token_cost(hex, _entity, p5_ability = false)
+          cost = MOUNTAIN_PASS_TOKEN_COST[hex.id]
+          cost = 0 if hex.id == 'I12' && p5_ability
+          cost /= 2 if p5_ability
+          cost
         end
 
         def mountain_pass_token_hex?(hex)
@@ -1370,7 +1379,7 @@ module Engine
               or_round_finished
               if @round.round_num < @operating_rounds
                 new_operating_round(@round.round_num + 1)
-              elsif @phase.available?('5') && !@corporations.empty? { |c| c.type == :minor && !c.closed? }
+              elsif @phase.available?('5') && @corporations.any? { |c| c.type == :minor && !c.closed? }
                 @special_merge_step = true
                 @log << "-- #{round_description('Merger', @round.round_num)} --"
                 G18ESP::Round::Merger.new(self, [
