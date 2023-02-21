@@ -73,8 +73,8 @@ module Engine
           {
             sym: 'P5',
             name: 'Ferrocarril de Alar del Rey a Santander',
-            value: 160,
-            revenue: 15,
+            value: 120,
+            revenue: 20,
             min_price: 1,
             desc: 'Free build of Alar del Rey mountain pass. if Alar is already built '\
                   'it provides 50% on any other mountain pass build. '\
