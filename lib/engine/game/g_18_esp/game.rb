@@ -1132,7 +1132,9 @@ module Engine
         end
 
         def pay_compensation(corporation, minor)
-          per_share = minor.share_price.price
+          share_price = minor.share_price
+
+          per_share = share_price ? minor.share_price.price : 0
           payouts = {}
           @players.each do |player|
             amount = player.num_shares_of(minor) * per_share

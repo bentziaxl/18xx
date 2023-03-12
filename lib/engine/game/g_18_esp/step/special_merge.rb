@@ -104,6 +104,8 @@ module Engine
           def show_other
             @merging ? @merging.last : nil
           end
+
+          def log_skip(_entity); end
         end
       end
     end
