@@ -136,7 +136,6 @@ module Engine
       MULTIPLE_BUY_ONLY_FROM_MARKET = false
 
       # moving up on top row moves the price right, down on bottom row moves price left.
-      CONTINUOUS_MARKET = false
 
       STOCKMARKET_COLORS = {
         par: :red,

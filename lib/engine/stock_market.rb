@@ -11,7 +11,6 @@ module Engine
       @par_prices = []
       @has_close_cell = false
       @zigzag = zigzag
-      @continuous = continuous
       @market = market.map.with_index do |row, r_index|
         row.map.with_index do |code, c_index|
           price = if code.instance_of?(Hash)
@@ -70,7 +69,6 @@ module Engine
     end
 
     def move_up(corporation)
-<<<<<<< HEAD
       move(corporation, up(corporation, corporation.share_price.coordinates))
     end
 
@@ -84,21 +82,6 @@ module Engine
 
     def down(corporation, coordinates)
       @movement.down(corporation, coordinates)
-=======
-      r, c = corporation.share_price.coordinates
-      return move_right(corporation) if one_d? || (@continuous && r.zero?)
-
-      r -= 1 if r - 1 >= 0
-      move(corporation, r, c)
-    end
-
-    def move_down(corporation)
-      r, c = corporation.share_price.coordinates
-      return move_left(corporation) if one_d? || (@continuous && r + 1 == @market.size && c - 1 >= 0)
-
-      r += 1 if r + 1 < @market.size && share_price(r + 1, c)
-      move(corporation, r, c)
->>>>>>> 17d5410d9 (add takeover, cont stock market)
     end
 
     def move_left(corporation)
