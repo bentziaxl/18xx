@@ -61,8 +61,6 @@ module Engine
 
         DISCARDED_TRAIN_DISCOUNT = 50
 
-        CONTINUOUS_MARKET = true
-
         BANKRUPTCY_ALLOWED = false
 
         EBUY_PRES_SWAP = false
@@ -406,7 +404,7 @@ module Engine
         def init_stock_market
           Engine::StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
                                   multiple_buy_types: self.class::MULTIPLE_BUY_TYPES,
-                                  continuous: self.class::CONTINUOUS_MARKET, zigzag: :flip)
+                                  zigzag: :flip)
         end
 
         def init_train_handler
