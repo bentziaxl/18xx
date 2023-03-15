@@ -39,7 +39,6 @@ module LayTileCheck
 
   def narrow_only?(entity, hex)
     corp = entity.corporation? ? entity : entity.owner
-    puts("here in narrow only #{corp.interchange?} #{corp.id} #{@game.broad_graph.connected_hexes(corp)}") if hex.id == 'H9'
     @game.north_corp?(corp) && !(corp.interchange? && hex_reached_by_broad(corp, hex))
   end
 
