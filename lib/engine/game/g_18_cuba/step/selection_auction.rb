@@ -10,7 +10,7 @@ module Engine
         class SelectionAuction < Engine::Step::SelectionAuction
           def setup
             setup_auction
-            @companies = @game.companies.select { |c| c.id[0] == 'C' }
+            @companies = @game.commissioners
             @cheapest = @companies.first
             @auction_triggerer = current_entity
             auction_entity(@cheapest)
@@ -28,6 +28,13 @@ module Engine
             next_entity!
             @auction_triggerer = current_entity
             auction_entity(@companies.first) unless @companies.empty?
+          end
+
+          def auction_entity(company)
+            super
+            @log << "#{@auction_triggerer.name} puts up #{company.name} for auction with a bid of 0"
+            add_bid(Engine::Action::Bid.new(@auction_triggerer, price: 0, company: company))
+            # puts("#{current_entity}")
           end
 
           def assign_company(company, player)

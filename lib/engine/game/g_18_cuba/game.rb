@@ -352,22 +352,10 @@ module Engine
           ], round_num: round_num)
         end
 
-        def stock_round
-          Round::Stock.new(self, [
-            Engine::Step::DiscardTrain,
-            G18Cuba::Step::HomeToken,
-            G18Cuba::Step::BuySellParShares,
-          ])
-        end
-
         def new_auction_round
           Engine::Round::Auction.new(self, [
             G18Cuba::Step::SelectionAuction,
           ])
-        end
-
-        def new_draft_round
-          Engine::Round::Draft.new(self, [G18Cuba::Step::SimpleDraft], reverse_order: false)
         end
 
         def init_stock_market
@@ -434,16 +422,6 @@ module Engine
 
         def commissioners
           @commissioners ||= @companies.select { |c| c.id[0] == self.class::COMPANY_COMMISIONER_PREFIX }
-        end
-
-        def concessions
-          @concessions ||= @companies.select { |c| c.id[0] == self.class::COMPANY_CONCESSION_PREFIX }
-        end
-
-        def concession?(entity)
-          return false unless entity.company?
-
-          concessions.include?(entity)
         end
 
         def setup
