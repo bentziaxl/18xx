@@ -27,8 +27,8 @@ module Engine
         TRACK_RESTRICTION = :permissive
         CURRENCY_FORMAT_STR = '$%s'
 
-        COMPANY_CONCESSION_PREFIX = 'C'
-        COMPANY_COMMISIONER_PREFIX = 'M'
+        COMPANY_CONCESSION_PREFIX = 'M'
+        COMPANY_COMMISIONER_PREFIX = 'C'
 
         BANK_CASH = 10_000
 
@@ -168,6 +168,12 @@ module Engine
           ], round_num: round_num)
         end
 
+        def new_auction_round
+          Engine::Round::Auction.new(self, [
+            G18Cuba::Step::SelectionAuction,
+          ])
+        end
+
         def init_stock_market
           StockMarket.new(self.class::MARKET, [], zigzag: :flip)
         end
@@ -183,6 +189,10 @@ module Engine
 
         def company_header(company)
           company.id[0] == self.class::COMPANY_CONCESSION_PREFIX ? 'CONCESSION' : 'COMMISSIONER'
+        end
+
+        def commissioners
+          @commissioners ||= @companies.select { |c| c.id[0] == self.class::COMPANY_COMMISIONER_PREFIX }
         end
 
         def setup
