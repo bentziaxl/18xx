@@ -171,10 +171,13 @@ module Engine
           ])
         end
 
+<<<<<<< HEAD
         def new_draft_round
           Engine::Round::Draft.new(self, [G18Cuba::Step::SimpleDraft], reverse_order: false)
         end
 
+=======
+>>>>>>> 1d28ec1f7 (fix auction logic)
         def init_stock_market
           StockMarket.new(self.class::MARKET, [], zigzag: :flip)
         end
