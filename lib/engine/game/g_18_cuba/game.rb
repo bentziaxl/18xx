@@ -151,7 +151,7 @@ module Engine
                   }].freeze
 
         def operating_round(round_num)
-          Round::Operating.new(self, [
+          Engine::Round::Operating.new(self, [
             Engine::Step::Bankrupt,
             Engine::Step::Exchange,
             Engine::Step::SpecialTrack,
@@ -174,12 +174,39 @@ module Engine
           ])
         end
 
+        def new_draft_round
+          Engine::Round::Draft.new(self, [G18Cuba::Step::SimpleDraft], reverse_order: false)
+        end
+
         def init_stock_market
           StockMarket.new(self.class::MARKET, [], zigzag: :flip)
         end
 
-        def multiple_buy_only_from_market?
-          !optional_rules&.include?(:multiple_brown_from_ipo)
+        def next_round!
+          @round =
+            case @round
+            when Round::Draft
+              new_stock_round
+            when Round::Stock
+              @operating_rounds = @phase.operating_rounds
+              reorder_players
+              new_operating_round
+            when Round::Operating
+              if @round.round_num < @operating_rounds
+                or_round_finished
+                new_operating_round(@round.round_num + 1)
+              else
+                @turn += 1
+                or_round_finished
+                or_set_finished
+                new_stock_round
+              end
+            when init_round.class
+              init_round_finished
+              puts('here after init')
+              reorder_players
+              new_draft_round
+            end
         end
 
         def num_trains(train)
@@ -193,6 +220,10 @@ module Engine
 
         def commissioners
           @commissioners ||= @companies.select { |c| c.id[0] == self.class::COMPANY_COMMISIONER_PREFIX }
+        end
+
+        def concessions
+          @concessions ||= @companies.select { |c| c.id[0] == self.class::COMPANY_CONCESSION_PREFIX }
         end
 
         def setup
