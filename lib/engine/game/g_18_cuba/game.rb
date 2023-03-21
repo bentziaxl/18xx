@@ -336,7 +336,6 @@ module Engine
 
         def operating_round(round_num)
           Engine::Round::Operating.new(self, [
-            G18Cuba::Step::Assign,
             Engine::Step::Bankrupt,
             G18Cuba::Step::SpecialTrack,
             Engine::Step::SpecialToken,
@@ -358,6 +357,10 @@ module Engine
           ])
         end
 
+        def new_draft_round
+          Engine::Round::Draft.new(self, [G18Cuba::Step::SimpleDraft], reverse_order: false)
+        end
+
         def init_stock_market
           StockMarket.new(self.class::MARKET, [], zigzag: :flip)
         end
@@ -368,7 +371,6 @@ module Engine
             when Round::Draft
               new_stock_round
             when Round::Stock
-              close_unopened_minors if @turn == 1 && @round.round_num == 1
               @operating_rounds = @phase.operating_rounds
               reorder_players
               new_operating_round
@@ -384,19 +386,10 @@ module Engine
               end
             when init_round.class
               init_round_finished
-              reorder_players(:least_cash, log_player_order: true)
+              puts('here after init')
+              reorder_players
               new_draft_round
             end
-        end
-
-        def or_set_finished
-          train = @fc.trains.first
-          remove_train(train)
-          upcoming_train = @depot.upcoming.first
-          buy_train(@fc, upcoming_train, :free)
-          @log << "FC gains a #{upcoming_train.name} train from The Depot"
-
-          @phase.buying_train!(@fc, upcoming_train, @depot)
         end
 
         def num_trains(train)
@@ -422,6 +415,10 @@ module Engine
 
         def commissioners
           @commissioners ||= @companies.select { |c| c.id[0] == self.class::COMPANY_COMMISIONER_PREFIX }
+        end
+
+        def concessions
+          @concessions ||= @companies.select { |c| c.id[0] == self.class::COMPANY_CONCESSION_PREFIX }
         end
 
         def setup
