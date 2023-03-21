@@ -10,6 +10,7 @@ module Engine
           ACTIONS_WITH_PASS = %w[bid pass].freeze
 
           def setup
+            @companies = @game.concessions.sort
             @finished = false
           end
 
@@ -20,7 +21,7 @@ module Engine
           end
 
           def available
-            @game.concessions.sort
+            @companies
           end
 
           def may_purchase?(company)
@@ -78,11 +79,11 @@ module Engine
             player.companies << company
             player.spend(price, @game.bank)
 
-            @game.available_companies.delete(company)
+            @companies.delete(company)
 
             @log << "#{player.name} buys \"#{company.name}\" for #{@game.format_currency(price)}"
 
-            @game.apply_custom_ability(company)
+            # @game.apply_custom_ability(company)
 
             action_finalized
           end
