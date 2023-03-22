@@ -63,6 +63,14 @@ module Engine
             value: 120,
             revenue: 0,
             desc: 'None',
+            abilities: [
+              {
+                type: 'exchange',
+                corporations: %w[CO DQ HG HY JU SB],
+                owner_type: 'player',
+                from: 'par',
+              },
+            ],
             color: nil,
           },
           {

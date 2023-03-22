@@ -153,10 +153,8 @@ module Engine
         def operating_round(round_num)
           Engine::Round::Operating.new(self, [
             Engine::Step::Bankrupt,
-            Engine::Step::Exchange,
             Engine::Step::SpecialTrack,
             Engine::Step::SpecialToken,
-            Engine::Step::BuyCompany,
             Engine::Step::HomeToken,
             Engine::Step::Track,
             Engine::Step::Token,
@@ -164,7 +162,6 @@ module Engine
             Engine::Step::Dividend,
             Engine::Step::DiscardTrain,
             Engine::Step::BuyTrain,
-            [Engine::Step::BuyCompany, { blocks: true }],
           ], round_num: round_num)
         end
 
@@ -203,7 +200,6 @@ module Engine
               end
             when init_round.class
               init_round_finished
-              puts('here after init')
               reorder_players
               new_draft_round
             end
@@ -234,6 +230,23 @@ module Engine
 
         def init_tile_groups
           self.class::TILE_GROUPS
+        end
+
+        def can_par?(corporation, parrer)
+          return super unless corporation.type == 'minor'
+
+          parrer.companies.intersect?(concessions)
+        end
+
+        def init_company_abilities
+          @companies.each do |company|
+            next unless (ability = abilities(company, :exchange))
+            next unless ability.from.include?(:par)
+
+            exchange_corporations(ability).each {|corp| corp.par_via_exchange = company}
+          end
+
+          super
         end
       end
     end
