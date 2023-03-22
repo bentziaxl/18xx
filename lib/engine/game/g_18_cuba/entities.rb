@@ -151,7 +151,7 @@ module Engine
             abilities: [
               {
                 type: 'exchange',
-                corporations: %w[HG JU HY DQ CO SB],
+                corporations: %w[CO DQ HG HY JU SB],
                 owner_type: 'player',
                 from: 'par',
               },

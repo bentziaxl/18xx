@@ -337,17 +337,15 @@ module Engine
         def operating_round(round_num)
           Engine::Round::Operating.new(self, [
             Engine::Step::Bankrupt,
-            G18Cuba::Step::SpecialTrack,
+            Engine::Step::SpecialTrack,
             Engine::Step::SpecialToken,
-            G18Cuba::Step::HomeToken,
-            Engine::Step::IssueShares,
-            G18Cuba::Step::Track,
-            G18Cuba::Step::Token,
-            G18Cuba::Step::Route,
-            G18Cuba::Step::Dividend,
+            Engine::Step::HomeToken,
+            Engine::Step::Track,
+            Engine::Step::Token,
+            Engine::Step::Route,
+            Engine::Step::Dividend,
             Engine::Step::DiscardTrain,
-            Engine::Step::SpecialBuyTrain,
-            G18Cuba::Step::BuyTrain,
+            Engine::Step::BuyTrain,
           ], round_num: round_num)
         end
 
@@ -386,7 +384,6 @@ module Engine
               end
             when init_round.class
               init_round_finished
-              puts('here after init')
               reorder_players
               new_draft_round
             end
@@ -476,318 +473,21 @@ module Engine
           self.class::TILE_GROUPS
         end
 
-        def init_graph
-          Graph.new(self, skip_track: :narrow)
-        end
+        def can_par?(corporation, parrer)
+          return super unless corporation.type == 'minor'
 
-        def event_fec!
-          @corporations.concat(@fec)
-        end
-
-        def event_major_sugar_field!
-          @major_sugar_field = true
-        end
-
-        def graph_for_entity(entity)
-          entity.type == :minor ? @minor_graph : @graph
-        end
-
-        def upgrade_cost(tile, hex, entity, spender)
-          return 0 if entity.type == :minor
-
-          super
-        end
-
-        def upgrades_to_correct_city_town?(from, to)
-          if from.towns.size == 1 &&
-            from.color == :white &&
-            to.paths.none? { |p| p.track == :narrow } &&
-            to.city_towns.size.zero? &&
-            @major_sugar_field
-            return true
-          end
-
-          super
-        end
-
-        def extra_train?(train)
-          self.class::EXTRA_TRAINS.include?(train.name)
-        end
-
-        def can_par?(corporation, entity)
-          return false if corporation.name == 'FC'
-          return super unless corporation.type == :minor
-
-          entity.companies.any? { |c| abilities(c, :exchange) }
-        end
-
-        def can_run_route?(entity)
-          entity == @fc ? false : super
+          parrer.companies.intersect?(concessions)
         end
 
         def init_company_abilities
-          super
-        end
+          @companies.each do |company|
+            next unless (ability = abilities(company, :exchange))
+            next unless ability.from.include?(:par)
 
-        # def ipo_name(entity)
-        #   return entity.floated? ? 'Treasury' : 'IPO' if entity.type == :minor
-
-        #   entity.operated? ? 'Treasury' : 'IPO'
-        # end
-
-        def home_token_locations(corporation)
-          if corporation.type == :minor
-            hexes.select { |hex| !hex.tile.label && !hex.tile.cities.empty? }
-          elsif corporation.name == 'FEC'
-            hexes.select do |hex|
-              hex.tile.cities.any? { |city| city.tokenable?(corporation, free: true) }
-            end
+            exchange_corporations(ability).each {|corp| corp.par_via_exchange = company}
           end
-        end
-
-        def status_array(corp)
-          return if corp.type != :minor || !corp.floated?
-
-          ["Sugar Cubes: #{@sugar_cubes[corp]}"]
-        end
-
-        def issuable_shares(entity)
-          return [] unless entity.corporation?
-          return [] unless round.steps.find { |step| step.instance_of?(Engine::Step::IssueShares) }.active?
-
-          bundles_for_corporation(entity, entity).reject { |bundle| bundle.num_shares > 1 }
-        end
-
-        def redeemable_shares(entity)
-          return [] unless entity.corporation?
-          return [] if entity.trains.empty?
-          return [] unless round.steps.find { |step| step.instance_of?(Engine::Step::IssueShares) }.active?
-
-          share_price = stock_market.find_share_price(entity, :right).price
-
-          bundles_for_corporation(share_pool, entity)
-            .each { |bundle| bundle.share_price = share_price }
-            .reject { |bundle| entity.cash < bundle.price }
-        end
-
-        def skip_route_track_type(train)
-          train.track_type == :narrow ? :broad : :narrow
-        end
-
-        def fc_hex?(hex)
-          return false unless hex
-
-          G18Cuba::Map::FC_HEX.any? { |hex_id| hex_id == hex.id }
-        end
-
-        def company_closing_after_using_ability(company, silent = false)
-          return if concession?(company)
-
-          @log << "#{company.owner.name} receives #{format_currency(company.treasury)} funding amount from #{company.id}"
-          @bank.spend(company.treasury, company.owner)
-          @log << "#{company.name} closes" unless silent
-        end
-
-        def buy_train(operator, train, price = nil)
-          return super(operator, train, :free) if price == :free || price.zero?
 
           super
-        end
-
-        def entity_can_use_company?(entity, company)
-          entity.owner == company.owner
-        end
-
-        def payout_companies(ignore: [])
-          super
-
-          assigned_corp = @corporations.find { |c| c.assignments.keys.any? { |k| k == 'M5' } }
-          return unless assigned_corp
-
-          payout_mail(assigned_corp) unless assigned_corp.trains.reject { |t| wagon?(t) }.empty?
-        end
-
-        def num_wagons(entity)
-          entity.trains.count { |t| wagon?(t) }
-        end
-
-        def num_machines(entity)
-          entity.trains.count { |t| machine?(t) }
-        end
-
-        def num_corp_trains(entity)
-          super - num_wagons(entity) - num_machines(entity)
-        end
-
-        def crowded_corps
-          @crowded_corps ||= (minors + corporations).select do |c|
-            num_corp_trains(c) > train_limit(c) ||
-            num_wagons(c) > train_limit(c)
-          end
-        end
-
-        def payout_mail(assigned_corp)
-          revenue = MAIL_REVENUE[@phase.tiles.last]
-          @bank.spend(revenue, assigned_corp)
-          @log << "#{assigned_corp.owner.name} collects #{format_currency(revenue)} from Mail Contract (M5)"
-        end
-
-        def check_distance(route, visits, _train = nil)
-          wrong_track = skip_route_track_type(route.train)
-          raise GameError, 'Routes must use correct gauage' if wrong_track && route.paths.any? { |p| p.track == wrong_track }
-
-          train = route.train
-          narrow_offboard = train.track_type == :narrow && visits.any?(&:offboard?)
-          raise GameError, 'narrow track train can not visit offboard locations' if narrow_offboard
-
-          @round.current_routes[route.train] = route
-
-          return unless @round.merged_trains.include?(route.train)
-
-          raise GameError, 'Wagon must visit harbour' unless visits.any?(&:offboard?)
-          raise GameError, 'Wagon must have sugar cubes to run' unless train_with_goods?(route.train)
-        end
-
-        def route_sugar_cubes?(route, visits)
-          return false unless wagon?(route.train)
-
-          visits.sum do |node|
-            next 0 unless node.city?
-
-            node.tokens.sum do |token|
-              token&.corporation&.type == :minor ? @sugar_cubes[token.corporation] : 0
-            end
-          end.positive?
-        end
-
-        def check_overlap(routes)
-          tracks = {}
-
-          check = lambda do |key|
-            raise GameError, "Route cannot reuse track on #{key[0].id}" if tracks[key]
-
-            tracks[key] = true
-          end
-
-          routes.each do |route|
-            if wagon?(route.train)
-              check_wagon_overlap(routes, route)
-              next
-            end
-
-            route.paths.each do |path|
-              a = path.a
-              b = path.b
-
-              check.call([path.hex, a.num, path.lanes[0][1]]) if a.edge?
-              check.call([path.hex, b.num, path.lanes[1][1]]) if b.edge?
-
-              # check track between edges and towns not in center
-              # (essentially, that town needs to act like an edge for this purpose)
-              if b.edge? && a.town? && (nedge = a.tile.preferred_city_town_edges[a]) && nedge != b.num
-                check.call([path.hex, a, path.lanes[0][1]])
-              end
-              if a.edge? && b.town? && (nedge = b.tile.preferred_city_town_edges[b]) && nedge != a.num
-                check.call([path.hex, b, path.lanes[1][1]])
-              end
-
-              # check intra-tile paths between nodes
-              check.call([path.hex, path]) if path.nodes.size > 1
-            end
-          end
-        end
-
-        def check_wagon_overlap(routes, wagon_route)
-          return if wagon_route.visited_stops.empty?
-
-          other_routes = routes.reject { |r| r == wagon_route }
-          identical_route = other_routes.find do |r|
-            r.visited_stops.difference(wagon_route.visited_stops).empty? &&
-             r.paths.difference(wagon_route.paths).empty?
-          end
-
-          raise GameError, 'Wagon must be identical to another train route' unless identical_route
-        end
-
-        def compute_other_paths(routes, route)
-          routes.flat_map do |r|
-            next if r == route || (wagon?(route.train) && !wagon?(r.train)) || (!wagon?(route.train) && wagon?(r.train))
-
-            r.paths
-          end
-        end
-
-        def add_fc_token(tile, hex)
-          return unless fc_hex?(hex)
-          return unless tile.color == :green
-
-          token = @fc.find_token_by_type
-          city = tile.cities.first
-          city.place_token(@fc, token, cheater: true)
-          tile.icons = []
-          @log << "FC places a token in #{hex.id}"
-        end
-
-        # Train delivery
-        def train_with_goods?(train)
-          return unless train
-
-          @pickup_hex_for_train.key?(train.id)
-        end
-
-        def attach_good_to_train(train_id, hex_id)
-          good = hex_by_id(hex_id).assignments.keys.find { |a| a.include?('SUGAR') && !@claimed_goods[hex_id]&.include?(a) }
-          return unless good
-
-          if @pickup_hex_for_train[train_id]
-            @pickup_hex_for_train[train_id][hex_id].append(good)
-          else
-            @pickup_hex_for_train[train_id] = { hex_id => [good] }
-          end
-          add_to_claimed_goods(hex_id, good)
-        end
-
-        def add_to_claimed_goods(hex_id, good)
-          if @claimed_goods[hex_id]
-            @claimed_goods[hex_id].append(good)
-          else
-            @claimed_goods = { hex_id => [good] }
-          end
-        end
-
-        def good_pickup_hex(train)
-          @pickup_hex_for_train[train.id]&.keys&.first
-        end
-
-        def unload_good(train, hex_id)
-          return unless train_with_goods?(train)
-
-          good = @pickup_hex_for_train[train.id][hex_id].pop
-          @claimed_goods[hex_id].remove!(good) unless good
-          @pickup_hex_for_train.delete(train.id) if @pickup_hex_for_train[train.id][hex_id].empty?
-          good
-        end
-
-        def revenue_str(route)
-          good_hex = good_pickup_hex(route.train)
-          str = super
-          str += '+Good(' + good_hex + ')' unless good_hex.nil?
-          str
-        end
-
-        def revenue_for(route, stops)
-          revenue = super
-          train = route.train
-          return revenue unless train_with_goods?(train)
-
-          revenue + (CUBE_VALUE * @pickup_hex_for_train[train.id].sum { |_k, v| v.length })
-        end
-
-        def extra_revenue(entity, routes)
-          return 0 if routes.empty?
-          return 0 unless entity.type == :minor
-
-          entity.trains.sum { |t| machine?(t) ? MACHINE_BONUS[t.name] : 0 }
         end
       end
     end
