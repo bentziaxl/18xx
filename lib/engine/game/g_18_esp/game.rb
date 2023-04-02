@@ -1182,7 +1182,7 @@ module Engine
           # check if there's another slot
           delete_slot = city.slots > 1
           # check if slot is already used, if not reserve
-          corp = @corporations.find { |c| c.city == city.index }
+          corp = @corporations.find { |c| c.city == city.index && c.name != "MZ" }
 
           city.delete_token!(token, remove_slot: delete_slot)
           city.add_reservation!(corp) unless delete_slot
