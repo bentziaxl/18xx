@@ -52,7 +52,7 @@ module LayTileCheck
     legal &&= !mount_pass_exit unless can_open_mountain_pass?(entity)
     legal &&= !(@game.pajares_broad? && hex.id == 'E10' && tile_lay_into_pass(hex, tile, mount_pass_exit) == :narrow)
     legal &&= special_hex_narrow(hex, tile) if @game.special_hex?(hex)
-    legal && matching_track_type(entity, hex, tile)
+    legal
   end
 
   def can_open_mountain_pass?(entity)
