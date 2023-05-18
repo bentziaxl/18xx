@@ -4,7 +4,7 @@ module Engine
   module Game
     module G18ESP
       module Map
-        MINE_HEXES = %w[D5 D9 F9 F11 F19 H9 I6 J7 D23 H21 E18 E32 F31 I30 J23 E8 F7 C30 G30 G32 J21].freeze
+        MINE_HEXES = %w[C5 C9 E9 E11 E19 G9 H6 I7 C23 G21 D18 D32 E31 H30 I23 D8 E7 B30 F30 F32 I21].freeze
         LAYOUT = :flat
         TILES = {
           '3' => 3,
@@ -26,7 +26,7 @@ module Engine
           '201' => 1,
           '202' => 1,
           '621' => 1,
-          'L79' => {
+          'K79' => {
             'count' => 1,
             'color' => 'yellow',
             'code' =>
@@ -387,7 +387,7 @@ module Engine
           # gray
 
           '455' => 2,
-          'L38' =>
+          'K38' =>
           {
             'count' => 2,
             'color' => 'gray',
@@ -424,215 +424,215 @@ module Engine
         }.freeze
 
         LOCATION_NAMES = {
-          'B5' => 'Galicia',
-          'B9' => 'Vigo',
-          'B11' => 'Vigo',
-          'B3' => 'Ribadeo',
+          'A5' => 'Galicia',
+          'A9' => 'Vigo',
+          'A11' => 'Vigo',
+          'A3' => 'Ribadeo',
           'C4' => 'Luarca (Ḷḷuarca)',
           'C10' => 'Ponferrada',
-          'E2' => 'Avilés',
-          'E6' => 'Oviedo (Uviéu)',
-          'E8' => 'Mieres',
-          'D3' => 'Muros de Nalón',
-          'F3' => 'Gijón (Xixón)',
-          'F7' => 'Langero (Llangréu)',
-          'G4' => 'Ribadesella (Ribeseya)',
-          'G6' => 'Cangas de Onis',
-          'H5' => 'Llanes',
-          'I4' => 'Torrelavega',
-          'I8' => 'Reinosa',
-          'J5' => 'Santander',
-          'K4' => 'Laredo',
-          'K6' => 'Balmaseda',
-          'L5' => 'Bilbao (Bilbo)',
-          'N5' => 'Irún (Irun)',
-          'D1' => 'San Esteban de Pravia harbor',
-          'F1' => 'Gijón harbor',
-          'L3' => 'Bilbao harbor',
-          'E12' => 'Pajares Mountain Pass',
-          'I12' => 'Alar del Rey Mountain Pass',
-          'K10' => 'País Vasco (Euskadi) Mountain Pass 1',
+          'D2' => 'Avilés',
+          'D6' => 'Oviedo (Uviéu)',
+          'D8' => 'Mieres',
+          'C3' => 'Muros de Nalón',
+          'E3' => 'Gijón (Xixón)',
+          'E7' => 'Langero (Llangréu)',
+          'F4' => 'Ribadesella (Ribeseya)',
+          'F6' => 'Cangas de Onis',
+          'G5' => 'Llanes',
+          'H4' => 'Torrelavega',
+          'H8' => 'Reinosa',
+          'I5' => 'Santander',
+          'J4' => 'Laredo',
+          'J6' => 'Balmaseda',
+          'K5' => 'Bilbao (Bilbo)',
+          'M5' => 'Irún (Irun)',
+          'C1' => 'San Esteban de Pravia harbor',
+          'E1' => 'Gijón harbor',
+          'K3' => 'Bilbao harbor',
+          'D12' => 'Pajares Mountain Pass',
+          'H12' => 'Alar del Rey Mountain Pass',
+          'J10' => 'País Vasco (Euskadi) Mountain Pass 1',
           'M8' => 'País Vasco (Euskadi) Mountain Pass 2',
 
           # south map
-          'D21' => 'Porto',
-          'C24' => 'Castelo Branco',
-          'B25' => 'Lisboa',
-          'B29' => 'Faro',
-          'C26' => 'Badajoz',
-          'C30' => 'Huelva',
-          'D25' => 'Cáceres',
-          'D31' => 'Sevilla',
-          'D33' => 'Cádiz',
-          'E18' => 'León',
-          'E20' => 'Zamora',
-          'E22' => 'Salamanca',
-          'F19' => 'Palencia',
-          'F21' => 'Valladolid',
-          'F29' => 'Córdoba',
-          'F33' => 'Málaga',
-          'C34' => 'Cádiz harbor',
-          'G18' => 'Burgos',
-          'G24' => 'Madrid',
-          'G26' => 'Toledo and Aranjuez',
-          'G28' => 'Ciudad Real',
-          'G30' => 'Linares',
-          'G32' => 'Granada',
-          'G34' => 'Málaga harbor',
-          'H17' => 'Vitoria',
-          'H23' => 'Guadalajara',
-          'H27' => 'Alcázar de San Juan',
-          'I16' => 'San Sebastián (Donostia)',
-          'I28' => 'Albacete',
-          'I32' => 'Almería',
-          'J15' => 'Bayonne',
-          'J17' => 'Pamplona (Iruña)',
-          'J21' => 'Calatayud',
-          'J29' => 'Murcia',
-          'K20' => 'Zaragoza',
-          'K24' => 'Teruel',
-          'K28' => 'Alicante',
-          'K30' => 'Cartagena',
-          'K32' => 'Cartagena harbor',
-          'L15' => 'Paris',
-          'L19' => 'Lérida (Lleida)',
-          'L23' => 'Castellón (Castelló)',
-          'L25' => 'Valencia (València)',
-          'M16' => 'Toulouse',
-          'M22' => 'Tarragona',
-          'M24' => 'Valencia harbor',
-          'N21' => 'Barcelona',
-          'O18' => 'Perpignan',
-          'O20' => 'Gerona (Girona)',
-          'O22' => 'Barcelona harbor',
+          'C21' => 'Porto',
+          'B24' => 'Castelo Branco',
+          'A25' => 'Lisboa',
+          'A29' => 'Faro',
+          'B26' => 'Badajoz',
+          'B30' => 'Huelva',
+          'C25' => 'Cáceres',
+          'C31' => 'Sevilla',
+          'C33' => 'Cádiz',
+          'D18' => 'León',
+          'D20' => 'Zamora',
+          'D22' => 'Salamanca',
+          'E19' => 'Palencia',
+          'E21' => 'Valladolid',
+          'E29' => 'Córdoba',
+          'E33' => 'Málaga',
+          'B34' => 'Cádiz harbor',
+          'F18' => 'Burgos',
+          'F24' => 'Madrid',
+          'F26' => 'Toledo and Aranjuez',
+          'F28' => 'Ciudad Real',
+          'F30' => 'Linares',
+          'F32' => 'Granada',
+          'F34' => 'Málaga harbor',
+          'G17' => 'Vitoria',
+          'G23' => 'Guadalajara',
+          'G27' => 'Alcázar de San Juan',
+          'H16' => 'San Sebastián (Donostia)',
+          'H28' => 'Albacete',
+          'H32' => 'Almería',
+          'I15' => 'Bayonne',
+          'I17' => 'Pamplona (Iruña)',
+          'I21' => 'Calatayud',
+          'I29' => 'Murcia',
+          'J20' => 'Zaragoza',
+          'J24' => 'Teruel',
+          'J28' => 'Alicante',
+          'J30' => 'Cartagena',
+          'J32' => 'Cartagena harbor',
+          'K15' => 'Paris',
+          'K19' => 'Lérida (Lleida)',
+          'K23' => 'Castellón (Castelló)',
+          'K25' => 'Valencia (València)',
+          'L16' => 'Toulouse',
+          'L22' => 'Tarragona',
+          'L24' => 'Valencia harbor',
+          'M21' => 'Barcelona',
+          'N18' => 'Perpignan',
+          'N20' => 'Gerona (Girona)',
+          'N22' => 'Barcelona harbor',
 
         }.freeze
 
         HEXES = {
           blue: {
-            %w[D1] => 'offboard=revenue:yellow_40|green_30|brown_20|gray_20',
-            %w[F1 L3] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50',
-            %w[M24] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60',
-            %w[K32] => 'offboard=revenue:yellow_40|green_30|brown_30|gray_40',
-            %w[G34] => 'offboard=revenue:yellow_20|green_30|brown_30|gray_40',
-            %w[C34] => 'offboard=revenue:yellow_20|green_30|brown_30|gray_40',
-            %w[O22] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60',
+            %w[C1] => 'offboard=revenue:yellow_40|green_30|brown_20|gray_20',
+            %w[E1 K3] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50',
+            %w[L24] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60',
+            %w[J32] => 'offboard=revenue:yellow_40|green_30|brown_30|gray_40',
+            %w[F34] => 'offboard=revenue:yellow_20|green_30|brown_30|gray_40',
+            %w[B34] => 'offboard=revenue:yellow_20|green_30|brown_30|gray_40',
+            %w[N22] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60',
           },
           red: {
-            %w[B5] =>
+            %w[A5] =>
                      'offboard=revenue:yellow_10|green_30|brown_40|gray_50;'\
                      'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
-            ['B9'] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50;'\
+            ['A9'] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50;'\
                       'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
-            %w[B11] =>
+            %w[A11] =>
                      'offboard=revenue:yellow_20|green_30|brown_40|gray_50,hide:1;path=a:4,b:_0,track:dual;label=W',
-            ['N5'] =>
+            ['M5'] =>
                    'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
                    'path=a:1,b:_0,track:dual;path=a:2,b:_0,track:dual;label=E',
-            ['D21'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
+            ['C21'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
                        'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;border=edge:2;label=W',
-            ['C24'] => 'offboard=revenue:yellow_10|green_20|brown_40|gray_50;path=a:0,b:_0,track:dual;'\
+            ['B24'] => 'offboard=revenue:yellow_10|green_20|brown_40|gray_50;path=a:0,b:_0,track:dual;'\
                        'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
-            %w[B25 B29] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_50,hide:1;path=a:5,b:_0,track:dual;label=W',
-            ['B27'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
+            %w[A25 A29] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_50,hide:1;path=a:5,b:_0,track:dual;label=W',
+            ['A27'] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
                        'path=a:4,b:_0,track:dual;path=a:5,b:_0,track:dual;label=W',
-            ['B31'] => 'offboard=revenue:yellow_10|green_20|brown_40|gray_50;path=a:4,b:_0,track:dual;label=W',
-            %w[N17
-               J15] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
+            ['A31'] => 'offboard=revenue:yellow_10|green_20|brown_40|gray_50;path=a:4,b:_0,track:dual;label=W',
+            %w[M17
+               I15] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;'\
                        'path=a:0,b:_0,track:dual;path=a:1,b:_0,track:dual;label=E',
-            %w[O18] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50;'\
+            %w[N18] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50;'\
                        'path=a:0,b:_0,track:dual;path=a:1,b:_0,track:dual;label=E',
-            %w[K16] => 'offboard=revenue:yellow_30|green_50|brown_60|gray_80'\
+            %w[J16] => 'offboard=revenue:yellow_30|green_50|brown_60|gray_80'\
                        ';path=a:0,b:_0,track:dual;path=a:5,b:_0,track:dual;label=E',
-            %w[L15] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50,hide:1;path=a:0,b:_0,track:dual;label=E',
-            %w[M16] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60,hide:1;path=a:0,b:_0,track:dual;label=E',
+            %w[K15] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50,hide:1;path=a:0,b:_0,track:dual;label=E',
+            %w[L16] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60,hide:1;path=a:0,b:_0,track:dual;label=E',
           },
           yellow: {
-            %w[G18] => 'town=revenue:10;path=a:1,b:_0,track:narrow;' \
+            %w[F18] => 'town=revenue:10;path=a:1,b:_0,track:narrow;' \
                        'path=a:4,b:_0,track:narrow;icon=image:18_esp/mine,sticky:1;'\
                        'future_label=label:BUR,color:green',
-            ['L5'] => 'city=revenue:30;path=a:1,b:_0,track:narrow;path=a:2,b:_0,track:narrow;label=Bi;' \
+            ['K5'] => 'city=revenue:30;path=a:1,b:_0,track:narrow;path=a:2,b:_0,track:narrow;label=Bi;' \
                       'icon=image:18_esp/FdSB,sticky:1;icon=image:18_esp/FdLR,sticky:1;'\
                       'frame=color:#35A7FF;icon=image:anchor',
-            ['G24'] => 'city=revenue:40;city=revenue:40;city=revenue:40;path=a:0,b:_0;path=a:1,b:_0;' \
+            ['F24'] => 'city=revenue:40;city=revenue:40;city=revenue:40;path=a:0,b:_0;path=a:1,b:_0;' \
                        'path=a:2,b:_1;path=a:4,b:_2;path=a:0,b:_2;label=M',
-            ['N21'] => 'city=revenue:30;city=revenue:30;path=a:1,b:_0;path=a:2,b:_1;label=B;icon=image:18_esp/ZP,sticky:1;'\
+            ['M21'] => 'city=revenue:30;city=revenue:30;path=a:1,b:_0;path=a:2,b:_1;label=B;icon=image:18_esp/ZP,sticky:1;'\
                        'frame=color:#35A7FF;icon=image:anchor',
           },
           white: {
-            %w[C6 C8 M4 C28 I26 J27 J31 K26 L27 M20 E4 E34] => '',
-            %w[B3 C4 C10 E2 I4 K4] => 'town=revenue:0',
-            %w[K30] => 'town=revenue:0;icon=image:18_esp/AC,sticky:1;frame=color:#35A7FF;icon=image:anchor',
-            %w[D33] => 'town=revenue:0;icon=image:18_esp/SC,sticky:1;frame=color:#35A7FF;icon=image:anchor',
-            %w[H5] => 'town=revenue:0;icon=image:18_esp/CFEA,sticky:1;border=edge:0,type:impassable',
-            %w[J5 L19 M22] => 'city=revenue:0',
-            ['F3'] => 'city=revenue:0;frame=color:#35A7FF;icon=image:anchor;label=G',
-            %w[F33] => 'city=revenue:0;icon=image:18_esp/CM,sticky:1;'\
+            %w[B6 B8 L4 B28 H26 I27 I31 J26 K27 L20 D4 D34] => '',
+            %w[A3 B4 B10 D2 H4 J4] => 'town=revenue:0',
+            %w[J30] => 'town=revenue:0;icon=image:18_esp/AC,sticky:1;frame=color:#35A7FF;icon=image:anchor',
+            %w[C33] => 'town=revenue:0;icon=image:18_esp/SC,sticky:1;frame=color:#35A7FF;icon=image:anchor',
+            %w[G5] => 'town=revenue:0;icon=image:18_esp/CFEA,sticky:1;border=edge:0,type:impassable',
+            %w[I5 K19 L22] => 'city=revenue:0',
+            ['E3'] => 'city=revenue:0;frame=color:#35A7FF;icon=image:anchor;label=G',
+            %w[E33] => 'city=revenue:0;icon=image:18_esp/CM,sticky:1;'\
                        'future_label=label:K,color:green;frame=color:#35A7FF;icon=image:anchor',
-            %w[L25] => 'city=revenue:0;future_label=label:K,color:green;frame=color:#35A7FF;icon=image:anchor',
-            %w[D5 D9 F9 F11 H9 J7 D23 H21 E32 F31 J23] => 'icon=image:18_esp/mine,sticky:1',
-            %w[I6] => 'icon=image:18_esp/mine,sticky:1;border=edge:1,type:impassable',
-            %w[I30] => 'icon=image:18_esp/mine,sticky:1;border=edge:2,type:impassable',
-            %w[E8 G32] => 'city=revenue:0;icon=image:18_esp/mine,sticky:1',
-            %w[F7] => 'city=revenue:0;icon=image:18_esp/mine,sticky:1;icon=image:18_esp/CFLG,sticky:1',
-            %w[E6 C26 D27] => 'city=revenue:0;upgrade=cost:20,terrain:river',
-            %w[K20] => 'city=revenue:0;upgrade=cost:20,terrain:river;' \
+            %w[K25] => 'city=revenue:0;future_label=label:K,color:green;frame=color:#35A7FF;icon=image:anchor',
+            %w[C5 C9 E9 E11 G9 I7 C23 G21 D32 E31 I23] => 'icon=image:18_esp/mine,sticky:1',
+            %w[H6] => 'icon=image:18_esp/mine,sticky:1;border=edge:1,type:impassable',
+            %w[H30] => 'icon=image:18_esp/mine,sticky:1;border=edge:2,type:impassable',
+            %w[D8 F32] => 'city=revenue:0;icon=image:18_esp/mine,sticky:1',
+            %w[E7] => 'city=revenue:0;icon=image:18_esp/mine,sticky:1;icon=image:18_esp/CFLG,sticky:1',
+            %w[D6 B26 C27] => 'city=revenue:0;upgrade=cost:20,terrain:river',
+            %w[J20] => 'city=revenue:0;upgrade=cost:20,terrain:river;' \
                        'icon=image:18_esp/ZPB,sticky:1;icon=image:18_esp/MZ,sticky:1',
-            %w[D31] => 'city=revenue:0;upgrade=cost:20,terrain:river;'\
+            %w[C31] => 'city=revenue:0;upgrade=cost:20,terrain:river;'\
                        'icon=image:18_esp/MS,sticky:1;icon=image:18_esp/A,sticky:1;label=Y',
-            %w[F21] => 'city=revenue:0;upgrade=cost:20,terrain:river;icon=image:18_esp/N,sticky:1',
-            %w[G4 G6] => 'town=revenue:0;upgrade=cost:20,terrain:river',
-            %w[L21] => 'upgrade=cost:20,terrain:river',
-            %w[F5 D7 D11 G10 J9 M18 N19] => 'upgrade=cost:80,terrain:mountain',
-            %w[H7] => 'upgrade=cost:80,terrain:mountain;border=edge:3,type:impassable;border=edge:4,type:impassable',
-            %w[E10 G8 I10 K8 L7 M6 I22 I24 K22] => 'upgrade=cost:60,terrain:mountain',
-            %w[H29] => 'upgrade=cost:60,terrain:mountain;border=edge:5,type:impassable',
-            %w[I8] => 'city=revenue:0;upgrade=cost:60,terrain:mountain',
-            %w[K6] => 'town=revenue:0;upgrade=cost:60,terrain:mountain',
-            %w[I28] => 'city=revenue:0;upgrade=cost:30,terrain:mountain',
-            %w[J17] => 'town=revenue:0;upgrade=cost:80,terrain:mountain',
-            %w[E20] => 'town=revenue:0;upgrade=cost:10,terrain:river',
-            %w[D25] => 'city=revenue:0;upgrade=cost:10,terrain:river;' \
+            %w[E21] => 'city=revenue:0;upgrade=cost:20,terrain:river;icon=image:18_esp/N,sticky:1',
+            %w[F4 F6] => 'town=revenue:0;upgrade=cost:20,terrain:river',
+            %w[K21] => 'upgrade=cost:20,terrain:river',
+            %w[E5 C7 C11 F10 I9 L18 M19] => 'upgrade=cost:80,terrain:mountain',
+            %w[G7] => 'upgrade=cost:80,terrain:mountain;border=edge:3,type:impassable;border=edge:4,type:impassable',
+            %w[D10 F8 H10 J8 K7 L6 H22 H24 J22] => 'upgrade=cost:60,terrain:mountain',
+            %w[G29] => 'upgrade=cost:60,terrain:mountain;border=edge:5,type:impassable',
+            %w[H8] => 'city=revenue:0;upgrade=cost:60,terrain:mountain',
+            %w[J6] => 'town=revenue:0;upgrade=cost:60,terrain:mountain',
+            %w[H28] => 'city=revenue:0;upgrade=cost:30,terrain:mountain',
+            %w[I17] => 'town=revenue:0;upgrade=cost:80,terrain:mountain',
+            %w[D20] => 'town=revenue:0;upgrade=cost:10,terrain:river',
+            %w[C25] => 'city=revenue:0;upgrade=cost:10,terrain:river;' \
                        'icon=image:18_esp/MCP,sticky:1',
-            %w[F29 J29] => 'city=revenue:0;upgrade=cost:10,terrain:river',
-            %w[K28] => 'city=revenue:0;upgrade=cost:10,terrain:river;icon=image:18_esp/MZA,sticky:1;label=Y',
-            %w[G20 E24 E26 E30 I18 J19 H25] => 'upgrade=cost:10,terrain:river',
-            %w[E22] => 'city=revenue:0;upgrade=cost:30,terrain:mountain',
-            %w[F19] => 'town=revenue:0;icon=image:18_esp/mine,sticky:1;frame=color:#6CD976;future_label=label:PAL,color:green',
-            %w[H17] => 'town=revenue:0;frame=color:#6CD976;future_label=label:VIT,color:green',
-            %w[I16] => 'city=revenue:0;frame=color:#6CD976;future_label=label:SEB,color:green',
-            %w[C30 G30 J21] => 'town=revenue:0;icon=image:18_esp/mine,sticky:1',
-            %w[F23 F25 G22 H19 I20 J25 H33] => 'upgrade=cost:40,terrain:mountain',
-            %w[I32 K24 L23 O20] => 'town=revenue:0;upgrade=cost:40,terrain:mountain',
-            %w[H31] => 'upgrade=cost:120,terrain:mountain',
-            %w[K18 L17] => 'upgrade=cost:100,terrain:mountain',
-            %w[D29 E28 F27] => 'upgrade=cost:20,terrain:mountain',
-            %w[H23] => 'town=revenue:0;upgrade=cost:20,terrain:mountain',
-            %w[G28] => 'town=revenue:0;upgrade=cost:20,terrain:mountain;icon=image:18_esp/CRB,sticky:1',
-            %w[G26] => 'town=revenue:0;town=revenue:0;upgrade=cost:20,terrain:river',
+            %w[E29 I29] => 'city=revenue:0;upgrade=cost:10,terrain:river',
+            %w[J28] => 'city=revenue:0;upgrade=cost:10,terrain:river;icon=image:18_esp/MZA,sticky:1;label=Y',
+            %w[F20 D24 D26 D30 H18 I19 G25] => 'upgrade=cost:10,terrain:river',
+            %w[D22] => 'city=revenue:0;upgrade=cost:30,terrain:mountain',
+            %w[E19] => 'town=revenue:0;icon=image:18_esp/mine,sticky:1;frame=color:#6CD976;future_label=label:PAL,color:green',
+            %w[G17] => 'town=revenue:0;frame=color:#6CD976;future_label=label:VIT,color:green',
+            %w[H16] => 'city=revenue:0;frame=color:#6CD976;future_label=label:SEB,color:green',
+            %w[B30 F30 I21] => 'town=revenue:0;icon=image:18_esp/mine,sticky:1',
+            %w[E23 E25 F22 G19 H20 I25 G33] => 'upgrade=cost:40,terrain:mountain',
+            %w[H32 J24 K23 N20] => 'town=revenue:0;upgrade=cost:40,terrain:mountain',
+            %w[G31] => 'upgrade=cost:120,terrain:mountain',
+            %w[J18 K17] => 'upgrade=cost:100,terrain:mountain',
+            %w[C29 D28 E27] => 'upgrade=cost:20,terrain:mountain',
+            %w[G23] => 'town=revenue:0;upgrade=cost:20,terrain:mountain',
+            %w[F28] => 'town=revenue:0;upgrade=cost:20,terrain:mountain;icon=image:18_esp/CRB,sticky:1',
+            %w[F26] => 'town=revenue:0;town=revenue:0;upgrade=cost:20,terrain:river',
 
           },
           gray: {
-            ['D3'] => 'town=revenue:10;path=a:1,b:_0,track:narrow;path=a:0,b:_0,track:narrow;'\
+            ['C3'] => 'town=revenue:10;path=a:1,b:_0,track:narrow;path=a:0,b:_0,track:narrow;'\
                       'path=a:5,b:_0,track:narrow;frame=color:#35A7FF;icon=image:anchor',
-            ['E18'] => 'city=revenue:30,slots:2;path=a:0,b:_0;path=a:3,b:_0;path=a:5,b:_0,track:narrow;icon=image:18_esp/mine',
-            ['H27'] => 'city=revenue:30,slots:2;path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;path=a:5,b:_0;',
-            ['H11'] => 'offboard=revenue:10;path=a:2,b:_0,track:dual;path=a:3,b:_0,track:dual;path=a:4,b:_0,track:dual;',
-            %w[J11 L9] => 'offboard=revenue:10;path=a:2,b:_0,track:dual;path=a:3,b:_0,track:dual',
-            %w[J3] => 'offboard=revenue:0;path=a:0,b:_0,track:dual',
+            ['D18'] => 'city=revenue:30,slots:2;path=a:0,b:_0;path=a:3,b:_0;path=a:5,b:_0,track:narrow;icon=image:18_esp/mine',
+            ['G27'] => 'city=revenue:30,slots:2;path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;path=a:5,b:_0;',
+            ['G11'] => 'offboard=revenue:10;path=a:2,b:_0,track:dual;path=a:3,b:_0,track:dual;path=a:4,b:_0,track:dual;',
+            %w[I11 K9] => 'offboard=revenue:10;path=a:2,b:_0,track:dual;path=a:3,b:_0,track:dual',
+            %w[I3] => 'offboard=revenue:0;path=a:0,b:_0,track:dual',
           },
           orange: {
-            ['E12'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:0,b:_0,track:dual;label=120;icon=image:18_esp/60',
-            ['I12'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:1,b:_0,track:dual;label=60;icon=image:18_esp/30',
-            ['K10'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:0,b:_0,track:dual;label=80;icon=image:18_esp/40',
-            ['M8'] => 'city=revenue:0;path=a:2,b:_0,track:dual;path=a:0,b:_0,track:dual;label=80;icon=image:18_esp/40',
-            %w[E16 E14 F17] => 'path=a:0,b:3,track:dual',
-            %w[F15] => 'path=a:0,b:4,track:dual',
-            %w[G14 H13 L11] => 'path=a:1,b:4,track:dual',
-            %w[I14 J13] => 'path=a:1,b:4,track:dual,lanes:2',
-            ['H15'] => 'path=a:0,b:4,b_lane:2.1,track:dual;path=a:5,b:4,b_lane:2.0,track:dual',
-            ['K12'] => 'path=a:1,b:3,a_lane:2.0,track:dual;path=a:1,b:4,a_lane:2.1,track:dual',
-            ['M10'] => 'path=a:1,b:3,track:dual',
+            ['D12'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:0,b:_0,track:dual;label=120;icon=image:18_esp/60',
+            ['H12'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:1,b:_0,track:dual;label=60;icon=image:18_esp/30',
+            ['J10'] => 'city=revenue:0;path=a:3,b:_0,track:dual;path=a:0,b:_0,track:dual;label=80;icon=image:18_esp/40',
+            ['L8'] => 'city=revenue:0;path=a:2,b:_0,track:dual;path=a:0,b:_0,track:dual;label=80;icon=image:18_esp/40',
+            %w[D16 D14 E17] => 'path=a:0,b:3,track:dual',
+            %w[E15] => 'path=a:0,b:4,track:dual',
+            %w[F14 G13 K11] => 'path=a:1,b:4,track:dual',
+            %w[H14 I13] => 'path=a:1,b:4,track:dual,lanes:2',
+            ['G15'] => 'path=a:0,b:4,b_lane:2.1,track:dual;path=a:5,b:4,b_lane:2.0,track:dual',
+            ['J12'] => 'path=a:1,b:3,a_lane:2.0,track:dual;path=a:1,b:4,a_lane:2.1,track:dual',
+            ['L10'] => 'path=a:1,b:3,track:dual',
 
           },
         }.freeze
