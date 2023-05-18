@@ -33,19 +33,19 @@ module Engine
 
         TRACK_RESTRICTION = :permissive
 
-        MOUNTAIN_PASS_ACCESS_HEX = %w[E10 I10 K8 L7].freeze
+        MOUNTAIN_PASS_ACCESS_HEX = %w[D10 H10 K8 L7].freeze
 
-        MOUNTAIN_PASS_ACCESS_HEX_INCL_SOUTH = %w[E10 I10 K8 L7 E18 F19 G18 H17 I16].freeze
+        MOUNTAIN_PASS_ACCESS_HEX_INCL_SOUTH = %w[D10 H10 K8 L7 D18 E19 F18 G17 H16].freeze
 
-        MOUNTAIN_PASS_HEX = %w[M8 K10 I12 E12 E18 F19 G18 H17 I16].freeze
+        MOUNTAIN_PASS_HEX = %w[L8 J10 H12 D12 D18 E19 F18 G17 H16].freeze
 
-        MOUNTAIN_PASS_TOKEN_HEXES = %w[M8 K10 I12 E12].freeze
+        MOUNTAIN_PASS_TOKEN_HEXES = %w[L8 J10 H12 D12].freeze
 
-        SPECIAL_HEXES = %w[I16 H17 G18 F19 E18].freeze
+        SPECIAL_HEXES = %w[H16 G17 F18 E19 D18].freeze
 
-        MOUNTAIN_PASS_TOKEN_COST = { 'M8' => 80, 'K10' => 80, 'I12' => 60, 'E12' => 120 }.freeze
+        MOUNTAIN_PASS_TOKEN_COST = { 'L8' => 80, 'J10' => 80, 'H12' => 60, 'D12' => 120 }.freeze
 
-        MOUNTAIN_PASS_TOKEN_BONUS = { 'M8' => 40, 'K10' => 40, 'I12' => 30, 'E12' => 60 }.freeze
+        MOUNTAIN_PASS_TOKEN_BONUS = { 'L8' => 40, 'J10' => 40, 'H12' => 30, 'D12' => 60 }.freeze
 
         SELL_AFTER = :operate
 
@@ -521,7 +521,7 @@ module Engine
           @corporations.each do |corp|
             corp.remove_assignment!('P3') if corp.assigned?('P3')
           end
-          hex_by_id('G26').remove_assignment!('P3')
+          hex_by_id('F26').remove_assignment!('P3')
         end
 
         def event_float_60!
@@ -741,7 +741,7 @@ module Engine
           routes.any? do |route|
             next unless route.train.track_type == :narrow
 
-            route.visited_stops.any? { |stop| %w[I16 E18].include?(stop.hex.id) }
+            route.visited_stops.any? { |stop| %w[H16 D18].include?(stop.hex.id) }
           end
         end
 
@@ -788,7 +788,7 @@ module Engine
 
             proposed_track_type = mountain_pass_proposed_track_type(entity)
 
-            next true if pajares_broad? && pass_hex.id == 'E12' && proposed_track_type != :broad
+            next true if pajares_broad? && pass_hex.id == 'D12' && proposed_track_type != :broad
 
             next false if proposed_track_type == :dual
 
@@ -796,8 +796,8 @@ module Engine
           end
           return {} if openable_passes.empty? || last_track_type?(entity, openable_passes)
 
-          if p5_ability && !opened_mountain_passes.key?('I12')
-            alar_pass = openable_passes.select { |hex| hex.id == 'I12' }
+          if p5_ability && !opened_mountain_passes.key?('H12')
+            alar_pass = openable_passes.select { |hex| hex.id == 'H12' }
             openable_passes = alar_pass || {}
           end
 
@@ -865,7 +865,7 @@ module Engine
 
         def mountain_pass_token_cost(hex, _entity, p5_ability = false)
           cost = MOUNTAIN_PASS_TOKEN_COST[hex.id]
-          cost = 0 if hex.id == 'I12' && p5_ability
+          cost = 0 if hex.id == 'H12' && p5_ability
           cost /= 2 if p5_ability
           cost
         end
@@ -1012,7 +1012,7 @@ module Engine
           stop.paths.any? do |p|
             p.exits.any? do |exit|
               neighbor = stop.hex.neighbors[exit]
-              neighbor&.id == 'G24'
+              neighbor&.id == 'F24'
             end
           end
         end
@@ -1049,8 +1049,8 @@ module Engine
           bonus = { revenue: 0 }
           return bonus unless north_corp?(routes.first&.train&.owner)
 
-          leon = routes.select { |r| r.stops.find { |st| st.hex.id == 'E18' } }
-          sanseb = routes.select { |r| r.stops.find { |st| st.hex.id == 'I16' } }
+          leon = routes.select { |r| r.stops.find { |st| st.hex.id == 'D18' } }
+          sanseb = routes.select { |r| r.stops.find { |st| st.hex.id == 'H16' } }
 
           if leon.length > 1
             bonus = gbi_bm_bonus(leon.flat_map(&:stops))
@@ -1182,7 +1182,7 @@ module Engine
           # check if there's another slot
           delete_slot = city.slots > 1
           # check if slot is already used, if not reserve
-          corp = @corporations.find { |c| c.city == city.index && c.name != "MZ" }
+          corp = @corporations.find { |c| c.city == city.index && c.name != 'MZ' }
 
           city.delete_token!(token, remove_slot: delete_slot)
           city.add_reservation!(corp) unless delete_slot
@@ -1238,7 +1238,7 @@ module Engine
         def place_home_token(corporation)
           if corporation.id == 'MZA' && corporation_by_id('MZ').ipoed && !corporation.tokens.first.city
             token = corporation.tokens.first
-            city = city_by_id('G24-0-2')
+            city = city_by_id('F24-0-2')
             city.place_token(corporation, token, cheater: true)
           else
             super
