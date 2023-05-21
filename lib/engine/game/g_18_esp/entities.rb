@@ -4,7 +4,6 @@ module Engine
   module Game
     module G18ESP
       module Entities
-
         COMPANIES = [
           {
             sym: 'P1',
@@ -96,7 +95,7 @@ module Engine
                   'It closes when the major company buys its first train.',
             color: nil,
             abilities: [{ type: 'shares', shares: 'random_president' }, { type: 'no_buy' }],
-          }
+          },
         ].freeze
 
         # corporations with different properties in 1st Edition

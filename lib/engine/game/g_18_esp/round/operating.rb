@@ -7,7 +7,6 @@ module Engine
     module G18ESP
       module Round
         class Operating < Engine::Round::Operating
-
           def after_process(action)
             @game.fix_mine_token(@tokened_mountain_pass) if @tokened_mountain_pass
             super
