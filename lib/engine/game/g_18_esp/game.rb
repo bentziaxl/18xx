@@ -55,7 +55,6 @@ module Engine
 
         BASE_MINE_BONUS = 10
 
-        BASE_F_TRAIN = 10
 
         NEXT_SR_PLAYER_ORDER = :least_cash
 
@@ -260,15 +259,7 @@ module Engine
                       },
                     ],
 
-          },
-          {
-            name: 'F',
-            distance: 99,
-            price: 0,
-            num: 1,
-            available_on: '2',
-            track_type: :dual,
-          },
+          }
           ].freeze
 
         FREIGHT_TRAIN = [{
@@ -337,7 +328,6 @@ module Engine
             Engine::Step::SpecialToken,
             Engine::Step::BuyCompany,
             G18ESP::Step::HomeToken,
-            G18ESP::Step::Mining,
             G18ESP::Step::SpecialTrack,
             G18ESP::Step::SpecialChoose,
             G18ESP::Step::Track,
@@ -509,7 +499,6 @@ module Engine
         def event_close_companies!
           @log << '-- Event: Pioneer companies close --'
           @companies.each do |company|
-            next if company.sym == 'MEA'
             if (ability = abilities(company, :close, on_phase: 'any')) && (ability.on_phase == 'never' ||
                       @phase.phases.any? { |phase| ability.on_phase == phase[:name] })
               next
@@ -588,10 +577,6 @@ module Engine
           MOUNTAIN_PASS_HEX.include?(hex.id)
         end
 
-        def mea
-          @mea ||= company_by_id('MEA')
-        end
-
         def mine_hexes
           @mine_hexes ||= Entities::MINE_HEXES
         end
@@ -605,11 +590,10 @@ module Engine
         end
 
         def status_array(corporation)
+          return if corporation.type == :minor
           status = ['Goals Left:']
+          
           status << ["Destination #{corporation.destination}"] unless corporation.destination_connected?
-          status = nil if status.length == 1 && corporation.type == :minor
-          return status if corporation.type == :minor
-
           status << ['Offboard'] unless corporation.ran_offboard?
           status << ['Run South'] if north_corp?(corporation) && !corporation.ran_southern_map?
           status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor
@@ -618,17 +602,6 @@ module Engine
           status
         end
 
-        def f_train
-          @depot.trains.find { |t| t.name == 'F' }
-        end
-
-        def discard_f_train(action)
-          corp = action.entity
-          f_train = corp.trains.find { |train| train&.name == 'F' }
-          f_train&.owner = nil
-          corp.trains.delete(f_train)
-          @log << 'F train discarded'
-        end
 
         def upgrade_cost(old_tile, hex, entity, spender)
           total_cost = super
@@ -673,17 +646,6 @@ module Engine
           end
 
           nil
-        end
-
-        def f_train_correct_route?(route, visits, mea_hex)
-          start_city_hex = route.train.owner.tokens.first.hex
-          start_city_hex ||= hex_by_id(route.train.owner.coordinates)
-          (visits.first.hex == mea_hex || visits.first.hex == start_city_hex) &&
-          (visits.last.hex == mea_hex || visits.last.hex == start_city_hex)
-        end
-
-        def train_type(train)
-          train.name == 'F' ? :freight : :passenger
         end
 
         def check_overlap(routes)
@@ -881,9 +843,6 @@ module Engine
 
         def check_distance(route, visits, train = nil)
           entity = route.corporation
-          if route.train.name == 'F' && !f_train_correct_route?(route, visits, @round.mea_hex)
-            raise GameError, 'Route must connect Mine Tile placed and home token'
-          end
 
           if mountain_pass_token_hex?(route.hexes.first) || mountain_pass_token_hex?(route.hexes.last)
             raise GameError,
@@ -966,7 +925,6 @@ module Engine
         def revenue_for_f(route, stops)
           non_halt_stops = stops.count { |stop| !stop.is_a?(Part::Halt) }
           total_count = non_halt_stops + route.all_hexes.count { |hex| MINE_HEXES.include?(hex.name) }
-          total_count * BASE_F_TRAIN
         end
 
         def revenue_for(route, stops)
@@ -1080,7 +1038,7 @@ module Engine
         end
 
         def routes_revenue(routes)
-          revenue = super - f_train_revenue(routes)
+          revenue = super
           bonus = gbi_bm_interchange_bonus(routes)[:revenue]
           revenue += bonus if bonus
           revenue
@@ -1092,10 +1050,6 @@ module Engine
           bonus = gbi_bm_interchange_bonus(routes)[:description]
           rev_str += " + #{bonus}" if bonus
           rev_str
-        end
-
-        def f_train_revenue(routes)
-          routes.find { |r| r.train.name == 'F' }&.revenue || 0
         end
 
         def route_distance_str(route)
@@ -1248,7 +1202,6 @@ module Engine
         end
 
         def graph_for_entity(entity)
-          entity = entity.owner if entity.id == 'MEA'
           north_corp?(entity) ? @graph : @broad_graph
         end
 
@@ -1505,8 +1458,6 @@ module Engine
         def train_help(entity, runnable_trains, _routes)
           help = []
 
-          f_train = runnable_trains.any? { |t| t.name == 'F' }
-
           help << 'Plus trains (N+N) run on narrow track. Regular trains run on iberian track.'
           help << if north_corp?(entity)
                     "#{entity.name} can own at most one iberian track train. If it has a valid tokened interchange" \
@@ -1515,10 +1466,6 @@ module Engine
                   else
                     "#{entity.name} can own at most one narrow track train. The train doesn't count as an owned train"
                   end
-          if f_train
-            help << 'F trains run from the mine tile laid this OR to the home token, ' \
-                    'counting +10 for every town, city and mine passed. Revenue is split 50-50'
-          end
 
           help
         end
