@@ -4,7 +4,6 @@ module Engine
   module Game
     module G18ESP
       module Entities
-        MINE_HEXES = %w[C5 C9 E9 E11 E19 G9 H6 I7 C23 G21 D18 D32 E31 H30 I23 D8 E7 B30 F30 F32 I21].freeze
 
         COMPANIES = [
           {
@@ -97,27 +96,7 @@ module Engine
                   'It closes when the major company buys its first train.',
             color: nil,
             abilities: [{ type: 'shares', shares: 'random_president' }, { type: 'no_buy' }],
-          },
-          sym: 'MEA',
-          name: 'Mining Exploitation Authorization',
-          value: 30,
-          revenue: 0,
-          desc: 'Lay tile on a mine Hex. Must be used in the same OR it was purchased. Turns into a 2 freight train',
-          abilities: [
-            {
-              type: 'tile_lay',
-              owner_type: 'corporation',
-              when: 'track',
-              count_per_or: 1,
-              free: true,
-              special: false,
-              reachable: true,
-              closed_when_used_up: true,
-              hexes: MINE_HEXES,
-              tiles: [],
-            },
-            { type: 'blocks_hexes', owner_type: :player, hexes: MINE_HEXES },
-          ],
+          }
         ].freeze
 
         # corporations with different properties in 1st Edition
@@ -266,7 +245,6 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
-            destination: 'C31',
           },
           {
             sym: 'CM',
@@ -280,7 +258,6 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
-            destination: 'E33',
           },
           {
             sym: 'SC',
@@ -296,7 +273,6 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
-            destination: 'C33',
           },
           {
             sym: 'AC',
@@ -310,7 +286,6 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
-            destination: 'J30',
           },
           {
             sym: 'MZ',
@@ -325,7 +300,6 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
-            destination: 'J20',
             abilities: [{ type: 'token', hexes: ['F24'], cheater: true, when: 'track', price: 0 }],
           },
           {
@@ -341,7 +315,6 @@ module Engine
             float_percent: 50,
             max_ownership_percent: 75,
             startable: true,
-            destination: 'M21',
           },
         ].freeze
       end
