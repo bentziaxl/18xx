@@ -55,7 +55,6 @@ module Engine
 
         BASE_MINE_BONUS = 10
 
-
         NEXT_SR_PLAYER_ORDER = :least_cash
 
         DISCARDED_TRAIN_DISCOUNT = 50
@@ -259,7 +258,7 @@ module Engine
                       },
                     ],
 
-          }
+          },
           ].freeze
 
         FREIGHT_TRAIN = [{
@@ -591,8 +590,9 @@ module Engine
 
         def status_array(corporation)
           return if corporation.type == :minor
+
           status = ['Goals Left:']
-          
+
           status << ["Destination #{corporation.destination}"] unless corporation.destination_connected?
           status << ['Offboard'] unless corporation.ran_offboard?
           status << ['Run South'] if north_corp?(corporation) && !corporation.ran_southern_map?
@@ -601,7 +601,6 @@ module Engine
           status = nil if status.length == 1
           status
         end
-
 
         def upgrade_cost(old_tile, hex, entity, spender)
           total_cost = super
@@ -615,8 +614,6 @@ module Engine
         end
 
         def subsidy_for(route, stops)
-          return 0 if route.train.name == 'F'
-
           count = route.all_hexes.count { |hex| MINE_HEXES.include?(hex.name) }
           subsidy = count * BASE_MINE_BONUS
 
@@ -854,13 +851,6 @@ module Engine
                   'Minors can not run to offboard locations'
           end
 
-          if route.train.name != 'F' && (visits.first&.halt? || visits.last&.halt?)
-            raise GameError,
-                  'Regular train can not start or end at at a mine tile without a city or town'
-          end
-
-          visits = visits.dup.reject(&:halt?) if route.train.name != 'F'
-
           if mountain_pass_token_hex?(route.hexes.first) || mountain_pass_token_hex?(route.hexes.last)
             raise GameError,
                   'Route can not end or start in Mountain pass'
@@ -922,14 +912,7 @@ module Engine
           uniq_tracks.include?(:dual) || uniq_tracks.include?(:broad)
         end
 
-        def revenue_for_f(route, stops)
-          non_halt_stops = stops.count { |stop| !stop.is_a?(Part::Halt) }
-          total_count = non_halt_stops + route.all_hexes.count { |hex| MINE_HEXES.include?(hex.name) }
-        end
-
         def revenue_for(route, stops)
-          return revenue_for_f(route, stops) if route.train.name == 'F'
-
           revenue = super
           bonus = route.hexes.sum do |hex|
             tokened_mountain_pass(hex, route.train.owner) ? MOUNTAIN_PASS_TOKEN_BONUS[hex.id] : 0
@@ -1053,10 +1036,8 @@ module Engine
         end
 
         def route_distance_str(route)
-          towns = route.visited_stops.count { |visit| mountain_pass_token_hex?(visit.hex) ? 1 : (visit.town? && !visit.halt?) }
-          halts = route.visited_stops.count(&:halt?)
+          towns = route.visited_stops.count { |visit| mountain_pass_token_hex?(visit.hex) ? 1 : visit.town? }
           cities = route_distance(route) - towns
-          cities = route.train.name == 'F' ? cities : cities - halts
           towns.positive? ? "#{cities}+#{towns}" : cities.to_s
         end
 
@@ -1431,10 +1412,6 @@ module Engine
           tile.icons = tile.icons.dup.reject { |icon| icon.name == corp.name }
         end
 
-        def render_halts?
-          false
-        end
-
         def fix_mine_token(city)
           return unless mountain_pass_token_hex?(city.hex)
 
@@ -1451,11 +1428,7 @@ module Engine
           end
         end
 
-        def ignore_bought_train(train)
-          train.name == 'F'
-        end
-
-        def train_help(entity, runnable_trains, _routes)
+        def train_help(entity)
           help = []
 
           help << 'Plus trains (N+N) run on narrow track. Regular trains run on iberian track.'

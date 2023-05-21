@@ -34,7 +34,6 @@ module Engine
         end
 
         def goal_reached!(type)
-
           old_reached_counter = @goals_reached_counter
           destination_goal_reached! if type == :destination
           offboard_goal_reached! if type == :offboard

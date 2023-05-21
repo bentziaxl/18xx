@@ -8,7 +8,7 @@ module Engine
       class Depot < Engine::Depot
         def min_depot_train
           # 2e doesn't count towards needing a train, should be ignored when checking for min
-          depot_trains.reject { |t| t.name == 'F' }.min_by(&:price)
+          depot_trains.min_by(&:price)
         end
       end
     end

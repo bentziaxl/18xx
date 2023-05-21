@@ -50,7 +50,7 @@ module Engine
 
           def luxury_train_choices(entity)
             @game.route_trains(entity).reject do |t|
-              t.track_type == :narrow || t.name == 'F'
+              t.track_type == :narrow
             end
           end
 
