@@ -5,6 +5,7 @@ require_relative 'map'
 require_relative 'entities'
 require_relative '../base'
 require_relative '../cities_plus_towns_route_distance_str'
+require_relative '../double_sided_tiles'
 
 module Engine
   module Game
@@ -14,6 +15,7 @@ module Engine
         include Entities
         include Map
         include CitiesPlusTownsRouteDistanceStr
+        include DoubleSidedTiles
 
         attr_reader :can_build_mountain_pass, :broad_graph, :special_merge_step
 
@@ -300,6 +302,10 @@ module Engine
           G18ESP::Phase.new(game_phases, self)
         end
 
+        def init_tile_groups
+          self.class::TILE_GROUPS
+        end
+
         def game_phases
           self.class::PHASES
         end
@@ -369,6 +375,9 @@ module Engine
 
           # Initialize the player depts, if player have to take an emergency loan
           @player_debts = Hash.new { |h, k| h[k] = 0 }
+
+          @tile_groups = init_tile_groups
+          initialize_tile_opposites!
 
           # place tokens on mountain passes
 
