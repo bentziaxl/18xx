@@ -10,8 +10,9 @@ module Engine
           def auto_actions(entity)
             return super unless entity.name == 'MZ'
 
+            puts('here in aut')
             [Engine::Action::PlaceToken.new(entity,
-                                            city: @game.city_by_id('G24-0-2'),
+                                            city: @game.city_by_id('F24-0-2'),
                                             slot: 0)]
           end
 

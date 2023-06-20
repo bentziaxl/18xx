@@ -57,7 +57,7 @@ module Engine
 
         BASE_MINE_BONUS = 10
 
-        NEXT_SR_PLAYER_ORDER = :least_cash
+        # NEXT_SR_PLAYER_ORDER = :least_cash
 
         DISCARDED_TRAIN_DISCOUNT = 50
 
@@ -89,7 +89,7 @@ module Engine
         RENFE_LOGO = '/logos/18_esp/renfe.svg'
 
         MARKET = [
-          %w[50 55 60 65P 70p 75P 80p 85P 90p 95P 100p 105 110x 115 120x
+          %w[50 55 60 65 70p 75p 80p 85p 90p 95p 100p 105 110 115 120
              126 132 138 144 151 158 165 172 180 188 196 204 213 222 231 240 250 260
              270 280 290 300 310 320 330 340 350 362 375 390 400],
         ].freeze
@@ -107,7 +107,7 @@ module Engine
 
         PHASES = [{
           name: '2',
-          train_limit: { minor: 2, major: 4 },
+          train_limit: 4,
           tiles: %i[yellow],
           operating_rounds: 1,
           status: %w[can_buy_companies],
@@ -115,7 +115,7 @@ module Engine
                   {
                     name: '3',
                     on: '3',
-                    train_limit: { minor: 2, major: 4 },
+                    train_limit: 4,
                     tiles: %i[yellow green],
                     operating_rounds: 2,
                     status: %w[can_buy_companies],
@@ -123,7 +123,7 @@ module Engine
                   {
                     name: '4',
                     on: '4',
-                    train_limit: { minor: 1, major: 3 },
+                    train_limit: 3,
                     tiles: %i[yellow green],
                     operating_rounds: 2,
                     status: %w[can_buy_companies major_other_train],
@@ -317,6 +317,10 @@ module Engine
           ])
         end
 
+        def new_draft_round
+          G18ESP::Round::MinorStock.new(self, [G18ESP::Step::MinorPar])
+        end
+
         def stock_round
           G18ESP::Round::Stock.new(self, [
             G18ESP::Step::Acquire,
@@ -361,7 +365,7 @@ module Engine
           @corporations, @future_corporations = @corporations.partition do |corporation|
             corporation.type == :minor || north_corp?(corporation)
           end
-
+          @corporations.each { |c| c.shares.first.double_cert = true if c.type == :minor }
           @future_corporations.each { |c| c.shares.last.buyable = false }
           @north_corp_mountain_pass_graph = Graph.new(self)
           @broad_graph = Graph.new(self, skip_track: :narrow, ignore_skip_path: true)
@@ -378,6 +382,7 @@ module Engine
 
           @tile_groups = init_tile_groups
           initialize_tile_opposites!
+          @unused_tiles = []
 
           # place tokens on mountain passes
 
@@ -416,7 +421,9 @@ module Engine
         end
 
         def operating_order
-          @corporations.select { |c| c.floated? && !nationalized?(c) }.sort
+          valid_corps = @corporations.select { |c| c.floated? && !nationalized?(c) }.sort
+          minors, railroads = valid_corps.partition { |c| c.type == :minor }
+          minors + railroads
         end
 
         def init_company_abilities
@@ -586,7 +593,7 @@ module Engine
         end
 
         def mine_hexes
-          @mine_hexes ||= Entities::MINE_HEXES
+          @mine_hexes ||= Map::MINE_HEXES
         end
 
         def mine_hex?(hex)
@@ -1314,6 +1321,8 @@ module Engine
           nationalize_corps! if final_ors?
           @round =
             case @round
+            when G18ESP::Round::MinorStock
+              new_stock_round
             when Round::Stock
               @operating_rounds = @phase.operating_rounds
               reorder_players
@@ -1340,8 +1349,8 @@ module Engine
               new_stock_round
             when init_round.class
               init_round_finished
-              reorder_players
-              new_stock_round
+              reorder_players(:least_cash, log_player_order: true)
+              new_draft_round
             end
         end
 
@@ -1442,7 +1451,7 @@ module Engine
 
           help << 'Plus trains (N+N) run on narrow track. Regular trains run on iberian track.'
           help << if north_corp?(entity)
-                    "#{entity.name} can own at most one iberian track train. If it has a valid tokened interchange" \
+                    "#{entity.name} can own at most one iberian track train. If it has a limitalid tokened interchange" \
                       ' it can run a regular train and count it as an owned train.' \
                       "Otherwise a regular train doesn't count as an owned train"
                   else
