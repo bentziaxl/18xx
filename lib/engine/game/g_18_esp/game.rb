@@ -312,13 +312,9 @@ module Engine
 
         def new_auction_round
           Engine::Round::Auction.new(self, [
-            G18ESP::Step::CompanyPendingPar,
+            Engine::Step::CompanyPendingPar,
             G18ESP::Step::SelectionAuction,
           ])
-        end
-
-        def new_draft_round
-          G18ESP::Round::MinorStock.new(self, [G18ESP::Step::MinorPar])
         end
 
         def stock_round
@@ -541,13 +537,6 @@ module Engine
 
         def event_renfe_founded!
           @renfe_formed = true
-        end
-
-        # market
-        def par_prices(corp)
-          par_type = corp.type == 'major' ? %i[par par_1] : %i[par_overlap]
-          par_type = %i[par] if north_corp?(corp)
-          stock_market.share_prices_with_types(par_type)
         end
 
         def float_corporation(corporation)
@@ -1321,8 +1310,6 @@ module Engine
           nationalize_corps! if final_ors?
           @round =
             case @round
-            when G18ESP::Round::MinorStock
-              new_stock_round
             when Round::Stock
               @operating_rounds = @phase.operating_rounds
               reorder_players
@@ -1350,7 +1337,7 @@ module Engine
             when init_round.class
               init_round_finished
               reorder_players(:least_cash, log_player_order: true)
-              new_draft_round
+              new_stock_round
             end
         end
 
