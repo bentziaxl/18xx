@@ -8,20 +8,35 @@ module Engine
           {
             sym: 'P1',
             name: 'Ferrocarril de La Habana a Güines',
-            value: 50,
-            revenue: 20,
+            value: 10,
+            revenue: 5,
             min_price: 1,
-            desc: 'No special abilities.',
+            desc: 'It gives a discount of pts30 for laying a yellow
+            mine tile. When this privilege is done, the
+            company closes.',
+            abilities: [
+              {
+                type: 'tile_lay',
+                hexes: Map::MINE_HEXES
+                tiles: %w[L89 L90 L91 L92 L93 L94 L95 L96 L98 L99 L100],
+                free: false,
+                when: 'track',
+                discount: 30,
+                consume_tile_lay: true,
+                closed_when_used_up: true,
+                owner_type: 'corporation',
+                count: 1,
+              },
+            ],
             color: nil,
           },
           {
             sym: 'P2',
             name: 'Ferrocarril de Barcelona a Mataró',
-            value: 50,
-            revenue: 5,
+            value: 40,
+            revenue: 10,
             min_price: 1,
-            desc: 'Owning Corporation receives 2 train. The train can not run in the same OR this company is purchased. '\
-                  'Closes when 2 train runs.',
+            desc: 'Owning Corporation receives 2/1+2 train. closes when bought by a corporation.',
             color: nil,
           },
           {
@@ -30,32 +45,20 @@ module Engine
             value: 70,
             revenue: 15,
             min_price: 1,
-            desc: 'Owning Corporation may place a Strawberry token in Aranjuez (town connected to madrid)' \
-                  'to add 20 to all routes it runs to this location',
+            desc: 'If owned by a corporation at phase 5 then it is converted to a permanent 2 train. The train does not count towards train limit.'\
+                  ' It does not fulfill train ownership requierments. The first run must go through Aranjuez, later runs can be anywhere on the map.',
+                    
             color: nil,
-            abilities: [{
-              type: 'assign_hexes',
-              when: 'owning_corp_or_turn',
-              hexes: %w[F26],
-              count: 1,
-              owner_type: 'corporation',
-            },
-                        {
-                          type: 'assign_corporation',
-                          when: 'sold',
-                          count: 1,
-                          owner_type: 'corporation',
-                        }],
           },
           {
             sym: 'P4',
             name: 'Ferrocarril de Valencia a Játiva',
             value: 100,
-            revenue: 15,
+            revenue: 20,
             min_price: 1,
             desc: 'Owning corporation can upgrade one train per OR and attach a luxury carriage. '\
-                  "Luxury carriages provide one more town to the train's range. "\
-                  'Can only be attached to iberian gauge trains. ',
+                  "Luxury carriages provide one more town or mine to the train's range. "\
+                  'Can only be attached to iberian gauge trains. The company closes when bought by a corporation.',
             abilities: [
                       {
                         type: 'base',
@@ -71,25 +74,35 @@ module Engine
           {
             sym: 'P5',
             name: 'Ferrocarril de Alar del Rey a Santander',
-            value: 120,
-            revenue: 20,
+            value: 130,
+            revenue: 25,
             min_price: 1,
-            desc: 'Free build of Alar del Rey mountain pass. if Alar is already built '\
-                  'it provides 50% on any other mountain pass build. '\
-                  'Additionally, the owning corporation places an extra free token in the opened mountain pass. '\
-                  'The action counts as a regular opening mountain pass step. This closes the company.',
-            abilities: [{
-              type: 'choose_ability',
-              owner_type: 'corporation',
-              when: 'track',
-              choices: { close: 'Close P5' },
-            }],
+            desc: 'he company that owns this pioneer company can place a special harbor tile (fixed value of pts30 in all phases) in hex G3 or I3.'\
+                  ' The director of the company decides the direction of the arrow (section of track) on the tile: towards Ribadesella, '\
+                  'Llanes o Torrelavega (G3) or towards Santander, Torrelavega or Laredo (I3). At the moment the special tile is laid'\
+                  ', the pioneering company closes. If this special tile has not been placed at the start of phase 5, '\
+                  'the special tile is removed from the game.',
+                  abilities: [
+                    {
+                      type: 'tile_lay',
+                      hexes: [],
+                      tiles: [],
+                      owner_type: 'corporation',
+                      when: 'owning_corp_or_turn',
+                      closed_when_used_up: true,
+                      special: true,
+                      count: 1,
+                      free: true,
+                    },
+                  ],
+
+          },
             color: nil,
           },
           {
             sym: 'P6',
             name: 'Ferrocarril de Carreño',
-            value: 180,
+            value: 160,
             revenue: 30,
             desc: 'President share of one Northern major company (randomly selected before the game starts).'\
                   'It closes when the major company buys its first train.',

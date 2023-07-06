@@ -2298,8 +2298,7 @@ module Engine
 
       def init_stock_market
         StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
-                        multiple_buy_types: self.class::MULTIPLE_BUY_TYPES,
-                        continuous: self.class::CONTINUOUS_MARKET)
+                        multiple_buy_types: self.class::MULTIPLE_BUY_TYPES)
       end
 
       def game_market

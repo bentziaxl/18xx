@@ -44,13 +44,13 @@ module Engine
           def room?(entity, _shell = nil)
             return room_for_type?(entity, :narrow) || room_for_type?(entity, :broad) if @game.phase.available?('4')
 
-            super
+            entity.trains.count { |t| !@game.extra_train?(t) } < @game.train_limit(entity)
           end
 
           def room_for_type?(entity, type)
             return room?(entity) unless @game.phase.available?('4')
-
-            trains = entity.trains.group_by(&:track_type)
+              
+            trains = entity.trains.reject {|t| @game.extra_train?(t) }.group_by(&:track_type)
             (trains[type]&.size || 0) < @game.train_limit_by_type(entity, type)
           end
         end

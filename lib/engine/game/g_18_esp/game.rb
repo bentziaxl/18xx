@@ -78,14 +78,6 @@ module Engine
         ].freeze
         NORTH_CORP_SOUTH_TILE_LAYS = { lay: true, upgrade: :not_if_upgraded, cost: 20, cannot_reuse_same_hex: true }.freeze
 
-        ABILITY_ICONS = {
-          P3: 'strawberry',
-        }.freeze
-
-        ASSIGNMENT_TOKENS = {
-          'P3' => '/icons/18_esp/strawberry.svg',
-        }.freeze
-
         RENFE_LOGO = '/logos/18_esp/renfe.svg'
 
         MARKET = [
@@ -156,6 +148,13 @@ module Engine
         TRAINS = [
 
           {
+            name: '2P',
+            distance: 2,
+            price: 0,
+            num: 1,
+          },
+
+          {
             name: '2',
             distance: 2,
             price: 100,
@@ -163,8 +162,8 @@ module Engine
             rusts_on: '4',
             variants: [
               {
-                name: '1+1',
-                distance: [{ 'nodes' => ['town'], 'pay' => 1, 'visit' => 1 },
+                name: '1+2',
+                distance: [{ 'nodes' => ['town'], 'pay' => 2, 'visit' => 2 },
                            { 'nodes' => %w[city offboard town], 'pay' => 1, 'visit' => 1 }],
                 track_type: :narrow,
                 no_local: true,
@@ -180,8 +179,8 @@ module Engine
             rusts_on: '6',
             variants: [
               {
-                name: '2+2',
-                distance: [{ 'nodes' => ['town'], 'pay' => 2, 'visit' => 2 },
+                name: '2+3',
+                distance: [{ 'nodes' => ['town'], 'pay' => 3, 'visit' => 3 },
                            { 'nodes' => %w[city offboard town], 'pay' => 2, 'visit' => 2 }],
                 track_type: :narrow,
                 price: 200,
@@ -199,8 +198,8 @@ module Engine
             rusts_on: '8',
             variants: [
               {
-                name: '3+3',
-                distance: [{ 'nodes' => ['town'], 'pay' => 3, 'visit' => 3 },
+                name: '3+4',
+                distance: [{ 'nodes' => ['town'], 'pay' => 4, 'visit' => 4 },
                            { 'nodes' => %w[city offboard town], 'pay' => 3, 'visit' => 3 }],
                 track_type: :narrow,
                 price: 300,
@@ -217,8 +216,8 @@ module Engine
             num: 4,
             variants: [
               {
-                name: '4+4',
-                distance: [{ 'nodes' => ['town'], 'pay' => 4, 'visit' => 4 },
+                name: '4+5',
+                distance: [{ 'nodes' => ['town'], 'pay' => 5, 'visit' => 5 },
                            { 'nodes' => %w[city offboard town], 'pay' => 4, 'visit' => 4 }],
                 track_type: :narrow,
                 price: 500,
@@ -234,8 +233,8 @@ module Engine
             num: 4,
             variants: [
               {
-                name: '5+5',
-                distance: [{ 'nodes' => ['town'], 'pay' => 5, 'visit' => 5 },
+                name: '5+6',
+                distance: [{ 'nodes' => ['town'], 'pay' => 6, 'visit' => 6 },
                            { 'nodes' => %w[city offboard town], 'pay' => 5, 'visit' => 5 }],
                 track_type: :narrow,
                 price: 600,
@@ -252,8 +251,8 @@ module Engine
             events: [{ 'type' => 'renfe_founded' }],
             variants: [
                       {
-                        name: '6+6',
-                        distance: [{ 'nodes' => ['town'], 'pay' => 6, 'visit' => 6 },
+                        name: '6+8',
+                        distance: [{ 'nodes' => ['town'], 'pay' => 8, 'visit' => 8 },
                                    { 'nodes' => %w[city offboard town], 'pay' => 6, 'visit' => 6 }],
                         track_type: :narrow,
                         price: 800,
@@ -263,13 +262,9 @@ module Engine
           },
           ].freeze
 
-        FREIGHT_TRAIN = [{
-          name: :F,
-          distance: 99,
-          price: 0,
-          num: 50,
-          buyable: false,
-        }].freeze
+        # These trains don't count against train limit, they also don't count as a train
+        # against the mandatory train ownership. They cant the bought by another corporation.
+        EXTRA_TRAINS = %w[2P].freeze   
 
         STATUS_TEXT = Base::STATUS_TEXT.merge(
           'major_other_train' => ['Major additional train',
@@ -345,16 +340,12 @@ module Engine
           ], round_num: round_num)
         end
 
-        def p3
-          @p3 ||= company_by_id('P3')
-        end
-
-        def p5
-          @p5 ||= company_by_id('P5')
-        end
-
         def p2
           @p2 ||= company_by_id('P2')
+        end
+
+        def p3
+          @p3 ||= company_by_id('P2')
         end
 
         def setup
@@ -367,7 +358,8 @@ module Engine
           @broad_graph = Graph.new(self, skip_track: :narrow, ignore_skip_path: true)
 
           @company_trains = {}
-          @company_trains['P2'] = find_and_remove_train_for_minor
+          @company_trains['P2'] = find_and_remove_train_for_minor('2-0')
+          @company_trains['P3']=  find_and_remove_train_for_minor('2P-0', buyable = false)
 
           setup_company_price(1)
 
@@ -514,14 +506,9 @@ module Engine
                       @phase.phases.any? { |phase| ability.on_phase == phase[:name] })
               next
             end
-
+            convert_p3_into_2p if company.id == 'P3' && company.owner.is_a?(Corporation)
             company.close!
           end
-
-          @corporations.each do |corp|
-            corp.remove_assignment!('P3') if corp.assigned?('P3')
-          end
-          hex_by_id('F26').remove_assignment!('P3')
         end
 
         def event_float_60!
@@ -715,7 +702,7 @@ module Engine
           entity.interchange? ? :dual : :narrow
         end
 
-        def open_mountain_pass(entity, pass_hex, p5_ability = false)
+        def open_mountain_pass(entity, pass_hex)
           pass_tile = hex_by_id(pass_hex).tile
           track_type = mountain_pass_proposed_track_type(entity)
           track_type = track_type_into_mountain_pass(hex_by_id(pass_hex)) if track_type == :dual
@@ -724,18 +711,16 @@ module Engine
             path.walk { |p| p.track = track_type if p.tile.color == :orange }
           end
 
-          mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex), entity, p5_ability)
+          mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex), entity)
           entity.spend(mount_pass_cost, @bank) if mount_pass_cost.positive?
 
           opened_mountain_passes[pass_hex] = track_type
           pass_tile.cities.first.tokens.each(&:remove!)
 
-          entity_name = p5_ability ? "#{entity.name} (#{p5.name})" : entity.name
-
-          @log << "#{entity_name} spends #{format_currency(mount_pass_cost)} to open mountain pass"
+          @log << "#{entity.name} spends #{format_currency(mount_pass_cost)} to open mountain pass"
         end
 
-        def opening_new_mountain_pass(entity, p5_ability = false)
+        def opening_new_mountain_pass(entity)
           return {} unless entity
 
           @north_corp_mountain_pass_graph.clear if north_corp?(entity)
@@ -760,13 +745,8 @@ module Engine
           end
           return {} if openable_passes.empty? || last_track_type?(entity, openable_passes)
 
-          if p5_ability && !opened_mountain_passes.key?('H12')
-            alar_pass = openable_passes.select { |hex| hex.id == 'H12' }
-            openable_passes = alar_pass || {}
-          end
-
           openable_passes.to_h do |hex|
-            [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex, entity, p5_ability))})"]
+            [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex, entity))})"]
           end
         end
 
@@ -827,11 +807,8 @@ module Engine
           true
         end
 
-        def mountain_pass_token_cost(hex, _entity, p5_ability = false)
-          cost = MOUNTAIN_PASS_TOKEN_COST[hex.id]
-          cost = 0 if hex.id == 'H12' && p5_ability
-          cost /= 2 if p5_ability
-          cost
+        def mountain_pass_token_cost(hex, _entity)
+          MOUNTAIN_PASS_TOKEN_COST[hex.id]
         end
 
         def mountain_pass_token_hex?(hex)
@@ -923,7 +900,6 @@ module Engine
             tokened_mountain_pass(hex, route.train.owner) ? MOUNTAIN_PASS_TOKEN_BONUS[hex.id] : 0
           end
           revenue += bonus
-          revenue += p3_bonus(route, stops) ? 20 : 0
           revenue += east_west_bonus(stops)[:revenue]
           revenue += gbi_bm_bonus(stops)[:revenue]
 
@@ -946,12 +922,6 @@ module Engine
           return unless harbor
 
           harbor.tile.offboards.first
-        end
-
-        def p3_bonus(route, stops)
-          route.corporation.assigned?('P3') && (assigned_stop = stops.find do |s|
-                                                  s.hex.assigned?('P3')
-                                                end) && aranjuez?(assigned_stop)
         end
 
         def aranjuez?(stop)
@@ -1014,7 +984,6 @@ module Engine
         def revenue_str(route)
           rev_str = super
           rev_str += ' + mountain pass' if route.hexes.any? { |hex| mountain_pass_token_hex?(hex) }
-          rev_str += ' + strawberry' if p3_bonus(route, route.stops)
 
           ewbonus = east_west_bonus(route.stops)[:description]
           rev_str += " + #{ewbonus}" if ewbonus
@@ -1157,7 +1126,6 @@ module Engine
           end
 
           # code to move strawberry token
-          survivor.assign!('P3') if nonsurvivor.assignments.any? { |a, _| a == 'P3' }
           nonsurvivor.companies.clear
 
           @log << "Moved assets from #{nonsurvivor.name} to #{survivor.name}"
@@ -1167,7 +1135,7 @@ module Engine
           trains = entity.trains
           trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || entity.type == :minor
           trains = trains.dup.reject { |t| t.track_type == :broad } if north_corp?(entity) && !entity.interchange?
-          super && trains.empty? && !depot.depot_trains.empty?
+          super && entity.trains.none? { |t| !extra_train?(t) } && !depot.depot_trains.empty?
         end
 
         def num_corp_trains(entity)
@@ -1217,17 +1185,39 @@ module Engine
           super
         end
 
-        def find_and_remove_train_for_minor
-          train = train_by_id('2-0')
+        def find_and_remove_train_for_minor(train_id, buyable=true)
+          train = train_by_id(train_id)
           @depot.remove_train(train)
-          train.buyable = true
+          train.buyable = buyable
           train.reserved = true
           train
         end
 
         def company_bought(company, entity)
           # On acquired abilities
-          on_acquired_train(company, entity) if company.id == 'P2'
+          transfer_ability_and_close_company(company, entity) if company.id == 'P4'
+
+          return unless  company == p2
+
+          on_acquired_train(company, entity)
+          @log << "#{company.name} closes"
+          company.close!
+        end
+
+        def transfer_luxury_ability_and_close_company(company, entity)
+          luxury_ability = company.all_abilities.first
+          entity.add_ability(luxury_ability)
+          company.remove_ability(luxury_ability)
+
+          @log << "#{company.name} closes. #{entity.name} now can now assign luxury carriage to a single train"
+        end
+
+        def convert_p3_into_2p
+          train = @company_trains[p3.id]
+          buy_train(p3, train, :free)
+          @log << "#{p3.name} gains a #{train.name} train"
+          end
+          @company_trains.delete(p3.id)
         end
 
         def on_acquired_train(company, entity)
@@ -1238,7 +1228,6 @@ module Engine
             buy_train(entity, train, :free)
             @log << "#{entity.name} gains a #{train.name} train"
           end
-          train.operated = true
           @company_trains.delete(company.id)
         end
 
@@ -1430,6 +1419,17 @@ module Engine
             track_type == :narrow ? train_limit(entity) : 1
           else
             track_type == :broad ? train_limit(entity) : 1
+          end
+        end
+
+        def extra_train?(train)
+          self.class::EXTRA_TRAINS.include?(train.name)
+        end
+
+        def crowded_corps
+          @crowded_corps ||= corporations.select do |c|
+            trains = c.trains.count { |t| !extra_train?(t) }
+            trains > train_limit(c)
           end
         end
 
