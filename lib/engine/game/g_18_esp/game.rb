@@ -207,7 +207,7 @@ module Engine
             ],
             events: [
               { 'type' => 'companies_bought_200' },
-        ],
+            ],
           },
           {
             name: '5',
@@ -264,7 +264,7 @@ module Engine
 
         # These trains don't count against train limit, they also don't count as a train
         # against the mandatory train ownership. They cant the bought by another corporation.
-        EXTRA_TRAINS = %w[2P].freeze   
+        EXTRA_TRAINS = %w[2P].freeze
 
         STATUS_TEXT = Base::STATUS_TEXT.merge(
           'major_other_train' => ['Major additional train',
@@ -359,7 +359,7 @@ module Engine
 
           @company_trains = {}
           @company_trains['P2'] = find_and_remove_train_for_minor('2-0')
-          @company_trains['P3']=  find_and_remove_train_for_minor('2P-0', buyable = false)
+          @company_trains['P3'] = find_and_remove_train_for_minor('2P-0', buyable: false)
 
           setup_company_price(1)
 
@@ -506,6 +506,7 @@ module Engine
                       @phase.phases.any? { |phase| ability.on_phase == phase[:name] })
               next
             end
+
             convert_p3_into_2p if company.id == 'P3' && company.owner.is_a?(Corporation)
             company.close!
           end
@@ -1135,7 +1136,7 @@ module Engine
           trains = entity.trains
           trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || entity.type == :minor
           trains = trains.dup.reject { |t| t.track_type == :broad } if north_corp?(entity) && !entity.interchange?
-          super && entity.trains.none? { |t| !extra_train?(t) } && !depot.depot_trains.empty?
+          super && trains.none? { |t| !extra_train?(t) } && !depot.depot_trains.empty?
         end
 
         def num_corp_trains(entity)
@@ -1185,7 +1186,7 @@ module Engine
           super
         end
 
-        def find_and_remove_train_for_minor(train_id, buyable=true)
+        def find_and_remove_train_for_minor(train_id, buyable = true)
           train = train_by_id(train_id)
           @depot.remove_train(train)
           train.buyable = buyable
@@ -1197,7 +1198,7 @@ module Engine
           # On acquired abilities
           transfer_ability_and_close_company(company, entity) if company.id == 'P4'
 
-          return unless  company == p2
+          return unless company == p2
 
           on_acquired_train(company, entity)
           @log << "#{company.name} closes"
@@ -1216,7 +1217,6 @@ module Engine
           train = @company_trains[p3.id]
           buy_train(p3, train, :free)
           @log << "#{p3.name} gains a #{train.name} train"
-          end
           @company_trains.delete(p3.id)
         end
 

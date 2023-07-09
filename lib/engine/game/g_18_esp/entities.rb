@@ -4,6 +4,7 @@ module Engine
   module Game
     module G18ESP
       module Entities
+        MINE_HEXES = %w[C5 C9 E9 E11 E19 G9 H6 I7 C23 G21 D18 D32 E31 H30 I23 D8 E7 B30 F30 F32 I21].freeze
         COMPANIES = [
           {
             sym: 'P1',
@@ -17,7 +18,7 @@ module Engine
             abilities: [
               {
                 type: 'tile_lay',
-                hexes: Map::MINE_HEXES
+                hexes: MINE_HEXES,
                 tiles: %w[L89 L90 L91 L92 L93 L94 L95 L96 L98 L99 L100],
                 free: false,
                 when: 'track',
@@ -45,9 +46,10 @@ module Engine
             value: 70,
             revenue: 15,
             min_price: 1,
-            desc: 'If owned by a corporation at phase 5 then it is converted to a permanent 2 train. The train does not count towards train limit.'\
-                  ' It does not fulfill train ownership requierments. The first run must go through Aranjuez, later runs can be anywhere on the map.',
-                    
+            desc: 'If owned by a corporation at phase 5 then it is converted to a permanent 2 train. '\
+                  'The train does not count towards train limit.  It does not fulfill train ownership requierments'\
+                  '. The first run must go through Aranjuez, later runs can be anywhere on the map.',
+
             color: nil,
           },
           {
@@ -77,12 +79,14 @@ module Engine
             value: 130,
             revenue: 25,
             min_price: 1,
-            desc: 'he company that owns this pioneer company can place a special harbor tile (fixed value of pts30 in all phases) in hex G3 or I3.'\
-                  ' The director of the company decides the direction of the arrow (section of track) on the tile: towards Ribadesella, '\
-                  'Llanes o Torrelavega (G3) or towards Santander, Torrelavega or Laredo (I3). At the moment the special tile is laid'\
-                  ', the pioneering company closes. If this special tile has not been placed at the start of phase 5, '\
+            desc: 'he company that owns this pioneer company can place a special harbor tile '\
+                  '(fixed value of pts30 in all phases) in hex G3 or I3.  The director of the company decides the '\
+                  'direction of the arrow (section of track) on the tile: towards Ribadesella, '\
+                  'Llanes o Torrelavega (G3) or towards Santander, Torrelavega or Laredo (I3). '\
+                  'At the moment the special tile is laid, the pioneering company closes'\
+                  '. If this special tile has not been placed at the start of phase 5, '\
                   'the special tile is removed from the game.',
-                  abilities: [
+            abilities: [
                     {
                       type: 'tile_lay',
                       hexes: [],
@@ -96,8 +100,6 @@ module Engine
                     },
                   ],
 
-          },
-            color: nil,
           },
           {
             sym: 'P6',
