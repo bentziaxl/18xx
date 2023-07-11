@@ -89,8 +89,8 @@ module Engine
             abilities: [
                     {
                       type: 'tile_lay',
-                      hexes: [],
-                      tiles: [],
+                      hexes: %w[G3 I3],
+                      tiles: ['L133'],
                       owner_type: 'corporation',
                       when: 'owning_corp_or_turn',
                       closed_when_used_up: true,

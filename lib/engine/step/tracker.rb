@@ -361,7 +361,6 @@ module Engine
         # entity_or_entities is an array when combining private company abilities
         entities = Array(entity_or_entities)
         entity, *_combo_entities = entities
-
         colors = potential_tile_colors(entity, hex)
         @game.tiles
           .select { |tile| @game.tile_valid_for_phase?(tile, hex: hex, phase_color_cache: colors) }

@@ -460,6 +460,13 @@ module Engine
           NORTH_CORPS.include? entity.name
         end
 
+        def tile_valid_for_phase?(tile, hex: nil, phase_color_cache: nil)
+          # tile L133, harbor is valid in all phases
+          return true if tile.name == 'L133'
+
+          super
+        end
+
         def event_south_majors_available!
           @corporations.concat(@future_corporations)
           @log << '-- Major corporations in the south now available --'
@@ -598,6 +605,12 @@ module Engine
         def upgrade_cost(old_tile, hex, entity, spender)
           total_cost = super
           hex.tile.paths.all? { |path| path.track == :narrow } ? total_cost / 2 : total_cost
+        end
+
+        def upgrades_to?(from, to, special = false, selected_company: nil)
+          return true if from.color == :blue && to.color == :blue
+
+          super
         end
 
         def upgrades_to_correct_label?(from, to)
@@ -819,6 +832,10 @@ module Engine
         def visited_stops(route)
           route_stops = super
           route_stops.reject { |stop| mountain_pass_token_hex?(stop.hex) && stop.tokened_by?(route.train.owner) }
+        end
+
+        def render_halts?
+          true
         end
 
         def check_distance(route, visits, train = nil)
