@@ -13,6 +13,7 @@ module Engine
         def setup
           super
           @round.north_corp_southern_hex = false
+          @round.extra_mine_lay = false
         end
 
         def selected_tiles(entity, hex)
@@ -21,13 +22,6 @@ module Engine
             @game.tile_valid_for_phase?(tile, hex: hex,
                                               phase_color_cache: colors) && tile_valid_for_entity(entity, tile, hex)
           end
-        end
-
-        def ability_blocking_hex(_entity, hex)
-          return if @game.mine_hexes.none? { |h| h == hex.name } || (hex.tile.color != :white && hex.id != 'G18')
-
-          @mine_blocking ||= Engine::Ability::BlocksHexes.new(type: :blocks_hexes, owner_type: :player,
-                                                              hexes: @game.mine_hexes)
         end
 
         def lay_tile_action(action)
@@ -97,16 +91,24 @@ module Engine
           super.merge(
             {
               north_corp_southern_hex: false,
+              extra_mine_lay: false,
             }
           )
         end
 
         def tracker_available_hex(entity, hex)
+          return super && @game.mine_hex?(hex) if @round.extra_mine_lay
+
           @round.north_corp_southern_hex ? super && !@game.north_hex?(hex) : super
         end
 
         def get_tile_lay(entity)
           action = super
+          # if action is nil, and mine wasn't laid, grant a lay action buy only for mine
+          if action.nil? && @round.laid_hexes.none? { |hex| @game.mine_hex?(hex) }
+            @round.extra_mine_lay = true
+            return { lay: true, upgrade: false, cost: 0 }
+          end
           return action unless @game.north_corp?(entity)
 
           if @round.num_laid_track == 1 && !@game.north_hex?(@round.laid_hexes.first)

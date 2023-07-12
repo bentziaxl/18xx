@@ -808,7 +808,7 @@ module Engine
             %w[E33] => 'city=revenue:0;'\
                        'label=Y;frame=color:#35A7FF;icon=image:anchor',
             %w[K25] => 'city=revenue:0;label=Y;frame=color:#35A7FF;icon=image:anchor',
-            %w[C5 C9 E9 G9 I7 C23 G21 D32 E31 I23] => 'upgrade=cost:30,terrain:mine',
+            %w[C5 C9 E9 G9 I7 C23 G21 D32 E31 I23] => 'halt=symbol:⚒;upgrade=cost:30,terrain:mine',
             %w[H6] => 'upgrade=cost:30,terrain:mine;border=edge:1,type:impassable',
             %w[H30] => 'upgrade=cost:30,terrain:mine;border=edge:2,type:impassable',
             %w[E7] => 'town=revenue:0;upgrade=cost:30,terrain:mine;icon=image:18_esp/CFLG,sticky:1',

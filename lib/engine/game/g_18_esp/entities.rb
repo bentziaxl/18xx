@@ -23,7 +23,7 @@ module Engine
                 free: false,
                 when: 'track',
                 discount: 30,
-                consume_tile_lay: true,
+                reachable: true,
                 closed_when_used_up: true,
                 owner_type: 'corporation',
                 count: 1,
