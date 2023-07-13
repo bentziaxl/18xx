@@ -619,6 +619,13 @@ module Engine
           to.labels.any? { |t| t == from.label } || from.labels.any? { |f| f == to.label }
         end
 
+        def upgrades_to_correct_city_town?(from, to)
+          puts("here in upgrades #{from.halts.size} #{to.halts.size}")
+          return false if from.halts.size != to.halts.size
+
+          super
+        end
+
         def subsidy_for(route, stops)
           count = route.all_hexes.count { |hex| MINE_HEXES.include?(hex.name) }
           subsidy = count * BASE_MINE_BONUS
