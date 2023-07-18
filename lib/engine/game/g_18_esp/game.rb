@@ -163,8 +163,8 @@ module Engine
             variants: [
               {
                 name: '1+2',
-                distance: [{ 'nodes' => ['town'], 'pay' => 2, 'visit' => 2 },
-                           { 'nodes' => %w[city offboard town], 'pay' => 1, 'visit' => 1 }],
+                distance: [{ 'nodes' => %w[town halt], 'pay' => 2, 'visit' => 2 },
+                           { 'nodes' => %w[city offboard town halt], 'pay' => 1, 'visit' => 1 }],
                 track_type: :narrow,
                 no_local: true,
                 price: 100,
@@ -180,8 +180,8 @@ module Engine
             variants: [
               {
                 name: '2+3',
-                distance: [{ 'nodes' => ['town'], 'pay' => 3, 'visit' => 3 },
-                           { 'nodes' => %w[city offboard town], 'pay' => 2, 'visit' => 2 }],
+                distance: [{ 'nodes' => %w[town halt], 'pay' => 3, 'visit' => 3 },
+                           { 'nodes' => %w[city offboard town halt], 'pay' => 2, 'visit' => 2 }],
                 track_type: :narrow,
                 price: 200,
               },
@@ -199,8 +199,8 @@ module Engine
             variants: [
               {
                 name: '3+4',
-                distance: [{ 'nodes' => ['town'], 'pay' => 4, 'visit' => 4 },
-                           { 'nodes' => %w[city offboard town], 'pay' => 3, 'visit' => 3 }],
+                distance: [{ 'nodes' => %w[town halt], 'pay' => 4, 'visit' => 4 },
+                           { 'nodes' => %w[city offboard town halt], 'pay' => 3, 'visit' => 3 }],
                 track_type: :narrow,
                 price: 300,
               },
@@ -217,8 +217,8 @@ module Engine
             variants: [
               {
                 name: '4+5',
-                distance: [{ 'nodes' => ['town'], 'pay' => 5, 'visit' => 5 },
-                           { 'nodes' => %w[city offboard town], 'pay' => 4, 'visit' => 4 }],
+                distance: [{ 'nodes' => %w[town halt], 'pay' => 5, 'visit' => 5 },
+                           { 'nodes' => %w[city offboard town halt], 'pay' => 4, 'visit' => 4 }],
                 track_type: :narrow,
                 price: 500,
               },
@@ -234,8 +234,8 @@ module Engine
             variants: [
               {
                 name: '5+6',
-                distance: [{ 'nodes' => ['town'], 'pay' => 6, 'visit' => 6 },
-                           { 'nodes' => %w[city offboard town], 'pay' => 5, 'visit' => 5 }],
+                distance: [{ 'nodes' => %w[town halt], 'pay' => 6, 'visit' => 6 },
+                           { 'nodes' => %w[city offboard town halt], 'pay' => 5, 'visit' => 5 }],
                 track_type: :narrow,
                 price: 600,
               },
@@ -252,8 +252,8 @@ module Engine
             variants: [
                       {
                         name: '6+8',
-                        distance: [{ 'nodes' => ['town'], 'pay' => 8, 'visit' => 8 },
-                                   { 'nodes' => %w[city offboard town], 'pay' => 6, 'visit' => 6 }],
+                        distance: [{ 'nodes' => %w[town halt], 'pay' => 8, 'visit' => 8 },
+                                   { 'nodes' => %w[city offboard town halt], 'pay' => 6, 'visit' => 6 }],
                         track_type: :narrow,
                         price: 800,
                       },
@@ -656,33 +656,6 @@ module Engine
           end
 
           nil
-        end
-
-        def check_overlap(routes)
-          tracks_by_type = Hash.new { |h, k| h[k] = [] }
-
-          routes.each do |route|
-            route.paths.each do |path|
-              a = path.a
-              b = path.b
-
-              tracks = tracks_by_type[train_type(route.train)]
-              tracks << [path.hex, a.num, path.lanes[0][1]] if a.edge?
-              tracks << [path.hex, b.num, path.lanes[1][1]] if b.edge?
-            end
-          end
-          tracks_by_type.each do |_type, tracks|
-            tracks.group_by(&:itself).each do |k, v|
-              raise GameError, "Route cannot reuse track on #{k[0].id}" if v.size > 1
-            end
-          end
-        end
-
-        def compute_other_paths(routes, route)
-          routes
-            .reject { |r| r == route }
-            .select { |r| train_type(route.train) == train_type(r.train) }
-            .flat_map(&:paths)
         end
 
         def check_for_destination_connection(entity)
