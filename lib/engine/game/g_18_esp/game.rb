@@ -27,7 +27,7 @@ module Engine
 
         CERT_LIMIT = { 3 => 27, 4 => 20, 5 => 16, 6 => 13 }.freeze
 
-        STARTING_CASH = { 3 => 930, 4 => 700, 5 => 560, 6 => 460 }.freeze
+        STARTING_CASH = { 3 => 860, 4 => 650, 5 => 520, 6 => 440 }.freeze
 
         NORTH_CORPS = %w[FdSB FdLR CFEA CFLG].freeze
 
@@ -83,7 +83,7 @@ module Engine
         MARKET = [
           %w[50 55 60 65 70p 75p 80p 85p 90p 95p 100p 105 110 115 120
              126 132 138 144 151 158 165 172 180 188 196 204 213 222 231 240 250 260
-             270 280 290 300 310 320 330 340 350 362 375 390 400],
+             270 280 290 300],
         ].freeze
 
         STOCKMARKET_COLORS = Base::STOCKMARKET_COLORS.merge(
@@ -99,7 +99,7 @@ module Engine
 
         PHASES = [{
           name: '2',
-          train_limit: 4,
+          train_limit: { minor: 2, major: 4 },
           tiles: %i[yellow],
           operating_rounds: 1,
           status: %w[can_buy_companies],
@@ -107,7 +107,7 @@ module Engine
                   {
                     name: '3',
                     on: '3',
-                    train_limit: 4,
+                    train_limit: { minor: 2, major: 4 },
                     tiles: %i[yellow green],
                     operating_rounds: 2,
                     status: %w[can_buy_companies],
@@ -115,10 +115,10 @@ module Engine
                   {
                     name: '4',
                     on: '4',
-                    train_limit: 3,
+                    train_limit: { minor: 1, major: 3 },
                     tiles: %i[yellow green],
                     operating_rounds: 2,
-                    status: %w[can_buy_companies major_other_train],
+                    status: %w[can_buy_companies],
                   },
                   {
                     name: '5',
@@ -126,7 +126,7 @@ module Engine
                     train_limit: 3,
                     tiles: %i[yellow green brown],
                     operating_rounds: 3,
-                    status: %w[major_other_train],
+                    status: %w[],
                   },
                   {
                     name: '6',
@@ -134,7 +134,7 @@ module Engine
                     train_limit: 2,
                     tiles: %i[yellow green brown],
                     operating_rounds: 3,
-                    status: %w[major_other_train],
+                    status: %w[],
                   },
                   {
                     name: '8',
@@ -142,7 +142,7 @@ module Engine
                     train_limit: 2,
                     tiles: %i[yellow green brown gray],
                     operating_rounds: 3,
-                    status: %w[major_other_train],
+                    status: %w[],
                   }].freeze
 
         TRAINS = [
@@ -175,7 +175,7 @@ module Engine
             name: '3',
             distance: 3,
             price: 200,
-            num: 10,
+            num: 9,
             rusts_on: '6',
             variants: [
               {
@@ -194,7 +194,7 @@ module Engine
             name: '4',
             distance: 4,
             price: 300,
-            num: 8,
+            num: 7,
             rusts_on: '8',
             variants: [
               {
@@ -213,7 +213,7 @@ module Engine
             name: '5',
             distance: 5,
             price: 500,
-            num: 4,
+            num: 5,
             variants: [
               {
                 name: '4+5',
@@ -230,7 +230,7 @@ module Engine
             name: '6',
             distance: 6,
             price: 600,
-            num: 4,
+            num: 3,
             variants: [
               {
                 name: '5+6',
@@ -265,11 +265,6 @@ module Engine
         # These trains don't count against train limit, they also don't count as a train
         # against the mandatory train ownership. They cant the bought by another corporation.
         EXTRA_TRAINS = %w[2P].freeze
-
-        STATUS_TEXT = Base::STATUS_TEXT.merge(
-          'major_other_train' => ['Major additional train',
-                                  'Limit 1 train of the other type for Major Corporations in addition to regular train limit'],
-        ).freeze
 
         EVENTS_TEXT = Base::EVENTS_TEXT.merge(
                 'south_majors_available' => ['South Majors Available',
