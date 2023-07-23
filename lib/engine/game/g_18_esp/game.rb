@@ -55,7 +55,7 @@ module Engine
 
         NORTH_SOUTH_DIVIDE = 13
 
-        BASE_MINE_BONUS = 10
+        BASE_MINE_BONUS = { yellow: 30, green: 20, brown: 10, gray: 0 }.freeze
 
         # NEXT_SR_PLAYER_ORDER = :least_cash
 
@@ -377,6 +377,7 @@ module Engine
           MOUNTAIN_PASS_TOKEN_HEXES.each do |hex|
             block_token = Token.new(nil, price: 0, logo: '/logos/18_esp/block.svg')
             hex_by_id(hex).tile.cities.first.exchange_token(block_token)
+            hex_by_id(hex).tile.cities.first.exchange_token(block_token)
           end
         end
 
@@ -626,8 +627,8 @@ module Engine
         end
 
         def subsidy_for(route, stops)
-          count = route.all_hexes.count { |hex| MINE_HEXES.include?(hex.name) }
-          subsidy = count * BASE_MINE_BONUS
+          count = stops.count(&:halt?)
+          subsidy = count * BASE_MINE_BONUS[@phase.tiles.last]
 
           subsidy += harbor_revenue(route, stops)
 
