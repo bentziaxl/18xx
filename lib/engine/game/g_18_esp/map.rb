@@ -444,12 +444,6 @@ module Engine
                       'path=a:4,b:_0;label=M',
           },
 
-          'L133' => {
-            'count' => 1,
-            'color' => 'blue',
-            'code' => 'offboard=revenue:40;icon=image:anchor;path=a:0,b:_0,track:dual',
-          },
-
         }.freeze
 
         TILE_GROUPS = [
@@ -525,7 +519,6 @@ module Engine
           %w[912 L128],
           %w[L87],
           %w[L88],
-          %w[L133],
 
         ].freeze
 
@@ -625,7 +618,6 @@ module Engine
             %w[F34] => 'offboard=revenue:yellow_20|green_30|brown_30|gray_40',
             %w[B34] => 'offboard=revenue:yellow_20|green_30|brown_30|gray_40',
             %w[N22] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60',
-            %w[I3 G3] => '',
           },
           red: {
             %w[A5] =>

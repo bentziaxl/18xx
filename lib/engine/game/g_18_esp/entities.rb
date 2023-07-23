@@ -13,7 +13,8 @@ module Engine
             revenue: 5,
             min_price: 1,
             desc: 'It gives a discount of pts30 for laying a yellow
-            mine tile. When this privilege is done, the
+            mine tile or for shutting down a mine for
+            updating that hex to green. When this privilege is done, the
             company closes.',
             abilities: [
               {
@@ -79,32 +80,26 @@ module Engine
             value: 130,
             revenue: 25,
             min_price: 1,
-            desc: 'he company that owns this pioneer company can place a special harbor tile '\
-                  '(fixed value of pts30 in all phases) in hex G3 or I3.  The director of the company decides the '\
-                  'direction of the arrow (section of track) on the tile: towards Ribadesella, '\
-                  'Llanes o Torrelavega (G3) or towards Santander, Torrelavega or Laredo (I3). '\
-                  'At the moment the special tile is laid, the pioneering company closes'\
-                  '. If this special tile has not been placed at the start of phase 5, '\
-                  'the special tile is removed from the game.',
-            abilities: [
-                    {
-                      type: 'tile_lay',
-                      hexes: %w[G3 I3],
-                      tiles: ['L133'],
-                      owner_type: 'corporation',
-                      when: 'owning_corp_or_turn',
-                      closed_when_used_up: true,
-                      special: true,
-                      count: 1,
-                      free: true,
-                    },
-                  ],
+            desc: 'The major owning company (both North and '\
+                  'South) can build the mountain pass of Alar del '\
+                  'Rey for free, or any other mountain pass with '\
+                  'a discount of pts40. This action closes this company.',
+            abilities: [],
 
           },
           {
             sym: 'P6',
             name: 'Ferrocarril de Carreño',
             value: 160,
+            revenue: 10,
+            desc: 'It provides a 10% certificate from the Southern company CRB.',
+            color: nil,
+            abilities: [{ type: 'shares', shares: 'CRB_1' }],
+          },
+          {
+            sym: 'P7',
+            name: 'Ferrocarril de Carreño',
+            value: 190,
             revenue: 30,
             desc: 'President share of one Northern major company (randomly selected before the game starts).'\
                   'It closes when the major company buys its first train.',
