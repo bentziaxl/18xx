@@ -348,6 +348,10 @@ module Engine
           @p3 ||= company_by_id('P2')
         end
 
+        def p5
+          @p5 ||= company_by_id('P5')
+        end
+
         def setup
           @corporations, @future_corporations = @corporations.partition do |corporation|
             corporation.type == :minor || north_corp?(corporation)
@@ -696,7 +700,7 @@ module Engine
           entity.interchange? ? :dual : :narrow
         end
 
-        def open_mountain_pass(entity, pass_hex)
+        def open_mountain_pass(entity, pass_hex, p5_ability = false)
           pass_tile = hex_by_id(pass_hex).tile
           track_type = mountain_pass_proposed_track_type(entity)
           track_type = track_type_into_mountain_pass(hex_by_id(pass_hex)) if track_type == :dual
@@ -705,16 +709,18 @@ module Engine
             path.walk { |p| p.track = track_type if p.tile.color == :orange }
           end
 
-          mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex), entity)
+          mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex), entity, p5_ability)
           entity.spend(mount_pass_cost, @bank) if mount_pass_cost.positive?
 
           opened_mountain_passes[pass_hex] = track_type
           pass_tile.cities.first.tokens.each(&:remove!)
 
-          @log << "#{entity.name} spends #{format_currency(mount_pass_cost)} to open mountain pass"
+          entity_name = p5_ability ? "#{entity.name} (#{p5.name})" : entity.name
+
+          @log << "#{entity_name} spends #{format_currency(mount_pass_cost)} to open mountain pass"
         end
 
-        def opening_new_mountain_pass(entity)
+        def opening_new_mountain_pass(entity, p5_ability = false)
           return {} unless entity
 
           @north_corp_mountain_pass_graph.clear if north_corp?(entity)
@@ -739,8 +745,13 @@ module Engine
           end
           return {} if openable_passes.empty? || last_track_type?(entity, openable_passes)
 
+          if p5_ability && !opened_mountain_passes.key?('H12')
+            alar_pass = openable_passes.select { |hex| hex.id == 'H12' }
+            openable_passes = alar_pass || {}
+          end
+
           openable_passes.to_h do |hex|
-            [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex, entity))})"]
+            [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex, entity, p5_ability))})"]
           end
         end
 
@@ -801,8 +812,11 @@ module Engine
           true
         end
 
-        def mountain_pass_token_cost(hex, _entity)
-          MOUNTAIN_PASS_TOKEN_COST[hex.id]
+        def mountain_pass_token_cost(hex, _entity, p5_ability = false)
+          cost = MOUNTAIN_PASS_TOKEN_COST[hex.id]
+          cost = 0 if hex.id == 'H12' && p5_ability
+          cost /= 2 if p5_ability
+          cost
         end
 
         def mountain_pass_token_hex?(hex)

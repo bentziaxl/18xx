@@ -84,7 +84,12 @@ module Engine
                   'South) can build the mountain pass of Alar del '\
                   'Rey for free, or any other mountain pass with '\
                   'a discount of pts40. This action closes this company.',
-            abilities: [],
+            abilities: [{
+              type: 'choose_ability',
+              owner_type: 'corporation',
+              when: 'track',
+              choices: { close: 'Close P5' },
+            }],
 
           },
           {
