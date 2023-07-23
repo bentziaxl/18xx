@@ -65,39 +65,39 @@ module Engine
           {
             'count' => 2,
             'color' => 'yellow',
-            'code' => 'halt=symbol:⚒,loc:center,revenue:20;path=a:0,b:_0;path=a:5,b:_0',
+            'code' => 'halt=symbol:⚒,route:mandatory,loc:center,revenue:20;path=a:0,b:_0;path=a:5,b:_0',
           },
           'L92' =>
           {
             'count' => 2,
             'color' => 'yellow',
-            'code' => 'halt=symbol:20 ⚒,loc:center,revenue:20;path=a:0,b:_0,track:narrow;'\
-                      'path=a:5,b:_0,track:narrow;path=a:0,b:5,track:narrow',
+            'code' => 'halt=symbol:⚒,route:mandatory,loc:center,revenue:20;path=a:0,b:_0,track:narrow;'\
+                      'path=a:5,b:_0,track:narrow',
           },
           'L90' =>
           {
             'count' => 5,
             'color' => 'yellow',
-            'code' => 'halt=symbol:⚒,loc:center,revenue:20;path=a:0,b:_0;path=a:4,b:_0',
+            'code' => 'halt=symbol:⚒,route:mandatory,loc:center,revenue:20;path=a:0,b:_0;path=a:4,b:_0',
           },
           'L93' =>
           {
             'count' => 5,
             'color' => 'yellow',
-            'code' => 'halt=symbol:⚒,loc:center,revenue:20;path=a:0,b:_0,track:narrow;'\
+            'code' => 'halt=symbol:⚒,route:mandatory,loc:center,revenue:20;path=a:0,b:_0,track:narrow;'\
                       'path=a:4,b:_0,track:narrow',
           },
           'L91' =>
           {
             'count' => 5,
             'color' => 'yellow',
-            'code' => 'halt=symbol:⚒,loc:4,revenue:20;path=a:0,b:_0;path=a:3,b:_0',
+            'code' => 'halt=symbol:⚒,route:mandatory,revenue:20;path=a:0,b:_0;path=a:3,b:_0',
           },
           'L94' =>
           {
             'count' => 5,
             'color' => 'yellow',
-            'code' => 'halt=symbol:⚒,loc:1,revenue:20;path=a:0,b:_0,track:narrow;'\
+            'code' => 'halt=symbol:⚒,route:mandatory,revenue:20;path=a:0,b:_0,track:narrow;'\
                       'path=a:3,b:_0,track:narrow',
           },
 
@@ -105,14 +105,14 @@ module Engine
           {
             'count' => 2,
             'color' => 'yellow',
-            'code' => 'halt=symbol:⚒,loc:center,revenue:20;town=revenue:10;'\
+            'code' => 'halt=symbol:⚒,route:mandatory,loc:center,revenue:20;town=revenue:10;'\
                       'path=a:0,b:_0;path=a:5,b:_0;path=a:0,b:_1;path=a:5,b:_1',
           },
           'L98' =>
           {
             'count' => 2,
             'color' => 'yellow',
-            'code' => 'halt=symbol:⚒,loc:center,revenue:20;town=revenue:10;'\
+            'code' => 'halt=symbol:⚒,route:mandatory,loc:center,revenue:20;town=revenue:10;'\
                       'path=a:0,b:_0,track:narrow;path=a:5,b:_0,track:narrow;'\
                       'path=a:0,b:_1,track:narrow;path=a:5,b:_1,track:narrow',
           },
@@ -120,14 +120,14 @@ module Engine
           {
             'count' => 5,
             'color' => 'yellow',
-            'code' => 'halt=symbol:⚒,loc:5,revenue:20;town=revenue:10,loc:1;'\
+            'code' => 'halt=symbol:⚒,route:mandatory,loc:5,revenue:20;town=revenue:10,loc:1;'\
                       'path=a:0,b:_0;path=a:4,b:_0;path=a:0,b:_1;path=a:4,b:_1',
           },
           'L99' =>
           {
             'count' => 5,
             'color' => 'yellow',
-            'code' => 'halt=symbol:⚒,loc:5,revenue:20;town=revenue:10,loc:1;'\
+            'code' => 'halt=symbol:⚒,route:mandatory,loc:5,revenue:20;town=revenue:10,loc:1;'\
                       'path=a:0,b:_0,track:narrow;path=a:4,b:_0,track:narrow;'\
                       'path=a:0,b:_1,track:narrow;path=a:4,b:_1,track:narrow',
           },
@@ -676,10 +676,10 @@ module Engine
             %w[E33] => 'city=revenue:0;'\
                        'label=Y;frame=color:#35A7FF;icon=image:anchor',
             %w[K25] => 'city=revenue:0;label=Y;frame=color:#35A7FF;icon=image:anchor',
-            %w[C5 C9 E9 G9 I7 C23 G21 D32 E31 I23] => 'halt=symbol:⚒;upgrade=cost:30,terrain:mine',
-            %w[H6] => 'halt=symbol:⚒;upgrade=cost:30,terrain:mine;border=edge:1,type:impassable',
-            %w[H30] => 'halt=symbol:⚒;upgrade=cost:30,terrain:mine;border=edge:2,type:impassable',
-            %w[E7] => 'halt=symbol:⚒;town=revenue:0;upgrade=cost:30,terrain:mine;icon=image:18_esp/CFLG,sticky:1',
+            %w[C5 C9 E9 G9 I7 C23 G21 D32 E31 I23] => 'halt=symbol:⚒,route:mandatory;upgrade=cost:30,terrain:mine',
+            %w[H6] => 'halt=symbol:⚒,route:mandatory;upgrade=cost:30,terrain:mine;border=edge:1,type:impassable',
+            %w[H30] => 'halt=symbol:⚒,route:mandatory;upgrade=cost:30,terrain:mine;border=edge:2,type:impassable',
+            %w[E7] => 'halt=symbol:⚒,route:mandatory;town=revenue:0;upgrade=cost:30,terrain:mine;icon=image:18_esp/CFLG,sticky:1',
             %w[B26 C27] => 'city=revenue:0;upgrade=cost:20,terrain:river',
             %w[D6] => 'city=revenue:0;city=revenue:0;upgrade=cost:10,terrain:river;label=OO',
             %w[J20] => 'city=revenue:0;city=revenue:0;upgrade=cost:20,terrain:river;' \
@@ -704,7 +704,7 @@ module Engine
             %w[I29] => 'city=revenue:0;upgrade=cost:10,terrain:river;label=Y',
             %w[J28] => 'city=revenue:0;upgrade=cost:10,terrain:river;icon=image:18_esp/MZA,sticky:1;label=Y',
             %w[F20 D24 D26 D30 H18 I19 G25] => 'upgrade=cost:10,terrain:river',
-            %w[B30 D8 D18 E19 F30 G17 I21] => 'halt=symbol:⚒;town=revenue:0;upgrade=cost:30,terrain:mine',
+            %w[B30 D8 D18 E19 F30 G17 I21] => 'halt=symbol:⚒,route:mandatory;town=revenue:0;upgrade=cost:30,terrain:mine',
             %w[C7 C11 E23 E25 F10 F22 G19 H20 I9 I25 G33] => 'upgrade=cost:40,terrain:mountain',
             %w[E5 H32 J24 K23 N20] => 'town=revenue:0;upgrade=cost:40,terrain:mountain',
             %w[G31] => 'upgrade=cost:120,terrain:mountain',

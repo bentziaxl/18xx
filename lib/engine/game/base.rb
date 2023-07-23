@@ -1645,10 +1645,6 @@ module Engine
       end
 
       def upgrades_to?(from, to, special = false, selected_company: nil)
-        if from.hex.id == 'G3'
-          puts("here in upgrades to #{upgrades_to_correct_color?(from, to,
-                                                                 selected_company: selected_company)}")
-        end
         # correct color progression?
         return false unless upgrades_to_correct_color?(from, to, selected_company: selected_company)
 
