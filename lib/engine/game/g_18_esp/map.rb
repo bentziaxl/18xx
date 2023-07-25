@@ -594,7 +594,7 @@ module Engine
           'J24' => 'Teruel',
           'J28' => 'Alicante',
           'J30' => 'Cartagena',
-          'J32' => 'Cartagena harbor',
+          'K31' => 'Cartagena harbor',
           'K15' => 'Paris',
           'K19' => 'Lérida (Lleida)',
           'K23' => 'Castellón (Castelló)',
@@ -611,13 +611,13 @@ module Engine
 
         HEXES = {
           blue: {
-            %w[C1] => 'offboard=revenue:yellow_40|green_30|brown_20|gray_20',
-            %w[E1 K3] => 'offboard=revenue:green_30|brown_40|gray_50',
-            %w[L24] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60',
-            %w[J32] => 'offboard=revenue:yellow_40|green_30|brown_30|gray_40',
-            %w[F34] => 'offboard=revenue:green_30|brown_30|gray_40',
-            %w[B34] => 'offboard=revenue:yellow_20|green_30|brown_30|gray_40',
-            %w[N22] => 'offboard=revenue:green_30|brown_50|gray_60',
+            %w[C1] => 'offboard=revenue:yellow_40|green_30|brown_20|gray_20;path=a:0,b:_0,track:dual',
+            %w[E1 K3] => 'offboard=revenue:green_30|brown_40|gray_50;path=a:0,b:_0,track:dual',
+            %w[L24] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;path=a:2,b:_0,track:dual',
+            %w[K31] => 'offboard=revenue:yellow_40|green_30|brown_30|gray_40;path=a:2,b:_0,track:dual',
+            %w[F34] => 'offboard=revenue:green_30|brown_30|gray_40;path=a:2,b:_0,track:dual',
+            %w[B34] => 'offboard=revenue:yellow_20|green_30|brown_30|gray_40;path=a:4,b:_0,track:dual',
+            %w[N22] => 'offboard=revenue:green_30|brown_50|gray_60;path=a:2,b:_0,track:dual',
           },
           red: {
             %w[A5] =>
@@ -651,23 +651,23 @@ module Engine
           yellow: {
             ['K5'] => 'city=revenue:30;path=a:1,b:_0,track:narrow;path=a:2,b:_0,track:narrow;label=Y;' \
                       'icon=image:18_esp/FdSB,sticky:1;icon=image:18_esp/FdLR,sticky:1;'\
-                      'frame=color:#35A7FF;icon=image:anchor',
+                      'icon=image:anchor',
             ['F24'] => 'city=revenue:30;city=revenue:30;city=revenue:30;path=a:0,b:_0;path=a:1,b:_0;' \
                        'path=a:2,b:_1;path=a:4,b:_2;path=a:0,b:_2;label=M',
             ['M21'] => 'city=revenue:30;city=revenue:30;path=a:1,b:_0;path=a:2,b:_1;label=B;'\
-                       'frame=color:#35A7FF;icon=image:anchor',
+                       'icon=image:anchor',
           },
           white: {
             %w[B6 B8 B28 C19 D4 D34 H26 I27 I31 J26 K27 L4 L20] => '',
             %w[A3 B4 D2 H4 J4] => 'town=revenue:0',
-            %w[J30] => 'town=revenue:0;frame=color:#35A7FF;icon=image:anchor',
-            %w[C33] => 'town=revenue:0;frame=color:#35A7FF;icon=image:anchor',
+            %w[J30] => 'town=revenue:0;icon=image:anchor',
+            %w[C33] => 'town=revenue:0;icon=image:anchor',
             %w[G5] => 'town=revenue:0;icon=image:18_esp/CFEA,sticky:1;border=edge:0,type:impassable',
             %w[B10 D4 F18 F32 I5 K19 L22] => 'city=revenue:0',
-            ['E3'] => 'city=revenue:0;frame=color:#35A7FF;icon=image:anchor;label=Y',
+            ['E3'] => 'city=revenue:0;icon=image:anchor;label=Y',
             %w[E33] => 'city=revenue:0;'\
-                       'label=Y;frame=color:#35A7FF;icon=image:anchor',
-            %w[K25] => 'city=revenue:0;label=Y;frame=color:#35A7FF;icon=image:anchor',
+                       'label=Y;icon=image:anchor',
+            %w[K25] => 'city=revenue:0;label=Y;icon=image:anchor',
             %w[C5 C9 E9 G9 I7 C23 G21 D32 E31 I23] => 'halt=symbol:⚒,route:mandatory;upgrade=cost:30,terrain:mine',
             %w[H6] => 'halt=symbol:⚒,route:mandatory;upgrade=cost:30,terrain:mine;border=edge:1,type:impassable',
             %w[H30] => 'halt=symbol:⚒,route:mandatory;upgrade=cost:30,terrain:mine;border=edge:2,type:impassable',
@@ -709,7 +709,7 @@ module Engine
           },
           gray: {
             ['C3'] => 'town=revenue:10;path=a:1,b:_0,track:narrow;path=a:0,b:_0,track:narrow;'\
-                      'path=a:5,b:_0,track:narrow;path=a:3,b:_0,track:narrow;frame=color:#35A7FF;icon=image:anchor',
+                      'path=a:5,b:_0,track:narrow;path=a:3,b:_0,track:narrow;icon=image:anchor',
             ['H16'] => 'town=revenue:30;path=a:0,b:_0;'\
                        'path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;path=a:5,b:_0',
             ['G27'] => 'city=revenue:30,slots:2;path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;path=a:5,b:_0',

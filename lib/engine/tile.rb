@@ -329,7 +329,7 @@ module Engine
     end
 
     def paths_are_subset_of?(other_paths)
-      if @junction && other_paths.any?(&:junction)
+      if (@junction && other_paths.any?(&:junction)) || towns.any?(&:halt?)
         # Upgrading from a Lawson tile to a Lawson tile is a special case
         other_exits = other_paths.flat_map(&:exits).uniq
         ALL_EDGES.any? { |ticks| (exits - other_exits.map { |e| (e + ticks) % 6 }).empty? }

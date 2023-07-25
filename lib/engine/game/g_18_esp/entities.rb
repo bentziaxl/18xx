@@ -60,7 +60,7 @@ module Engine
             revenue: 20,
             min_price: 1,
             desc: 'Owning corporation can upgrade one train per OR and attach a luxury carriage. '\
-                  "Luxury carriages provide one more town or mine to the train's range. "\
+                  "Luxury carriages provide one more town or mine or harbor to the train's range. "\
                   'Can only be attached to iberian gauge trains. The company closes when bought by a corporation.',
             abilities: [
                       {

@@ -217,6 +217,7 @@ module Engine
       TRAIN_CLASS = Train
       DEPOT_CLASS = Depot
       PLAYER_CLASS = Player
+      TILE_CLASS = Tile
 
       MINORS = [].freeze
 
@@ -2431,9 +2432,9 @@ module Engine
 
               tile =
                 begin
-                  Tile.for(tile_string, preprinted: true, index: index)
+                  self.class::TILE_CLASS.for(tile_string, preprinted: true, index: index)
                 rescue Engine::GameError
-                  Tile.from_code(coord, color, tile_string, preprinted: true, index: index)
+                  self.class::TILE_CLASS.from_code(coord, color, tile_string, preprinted: true, index: index)
                 end
 
               blockers[coord].each do |blocker, hidden|
@@ -2481,7 +2482,7 @@ module Engine
         if val.is_a?(Integer) || val == 'unlimited'
           count = val == 'unlimited' ? 1 : val
           Array.new(count) do |i|
-            Tile.for(
+            self.class::TILE_CLASS.for(
               name,
               index: i,
               reservation_blocks: self.class::TILE_RESERVATION_BLOCKS_OTHERS,
@@ -2494,7 +2495,7 @@ module Engine
           code = val['code']
           hidden = !!val['hidden']
           Array.new(count) do |i|
-            Tile.from_code(
+            self.class::TILE_CLASS.from_code(
               name,
               color,
               code,

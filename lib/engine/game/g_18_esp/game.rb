@@ -6,6 +6,7 @@ require_relative 'entities'
 require_relative '../base'
 require_relative '../cities_plus_towns_route_distance_str'
 require_relative '../double_sided_tiles'
+require_relative 'tile'
 
 module Engine
   module Game
@@ -20,6 +21,8 @@ module Engine
         attr_reader :can_build_mountain_pass, :broad_graph, :special_merge_step
 
         attr_accessor :player_debts
+
+        TILE_CLASS = G18ESP::Tile
 
         CURRENCY_FORMAT_STR = '₧%d'
 
@@ -49,6 +52,8 @@ module Engine
 
         MOUNTAIN_PASS_TOKEN_BONUS = { 'L8' => 40, 'J10' => 40, 'H12' => 30, 'D12' => 60 }.freeze
 
+        MINE_CLOSE_COST = 30
+
         SELL_AFTER = :operate
 
         SELL_BUY_ORDER = :sell_buy
@@ -59,6 +64,8 @@ module Engine
 
         # NEXT_SR_PLAYER_ORDER = :least_cash
 
+        ALLOW_REMOVING_TOWNS = true
+
         DISCARDED_TRAIN_DISCOUNT = 50
 
         BANKRUPTCY_ALLOWED = false
@@ -66,8 +73,6 @@ module Engine
         EBUY_PRES_SWAP = false
 
         EBUY_DEPOT_TRAIN_MUST_BE_CHEAPEST = false
-
-        HARBOR_BLUE = '#35A7FF'
 
         GAME_END_CHECK = { final_phase: :one_more_full_or_set }.freeze
 
@@ -83,19 +88,8 @@ module Engine
         MARKET = [
           %w[50 55 60 65 70p 75p 80p 85p 90p 95p 100p 105 110 115 120
              126 132 138 144 151 158 165 172 180 188 196 204 213 222 231 240 250 260
-             270 280 290 300],
+             275 290 300],
         ].freeze
-
-        STOCKMARKET_COLORS = Base::STOCKMARKET_COLORS.merge(
-          par_overlap: :blue,
-          par_1: :green
-        ).freeze
-
-        MARKET_TEXT = Base::MARKET_TEXT.merge(
-          par: 'All Major Corporation Par',
-          par_overlap: 'Minor Corporation Par',
-          par_1: 'Southern Major Corporation Par'
-        ).freeze
 
         PHASES = [{
           name: '2',
@@ -460,13 +454,6 @@ module Engine
           NORTH_CORPS.include? entity.name
         end
 
-        def tile_valid_for_phase?(tile, hex: nil, phase_color_cache: nil)
-          # tile L133, harbor is valid in all phases
-          return true if tile.name == 'L133'
-
-          super
-        end
-
         def event_south_majors_available!
           @corporations.concat(@future_corporations)
           @log << '-- Major corporations in the south now available --'
@@ -604,13 +591,10 @@ module Engine
 
         def upgrade_cost(old_tile, hex, entity, spender)
           total_cost = super
-          hex.tile.paths.all? { |path| path.track == :narrow } ? total_cost / 2 : total_cost
-        end
+          total_cost = hex.tile.paths.all? { |path| path.track == :narrow } ? total_cost / 2 : total_cost
 
-        def upgrades_to?(from, to, special = false, selected_company: nil)
-          return true if from.color == :blue && to.color == :blue
-
-          super
+          total_cost += MINE_CLOSE_COST unless old_tile.towns.empty?(&:halt?)
+          total_cost
         end
 
         def upgrades_to_correct_label?(from, to)
@@ -620,18 +604,28 @@ module Engine
         end
 
         def upgrades_to_correct_city_town?(from, to)
-          return false if from.halts.size != to.halts.size
+          return false if from.halts.size != to.halts.size && from.color == :white
 
-          super
+          # honors existing town/city counts and connections?
+          # - allow labelled cities to upgrade regardless of count; they're probably
+          #   fine (e.g., 18Chesapeake's OO cities merge to one city in brown)
+          # - TODO: account for games that allow double dits to upgrade to one town
+          return false if from.towns.count(&:halt?) != to.towns.count(&:halt?)
+          return false if !from.label && from.cities.size != to.cities.size && !upgrade_ignore_num_cities(from)
+          return false if from.cities.size > 1 && to.cities.size > 1 && !from.city_town_edges_are_subset_of?(to.city_town_edges)
+
+          # but don't permit a labelled city to be downgraded to 0 cities.
+          return false if from.label && !from.cities.empty? && to.cities.empty?
+
+          # handle case where we are laying a yellow OO tile and want to exclude single-city tiles
+          return false if (from.color == :white) && from.label.to_s == 'OO' && from.cities.size != to.cities.size
+
+          true
         end
 
-        def subsidy_for(route, stops)
+        def subsidy_for(_route, stops)
           count = stops.count(&:halt?)
-          subsidy = count * BASE_MINE_BONUS[@phase.tiles.last]
-
-          subsidy += harbor_revenue(route, stops)
-
-          subsidy
+          count * BASE_MINE_BONUS[@phase.tiles.last]
         end
 
         def routes_subsidy(routes)
@@ -911,24 +905,6 @@ module Engine
           revenue += gbi_bm_bonus(stops)[:revenue]
 
           revenue
-        end
-
-        def harbor_revenue(route, stops)
-          stops.sum do |stop|
-            if stop.tile.frame&.color == HARBOR_BLUE && associated_harbor(stop)
-              associated_harbor(stop).route_revenue(route.phase,
-                                                    route.train)
-            else
-              0
-            end
-          end
-        end
-
-        def associated_harbor(stop)
-          harbor = stop.hex.all_neighbors.values.find { |h| h.tile.color == :blue }
-          return unless harbor
-
-          harbor.tile.offboards.first
         end
 
         def aranjuez?(stop)
