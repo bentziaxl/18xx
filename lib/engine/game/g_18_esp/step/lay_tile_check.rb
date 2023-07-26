@@ -47,11 +47,10 @@ module LayTileCheck
   end
 
   def legal_tile_rotation?(entity, hex, tile)
-    hex.tile.towns.empty?(&:halt?) ? halt_upgrade_legal_rotation?(entity, hex, tile) : super
+    legal = hex.tile.towns.empty?(&:halt?) ?  super : halt_upgrade_legal_rotation?(entity, hex, tile)
     mount_pass_exit = mountain_pass_exit(hex, tile)
     legal &&= !mount_pass_exit unless can_open_mountain_pass?(entity)
     legal &&= !(@game.pajares_broad? && hex.id == 'E10' && tile_lay_into_pass(hex, tile, mount_pass_exit) == :narrow)
-    legal &&= special_hex_narrow(hex, tile) if @game.special_hex?(hex)
     legal
   end
 
@@ -66,7 +65,7 @@ module LayTileCheck
     entity, *_combo_entities = entities
 
     return false unless @game.legal_tile_rotation?(entity, hex, tile)
-    
+
     old_ctedges = hex.tile.city_town_edges
 
     new_paths = tile.paths
@@ -83,20 +82,6 @@ module LayTileCheck
       extra_cities >= new_ctedges.count { |newct| old_ctedges.all? { |oldct| (newct & oldct).none? } } &&
       # 1867: Does every old city correspond to exactly one new city?
       (!multi_city_upgrade || old_ctedges.all? { |oldct| new_ctedges.one? { |newct| (oldct & newct) == oldct } })
-  end
-
-  def special_hex_narrow(hex, tile)
-    # no narrow track into non special hex or offboard
-    tile.exits.each do |dir|
-      next unless (connecting_path = tile.paths.find { |p| p.exits.include?(dir) })
-      next unless (neighboring_tile = hex.neighbors[dir]&.tile)
-
-      next if neighboring_tile.color == :red || @game.special_hex?(neighboring_tile.hex) || neighboring_tile.color == :orange
-      next if connecting_path.track == :broad
-
-      return false
-    end
-    true
   end
 
   def tile_lay_into_pass(_hex, tile, mount_pass_exit)

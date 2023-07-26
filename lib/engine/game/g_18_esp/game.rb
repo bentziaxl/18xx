@@ -46,8 +46,6 @@ module Engine
 
         MOUNTAIN_PASS_TOKEN_HEXES = %w[L8 J10 H12 D12].freeze
 
-        SPECIAL_HEXES = %w[H16 G17 F18 E19 D18].freeze
-
         MOUNTAIN_PASS_TOKEN_COST = { 'L8' => 80, 'J10' => 80, 'H12' => 60, 'D12' => 120 }.freeze
 
         MOUNTAIN_PASS_TOKEN_BONUS = { 'L8' => 40, 'J10' => 40, 'H12' => 30, 'D12' => 60 }.freeze
@@ -610,7 +608,7 @@ module Engine
           # - allow labelled cities to upgrade regardless of count; they're probably
           #   fine (e.g., 18Chesapeake's OO cities merge to one city in brown)
           # - TODO: account for games that allow double dits to upgrade to one town
-          return false if from.towns.count(&:halt?) != to.towns.count(&:halt?)
+          return false if from.towns.count { |t| !t.halt? } != to.towns.count { |t| !t.halt? }
           return false if !from.label && from.cities.size != to.cities.size && !upgrade_ignore_num_cities(from)
           return false if from.cities.size > 1 && to.cities.size > 1 && !from.city_town_edges_are_subset_of?(to.city_town_edges)
 
