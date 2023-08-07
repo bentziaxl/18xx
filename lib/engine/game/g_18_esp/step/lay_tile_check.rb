@@ -75,7 +75,7 @@ module LayTileCheck
     multi_city_upgrade = tile.cities.size > 1 && hex.tile.cities.size > 1
     new_exits.all? { |edge| hex.neighbors[edge] } &&
       !(new_exits & hex_neighbors(entity, hex)).empty? &&
-      new_paths.any? { |p| (p.exits - old_ctedges.flatten).empty? } &&
+      new_paths.any? { |p| old_ctedges.flatten.empty? || (p.exits - old_ctedges.flatten).empty? } &&
       # Count how many cities on the new tile that aren't included by any of the old tile.
       # Make sure this isn't more than the number of new cities added.
       # 1836jr30 D6 -> 54 adds more cities

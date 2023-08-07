@@ -72,6 +72,18 @@ module Engine
             @state = nil
           end
 
+          def pay_token_cost(entity, cost, city)
+            return super if !@game.mountain_pass?(city.hex) || !city.tokens.first
+
+            first_corp = city.tokens.first.corporation
+            extra_cost = cost - 50
+            entity.spend(50, first_corp)
+            entity.spend(extra_cost, @game.bank) if extra_cost.positive?
+
+            @log << "#{entity.name} pays #{first_corp.name} #{@game.format_currency(cost)}"
+            @log << "#{entity.name} pays the bank #{@game.format_currency(extra_cost)}" if extra_cost.positive?
+          end
+
           def can_move_token?(entity)
             return false unless entity.corporation?
 

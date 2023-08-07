@@ -38,17 +38,17 @@ module Engine
 
         TRACK_RESTRICTION = :permissive
 
-        MOUNTAIN_PASS_ACCESS_HEX = %w[D10 H10 K8 L7].freeze
+        MOUNTAIN_PASS_ACCESS_HEX = %w[D10 H10 J8 K7].freeze
 
-        MOUNTAIN_PASS_ACCESS_HEX_INCL_SOUTH = %w[D10 H10 K8 L7 D18 E19 F18 G17 H16].freeze
+        MOUNTAIN_PASS_ACCESS_HEX_INCL_SOUTH = %w[D10 H10 J8 K7 D18 E19 G17 H16].freeze
 
-        MOUNTAIN_PASS_HEX = %w[L8 J10 H12 D12 D18 E19 F18 G17 H16].freeze
+        MOUNTAIN_PASS_HEX = %w[L8 J10 H12 D12 D18 E19 G17 H16].freeze
 
         MOUNTAIN_PASS_TOKEN_HEXES = %w[L8 J10 H12 D12].freeze
 
-        MOUNTAIN_PASS_TOKEN_COST = { 'L8' => 80, 'J10' => 80, 'H12' => 60, 'D12' => 120 }.freeze
+        MOUNTAIN_PASS_TOKEN_COST = { 'L8' => 80, 'J10' => 80, 'H12' => 60, 'D12' => 100 }.freeze
 
-        MOUNTAIN_PASS_TOKEN_BONUS = { 'L8' => 40, 'J10' => 40, 'H12' => 30, 'D12' => 60 }.freeze
+        MOUNTAIN_PASS_TOKEN_BONUS = { 'L8' => 40, 'J10' => 40, 'H12' => 30, 'D12' => 50 }.freeze
 
         MINE_CLOSE_COST = 30
 
@@ -542,11 +542,7 @@ module Engine
         end
 
         def north_hex?(hex)
-          hex.y < NORTH_SOUTH_DIVIDE || special_hex?(hex)
-        end
-
-        def special_hex?(hex)
-          SPECIAL_HEXES.include?(hex&.id)
+          hex.y < NORTH_SOUTH_DIVIDE
         end
 
         def mountain_pass_access?(hex)
@@ -700,7 +696,7 @@ module Engine
           entity.spend(mount_pass_cost, @bank) if mount_pass_cost.positive?
 
           opened_mountain_passes[pass_hex] = track_type
-          pass_tile.cities.first.tokens.each(&:remove!)
+          pass_tile.cities.first.remove_tokens!
 
           entity_name = p5_ability ? "#{entity.name} (#{p5.name})" : entity.name
 
