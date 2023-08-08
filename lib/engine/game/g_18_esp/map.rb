@@ -612,7 +612,8 @@ module Engine
         HEXES = {
           blue: {
             %w[C1] => 'offboard=revenue:yellow_40|green_30|brown_20|gray_20;path=a:0,b:_0,track:dual',
-            %w[E1 K3] => 'offboard=revenue:green_30|brown_40|gray_50;path=a:0,b:_0,track:dual',
+            %w[E1] => 'offboard=revenue:yellow_20|green_30|brown_40|gray_50;path=a:0,b:_0,track:dual',
+            %w[K3] => 'offboard=revenue:green_30|brown_40|gray_50;path=a:0,b:_0,track:dual',
             %w[L24] => 'offboard=revenue:yellow_20|green_30|brown_50|gray_60;path=a:2,b:_0,track:dual',
             %w[K31] => 'offboard=revenue:yellow_40|green_30|brown_30|gray_40;path=a:2,b:_0,track:dual',
             %w[F34] => 'offboard=revenue:green_30|brown_30|gray_40;path=a:2,b:_0,track:dual',
