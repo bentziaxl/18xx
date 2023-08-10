@@ -587,7 +587,7 @@ module Engine
           total_cost = super
           total_cost = hex.tile.paths.all? { |path| path.track == :narrow } ? total_cost / 2 : total_cost
 
-          total_cost += MINE_CLOSE_COST unless old_tile.towns.empty?(&:halt?)
+          total_cost += MINE_CLOSE_COST if !old_tile.towns.empty?(&:halt?) && old_tile.color == :yellow
           total_cost
         end
 

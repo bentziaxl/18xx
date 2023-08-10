@@ -94,7 +94,7 @@ module Engine
           },
           {
             sym: 'P6',
-            name: 'Ferrocarril de Carreño',
+            name: 'Compañía del Ferrocarril de Zafra a Huelva',
             value: 160,
             revenue: 10,
             desc: 'It provides a 10% certificate from the Southern company CRB.',
