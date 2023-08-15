@@ -30,7 +30,7 @@ module Engine
 
         CERT_LIMIT = { 3 => 27, 4 => 20, 5 => 16, 6 => 13 }.freeze
 
-        STARTING_CASH = { 3 => 86000, 4 => 650, 5 => 520, 6 => 440 }.freeze
+        STARTING_CASH = { 3 => 860, 4 => 650, 5 => 520, 6 => 440 }.freeze
 
         NORTH_CORPS = %w[FdSB FdLR CFEA CFLG].freeze
 
@@ -86,7 +86,7 @@ module Engine
         MARKET = [
           %w[50 55 60 65 70p 75p 80p 85p 90p 95p 100p 105 110 115 120
              126 132 138 144 151 158 165 172 180 188 196 204 213 222 231 240 250 260
-             275 290 300],
+             270 280 295 310 325 340 360 380 400],
         ].freeze
 
         PHASES = [{
@@ -149,8 +149,8 @@ module Engine
           {
             name: '2',
             distance: 2,
-            price: 10,
-            num: 4,
+            price: 100,
+            num: 12,
             rusts_on: '4',
             variants: [
               {
@@ -166,8 +166,8 @@ module Engine
           {
             name: '3',
             distance: 3,
-            price: 20,
-            num: 1,
+            price: 200,
+            num: 9,
             rusts_on: '6',
             variants: [
               {
@@ -185,8 +185,8 @@ module Engine
           {
             name: '4',
             distance: 4,
-            price: 30,
-            num: 1,
+            price: 300,
+            num: 7,
             rusts_on: '8',
             variants: [
               {
@@ -204,8 +204,8 @@ module Engine
           {
             name: '5',
             distance: 5,
-            price: 50,
-            num: 1,
+            price: 500,
+            num: 5,
             variants: [
               {
                 name: '4+5',
@@ -221,8 +221,8 @@ module Engine
           {
             name: '6',
             distance: 6,
-            price: 60,
-            num: 1,
+            price: 600,
+            num: 3,
             variants: [
               {
                 name: '5+6',
@@ -238,7 +238,7 @@ module Engine
           {
             name: '8',
             distance: 8,
-            price: 80,
+            price: 800,
             num: 30,
             events: [{ 'type' => 'renfe_founded' }],
             variants: [
