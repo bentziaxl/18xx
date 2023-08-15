@@ -57,7 +57,7 @@ module Engine
             'count' => 1,
             'color' => 'yellow',
             'code' =>
-              'town=revenue:yellow_10|brown_30;town=revenue:10;path=a:0,b:_0;path=a:3,b:_0;' \
+              'town=revenue:10;town=revenue:10;path=a:0,b:_0;path=a:3,b:_0;' \
               'path=a:5,b:_0;path=a:2,b:_1;path=a:4,b:_1',
           },
 
