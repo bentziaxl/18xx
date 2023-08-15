@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 require_relative '../../../step/dividend'
+require_relative '../../../step/minor_half_pay'
 
 module Engine
   module Game
     module G18ESP
       module Step
         class Dividend < Engine::Step::Dividend
+          include Engine::Step::MinorHalfPay
           ACTIONS = %w[dividend].freeze
 
           def actions(entity)
