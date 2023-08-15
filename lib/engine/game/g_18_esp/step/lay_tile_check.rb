@@ -87,6 +87,21 @@ module LayTileCheck
     connecting_path.track
   end
 
+  def mountain_pass_exit(hex, tile)
+    return false unless @game.mountain_pass_access_incl_south?(hex)
+
+    new_exits = tile.exits - hex.tile.exits
+
+    new_exits.find do |exit|
+      neighbor = hex.neighbors[exit]
+      ntile = neighbor&.tile
+      next false unless ntile
+      next false unless @game.mountain_pass?(ntile.hex)
+
+      ntile.exits.any? { |e| e == Engine::Hex.invert(exit) }
+    end
+  end
+
   def matching_track_type(_entity, hex, tile)
     # All tile exits must match neighboring tiles
     tile.exits.each do |dir|
