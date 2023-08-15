@@ -85,13 +85,6 @@ module Engine
           mount_path&.track
         end
 
-        # minors cant upgrade madrid or barca
-        def upgradeable_tiles(entity, hex)
-          return super if entity.type != :minor || !%w[F24 M21].include?(hex.id)
-
-          []
-        end
-
         def round_state
           super.merge(
             {
