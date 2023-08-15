@@ -30,7 +30,7 @@ module Engine
 
         CERT_LIMIT = { 3 => 27, 4 => 20, 5 => 16, 6 => 13 }.freeze
 
-        STARTING_CASH = { 3 => 860, 4 => 650, 5 => 520, 6 => 440 }.freeze
+        STARTING_CASH = { 3 => 86_000, 4 => 650, 5 => 520, 6 => 440 }.freeze
 
         NORTH_CORPS = %w[FdSB FdLR CFEA CFLG].freeze
 
@@ -149,8 +149,8 @@ module Engine
           {
             name: '2',
             distance: 2,
-            price: 100,
-            num: 12,
+            price: 10,
+            num: 3,
             rusts_on: '4',
             variants: [
               {
@@ -166,8 +166,8 @@ module Engine
           {
             name: '3',
             distance: 3,
-            price: 200,
-            num: 9,
+            price: 20,
+            num: 1,
             rusts_on: '6',
             variants: [
               {
@@ -185,8 +185,8 @@ module Engine
           {
             name: '4',
             distance: 4,
-            price: 300,
-            num: 7,
+            price: 30,
+            num: 1,
             rusts_on: '8',
             variants: [
               {
@@ -204,8 +204,8 @@ module Engine
           {
             name: '5',
             distance: 5,
-            price: 500,
-            num: 5,
+            price: 50,
+            num: 1,
             variants: [
               {
                 name: '4+5',
@@ -221,8 +221,8 @@ module Engine
           {
             name: '6',
             distance: 6,
-            price: 600,
-            num: 3,
+            price: 60,
+            num: 1,
             variants: [
               {
                 name: '5+6',
@@ -238,7 +238,7 @@ module Engine
           {
             name: '8',
             distance: 8,
-            price: 800,
+            price: 80,
             num: 30,
             events: [{ 'type' => 'renfe_founded' }],
             variants: [
@@ -354,8 +354,6 @@ module Engine
 
           setup_company_price(1)
 
-          @nationalized_corps = []
-
           # Initialize the player depts, if player have to take an emergency loan
           @player_debts = Hash.new { |h, k| h[k] = 0 }
 
@@ -401,7 +399,7 @@ module Engine
         end
 
         def operating_order
-          @corporations.select { |c| c.floated? && !nationalized?(c) }.sort
+          @corporations.select(&:floated?).sort
         end
 
         def init_company_abilities
@@ -895,6 +893,8 @@ module Engine
           revenue += east_west_bonus(stops)[:revenue]
           revenue += gbi_bm_bonus(stops)[:revenue]
 
+          revenue *= 3 if final_ors? && @round.round_num == @operating_rounds && north_corp?(route.train.owner)
+
           revenue
         end
 
@@ -1208,72 +1208,11 @@ module Engine
           @company_trains.delete(company.id)
         end
 
-        # OR has just finished, find two lowest revenues and nationalize the corporations
-        # associated with each
-        def nationalize_corps!
-          revenues = @corporations.select { |c| c.floated? && !nationalized?(c) && !north_corp?(c) }
-            .to_h { |c| [c, get_or_revenue(c.operating_history[c.operating_history.keys.max])] }
-
-          sorted_corps = revenues.keys.sort_by { |c| revenues[c] }
-
-          if sorted_corps.size < 3
-            # if two or less corps left, they are both nationalized
-            sorted_corps.each { |c| make_nationalized!(c) }
-          else
-            # all companies with the lowest revenue are nationalized
-            # if only one has the lowest revenue, then all companies with the next lowest revenue are nationalized
-            min_revenue = revenues[sorted_corps[0]]
-            next_revenue_corp = sorted_corps.find { |c| revenues[c] > min_revenue }
-            next_revenue = revenues[next_revenue_corp] if next_revenue_corp
-
-            grouped = revenues.keys.group_by { |c| revenues[c] }
-            grouped[min_revenue].each { |c| make_nationalized!(c) }
-            grouped[next_revenue].each { |c| make_nationalized!(c) } if next_revenue_corp && grouped[min_revenue].one?
-          end
-        end
-
-        def make_nationalized!(corp)
-          return if nationalized?(corp)
-
-          corp.tokens.each { |t| t.logo = RENFE_LOGO }
-          corp.tokens.each { |t| t.simple_logo = RENFE_LOGO }
-
-          @nationalized_corps << corp
-          @log << "#{corp.name} is Nationalized and will cease to operate."
-          pay_nationalization_compensation(corp)
-        end
-
-        def nationalized?(corp)
-          @nationalized_corps.include?(corp)
-        end
-
-        def pay_nationalization_compensation(corporation)
-          per_share = @stock_market.find_share_price(corporation, [:right] * (4 - @turn)).price
-          payouts = {}
-          @players.each do |player|
-            amount = player.num_shares_of(corporation) * per_share
-            next if amount.zero?
-
-            payouts[player] = amount
-            @bank.spend(amount, player, check_cash: false, borrow_from: corporation.owner)
-          end
-
-          return if payouts.empty?
-
-          receivers = payouts
-                        .sort_by { |_r, c| -c }
-                        .map { |receiver, cash| "#{format_currency(cash)} to #{receiver.name}" }.join(', ')
-
-          @log << "Shareholders of #{corporation.name} receive compensation "\
-                  "#{format_currency(per_share)} per share (#{receivers})"
-        end
-
         def get_or_revenue(info)
           !info.dividend.is_a?(Action::Dividend) || info.dividend.kind == 'withhold' ? 0 : info.revenue
         end
 
         def next_round!
-          nationalize_corps! if final_ors?
           @round =
             case @round
             when Round::Stock
@@ -1282,7 +1221,7 @@ module Engine
               new_operating_round
             when Round::Operating
               or_round_finished
-              if  @phase&.phases&.last == @phase&.current && @turn != @final_turn
+              if @phase&.phases&.last == @phase&.current && @turn != @final_turn
                 or_set_finished
                 @turn += 1
                 new_stock_round
@@ -1312,8 +1251,6 @@ module Engine
         def or_set_finished
           @depot.export! if @corporations.any?(&:floated?)
           game_end_check
-
-          @corporations = @corporations.dup.select(&:floated?) if @turn == @final_turn
         end
 
         def final_ors?

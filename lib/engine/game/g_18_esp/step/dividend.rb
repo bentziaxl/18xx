@@ -23,6 +23,7 @@ module Engine
 
             times = 1 if revenue.positive?
             times = 2 if revenue >= price * 2
+            times = 3 if @game.final_ors? && @round.round_num == @game.phase.operating_rounds && @game.north_corp?(entity)
             if times.positive?
               { share_direction: :right, share_times: times }
             else
