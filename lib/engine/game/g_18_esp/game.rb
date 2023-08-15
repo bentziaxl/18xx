@@ -401,9 +401,7 @@ module Engine
         end
 
         def operating_order
-          valid_corps = @corporations.select { |c| c.floated? && !nationalized?(c) }.sort
-          minors, railroads = valid_corps.partition { |c| c.type == :minor }
-          minors + railroads
+          @corporations.select { |c| c.floated? && !nationalized?(c) }.sort
         end
 
         def init_company_abilities
@@ -437,7 +435,7 @@ module Engine
         end
 
         def tile_lays(entity)
-          return MINOR_TILE_LAYS if entity.type == :minor || north_corp?(entity)
+          return MINOR_TILE_LAYS if entity.type == :minor
 
           MAJOR_TILE_LAYS
         end
@@ -585,7 +583,6 @@ module Engine
 
         def upgrade_cost(old_tile, hex, entity, spender)
           total_cost = super
-          total_cost = hex.tile.paths.all? { |path| path.track == :narrow } ? total_cost / 2 : total_cost
 
           total_cost += MINE_CLOSE_COST if !old_tile.towns.empty?(&:halt?) && old_tile.color == :yellow
           total_cost

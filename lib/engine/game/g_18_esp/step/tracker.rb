@@ -12,8 +12,8 @@ module Engine
 
         def setup
           super
-          @round.north_corp_southern_hex = false
           @round.extra_mine_lay = false
+          @round.mine_tile_laid = false
         end
 
         def selected_tiles(entity, hex)
@@ -33,6 +33,11 @@ module Engine
           old_tile = hex.tile
           tile_frame = old_tile.frame
           super
+
+          if @game.mine_hex?(action.hex)
+            @round.num_laid_track -= 1
+            @round.mine_tile_laid = true
+          end
 
           old_tile.reframe!(nil)
           hex.tile.reframe!(tile_frame.color, tile_frame.color2) if tile_frame
@@ -90,8 +95,8 @@ module Engine
         def round_state
           super.merge(
             {
-              north_corp_southern_hex: false,
               extra_mine_lay: false,
+              mine_tile_laid: false,
             }
           )
         end
@@ -99,27 +104,15 @@ module Engine
         def tracker_available_hex(entity, hex)
           return super && @game.mine_hex?(hex) if @round.extra_mine_lay
 
-          @round.north_corp_southern_hex ? super && !@game.north_hex?(hex) : super
+          @round.mine_tile_laid ? super && !@game.mine_hex?(hex) : super
         end
 
         def get_tile_lay(entity)
           action = super
           # if action is nil, and mine wasn't laid, grant a lay action buy only for mine
-          if action.nil? && @round.laid_hexes.none? { |hex| @game.mine_hex?(hex) }
+          if action.nil? && !@round.mine_tile_laid
             @round.extra_mine_lay = true
             return { lay: true, upgrade: false, cost: 0 }
-          end
-          return action unless @game.north_corp?(entity)
-
-          if @round.num_laid_track == 1 && !@game.north_hex?(@round.laid_hexes.first)
-            @round.north_corp_southern_hex = true
-            action = @game.tile_lays_north_corp_south.dup
-
-            action[:lay] = !@round.upgraded_track if action[:lay] == :not_if_upgraded
-            action[:upgrade] = !@round.upgraded_track if action[:upgrade] == :not_if_upgraded
-            action[:cost] = action[:cost] || 0
-            action[:upgrade_cost] = action[:upgrade_cost] || action[:cost]
-            action[:cannot_reuse_same_hex] = action[:cannot_reuse_same_hex] || false
           end
           action
         end
