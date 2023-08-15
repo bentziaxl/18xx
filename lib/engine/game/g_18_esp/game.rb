@@ -1172,7 +1172,7 @@ module Engine
 
         def company_bought(company, entity)
           # On acquired abilities
-          transfer_ability_and_close_company(company, entity) if company.id == 'P4'
+          transfer_luxury_ability_and_close_company(company, entity) if company.id == 'P4'
 
           return unless company == p2
 
@@ -1185,6 +1185,7 @@ module Engine
           luxury_ability = company.all_abilities.first
           entity.add_ability(luxury_ability)
           company.remove_ability(luxury_ability)
+          company.close!
 
           @log << "#{company.name} closes. #{entity.name} now can now assign luxury carriage to a single train"
         end
