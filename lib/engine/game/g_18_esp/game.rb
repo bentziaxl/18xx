@@ -1383,12 +1383,6 @@ module Engine
           tile.icons = tile.icons.dup.reject { |icon| icon.name == corp.name }
         end
 
-        def fix_mine_token(city)
-          return unless mountain_pass_token_hex?(city.hex)
-
-          city.tokens.first.type = :neutral
-        end
-
         def train_limit_by_type(entity, track_type)
           return train_limit(entity) unless entity.corporation?
 
