@@ -49,14 +49,8 @@ module LayTileCheck
   def legal_tile_rotation?(entity, hex, tile)
     legal = hex.tile.towns.empty?(&:halt?) ?  super : halt_upgrade_legal_rotation?(entity, hex, tile)
     mount_pass_exit = mountain_pass_exit(hex, tile)
-    legal &&= !mount_pass_exit unless can_open_mountain_pass?(entity)
     legal &&= !(@game.pajares_broad? && hex.id == 'E10' && tile_lay_into_pass(hex, tile, mount_pass_exit) == :narrow)
     legal
-  end
-
-  def can_open_mountain_pass?(entity)
-    corp = entity.corporation? ? entity : entity.owner
-    corp.type != :minor && @game.can_build_mountain_pass
   end
 
   def halt_upgrade_legal_rotation?(entity_or_entities, hex, tile)
@@ -91,21 +85,6 @@ module LayTileCheck
     return nil unless connecting_path
 
     connecting_path.track
-  end
-
-  def mountain_pass_exit(hex, tile)
-    return false unless @game.mountain_pass_access_incl_south?(hex)
-
-    new_exits = tile.exits - hex.tile.exits
-
-    new_exits.find do |exit|
-      neighbor = hex.neighbors[exit]
-      ntile = neighbor&.tile
-      next false unless ntile
-      next false unless @game.mountain_pass?(ntile.hex)
-
-      ntile.exits.any? { |e| e == Engine::Hex.invert(exit) }
-    end
   end
 
   def matching_track_type(_entity, hex, tile)
