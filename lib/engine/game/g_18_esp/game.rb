@@ -30,7 +30,7 @@ module Engine
 
         CERT_LIMIT = { 3 => 27, 4 => 20, 5 => 16, 6 => 13 }.freeze
 
-        STARTING_CASH = { 3 => 860, 4 => 650, 5 => 520, 6 => 440 }.freeze
+        STARTING_CASH = { 3 => 86000, 4 => 650, 5 => 520, 6 => 440 }.freeze
 
         NORTH_CORPS = %w[FdSB FdLR CFEA CFLG].freeze
 
@@ -149,8 +149,8 @@ module Engine
           {
             name: '2',
             distance: 2,
-            price: 100,
-            num: 12,
+            price: 10,
+            num: 4,
             rusts_on: '4',
             variants: [
               {
@@ -166,8 +166,8 @@ module Engine
           {
             name: '3',
             distance: 3,
-            price: 200,
-            num: 9,
+            price: 20,
+            num: 1,
             rusts_on: '6',
             variants: [
               {
@@ -185,8 +185,8 @@ module Engine
           {
             name: '4',
             distance: 4,
-            price: 300,
-            num: 7,
+            price: 30,
+            num: 1,
             rusts_on: '8',
             variants: [
               {
@@ -204,8 +204,8 @@ module Engine
           {
             name: '5',
             distance: 5,
-            price: 500,
-            num: 5,
+            price: 50,
+            num: 1,
             variants: [
               {
                 name: '4+5',
@@ -221,8 +221,8 @@ module Engine
           {
             name: '6',
             distance: 6,
-            price: 600,
-            num: 3,
+            price: 60,
+            num: 1,
             variants: [
               {
                 name: '5+6',
@@ -238,7 +238,7 @@ module Engine
           {
             name: '8',
             distance: 8,
-            price: 800,
+            price: 80,
             num: 30,
             events: [{ 'type' => 'renfe_founded' }],
             variants: [
@@ -1282,7 +1282,11 @@ module Engine
               new_operating_round
             when Round::Operating
               or_round_finished
-              if @round.round_num < @operating_rounds
+              if  @phase&.phases&.last == @phase&.current && @turn != @final_turn
+                or_set_finished
+                @turn += 1
+                new_stock_round
+              elsif @round.round_num < @operating_rounds
                 new_operating_round(@round.round_num + 1)
               elsif @phase.available?('5') && @corporations.any? { |c| c.type == :minor && !c.closed? }
                 @special_merge_step = true
@@ -1290,8 +1294,6 @@ module Engine
                 G18ESP::Round::Merger.new(self, [
                   G18ESP::Step::SpecialMerge,
                 ], round_num: @round.round_num)
-              else
-                or_set_finished
                 @turn += 1
                 new_stock_round
               end
