@@ -30,7 +30,7 @@ module Engine
 
         CERT_LIMIT = { 3 => 27, 4 => 20, 5 => 16, 6 => 13 }.freeze
 
-        STARTING_CASH = { 3 => 86_000, 4 => 650, 5 => 520, 6 => 440 }.freeze
+        STARTING_CASH = { 3 => 860, 4 => 650, 5 => 520, 6 => 440 }.freeze
 
         NORTH_CORPS = %w[FdSB FdLR CFEA CFLG].freeze
 
@@ -149,8 +149,8 @@ module Engine
           {
             name: '2',
             distance: 2,
-            price: 10,
-            num: 3,
+            price: 100,
+            num: 12,
             rusts_on: '4',
             variants: [
               {
@@ -166,8 +166,8 @@ module Engine
           {
             name: '3',
             distance: 3,
-            price: 20,
-            num: 1,
+            price: 200,
+            num: 9,
             rusts_on: '6',
             variants: [
               {
@@ -185,8 +185,8 @@ module Engine
           {
             name: '4',
             distance: 4,
-            price: 30,
-            num: 1,
+            price: 300,
+            num: 7,
             rusts_on: '8',
             variants: [
               {
@@ -204,8 +204,8 @@ module Engine
           {
             name: '5',
             distance: 5,
-            price: 50,
-            num: 1,
+            price: 500,
+            num: 5,
             variants: [
               {
                 name: '4+5',
@@ -221,8 +221,8 @@ module Engine
           {
             name: '6',
             distance: 6,
-            price: 60,
-            num: 1,
+            price: 600,
+            num: 3,
             variants: [
               {
                 name: '5+6',
@@ -238,7 +238,7 @@ module Engine
           {
             name: '8',
             distance: 8,
-            price: 80,
+            price: 800,
             num: 30,
             events: [{ 'type' => 'renfe_founded' }],
             variants: [
@@ -1251,6 +1251,8 @@ module Engine
         def or_set_finished
           @depot.export! if @corporations.any?(&:floated?)
           game_end_check
+
+          @corporations = @corporations.dup.select(&:floated?) if @turn == @final_turn
         end
 
         def final_ors?
