@@ -150,7 +150,7 @@ module Engine
             name: '2',
             distance: 2,
             price: 10,
-            num: 2,
+            num: 12,
             rusts_on: '4',
             variants: [
               {
@@ -167,7 +167,7 @@ module Engine
             name: '3',
             distance: 3,
             price: 20,
-            num: 1,
+            num: 9,
             rusts_on: '6',
             variants: [
               {
