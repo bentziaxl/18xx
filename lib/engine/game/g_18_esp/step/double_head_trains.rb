@@ -9,10 +9,6 @@ module Engine
         class CombinedTrains < Engine::Step::Base
           ACTIONS = %w[combined_trains pass].freeze
 
-          def setup
-            @game.double_headed_trains = []
-          end
-
           def description
             'Combine Trains'
           end

@@ -361,6 +361,7 @@ module Engine
           @tile_groups = init_tile_groups
           initialize_tile_opposites!
           @unused_tiles = []
+          @double_headed_trains = []
 
           # place tokens on mountain passes
 
