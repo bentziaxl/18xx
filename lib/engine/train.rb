@@ -8,9 +8,9 @@ module Engine
     include Ownable
 
     attr_accessor :obsolete, :events, :variants, :obsolete_on, :rusted, :rusts_on, :index, :name,
-                  :distance, :reserved
-    attr_reader :available_on, :discount, :multiplier, :sym, :variant, :requires_token, :ever_operated, :operated, :salvage,
-                :track_type
+                  :distance, :reserved, :track_type
+    attr_reader :available_on, :discount, :multiplier, :sym, :variant, :requires_token, :ever_operated, :operated, :salvage
+
     attr_writer :buyable
 
     def initialize(name:, distance:, price:, index: 0, **opts)
@@ -55,6 +55,7 @@ module Engine
         obsolete_on: @obsolete_on,
         discount: @discount,
         salvage: @salvage,
+        track_type: @track_type,
       }
 
       # Primary variant should be at the head of the list.

@@ -20,7 +20,7 @@ module Engine
 
         attr_reader :can_build_mountain_pass, :broad_graph, :special_merge_step
 
-        attr_accessor :player_debts
+        attr_accessor :player_debts, :double_headed_trains
 
         TILE_CLASS = G18ESP::Tile
 
@@ -149,8 +149,8 @@ module Engine
           {
             name: '2',
             distance: 2,
-            price: 100,
-            num: 12,
+            price: 10,
+            num: 2,
             rusts_on: '4',
             variants: [
               {
@@ -166,8 +166,8 @@ module Engine
           {
             name: '3',
             distance: 3,
-            price: 200,
-            num: 9,
+            price: 20,
+            num: 1,
             rusts_on: '6',
             variants: [
               {
@@ -317,6 +317,7 @@ module Engine
             G18ESP::Step::HomeToken,
             G18ESP::Step::SpecialTrack,
             G18ESP::Step::SpecialChoose,
+            G18ESP::Step::CombinedTrains,
             G18ESP::Step::Track,
             G18ESP::Step::Route,
             G18ESP::Step::Dividend,
@@ -828,13 +829,12 @@ module Engine
                   'Route can not end or start in Mountain pass'
           end
 
-          raise GameError, 'Route can only use one mountain pass' if route.hexes.count { |hex| mountain_pass_token_hex?(hex) } > 1
-
-          # north corp running broad
-          if north_corp?(entity) && route.train.track_type == :broad
-            valid_broad = route.stops.any? { |stop| stop.tokened_by?(entity) && valid_interchange?(stop.tile) }
-            raise GameError, 'Broad train must include a valid interchange' unless valid_broad
+          if double_headed_trains.include?(train) && route.hexes.none? { |hex| mountain_pass_token_hex?(hex) }
+            raise RouteTooShort,
+                  'Combined train must run through a montain pass'
           end
+
+          raise GameError, 'Route can only use one mountain pass' if route.hexes.count { |hex| mountain_pass_token_hex?(hex) } > 1
 
           train ||= route.train
           distance = train.distance
@@ -1233,6 +1233,7 @@ module Engine
                 G18ESP::Round::Merger.new(self, [
                   G18ESP::Step::SpecialMerge,
                 ], round_num: @round.round_num)
+              else
                 @turn += 1
                 new_stock_round
               end
@@ -1358,6 +1359,30 @@ module Engine
                   end
 
           help
+        end
+
+        def combined_base_trains_candidates(corporation)
+          return unless corporation
+
+          corporation.trains.reject { |t| double_headed_trains.include?(t) }
+        end
+
+        def combined_obsolete_trains_candidates
+          @depot.trains.select(&:rusted).uniq { |train| train.variants.keys[0] }
+        end
+
+        def update_trains_cache
+          update_cache(:trains)
+        end
+
+        def distance(train)
+          if train.distance.is_a?(Numeric)
+            [train.distance, 0]
+          else
+            cities = train.distance[1]['pay']
+            towns = train.distance[0]['pay']
+            [cities, towns]
+          end
         end
       end
     end
