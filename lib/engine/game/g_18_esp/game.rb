@@ -829,8 +829,8 @@ module Engine
                   'Route can not end or start in Mountain pass'
           end
 
-          if double_headed_trains.include?(train) && route.hexes.none? { |hex| mountain_pass_token_hex?(hex) }
-            raise RouteTooShort,
+          if double_headed_trains.include?(route.train) && route.hexes.none? { |hex| mountain_pass_token_hex?(hex) }
+            raise GameError,
                   'Combined train must run through a montain pass'
           end
 

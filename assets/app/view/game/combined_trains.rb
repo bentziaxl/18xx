@@ -140,8 +140,8 @@ module View
         end.compact
 
         disabled = trains.size < 2 || trains.first.track_type == trains.last.track_type
-        submit_txt = disabled ? 'Select trains' : "Form #{@step.an(cities)} #{cities}+#{towns} train"
-        variant, base = trains.partition { |t| t.track_type == :narrow }
+        submit_txt = disabled ? 'Select trains' : "Form  #{cities}+#{towns} train"
+        base, variant = trains.partition { |t| t.owner == @game.current_entity }
         variant = variant.first
         base = base.first
 

@@ -35,22 +35,13 @@ module Engine
             additional_train.variant = variant
 
             joined_trains = "#{base.name}, #{additional_train.name}"
-            get_double_headed_train!(base, additional_train)
+            create_double_headed_train!(base, additional_train)
 
-            @log << "#{corporation.name} forms #{an(base.distance[1]['pay'])} "\
-                    "#{base.name} train by double heading trains: #{joined_trains}"
+            @log << "#{corporation.name} forms "\
+                    "#{base.name} train by combining trains: #{joined_trains}"
           end
 
-          def an(number)
-            case number
-            when 8, 11, 18
-              'an'
-            else
-              'a'
-            end
-          end
-
-          def get_double_headed_train!(base, additional_train)
+          def create_double_headed_train!(base, additional_train)
             # double-headed train's ID is formed by combining the the IDs of the
             # given trains, so that if they are double headed this way again,
             # the double headed train does not need to be recreated, and the
@@ -65,11 +56,6 @@ module Engine
             @game.update_trains_cache
 
             @game.double_headed_trains << base
-
-            # run train this OR, then remove it from company automatically via
-            # base logic for obsolete trains
-
-            base
           end
 
           def combined_distance_and_name(base, additional_train)
