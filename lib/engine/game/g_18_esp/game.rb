@@ -18,7 +18,7 @@ module Engine
         include CitiesPlusTownsRouteDistanceStr
         include DoubleSidedTiles
 
-        attr_reader :can_build_mountain_pass, :broad_graph, :special_merge_step
+        attr_reader :can_build_mountain_pass, :broad_graph, :special_merge_step, :can_buy_trains
 
         attr_accessor :player_debts, :double_headed_trains
 
@@ -180,7 +180,8 @@ module Engine
             ],
             events: [{ 'type' => 'south_majors_available' },
                      { 'type' => 'companies_bought_150' },
-                     { 'type' => 'mountain_pass' }],
+                     { 'type' => 'mountain_pass' },
+                     { 'type' => 'can_buy_trains' }],
           },
           {
             name: '4',
@@ -266,7 +267,8 @@ module Engine
                 'renfe_founded' => ['RENFE founded'],
                 'close_minors' => ['Minors close'],
                 'float_60' => ['60% to Float', 'Corporations must have 60% of their shares sold to float'],
-                'mountain_pass' => ['Can build mountain passes']
+                'mountain_pass' => ['Can build mountain passes'],
+                'can_buy_trains' => ['Corporations can buy trains from other corporations']
               ).freeze
 
         def init_corporations(stock_market)
@@ -465,6 +467,11 @@ module Engine
 
         def event_companies_bought_200!
           setup_company_price(2)
+        end
+
+        def event_can_buy_trains!
+          @log << 'Corporations can buy trains from other corporations'
+          @can_buy_trains = true
         end
 
         def pajares_broad?

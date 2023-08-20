@@ -14,6 +14,7 @@ module Engine
             trains.reject! { |t| t.track_type == :narrow } if entity.type == :minor
             trains.reject! { |t| t.track_type == :broad && t.owner != @depot } unless room_for_type?(entity, :broad)
             trains.reject! { |t| t.track_type == :narrow && t.owner != @depot } unless room_for_type?(entity, :narrow)
+            trains.select!(&:from_depot?) unless @game.can_buy_trains
             trains
           end
 
