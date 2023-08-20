@@ -20,7 +20,7 @@ module Engine
 
         attr_reader :can_build_mountain_pass, :broad_graph, :special_merge_step, :can_buy_trains
 
-        attr_accessor :player_debts, :double_headed_trains
+        attr_accessor :player_debts, :double_headed_trains, :p4_counter, :luxury_carriages_owner
 
         TILE_CLASS = G18ESP::Tile
 
@@ -51,6 +51,8 @@ module Engine
         MOUNTAIN_PASS_TOKEN_BONUS = { 'L8' => 40, 'J10' => 40, 'H12' => 30, 'D12' => 50 }.freeze
 
         MINE_CLOSE_COST = 30
+
+        CARRIAGE_COST = 30
 
         SELL_AFTER = :operate
 
@@ -149,7 +151,7 @@ module Engine
           {
             name: '2',
             distance: 2,
-            price: 10,
+            price: 100,
             num: 12,
             rusts_on: '4',
             variants: [
@@ -166,7 +168,7 @@ module Engine
           {
             name: '3',
             distance: 3,
-            price: 20,
+            price: 200,
             num: 9,
             rusts_on: '6',
             variants: [
@@ -318,6 +320,7 @@ module Engine
             Engine::Step::BuyCompany,
             G18ESP::Step::HomeToken,
             G18ESP::Step::SpecialTrack,
+            G18ESP::Step::Choose,
             G18ESP::Step::SpecialChoose,
             G18ESP::Step::CombinedTrains,
             G18ESP::Step::Track,
@@ -335,7 +338,11 @@ module Engine
         end
 
         def p3
-          @p3 ||= company_by_id('P2')
+          @p3 ||= company_by_id('P3')
+        end
+
+        def p4
+          @p4 ||= company_by_id('P4')
         end
 
         def p5
@@ -356,6 +363,8 @@ module Engine
           @company_trains['P3'] = find_and_remove_train_for_minor('2P-0', buyable: false)
 
           setup_company_price(1)
+
+          @p4_counter = 3
 
           # Initialize the player depts, if player have to take an emergency loan
           @player_debts = Hash.new { |h, k| h[k] = 0 }
@@ -624,6 +633,10 @@ module Engine
         def subsidy_for(_route, stops)
           count = stops.count(&:halt?)
           count * BASE_MINE_BONUS[@phase.tiles.last]
+        end
+
+        def carriage_cost
+          CARRIAGE_COST
         end
 
         def routes_subsidy(routes)
@@ -1191,11 +1204,22 @@ module Engine
 
         def transfer_luxury_ability_and_close_company(company, entity)
           luxury_ability = company.all_abilities.first
-          entity.add_ability(luxury_ability)
+          if luxury_ability(entity)
+            # entity already has luxury carriage. Do not add, but increase carriage count
+            @p4_counter += 1
+            @log << "#{entity.name} already has a carriage, extra carriage is returned to the bank and can be purchased. \
+                    There are #{@p4_counter} luxury carriages left"
+          else
+            entity.add_ability(luxury_ability)
+            @log << "#{company.name} closes. #{entity.name} now can now assign luxury carriage to a single train"
+          end
+          @luxury_carriages_owner = entity
           company.remove_ability(luxury_ability)
           company.close!
+        end
 
-          @log << "#{company.name} closes. #{entity.name} now can now assign luxury carriage to a single train"
+        def luxury_ability(entity)
+          entity.all_abilities.find { |a| a.description == 'Luxury Carriage' }
         end
 
         def convert_p3_into_2p

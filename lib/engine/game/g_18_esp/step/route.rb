@@ -12,7 +12,7 @@ module Engine
 
             @luxury_train ||= nil
             actions = ACTIONS.dup
-            actions << 'choose' if !@luxury_train && luxury_ability(entity) && !luxury_train_choices(entity).empty?
+            actions << 'choose' if !@luxury_train && @game.luxury_ability(entity) && !luxury_train_choices(entity).empty?
             actions
           end
 
@@ -42,10 +42,6 @@ module Engine
             @luxury_train.name += '+1'
             @luxury_train.distance = [{ 'nodes' => ['town'], 'pay' => 1, 'visit' => 1 },
                                       { 'nodes' => %w[city offboard town], 'pay' => distance, 'visit' => distance }]
-          end
-
-          def luxury_ability(entity)
-            entity.all_abilities.find { |a| a.description == 'Luxury Carriage' }
           end
 
           def luxury_train_choices(entity)
