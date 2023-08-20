@@ -835,7 +835,7 @@ module Engine
           super
         end
 
-        def company_bought(company, entity)
+        def company_bought(company, entity, _owner)
           grant_right(entity, :bridge) if company == bridge
           grant_right(entity, :tunnel) if company == tunnel
         end

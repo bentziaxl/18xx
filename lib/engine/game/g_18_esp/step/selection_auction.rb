@@ -138,7 +138,7 @@ module Engine
             company.owner = player
             player.companies << company
 
-            @game.luxury_carriages_owner = player if company == @game.p4
+            3.times { @game.luxury_carriages << company.owner } if company == @game.p4
 
             player.spend(price, @game.bank) if price.positive?
             @companies.delete(company)

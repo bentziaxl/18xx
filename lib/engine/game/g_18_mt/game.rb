@@ -153,7 +153,7 @@ module Engine
           super
         end
 
-        def company_bought(company, _buyer)
+        def company_bought(company, _buyer, _owner)
           remove_corporation_block(corporation_by_id('UP')) if company.sym == 'GP'
           remove_corporation_block(corporation_by_id('NP')) if company.sym == 'GV'
         end

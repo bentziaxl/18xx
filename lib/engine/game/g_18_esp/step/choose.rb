@@ -19,7 +19,7 @@ module Engine
           def can_buy_carriage?(entity)
             # have p4 ability left, have 30 bucks, doesn't own carriage
             !@game.luxury_ability(entity) &&
-            @game.p4_counter.positive? &&
+            @game.luxury_carriages.size.positive? &&
             entity.cash > @game.carriage_cost
           end
 
@@ -28,7 +28,7 @@ module Engine
           end
 
           def choices
-            { 'BUY' => "Buy luxury carrige from #{@game.luxury_carriages_owner.name}" }
+            @game.luxury_carriages.uniq.to_h { |owner| [owner.id, "Buy luxury carriage from #{owner.name}"] }
           end
 
           def description
@@ -36,7 +36,9 @@ module Engine
           end
 
           def process_choose(action)
-            @game.p4_counter -= 1
+            entity = @game.player_by_id(action.choice) || @game.corporation_by_id(action.choice)
+            a = @game.luxury_carriages.find_index(entity)
+            @game.luxury_carriages.delete_at(a)
             luxury_ability = Ability::Base.new(
               type: 'base',
               owner_type: 'corporation',
@@ -46,11 +48,10 @@ module Engine
               when: 'owning_corp_or_turn'
             )
             action.entity.add_ability(luxury_ability)
-            action.entity.spend(@game.carriage_cost, @game.luxury_carriages_owner)
-            puts("here, #{action.entity.abilities.map(&:description)}")
-            @log << "#{action.entity.name} buys a luxury carriage from #{@game.luxury_carriages_owner.name} \
+            action.entity.spend(@game.carriage_cost, entity)
+            @log << "#{action.entity.name} buys a luxury carriage from #{entity.name} \
                     for #{@game.format_currency(@game.carriage_cost)} \
-                    There are #{@game.p4_counter} luxury carriages left"
+                    There are #{@game.luxury_carriages.size} luxury carriages left"
           end
 
           def skip!

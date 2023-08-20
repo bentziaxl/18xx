@@ -1908,7 +1908,7 @@ module Engine
       end
 
       # This is a hook to allow game specific logic to be invoked after a company is bought
-      def company_bought(company, buyer); end
+      def company_bought(company, buyer, owner); end
 
       def ipo_name(_entity = nil)
         'IPO'

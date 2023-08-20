@@ -20,7 +20,7 @@ module Engine
 
         attr_reader :can_build_mountain_pass, :broad_graph, :special_merge_step, :can_buy_trains
 
-        attr_accessor :player_debts, :double_headed_trains, :p4_counter, :luxury_carriages_owner
+        attr_accessor :player_debts, :double_headed_trains, :luxury_carriages
 
         TILE_CLASS = G18ESP::Tile
 
@@ -364,7 +364,7 @@ module Engine
 
           setup_company_price(1)
 
-          @p4_counter = 3
+          @luxury_carriages = []
 
           # Initialize the player depts, if player have to take an emergency loan
           @player_debts = Hash.new { |h, k| h[k] = 0 }
@@ -1026,8 +1026,8 @@ module Engine
           # get share
           get_reserved_share(minor.owner, corporation)
 
-          # remvoe destination token
-          hex_by_id(minor.destination).tile.icons.reject! { |i| i.name == minor.name }
+          # gain luxury carriage ability
+          gain_luxury_carriage_ability_from_minor(corporation, minor)
 
           # close corp
           close_corporation(minor)
@@ -1076,6 +1076,19 @@ module Engine
           blocked_token = corporation.tokens.find { |token| token.used == true && !token.hex && token.price == 100 }
           blocked_token&.used = false
           delete_token_mz(minor) if minor&.name == 'MZ'
+        end
+
+        def gain_luxury_carriage_ability_from_minor(corporation, minor)
+          minor_luxury_ability = luxury_ability(minor)
+          return unless minor_luxury_ability
+
+          if luxury_ability(corporation)
+            @luxury_carriages << corporation
+            @log << "#{corporation.name} already has a luxury carriage. The second carriage can be bought by another company"
+          else
+            corporation.add_ability(minor_luxury_ability)
+            @log << "#{corporation.name} gains luxury carriage from #{minor.name}"
+          end
         end
 
         def delete_token_mz(minor)
@@ -1191,9 +1204,9 @@ module Engine
           train
         end
 
-        def company_bought(company, entity)
+        def company_bought(company, entity, owner)
           # On acquired abilities
-          transfer_luxury_ability_and_close_company(company, entity) if company.id == 'P4'
+          transfer_luxury_ability_and_close_company(company, entity, owner) if company.id == 'P4'
 
           return unless company == p2
 
@@ -1202,24 +1215,24 @@ module Engine
           company.close!
         end
 
-        def transfer_luxury_ability_and_close_company(company, entity)
+        def transfer_luxury_ability_and_close_company(company, entity, owner)
           luxury_ability = company.all_abilities.first
           if luxury_ability(entity)
             # entity already has luxury carriage. Do not add, but increase carriage count
-            @p4_counter += 1
+            @luxury_carriages << entity
             @log << "#{entity.name} already has a carriage, extra carriage is returned to the bank and can be purchased. \
-                    There are #{@p4_counter} luxury carriages left"
+                    There are #{@luxury_carriages.size} luxury carriages left"
           else
             entity.add_ability(luxury_ability)
             @log << "#{company.name} closes. #{entity.name} now can now assign luxury carriage to a single train"
           end
-          @luxury_carriages_owner = entity
+          luxury_carriages.map! { |e| e == owner ? entity : e }
           company.remove_ability(luxury_ability)
           company.close!
         end
 
         def luxury_ability(entity)
-          entity.all_abilities.find { |a| a.description == 'Luxury Carriage' }
+          entity.abilities.find { |a| a.description == 'Luxury Carriage' }
         end
 
         def convert_p3_into_2p

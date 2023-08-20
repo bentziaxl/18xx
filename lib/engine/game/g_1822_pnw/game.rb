@@ -800,7 +800,7 @@ module Engine
           minors + majors
         end
 
-        def company_bought(company, entity)
+        def company_bought(company, entity, _owner)
           on_acquired_train(company, entity) if self.class::PRIVATE_TRAINS.include?(company.id)
           company.revenue = 0 if cube_company?(company) || company.id == 'P14' || company.id == 'P9'
         end

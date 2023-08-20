@@ -39,7 +39,7 @@ module Engine
         @round.acquired_companies << company
 
         @log << "#{entity.name} acquires #{company.name} from #{owner.name}"
-        @game.company_bought(company, entity)
+        @game.company_bought(company, entity, _owner)
 
         pass! if @game.purchasable_companies(entity).empty?
       end
