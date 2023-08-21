@@ -57,11 +57,24 @@ module Engine
             sym: 'P4',
             name: 'Ferrocarril de Valencia a Játiva',
             value: 100,
-            revenue: 20,
+            revenue: 10,
             min_price: 1,
-            desc: 'Owning corporation can upgrade one train per OR and attach a luxury carriage. '\
-                  "Luxury carriages provide one more town or mine or harbor to the train's range. "\
-                  'Can only be attached to iberian gauge trains. The company closes when bought by a corporation.',
+            desc: 'Provides four luxury carriage cards. The owner of this company (player or company) '\
+                  'can sell up to three of these four luxury carriages (to a major '\
+                  'or minor company). Each luxury carriage costs pts30. The fourth luxury carriage remains with ' \
+                  'the company until it is bought by a major or minor company. '\
+                  'Then the fourth luxury carriage belongs to the company that bought this '\
+                  'pioneer. The director of the company that buys this pioneer can assign '\
+                  'its luxury carriage to a train of his choice in each RO. '\
+                  'Note that the other three luxury carriages cannot be used, as they' \
+                  'are only available for sale. The same train can carry the luxury carriage '\
+                  'in two or more consecutive ORs. A train with a luxury carriage '\
+                  'can add a town, harbor or mine to its route, regardless of the range of the train. '\
+                  'The luxury carriage is permanent. It can only be used in '\
+                  'companies that use Iberian gauge tracks. No company may purchase more than one luxury' \
+                  'wagon. If, due to an acquisition, a company has more than one luxury carriage, '\
+                  'it keeps one for itself and must put the other one up for sale at '\
+                  'pts30. This company closes when is acquired by a minor or major company.',
             abilities: [
                       {
                         type: 'base',
