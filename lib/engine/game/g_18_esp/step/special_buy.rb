@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-require_relative '../../../step/base'
+require_relative '../../../step/special_buy'
 
 module Engine
   module Game
     module G18ESP
       module Step
-        class Choose < Engine::Step::Base
-          ACTIONS = %w[choose pass].freeze
-
+        class SpecialBuy < Engine::Step::SpecialBuy
           def actions(entity)
             return [] unless entity == current_entity
             return [] unless can_buy_carriage?(entity)
@@ -23,20 +21,19 @@ module Engine
             entity.cash > @game.carriage_cost
           end
 
-          def choice_name
+          def buyable_items(_entity)
+            @game.luxury_carriages.uniq.map do |owner|
+              Item.new(description: "luxury carriage from #{owner.name}", cost: @game.carriage_cost, owner: owner.id)
+            end
+          end
+
+          def short_description
             'Buy Luxury Carriage'
           end
 
-          def choices
-            @game.luxury_carriages.uniq.to_h { |owner| [owner.id, "Buy luxury carriage from #{owner.name}"] }
-          end
-
-          def description
-            'Luxury Carriage'
-          end
-
-          def process_choose(action)
-            entity = @game.player_by_id(action.choice) || @game.corporation_by_id(action.choice)
+          def process_special_buy(action)
+            item = action.item
+            entity = @game.player_by_id(item.owner) || @game.corporation_by_id(item.owner)
             a = @game.luxury_carriages.find_index(entity)
             @game.luxury_carriages.delete_at(a)
             luxury_ability = Ability::Base.new(
@@ -50,12 +47,8 @@ module Engine
             action.entity.add_ability(luxury_ability)
             action.entity.spend(@game.carriage_cost, entity)
             @log << "#{action.entity.name} buys a luxury carriage from #{entity.name} \
-                    for #{@game.format_currency(@game.carriage_cost)} \
+                    for #{@game.format_currency(item.cost)}. \
                     There are #{@game.luxury_carriages.size} luxury carriages left"
-          end
-
-          def skip!
-            pass!
           end
         end
       end
