@@ -553,7 +553,7 @@ module Engine
           'D12' => 'Pajares Mountain Pass',
           'H12' => 'Alar del Rey Mountain Pass',
           'J10' => 'País Vasco (Euskadi) Mountain Pass 1',
-          'M8' => 'País Vasco (Euskadi) Mountain Pass 2',
+          'L8' => 'País Vasco (Euskadi) Mountain Pass 2',
 
           # south map
           'C21' => 'Porto',

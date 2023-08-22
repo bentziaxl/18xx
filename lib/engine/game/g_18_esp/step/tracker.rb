@@ -99,8 +99,9 @@ module Engine
         end
 
         def tracker_available_hex(entity, hex)
+          get_tile_lay(entity)
           return super && @game.mine_hex?(hex) if @round.extra_mine_lay
-
+          
           @round.mine_tile_laid ? super && !@game.mine_hex?(hex) : super
         end
 
@@ -108,6 +109,7 @@ module Engine
           action = super
           # if action is nil, and mine wasn't laid, grant a lay action buy only for mine
           if action.nil? && !@round.mine_tile_laid
+            puts("here in get tile lay, none left, mine tile not laid")
             @round.extra_mine_lay = true
             return { lay: true, upgrade: false, cost: 0 }
           end
