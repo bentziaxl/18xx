@@ -563,6 +563,7 @@ module Engine
           'B26' => 'Badajoz',
           'B30' => 'Huelva',
           'C25' => 'Cáceres',
+          'C27' => 'Mérida',
           'C31' => 'Sevilla',
           'C33' => 'Cádiz',
           'D18' => 'León',
