@@ -317,10 +317,9 @@ module Engine
             Engine::Step::Assign,
             Engine::Step::Exchange,
             Engine::Step::SpecialToken,
-            Engine::Step::BuyCompany,
+            G18ESP::Step::BuyCarriage,
             G18ESP::Step::HomeToken,
             G18ESP::Step::SpecialTrack,
-            G18ESP::Step::SpecialBuy,
             G18ESP::Step::SpecialChoose,
             G18ESP::Step::CombinedTrains,
             G18ESP::Step::Track,
@@ -329,7 +328,8 @@ module Engine
             Engine::Step::DiscardTrain,
             G18ESP::Step::Acquire,
             G18ESP::Step::BuyTrain,
-            [Engine::Step::BuyCompany, { blocks: true }],
+            Engine::Step::BuyCompany,
+            [G18ESP::Step::BuyCarriage, { blocks: true }],
           ], round_num: round_num)
         end
 

@@ -6,12 +6,16 @@ module Engine
   module Game
     module G18ESP
       module Step
-        class SpecialBuy < Engine::Step::SpecialBuy
+        class BuyCarriage < Engine::Step::SpecialBuy
           def actions(entity)
             return [] unless entity == current_entity
             return [] unless can_buy_carriage?(entity)
 
             ACTIONS
+          end
+
+          def description
+            'Buy Company or Carriage'
           end
 
           def can_buy_carriage?(entity)
@@ -28,7 +32,7 @@ module Engine
           end
 
           def short_description
-            'Buy Luxury Carriage'
+            'Buy Luxury Carriage or Company'
           end
 
           def process_special_buy(action)
