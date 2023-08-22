@@ -50,6 +50,10 @@ module Engine
           action.entity.goal_reached!(:destination) if @game.check_for_destination_connection(action.entity)
         end
 
+        def extra_cost(tile, tile_lay, hex)
+          @game.mine_hex?(hex) ? 0 : super
+        end
+
         def mountain_pass_track_restriction(hex, tile, rotation)
           return false unless @game.mountain_pass_access?(hex)
           return false unless tile.color == :yellow
