@@ -157,7 +157,7 @@ module Engine
             variants: [
               {
                 name: '1+2',
-                distance: [{ 'nodes' => %w[town offboard halt], 'pay' => 2, 'visit' => 2 },
+                distance: [{ 'nodes' => %w[town halt], 'pay' => 2, 'visit' => 2 },
                            { 'nodes' => %w[city offboard town halt], 'pay' => 1, 'visit' => 1 }],
                 track_type: :narrow,
                 no_local: true,
@@ -174,7 +174,7 @@ module Engine
             variants: [
               {
                 name: '2+3',
-                distance: [{ 'nodes' => %w[town offboard halt], 'pay' => 3, 'visit' => 3 },
+                distance: [{ 'nodes' => %w[town halt], 'pay' => 3, 'visit' => 3 },
                            { 'nodes' => %w[city offboard town halt], 'pay' => 2, 'visit' => 2 }],
                 track_type: :narrow,
                 price: 200,
@@ -194,7 +194,7 @@ module Engine
             variants: [
               {
                 name: '3+4',
-                distance: [{ 'nodes' => %w[town offboard halt], 'pay' => 4, 'visit' => 4 },
+                distance: [{ 'nodes' => %w[town halt], 'pay' => 4, 'visit' => 4 },
                            { 'nodes' => %w[city offboard town halt], 'pay' => 3, 'visit' => 3 }],
                 track_type: :narrow,
                 price: 300,
@@ -212,7 +212,7 @@ module Engine
             variants: [
               {
                 name: '4+5',
-                distance: [{ 'nodes' => %w[town offboard halt], 'pay' => 5, 'visit' => 5 },
+                distance: [{ 'nodes' => %w[town halt], 'pay' => 5, 'visit' => 5 },
                            { 'nodes' => %w[city offboard town halt], 'pay' => 4, 'visit' => 4 }],
                 track_type: :narrow,
                 price: 500,
@@ -229,7 +229,7 @@ module Engine
             variants: [
               {
                 name: '5+6',
-                distance: [{ 'nodes' => %w[town offboard halt], 'pay' => 6, 'visit' => 6 },
+                distance: [{ 'nodes' => %w[town halt], 'pay' => 6, 'visit' => 6 },
                            { 'nodes' => %w[city offboard town halt], 'pay' => 5, 'visit' => 5 }],
                 track_type: :narrow,
                 price: 600,
@@ -599,7 +599,7 @@ module Engine
 
         def upgrade_cost(old_tile, hex, entity, spender)
           total_cost = super
-          total_cost += MINE_CLOSE_COST if !old_tile.towns.none?(&:halt?) && old_tile.color == :yellow
+          total_cost += MINE_CLOSE_COST if old_tile.towns.any?(&:halt?) && old_tile.color == :yellow
           total_cost
         end
 
@@ -1265,7 +1265,6 @@ module Engine
               new_operating_round
             when Round::Operating
               or_round_finished
-              or_set_finished
               if @phase&.phases&.last == @phase&.current && @turn != @final_turn
                 @turn += 1
                 new_stock_round
@@ -1278,6 +1277,7 @@ module Engine
                   G18ESP::Step::SpecialMerge,
                 ], round_num: @round.round_num)
               else
+                or_set_finished
                 @turn += 1
                 new_stock_round
               end

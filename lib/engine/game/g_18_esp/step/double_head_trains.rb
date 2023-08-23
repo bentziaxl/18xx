@@ -61,7 +61,7 @@ module Engine
             towns = t + t1
 
             distance = [
-              { 'nodes' => %w[town offboard halt], 'pay' => towns, 'visit' => towns },
+              { 'nodes' => %w[town halt], 'pay' => towns, 'visit' => towns },
               { 'nodes' => %w[city offboard town halt], 'pay' => cities, 'visit' => cities },
             ]
 
