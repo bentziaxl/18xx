@@ -599,8 +599,7 @@ module Engine
 
         def upgrade_cost(old_tile, hex, entity, spender)
           total_cost = super
-
-          total_cost += MINE_CLOSE_COST if !old_tile.towns.empty?(&:halt?) && old_tile.color == :yellow
+          total_cost += MINE_CLOSE_COST if !old_tile.towns.none?(&:halt?) && old_tile.color == :yellow
           total_cost
         end
 
