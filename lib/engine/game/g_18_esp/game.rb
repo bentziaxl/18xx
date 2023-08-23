@@ -328,7 +328,7 @@ module Engine
             Engine::Step::DiscardTrain,
             G18ESP::Step::Acquire,
             G18ESP::Step::BuyTrain,
-            Engine::Step::BuyCompany,
+            [Engine::Step::BuyCompany, { blocks: true }],
             [G18ESP::Step::BuyCarriage, { blocks: true }],
           ], round_num: round_num)
         end

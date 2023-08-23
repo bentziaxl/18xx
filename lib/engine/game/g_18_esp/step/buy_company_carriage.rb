@@ -19,7 +19,7 @@ module Engine
           end
 
           def description
-            'Buy Company or Carriage'
+            'Buy Luxury Carriage'
           end
 
           def blocks?
