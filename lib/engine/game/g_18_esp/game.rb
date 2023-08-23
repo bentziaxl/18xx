@@ -1266,8 +1266,8 @@ module Engine
               new_operating_round
             when Round::Operating
               or_round_finished
+              or_set_finished
               if @phase&.phases&.last == @phase&.current && @turn != @final_turn
-                or_set_finished
                 @turn += 1
                 new_stock_round
               elsif @round.round_num < @operating_rounds
@@ -1284,7 +1284,6 @@ module Engine
               end
             when G18ESP::Round::Merger
               close_all_minors!
-              or_set_finished
               @turn += 1
               new_stock_round
             when init_round.class
