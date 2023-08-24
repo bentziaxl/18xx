@@ -47,10 +47,7 @@ module LayTileCheck
   end
 
   def legal_tile_rotation?(entity, hex, tile)
-    legal = hex.tile.towns.empty?(&:halt?) ?  super : halt_upgrade_legal_rotation?(entity, hex, tile)
-    mount_pass_exit = mountain_pass_exit(hex, tile)
-    legal &&= !(@game.pajares_broad? && hex.id == 'E10' && tile_lay_into_pass(hex, tile, mount_pass_exit) == :narrow)
-    legal
+    hex.tile.towns.none?(&:halt?) ?  super : halt_upgrade_legal_rotation?(entity, hex, tile)
   end
 
   def halt_upgrade_legal_rotation?(entity_or_entities, hex, tile)
