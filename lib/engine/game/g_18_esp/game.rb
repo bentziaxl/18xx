@@ -759,7 +759,7 @@ module Engine
         def mountain_pass_token_cost(hex, _entity, p5_ability = false)
           cost = MOUNTAIN_PASS_TOKEN_COST[hex.id]
           cost = 0 if hex.id == 'H12' && p5_ability
-          cost /= 2 if p5_ability
+          cost -= 40 if p5_ability
           cost
         end
 
