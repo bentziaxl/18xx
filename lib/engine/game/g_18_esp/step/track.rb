@@ -89,7 +89,7 @@ module Engine
 
             !entity.moved_token && entity.tokens.dup.count do |token|
               token.used && token.hex
-            end > 1 && entity.cash > move_token_price
+            end > 1 && entity.cash >= move_token_price
           end
 
           def process_remove_token(action)

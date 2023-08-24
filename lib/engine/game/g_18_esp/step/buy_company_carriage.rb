@@ -30,7 +30,7 @@ module Engine
             # have p4 ability left, have 30 bucks, doesn't own carriage
             !@game.luxury_ability(entity) &&
             @game.luxury_carriages.size.positive? &&
-            entity.cash > @game.carriage_cost
+            entity.cash >= @game.carriage_cost
           end
 
           def buyable_items(_entity)

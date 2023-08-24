@@ -14,7 +14,7 @@ module View
         @step = @game.active_step
         current_entity = @game.round.current_entity
         base_trains = @game.combined_base_trains_candidates(current_entity)
-        obsolete_trains = @game.combined_obsolete_trains_candidates
+        obsolete_trains = @game.combined_obsolete_trains_candidates(current_entity)
 
         rendered_base_trains = base_trains.flat_map do |train|
           onclick = lambda do

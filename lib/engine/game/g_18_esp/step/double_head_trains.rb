@@ -16,7 +16,7 @@ module Engine
           def actions(entity)
             return [] unless entity == current_entity
             return [] unless entity.corporation?
-            return [] unless @game.combined_obsolete_trains_candidates.size.positive?
+            return [] unless @game.combined_obsolete_trains_candidates(entity).size.positive?
             return [] unless @game.combined_base_trains_candidates(entity).size.positive?
             return [] unless @game.can_run_route?(entity)
 
@@ -33,8 +33,12 @@ module Engine
             joined_trains = "#{base.name}, #{additional_train.name}"
             create_double_headed_train!(base, additional_train)
 
+            cost = additional_train.price * 2
+
+            corporation.spend(cost, @game.bank)
+
             @log << "#{corporation.name} forms "\
-                    "#{base.name} train by combining trains: #{joined_trains}"
+                    "#{base.name} train by combining trains: #{joined_trains} for #{@game.format_currency(cost)}"
           end
 
           def create_double_headed_train!(base, additional_train)

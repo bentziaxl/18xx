@@ -47,7 +47,7 @@ module LayTileCheck
   end
 
   def legal_tile_rotation?(entity, hex, tile)
-    hex.tile.towns.none?(&:halt?) ?  super : halt_upgrade_legal_rotation?(entity, hex, tile)
+    hex.tile.towns.none?(&:halt?) ? super : halt_upgrade_legal_rotation?(entity, hex, tile)
   end
 
   def halt_upgrade_legal_rotation?(entity_or_entities, hex, tile)

@@ -836,20 +836,6 @@ module Engine
           bonus
         end
 
-        def gbi_bm_interchange_bonus(routes)
-          bonus = { revenue: 0 }
-          return bonus unless north_corp?(routes.first&.train&.owner)
-
-          leon = routes.select { |r| r.stops.find { |st| st.hex.id == 'D18' } }
-          sanseb = routes.select { |r| r.stops.find { |st| st.hex.id == 'H16' } }
-
-          if leon.length > 1
-            bonus = gbi_bm_bonus(leon.flat_map(&:stops))
-          elsif sanseb.length > 1
-            bonus = gbi_bm_bonus(sanseb.flat_map(&:stops))
-          end
-          bonus
-        end
 
         def tokened_mountain_pass(hex, entity)
           mountain_pass_token_hex?(hex) &&
@@ -866,21 +852,6 @@ module Engine
           bonus = gbi_bm_bonus(route.stops)[:description]
           rev_str += " + #{bonus}" if bonus
 
-          rev_str
-        end
-
-        def routes_revenue(routes)
-          revenue = super
-          bonus = gbi_bm_interchange_bonus(routes)[:revenue]
-          revenue += bonus if bonus
-          revenue
-        end
-
-        def submit_revenue_str(routes, show_subsidy)
-          rev_str = super
-
-          bonus = gbi_bm_interchange_bonus(routes)[:description]
-          rev_str += " + #{bonus}" if bonus
           rev_str
         end
 
@@ -1285,7 +1256,9 @@ module Engine
           corporation.trains.reject { |t| double_headed_trains.include?(t) }
         end
 
-        def combined_obsolete_trains_candidates
+        def combined_obsolete_trains_candidates(corporation)
+          return unless corporation
+
           @depot.trains.select(&:rusted).uniq { |train| train.variants.keys[0] }
         end
 
