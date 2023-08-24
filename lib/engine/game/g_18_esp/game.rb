@@ -646,6 +646,29 @@ module Engine
           routes.sum(&:subsidy)
         end
 
+        def check_overlap(routes)
+          tracks = {}
+
+          check = lambda do |key|
+            raise GameError, "Route cannot reuse track on #{key[0].id}" if tracks[key]
+
+            tracks[key] = true
+          end
+
+          routes.each do |route|
+            route.paths.each do |path|
+              a = path.a
+              b = path.b
+
+              check.call([path.hex, a.num, path.lanes[0][1]]) if a.edge?
+              check.call([path.hex, b.num, path.lanes[1][1]]) if b.edge?
+
+              # check intra-tile paths between nodes
+              check.call([path.hex, path]) if path.nodes.size > 1
+            end
+          end
+        end
+
         def check_other(route)
           check_track_type(route)
         end
