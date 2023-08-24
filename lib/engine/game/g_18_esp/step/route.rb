@@ -40,8 +40,8 @@ module Engine
             @orginal_train = @luxury_train.dup
             distance = @luxury_train.distance
             @luxury_train.name += '+1'
-            @luxury_train.distance = [{ 'nodes' => ['town'], 'pay' => 1, 'visit' => 1 },
-                                      { 'nodes' => %w[city offboard town], 'pay' => distance, 'visit' => distance }]
+            @luxury_train.distance = [{ 'nodes' => %w[town halt], 'pay' => 1, 'visit' => 1 },
+                                      { 'nodes' => %w[city offboard town halt], 'pay' => distance, 'visit' => distance }]
           end
 
           def luxury_train_choices(entity)
