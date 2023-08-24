@@ -18,7 +18,6 @@ module Engine
           end
 
           def share_price_change(entity, revenue = 0)
-            price = entity.share_price.price
             return { share_direction: :left, share_times: 1 } unless revenue.positive?
 
             times = 1 if revenue.positive?

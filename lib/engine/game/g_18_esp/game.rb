@@ -847,31 +847,16 @@ module Engine
           MOUNTAIN_PASS_TOKEN_HEXES.include?(hex.id)
         end
 
-        def visited_stops(route)
-          route_stops = super
-          route_stops.reject { |stop| mountain_pass_token_hex?(stop.hex) && stop.tokened_by?(route.train.owner) }
-        end
-
         def render_halts?
           true
         end
 
-        def check_distance(route, visits, train = nil)
+        def check_distance(route, visits)
           entity = route.corporation
-
-          if mountain_pass_token_hex?(route.hexes.first) || mountain_pass_token_hex?(route.hexes.last)
-            raise GameError,
-                  'Route can not end or start in Mountain pass'
-          end
 
           if entity.type == :minor && visits.any?(&:offboard?)
             raise GameError,
                   'Minors can not run to offboard locations'
-          end
-
-          if mountain_pass_token_hex?(route.hexes.first) || mountain_pass_token_hex?(route.hexes.last)
-            raise GameError,
-                  'Route can not end or start in Mountain pass'
           end
 
           if double_headed_trains.include?(route.train) && route.hexes.none? { |hex| mountain_pass_token_hex?(hex) }
@@ -881,47 +866,7 @@ module Engine
 
           raise GameError, 'Route can only use one mountain pass' if route.hexes.count { |hex| mountain_pass_token_hex?(hex) } > 1
 
-          train ||= route.train
-          distance = train.distance
-          if distance.is_a?(Numeric)
-            route_distance = visits.sum(&:visit_cost)
-            raise RouteTooLong, "#{route_distance} is too many stops for #{distance} train" if distance < route_distance
-
-            return
-          end
-
-          type_info = Hash.new { |h, k| h[k] = [] }
-
-          distance.each do |h|
-            pay = h['pay']
-            visit = h['visit'] || pay
-            info = { pay: pay, visit: visit }
-            h['nodes'].each do |type|
-              type_info[type] << info
-            end
-          end
-
-          grouped = visits.group_by { |visit| mountain_pass_token_hex?(visit.hex) ? 'town' : visit.type }
-
-          grouped.sort_by { |t, _| type_info[t].size }.each do |type, group|
-            num = group.sum(&:visit_cost)
-
-            type_info[type].each do |info|
-              next unless info[:visit].positive?
-
-              if num <= info[:visit]
-                info[:visit] -= num
-                num = 0
-              else
-                num -= info[:visit]
-                info[:visit] = 0
-              end
-
-              break unless num.positive?
-            end
-
-            raise RouteTooLong, 'Route has too many stops' if num.positive?
-          end
+          super
         end
 
         def valid_interchange?(tile)
@@ -1026,12 +971,6 @@ module Engine
           bonus = gbi_bm_interchange_bonus(routes)[:description]
           rev_str += " + #{bonus}" if bonus
           rev_str
-        end
-
-        def route_distance_str(route)
-          towns = route.visited_stops.count { |visit| mountain_pass_token_hex?(visit.hex) ? 1 : visit.town? }
-          cities = route_distance(route) - towns
-          towns.positive? ? "#{cities}+#{towns}" : cities.to_s
         end
 
         def start_merge(corporation, minor, keep_token)
