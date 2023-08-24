@@ -34,7 +34,7 @@ module Engine
           tile_frame = old_tile.frame
           super
 
-          if @game.mine_hex?(action.hex)
+          if @game.mine_hex?(action.hex) && old_tile.color == :white
             @round.num_laid_track -= 1
             @round.mine_tile_laid = true
           end

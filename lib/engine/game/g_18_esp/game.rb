@@ -836,7 +836,6 @@ module Engine
           bonus
         end
 
-
         def tokened_mountain_pass(hex, entity)
           mountain_pass_token_hex?(hex) &&
           hex.tile.stops.first.tokened_by?(entity)
