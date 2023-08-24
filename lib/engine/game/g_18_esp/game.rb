@@ -728,7 +728,7 @@ module Engine
           mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex), entity, p5_ability)
           entity.spend(mount_pass_cost, @bank) if mount_pass_cost.positive?
 
-          opened_mountain_passes[pass_hex] = track_type
+          opened_mountain_passes[pass_hex] = :dual
           pass_tile.cities.first.remove_tokens!
 
           entity_name = p5_ability ? "#{entity.name} (#{p5.name})" : entity.name
