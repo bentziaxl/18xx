@@ -1258,7 +1258,11 @@ module Engine
         def combined_obsolete_trains_candidates(corporation)
           return unless corporation
 
-          @depot.trains.select(&:rusted).uniq { |train| train.variants.keys[0] }
+          rusted_trains = @depot.trains.select do |train|
+            train.rusted && corporation.cash >= 2 * train.price
+          end
+
+          rusted_trains.uniq { |train| train.variants.keys[0] }
         end
 
         def update_trains_cache
