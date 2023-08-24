@@ -5,7 +5,7 @@ module Engine
     module G18ESP
       class Corporation < Engine::Corporation
         attr_reader :destination, :goals_reached_counter
-        attr_accessor :destination_connected, :ran_offboard, :ran_southern_map, :taken_over_minor, :moved_token
+        attr_accessor :destination_connected, :ran_offboard, :ran_harbor_mine, :taken_over_minor, :moved_token
 
         def initialize(game, sym:, name:, **opts)
           @game = game
@@ -29,15 +29,15 @@ module Engine
           @ran_offboard
         end
 
-        def ran_southern_map?
-          @ran_southern_map
+        def ran_harbor_mine?
+          @ran_harbor_mine
         end
 
         def goal_reached!(type)
           old_reached_counter = @goals_reached_counter
           destination_goal_reached! if type == :destination
           offboard_goal_reached! if type == :offboard
-          ran_southern_map_goal_reached! if type == 'southern map'
+          ran_harbor_mine_reached! if type == :harbor_mine
           minor_takeover_reached! if type == :takeover
 
           return if old_reached_counter == @goals_reached_counter
@@ -68,10 +68,10 @@ module Engine
           @goals_reached_counter += 1
         end
 
-        def ran_southern_map_goal_reached!
-          return if @ran_southern_map
+        def ran_harbor_mine_reached!
+          return if @ran_harbor_mine
 
-          @ran_southern_map = true
+          @ran_harbor_mine = true
           @goals_reached_counter += 1
         end
 

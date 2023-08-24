@@ -540,7 +540,7 @@ module Engine
             # all goals reached, no extra cap
             corporation.destination_connected = true
             corporation.ran_offboard = true
-            corporation.ran_southern_map = true
+            corporation.ran_harbor_mine = true
             corporation.taken_over_minor = true
             share_count = 10 if @full_cap
           end
@@ -590,7 +590,7 @@ module Engine
 
           status << ["Destination #{corporation.destination}"] unless corporation.destination_connected?
           status << ['Offboard'] unless corporation.ran_offboard?
-          status << ['Run South'] if north_corp?(corporation) && !corporation.ran_southern_map?
+          status << ['Run mine to harbor'] if north_corp?(corporation) && !corporation.ran_harbor_mine?
           status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor
 
           status = nil if status.length == 1
@@ -683,17 +683,15 @@ module Engine
           routes.any? { |route| route.visited_stops.any? { |visit| visit.offboard? && visit.tile.color == :red } }
         end
 
-        def check_southern_map_goal(entity, routes)
+        def check_harbor_mine_goal(entity, routes)
           return false unless entity.corporation?
           return false unless north_corp?(entity)
           return false if entity.type == :minor
-          return true if entity.ran_southern_map?
+          return true if entity.ran_harbor_mine?
 
-          # logic to check if narrow track train connects to target cities
+          # logic to check if route contains both mine and harbor
           routes.any? do |route|
-            next unless route.train.track_type == :narrow
-
-            route.visited_stops.any? { |stop| %w[H16 D18].include?(stop.hex.id) }
+            route.stops.any?(&:halt?) && route.stops.any? { |stop| stop.tile.color == :blue }
           end
         end
 

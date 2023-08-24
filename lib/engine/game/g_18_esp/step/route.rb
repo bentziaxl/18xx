@@ -60,7 +60,7 @@ module Engine
 
           def process_run_routes(action)
             action.entity.goal_reached!(:offboard) if @game.check_offboard_goal(action.entity, action.routes)
-            action.entity.goal_reached!('southern map') if @game.check_southern_map_goal(action.entity, action.routes)
+            action.entity.goal_reached!(:harbor_mine) if @game.check_harbor_mine_goal(action.entity, action.routes)
             super
 
             detach_luxury if @luxury_train
