@@ -718,19 +718,11 @@ module Engine
           end
         end
 
-        def mountain_pass_proposed_track_type(entity)
-          return :broad unless north_corp?(entity)
-
-          entity.interchange? ? :dual : :narrow
-        end
-
         def open_mountain_pass(entity, pass_hex, p5_ability = false)
           pass_tile = hex_by_id(pass_hex).tile
-          track_type = mountain_pass_proposed_track_type(entity)
-          track_type = track_type_into_mountain_pass(hex_by_id(pass_hex)) if track_type == :dual
 
           pass_tile.paths.each do |path|
-            path.walk { |p| p.track = track_type if p.tile.color == :orange }
+            path.walk { |p| p.track = :dual if p.tile.color == :orange }
           end
 
           mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex), entity, p5_ability)
@@ -754,21 +746,6 @@ module Engine
           end
           openable_passes = openable_passes.reject { |hex| opened_mountain_passes.key?(hex.id) }
 
-          # reject passes if track type is wrong
-          openable_passes = openable_passes.reject do |pass_hex|
-            track_restriction = track_type_into_mountain_pass(pass_hex)
-            next false unless track_restriction
-
-            proposed_track_type = mountain_pass_proposed_track_type(entity)
-
-            next true if pajares_broad? && pass_hex.id == 'D12' && proposed_track_type != :broad
-
-            next false if proposed_track_type == :dual
-
-            proposed_track_type != track_restriction
-          end
-          return {} if openable_passes.empty? || last_track_type?(entity, openable_passes)
-
           if p5_ability && !opened_mountain_passes.key?('H12')
             alar_pass = openable_passes.select { |hex| hex.id == 'H12' }
             openable_passes = alar_pass || {}
@@ -777,63 +754,6 @@ module Engine
           openable_passes.to_h do |hex|
             [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex, entity, p5_ability))})"]
           end
-        end
-
-        def graph_skip_paths(_entity)
-          @skip_paths ||= {}
-          return @skip_paths unless @skip_paths.empty?
-
-          MOUNTAIN_PASS_TOKEN_HEXES.each do |hex_id|
-            hex = hex_by_id(hex_id)
-            hex.tile.paths.each do |path|
-              path.exits.each do |exit|
-                neighbor = hex.neighbors[exit]
-                ntile = neighbor&.tile
-                next false unless ntile&.color == :orange
-
-                @skip_paths[path] = true
-                ntile.paths.each { |ntile_path| @skip_paths[ntile_path] = true }
-              end
-            end
-          end
-          @skip_paths.empty? ? nil : @skip_paths
-        end
-
-        def track_type_into_mountain_pass(hex)
-          return unless hex.tile
-
-          npath = hex.tile.paths.map do |path|
-            path.exits.map do |exit|
-              neighbor = hex.neighbors[exit]
-              ntile = neighbor&.tile
-              next unless ntile
-              next if ntile.color == :orange
-
-              npath = ntile.paths.map { |b| b if path.connects_to?(b, nil) }
-              npath.first if npath
-            end.compact
-          end.compact.flatten
-
-          return unless npath&.first
-
-          npath.first.track
-        end
-
-        def last_track_type?(entity, openable_passes)
-          return false unless openable_passes.length == 1
-
-          opened_passes_uniq = opened_mountain_passes.values.uniq
-          last_pass_different = opened_passes_uniq.length == 1 && opened_mountain_passes.length == 3
-          return false unless last_pass_different
-
-          proposed_track_type = mountain_pass_proposed_track_type(entity)
-          last_mountain_pass = MOUNTAIN_PASS_TOKEN_HEXES - openable_passes
-          proposed_track_type = track_type_into_mountain_pass(last_mountain_pass) if proposed_track_type == :dual
-
-          return false unless opened_passes_uniq.first == proposed_track_type
-
-          @log << 'Last mountain pass must be of a different track type, skipping opening mountain pass'
-          true
         end
 
         def mountain_pass_token_cost(hex, _entity, p5_ability = false)
@@ -886,15 +806,6 @@ module Engine
           revenue *= 3 if final_ors? && @round.round_num == @operating_rounds && north_corp?(route.train.owner)
 
           revenue
-        end
-
-        def aranjuez?(stop)
-          stop.paths.any? do |p|
-            p.exits.any? do |exit|
-              neighbor = stop.hex.neighbors[exit]
-              neighbor&.id == 'F24'
-            end
-          end
         end
 
         def east_west_bonus(stops)
