@@ -20,7 +20,7 @@ module Engine
               {
                 type: 'tile_lay',
                 hexes: MINE_HEXES,
-                tiles: %w[L89 L90 L91 L92 L93 L94 L95 L96 L98 L99 L100],
+                tiles: [],
                 free: false,
                 when: 'track',
                 discount: 30,

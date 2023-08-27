@@ -165,7 +165,7 @@ module Engine
               raise GameError, "Track laid must be connected to one of #{spender.id}'s stations" if ability.reachable &&
                 hex.name != spender.coordinates &&
                 !@game.loading &&
-                !graph.reachable_hexes(spender)[hex]
+                !graph.connected_hexes(spender)[hex]
 
               free ||= ability.free
               discount += ability.discount
