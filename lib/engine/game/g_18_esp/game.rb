@@ -386,7 +386,7 @@ module Engine
         def init_graph
           Graph.new(self, ignore_skip_path: true)
         end
-        
+
         def setup_company_price(mulitplier)
           @companies.each { |company| company.max_price = company.value * mulitplier }
         end

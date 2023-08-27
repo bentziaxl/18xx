@@ -12,8 +12,6 @@ module Engine
             # Cannot buy F train
             trains = super
             trains.reject! { |t| t.track_type == :narrow } if entity.type == :minor
-            trains.reject! { |t| t.track_type == :broad && t.owner != @depot } unless room_for_type?(entity, :broad)
-            trains.reject! { |t| t.track_type == :narrow && t.owner != @depot } unless room_for_type?(entity, :narrow)
             trains.select!(&:from_depot?) unless @game.can_buy_trains
             trains
           end
@@ -22,8 +20,6 @@ module Engine
             trains = super
 
             trains.reject! { |v| type?(v[:name], :narrow) } if entity.type == :minor
-            trains.reject! { |v| type?(v[:name], :broad) } unless room_for_type?(entity, :broad)
-            trains.reject! { |v| type?(v[:name], :narrow) } unless room_for_type?(entity, :narrow)
             trains
           end
 
@@ -43,16 +39,7 @@ module Engine
           end
 
           def room?(entity, _shell = nil)
-            return room_for_type?(entity, :narrow) || room_for_type?(entity, :broad) if @game.phase.available?('4')
-
             entity.trains.count { |t| !@game.extra_train?(t) } < @game.train_limit(entity)
-          end
-
-          def room_for_type?(entity, type)
-            return room?(entity) unless @game.phase.available?('4')
-
-            trains = entity.trains.reject { |t| @game.extra_train?(t) }.group_by(&:track_type)
-            (trains[type]&.size || 0) < @game.train_limit_by_type(entity, type)
           end
         end
       end
