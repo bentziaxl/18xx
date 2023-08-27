@@ -783,6 +783,8 @@ module Engine
 
           raise GameError, 'Route can only use one mountain pass' if route.hexes.count { |hex| mountain_pass_token_hex?(hex) } > 1
 
+          raise GameError, 'Route visits same hex twice' if route.hexes.size != route.hexes.uniq.size
+
           super
         end
 
