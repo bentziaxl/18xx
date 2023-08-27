@@ -30,20 +30,9 @@ module Engine
           def process_choose_ability(action)
             corp = action.entity.owner
             @game.open_mountain_pass(corp, action.choice, true)
-            place_token_in_pass(corp, action.choice)
             @game.graph_for_entity(corp).clear
             @log << "#{action.entity.name} closes"
             action.entity.close!
-          end
-
-          def place_token_in_pass(corp, mountain_pass)
-            hex = @game.hex_by_id(mountain_pass)
-            tile = hex.tile
-            city = tile.cities.first
-            @round.tokened_mountain_pass = city
-            token = Token.new(corp, price: 0)
-            corp.tokens << token
-            place_token(corp, city, token, extra_action: true)
           end
         end
       end

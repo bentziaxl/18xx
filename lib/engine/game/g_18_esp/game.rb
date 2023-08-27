@@ -386,11 +386,7 @@ module Engine
         def init_graph
           Graph.new(self, ignore_skip_path: true)
         end
-
-        def company_header(_company)
-          'PIONEER COMPANY'
-        end
-
+        
         def setup_company_price(mulitplier)
           @companies.each { |company| company.max_price = company.value * mulitplier }
         end
@@ -506,7 +502,7 @@ module Engine
         end
 
         def event_close_companies!
-          @log << '-- Event: Pioneer companies close --'
+          @log << '-- Event: Private companies close --'
           @companies.each do |company|
             if (ability = abilities(company, :close, on_phase: 'any')) && (ability.on_phase == 'never' ||
                       @phase.phases.any? { |phase| ability.on_phase == phase[:name] })
@@ -757,8 +753,9 @@ module Engine
         end
 
         def mountain_pass_token_cost(hex, _entity, p5_ability = false)
+          return 0 if hex.id == 'H12' && p5_ability
+
           cost = MOUNTAIN_PASS_TOKEN_COST[hex.id]
-          cost = 0 if hex.id == 'H12' && p5_ability
           cost -= 40 if p5_ability
           cost
         end

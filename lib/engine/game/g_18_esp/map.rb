@@ -182,7 +182,7 @@ module Engine
           '88' => 2,
           '89' => 2,
           '204' => 5,
-          'A5' => {
+          'L114' => {
             'count' => 5,
             'color' => 'green',
             'code' =>

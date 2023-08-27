@@ -64,7 +64,7 @@ module Engine
                   'or minor company). Each luxury carriage costs pts30. The fourth luxury carriage remains with ' \
                   'the company until it is bought by a major or minor company. '\
                   'Then the fourth luxury carriage belongs to the company that bought this '\
-                  'pioneer. The director of the company that buys this pioneer can assign '\
+                  'private. The director of the company that buys this private can assign '\
                   'its luxury carriage to a train of his choice in each RO. '\
                   'Note that the other three luxury carriages cannot be used, as they' \
                   'are only available for sale. The same train can carry the luxury carriage '\
