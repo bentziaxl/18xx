@@ -999,9 +999,11 @@ module Engine
         end
 
         def place_home_token(corporation)
-          if corporation.id == 'MZA' && corporation_by_id('MZ').ipoed && !corporation.tokens.first.city
+          if corporation.id == 'MZA' && corporation_by_id('MZ').ipoed && !corporation.tokens.first.used
             token = corporation.tokens.first
-            city = city_by_id('F24-0-2')
+            hex = hex_by_id(corporation.coordinates)
+            city = city_by_id("#{hex.tile.id}-#{corporation.city}")
+            @log << "#{corporation.name} places a token on #{hex.id}"
             city.place_token(corporation, token, cheater: true)
           else
             super
