@@ -9,7 +9,7 @@ module Engine
         class SpecialMerge < Engine::Step::Base
           def actions(entity)
             return [] if !entity.corporation? || entity != current_entity
-            return [] if @game.corporations.empty? do |c|
+            return [] if @game.corporations.none? do |c|
                            c.floated? && !c.taken_over_minor && c.type != :minor && !@game.north_corp?(c)
                          end
 

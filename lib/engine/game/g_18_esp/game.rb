@@ -220,8 +220,7 @@ module Engine
                 price: 500,
               },
             ],
-            events: [{ 'type' => 'close_companies' },
-                     { 'type' => 'close_minors' }],
+            events: [{ 'type' => 'close_companies' }],
           },
           {
             name: '6',
@@ -486,21 +485,19 @@ module Engine
           @pajares_broad ||= @optional_rules.include?(:pajares_broad)
         end
 
-        def event_close_minors!
-          @corporations.dup.each do |c|
-            next unless c
-            next unless c.floated?
-
-            c.shares.last&.buyable = true
-          end
-        end
-
         def close_all_minors!
           @corporations.dup.each do |c|
             next unless c
             next unless c.type == :minor
 
             close_corporation(c)
+          end
+
+          @corporations.dup.each do |c|
+            next unless c
+            next unless c.floated?
+
+            c.shares.last&.buyable = true
           end
         end
 
@@ -898,27 +895,11 @@ module Engine
 
         def pay_compensation(corporation, minor)
           share_price = minor.share_price
+          payout = share_price ? minor.share_price.price : 0
 
-          per_share = share_price ? minor.share_price.price : 0
-          payouts = {}
-          @players.each do |player|
-            amount = player.num_shares_of(minor) * per_share
-            next if amount.zero?
+          corporation.spend(payout, minor.owner)
 
-            amount -= corporation.share_price.price if minor.president?(player)
-            next unless amount.positive?
-
-            payouts[player] = amount
-            @bank.spend(amount, player)
-          end
-
-          return if payouts.empty?
-
-          receivers = payouts
-                          .sort_by { |_r, c| -c }
-                          .map { |receiver, cash| "#{receiver.name} gets #{format_currency(cash)} compensation " }.join(', ')
-
-          @log << receivers.to_s
+          @log << "#{minor.owner.name} gets #{format_currency(payout)} compensation"
         end
 
         def get_reserved_share(owner, corporation)
@@ -936,7 +917,7 @@ module Engine
         end
 
         def gain_token(corporation, minor)
-          blocked_token = corporation.tokens.find { |token| token.used == true && !token.hex && token.price == 100 }
+          blocked_token = corporation.tokens.find { |token| token.used == true && !token.hex && token.price == 50 }
           blocked_token&.used = false
           delete_token_mz(minor) if minor&.name == 'MZ'
         end
@@ -975,11 +956,11 @@ module Engine
           return gain_token(survivor) unless city
 
           @log << "Replaced #{nonsurvivor.name} token in #{city.hex.id} with #{survivor.name}"\
-                  " token for #{format_currency(100)}"
+                  " token for #{format_currency(50)}"
           new_token.place(city)
           city.tokens[city.tokens.find_index(old_token)] = new_token
           nonsurvivor.tokens.delete(old_token)
-          survivor.spend(100, @bank)
+          survivor.spend(50, @bank)
         end
 
         def move_assets(survivor, nonsurvivor)
