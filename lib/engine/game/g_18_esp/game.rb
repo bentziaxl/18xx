@@ -60,6 +60,8 @@ module Engine
 
         NORTH_SOUTH_DIVIDE = 13
 
+        ARANJUEZ_HEX = 'F26'
+
         BASE_MINE_BONUS = { yellow: 30, green: 20, brown: 10, gray: 0 }.freeze
 
         # NEXT_SR_PLAYER_ORDER = :least_cash
@@ -361,6 +363,7 @@ module Engine
           @company_trains = {}
           @company_trains['P2'] = find_and_remove_train_for_minor('2-0')
           @company_trains['P3'] = find_and_remove_train_for_minor('2P-0', buyable: false)
+          @perm2_ran_aranjuez = false
 
           setup_company_price(1)
 
@@ -785,7 +788,24 @@ module Engine
 
           raise GameError, 'Route visits same hex twice' if route.hexes.size != route.hexes.uniq.size
 
+          if route.train.name == '2P' && !@perm2_ran_aranjuez && route.hexes.none? do |hex|
+               hex.id == ARANJUEZ_HEX
+             end
+            raise GameError,
+                  '2P first run must include Aranjuez'
+          end
+
           super
+        end
+
+        def check_p2_aranjuez(routes)
+          return unless @perm2_ran_aranjuez
+
+          @perm2_ran_aranjuez = true if routes.any? do |route|
+                                          route.train.id == '2P' && route.hexes.any? do |hex|
+                                            hex.id == ARANJUEZ_HEX
+                                          end
+                                        end
         end
 
         def valid_interchange?(tile)
@@ -1082,8 +1102,8 @@ module Engine
 
         def convert_p3_into_2p
           train = @company_trains[p3.id]
-          buy_train(p3, train, :free)
-          @log << "#{p3.name} gains a #{train.name} train"
+          buy_train(p3.owner, train, :free)
+          @log << "#{p3.owner.name} gains a #{train.name} train"
           @company_trains.delete(p3.id)
         end
 
@@ -1253,7 +1273,7 @@ module Engine
         def combined_base_trains_candidates(corporation)
           return unless corporation
 
-          corporation.trains.reject { |t| double_headed_trains.include?(t) }
+          corporation.trains.reject { |t| double_headed_trains.include?(t) || t.name == '2P' }
         end
 
         def combined_obsolete_trains_candidates(corporation)

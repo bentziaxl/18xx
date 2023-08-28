@@ -9,10 +9,6 @@ module Engine
       module Step
         class SpecialTrack < Engine::Step::SpecialTrack
           include LayTileCheck
-          def process_lay_tile(action)
-            super
-          end
-
           def close!(company, owner)
             owner.companies.delete(company)
             company.owner = nil
