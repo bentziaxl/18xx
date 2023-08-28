@@ -90,7 +90,7 @@ module Engine
           def can_swap?
             @merging.last.tokens.first.used &&
             !special_minor_or_mz?(@merging.last) &&
-            current_entity.cash >= 100
+            @merging.first.tokens.none? { |token| token.hex == @merging.last.tokens.first.hex }
           end
 
           def special_minor_or_mz?(entity)
