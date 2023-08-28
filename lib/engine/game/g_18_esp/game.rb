@@ -956,7 +956,7 @@ module Engine
           return gain_token(survivor) unless city
 
           @log << "Replaced #{nonsurvivor.name} token in #{city.hex.id} with #{survivor.name}"\
-                  ' token}'
+                  ' token'
           new_token.place(city)
           city.tokens[city.tokens.find_index(old_token)] = new_token
           nonsurvivor.tokens.delete(old_token)
@@ -1012,6 +1012,7 @@ module Engine
         end
 
         def graph_for_entity(entity)
+          entity = entity.owner if !entity.corporation? && entity.owner.corporation?
           north_corp?(entity) ? @graph : @broad_graph
         end
 
@@ -1092,6 +1093,9 @@ module Engine
           return if train.rusted
 
           if entity.trains.size < train_limit(entity)
+            needed_track_type = north_corp?(entity) ? :narrow : :broad
+            variant = train.variants.values.find { |v| v[:track_type] == needed_track_type }
+            train.variant = variant[:name] if variant
             buy_train(entity, train, :free)
             @log << "#{entity.name} gains a #{train.name} train"
           end
