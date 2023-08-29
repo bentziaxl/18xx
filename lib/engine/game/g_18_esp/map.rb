@@ -676,11 +676,11 @@ module Engine
             %w[H30] => 'halt=symbol:⚒,route:mandatory;upgrade=cost:30,terrain:mine;border=edge:2,type:impassable',
             %w[E7] => 'halt=symbol:⚒,route:mandatory;town=revenue:0;upgrade=cost:30,terrain:mine;icon=image:18_esp/CFLG,sticky:1',
             %w[B26 C27] => 'city=revenue:0;upgrade=cost:20,terrain:river',
-            %w[D6] => 'city=revenue:0;city=revenue:0;upgrade=cost:10,terrain:river;label=OO',
+            %w[D6] => 'city=revenue:0;city=revenue:0;upgrade=cost:10,terrain:river;label=OO;future_label=label:Y,color:brown',
             %w[J20] => 'city=revenue:0;city=revenue:0;upgrade=cost:20,terrain:river;' \
-                       'icon=image:18_esp/ZPB,sticky:1;label=OO',
+                       'icon=image:18_esp/ZPB,sticky:1;label=OO;future_label=label:Y,color:brown',
             %w[C31] => 'city=revenue:0;city=revenue:0;upgrade=cost:20,terrain:river;'\
-                       'icon=image:18_esp/A,sticky:1;label=OO',
+                       'icon=image:18_esp/A,sticky:1;label=OO;future_label=label:Y,color:brown',
             %w[E21] => 'city=revenue:0;upgrade=cost:20,terrain:river;icon=image:18_esp/N,sticky:1',
             %w[F4 F6] => 'town=revenue:0;upgrade=cost:10,terrain:river',
             %w[K21] => 'upgrade=cost:20,terrain:river',
