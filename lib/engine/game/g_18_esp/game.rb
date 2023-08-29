@@ -836,7 +836,7 @@ module Engine
           bonus = { revenue: 0 }
 
           bm = stops.find { |stop| %w[M B].include?(stop.tile.label&.to_s) }
-          gbi = stops.find { |stop| %w[G Bi].include?(stop.tile.label&.to_s) }
+          gbi = stops.find { |stop| %w[Y].include?(stop.tile.label&.to_s) && north_hex?(stop.hex) }
 
           if bm && gbi
             bonus[:revenue] += 100
