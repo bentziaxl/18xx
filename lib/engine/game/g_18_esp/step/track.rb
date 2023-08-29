@@ -43,7 +43,6 @@ module Engine
             end
             super
             @game.graph.clear
-            @game.broad_graph.clear
           end
 
           def round_state

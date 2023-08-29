@@ -2,48 +2,31 @@
 
 module LayTileCheck
   def potential_tiles(entity, hex)
-    corp = entity.corporation? ? entity : entity.owner
     tiles = selected_tiles(entity, hex).uniq(&:name)
       .select { |t| @game.upgrades_to?(hex.tile, t) }
       .reject(&:blocks_lay)
 
-    unless @game.north_hex?(hex)
-      tiles = tiles.reject do |tile|
+    if @game.north_hex?(hex)
+      tiles.reject do |tile|
         tile.paths.any? do |path|
-          path.track == :narrow || path.track == :dual
+          path.track == :broad
         end
       end
-    end
-
-    unless @game.north_corp?(corp)
-      tiles = tiles.reject do |tile|
-        tile.paths.all? do |path|
+    else
+      tiles.reject do |tile|
+        tile.paths.any? do |path|
           path.track == :narrow
         end
       end
     end
-    tiles
   end
 
   def selected_tiles(entity, hex)
     colors = potential_tile_colors(entity, hex)
     @game.tiles.select do |tile|
       @game.tile_valid_for_phase?(tile, hex: hex,
-                                        phase_color_cache: colors) && tile_valid_for_entity(entity, tile, hex)
+                                        phase_color_cache: colors)
     end
-  end
-
-  def tile_valid_for_entity(entity, tile, hex)
-    narrow_only?(entity, hex) ? tile.paths.any? { |p| p.track == :narrow || p.track == :dual } : true
-  end
-
-  def narrow_only?(entity, hex)
-    corp = entity.corporation? ? entity : entity.owner
-    @game.north_corp?(corp) && !(corp.interchange? && hex_reached_by_broad(corp, hex))
-  end
-
-  def hex_reached_by_broad(entity, hex)
-    @game.broad_graph.connected_hexes(entity).include?(hex)
   end
 
   def legal_tile_rotation?(entity, hex, tile)

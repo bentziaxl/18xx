@@ -18,7 +18,7 @@ module Engine
         include CitiesPlusTownsRouteDistanceStr
         include DoubleSidedTiles
 
-        attr_reader :can_build_mountain_pass, :broad_graph, :special_merge_step, :can_buy_trains
+        attr_reader :can_build_mountain_pass, :special_merge_step, :can_buy_trains
 
         attr_accessor :player_debts, :double_headed_trains, :luxury_carriages
 
@@ -119,7 +119,7 @@ module Engine
                   {
                     name: '5',
                     on: '5',
-                    train_limit: 3,
+                    train_limit: { minor: 1, major: 3 },
                     tiles: %i[yellow green brown],
                     operating_rounds: 3,
                     status: %w[],
@@ -127,7 +127,7 @@ module Engine
                   {
                     name: '6',
                     on: '6',
-                    train_limit: 2,
+                    train_limit: { minor: 1, major: 2 },
                     tiles: %i[yellow green brown],
                     operating_rounds: 3,
                     status: %w[],
@@ -135,7 +135,7 @@ module Engine
                   {
                     name: '8',
                     on: '8',
-                    train_limit: 2,
+                    train_limit: { minor: 1, major: 2 },
                     tiles: %i[yellow green brown gray],
                     operating_rounds: 3,
                     status: %w[],
@@ -321,9 +321,9 @@ module Engine
             G18ESP::Step::BuyCarriageOrCompany,
             G18ESP::Step::HomeToken,
             G18ESP::Step::SpecialTrack,
+            G18ESP::Step::SpecialChoose,
             G18ESP::Step::CombinedTrains,
             G18ESP::Step::Track,
-            G18ESP::Step::SpecialChoose,
             G18ESP::Step::Route,
             G18ESP::Step::Dividend,
             Engine::Step::DiscardTrain,
@@ -356,7 +356,6 @@ module Engine
           @corporations.each { |c| c.shares.first.double_cert = true if c.type == :minor }
           @future_corporations.each { |c| c.shares.last.buyable = false }
           @north_corp_mountain_pass_graph = Graph.new(self)
-          @broad_graph = Graph.new(self, skip_track: :narrow, ignore_skip_path: true)
 
           @company_trains = {}
           @company_trains['P2'] = find_and_remove_train_for_minor('2-0')
@@ -478,10 +477,6 @@ module Engine
         def event_can_buy_trains!
           @log << 'Corporations can buy trains from other corporations'
           @can_buy_trains = true
-        end
-
-        def pajares_broad?
-          @pajares_broad ||= @optional_rules.include?(:pajares_broad)
         end
 
         def close_all_minors!
@@ -1015,15 +1010,6 @@ module Engine
           corporation.goal_reached!(:destination) if check_for_destination_connection(corporation)
         end
 
-        def graph_for_entity(entity)
-          entity = entity.owner if !entity.corporation? && entity.owner.corporation?
-          north_corp?(entity) ? @graph : @broad_graph
-        end
-
-        def token_graph_for_entity(entity)
-          graph_for_entity(entity)
-        end
-
         def special_minor?(entity)
           return false unless entity.corporation?
 
@@ -1100,7 +1086,7 @@ module Engine
             needed_track_type = north_corp?(entity) ? :narrow : :broad
             variant = train.variants.values.find { |v| v[:track_type] == needed_track_type }
             train.variant = variant[:name] if variant
-            train.operated = true
+            # train.operated = true
             buy_train(entity, train, :free)
             @log << "#{entity.name} gains a #{train.name} train"
           end
@@ -1221,16 +1207,6 @@ module Engine
         def remove_dest_icon(corp)
           tile = hex_by_id(corp.destination).tile
           tile.icons = tile.icons.dup.reject { |icon| icon.name == corp.name }
-        end
-
-        def train_limit_by_type(entity, track_type)
-          return train_limit(entity) unless entity.corporation?
-
-          if north_corp?(entity)
-            track_type == :narrow ? train_limit(entity) : 1
-          else
-            track_type == :broad ? train_limit(entity) : 1
-          end
         end
 
         def extra_train?(train)
