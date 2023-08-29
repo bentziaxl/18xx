@@ -939,13 +939,18 @@ module Engine
           return unless token.used
 
           city = token.city
-          # check if there's another slot
-          delete_slot = city.slots > 1
-          # check if slot is already used, if not reserve
-          corp = @corporations.find { |c| c.city == city.index && c.name != 'MZ' }
+          yellow_green = city.tile.color == :yellow || city.tile.color == :green
+          if !yellow_green
+            city.delete_token!(token)
+          else
+            # check if there's another slot
+            delete_slot = city.slots
+            # check if slot is already used, if not reserve
+            corp = @corporations.find { |c| c.city == city.index && c.name != 'MZ' }
 
-          city.delete_token!(token, remove_slot: delete_slot)
-          city.add_reservation!(corp) unless delete_slot
+            city.delete_token!(token, remove_slot: delete_slot)
+            city.add_reservation!(corp) unless delete_slot
+          end
         end
 
         def swap_token(survivor, nonsurvivor)
