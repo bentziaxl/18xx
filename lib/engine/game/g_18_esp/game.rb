@@ -321,9 +321,9 @@ module Engine
             G18ESP::Step::BuyCarriageOrCompany,
             G18ESP::Step::HomeToken,
             G18ESP::Step::SpecialTrack,
-            G18ESP::Step::SpecialChoose,
             G18ESP::Step::CombinedTrains,
             G18ESP::Step::Track,
+            G18ESP::Step::SpecialChoose,
             G18ESP::Step::Route,
             G18ESP::Step::Dividend,
             Engine::Step::DiscardTrain,
@@ -734,9 +734,9 @@ module Engine
         def opening_new_mountain_pass(entity, p5_ability = false)
           return {} unless entity
 
-          @north_corp_mountain_pass_graph.clear if north_corp?(entity)
           graph = north_corp?(entity) ? @north_corp_mountain_pass_graph : graph_for_entity(entity)
-          openable_passes = graph.reachable_hexes(entity).keys.select do |hex|
+          graph.clear
+          openable_passes = graph.connected_hexes(entity).keys.select do |hex|
             mountain_pass_token_hex?(hex)
           end
           openable_passes = openable_passes.reject { |hex| opened_mountain_passes.key?(hex.id) }
