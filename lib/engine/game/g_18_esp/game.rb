@@ -624,7 +624,7 @@ module Engine
           harbor_subsidy = stops.sum { |stop| stop.tile.color == :blue ? stop.route_revenue(route.phase, route.train) : 0 }
           mine_subsody = count * BASE_MINE_BONUS[@phase.tiles.last]
           total_subsidy = harbor_subsidy + mine_subsody
-          total_subsidy += 20 if harbor_subsidy.positive? && mine_subsody.positive?
+          total_subsidy += 20 if harbor_subsidy.positive? && count.positive?
           total_subsidy
         end
 
