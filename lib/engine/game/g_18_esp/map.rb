@@ -4,7 +4,7 @@ module Engine
   module Game
     module G18ESP
       module Map
-        MINE_HEXES = %w[C5 C9 E9 E11 E19 G9 H6 I7 C23 G21 D18 D32 E31 H30 I23 D8 E7 B30 F30 F32 I21].freeze
+        MINE_HEXES = %w[C5 C9 E9 E11 E19 G9 H6 I7 C23 G21 D18 D32 E31 H30 I23 D8 E7 B30 F30 I21].freeze
         LAYOUT = :flat
         TILES = {
           '3' => 5,
@@ -289,7 +289,7 @@ module Engine
             'count' => 1,
             'color' => 'green',
             'code' => 'city=revenue:40;city=revenue:40;city=revenue:40;path=a:0,b:_0;path=a:1,b:_0;' \
-                      'path=a:2,b:_1;path=a:4,b:_2;path=a:0,b:_2;label=M',
+                      'path=a:2,b:_1;path=a:3,b:_1;path=a:4,b:_2;path=a:0,b:_2;label=M',
           },
           'L84' => {
             'count' => 1,
@@ -350,18 +350,18 @@ module Engine
             'path=a:0,b:1,track:narrow;path=a:0,b:2,track:narrow;path=a:1,b:3,track:narrow;path=a:2,b:3,track:narrow',
           },
 
-          '216' => 2,
+          '216' => 5,
           'L126' => {
-            'count' => 2,
+            'count' => 5,
             'color' => 'brown',
             'code' =>
             'city=revenue:50,slots:2;path=a:0,b:_0,track:narrow;path=a:1,b:_0,track:narrow'\
             ';path=a:2,b:_0,track:narrow;path=a:3,b:_0,track:narrow;path=a:4,b:_0,track:narrow;label=Y',
 
           },
-          '611' => 8,
+          '611' => 10,
           'L125' => {
-            'count' => 8,
+            'count' => 10,
             'color' => 'brown',
             'code' =>
             'city=revenue:40,slots:2;path=a:0,b:_0,track:narrow;path=a:1,b:_0,track:narrow'\
@@ -392,7 +392,7 @@ module Engine
             'count' => 1,
             'color' => 'brown',
             'code' => 'city=revenue:60,slots:4;path=a:0,b:_0;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;'\
-                      'path=a:4,b:_0;label=M',
+                      'path=a:4,b:_0;path=a:5,b:_0;label=M',
           },
 
           # gray
@@ -435,13 +435,13 @@ module Engine
           'L87' => {
             'count' => 1,
             'color' => 'gray',
-            'code' => 'city=revenue:70,slots:3;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;path=a:4,b:_0;label=B',
+            'code' => 'city=revenue:70,slots:3;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;path=a:4,b:_0;path=a:5,b:_0;label=B',
           },
           'L88' => {
             'count' => 1,
             'color' => 'gray',
             'code' => 'city=revenue:80,slots:4;path=a:0,b:_0;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;'\
-                      'path=a:4,b:_0;label=M',
+                      'path=a:4,b:_0;path=a:5,b:_0;label=M',
           },
 
         }.freeze
@@ -504,6 +504,7 @@ module Engine
           %w[41 648],
           %w[42 649],
           %w[43 L119],
+          %w[44 L120],
           %w[45 L121],
           %w[46 L122],
           %w[47 L123],
