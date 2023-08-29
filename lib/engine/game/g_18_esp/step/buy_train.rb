@@ -12,6 +12,7 @@ module Engine
             # Cannot buy F train
             trains = super
             trains.reject! { |t| t.track_type == :narrow } if entity.type == :minor
+            trains.reject! { |t| t.name == '2P' }
             trains.select!(&:from_depot?) unless @game.can_buy_trains
             trains
           end

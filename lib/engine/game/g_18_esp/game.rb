@@ -1100,6 +1100,7 @@ module Engine
             needed_track_type = north_corp?(entity) ? :narrow : :broad
             variant = train.variants.values.find { |v| v[:track_type] == needed_track_type }
             train.variant = variant[:name] if variant
+            train.operated = true
             buy_train(entity, train, :free)
             @log << "#{entity.name} gains a #{train.name} train"
           end
