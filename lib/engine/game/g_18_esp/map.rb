@@ -4,7 +4,7 @@ module Engine
   module Game
     module G18ESP
       module Map
-        MINE_HEXES = %w[C5 C9 E9 E11 E19 G9 H6 I7 C23 G21 D18 D32 E31 H30 I23 D8 E7 B30 F30 I21].freeze
+        MINE_HEXES = %w[C5 C9 E9 E11 E19 G9 H6 I7 C23 G17 G21 D18 D32 E31 H30 I23 D8 E7 B30 F30 I21].freeze
         LAYOUT = :flat
         TILES = {
           '3' => 5,
@@ -536,8 +536,8 @@ module Engine
           'D8' => 'Mieres',
           'C3' => 'Muros de Nalón',
           'E3' => 'Gijón (Xixón)',
-          'E5' => 'Sierro',
-          'E7' => 'Langero (Llangréu)',
+          'E5' => 'Siero',
+          'E7' => 'Langreo (Llangréu)',
           'F4' => 'Ribadesella (Ribeseya)',
           'F6' => 'Cangas de Onis (Cangues d\'Onís)',
           'G5' => 'Llanes',
@@ -663,7 +663,6 @@ module Engine
           white: {
             %w[B6 B8 B28 C19 D34 H26 I27 I31 J26 K27 L4 L20] => '',
             %w[A3 B4 D2 H4 J4] => 'town=revenue:0',
-            %w[J30] => 'town=revenue:0;icon=image:anchor',
             %w[C33] => 'town=revenue:0;icon=image:anchor',
             %w[G5] => 'town=revenue:0;icon=image:18_esp/CFEA,sticky:1;border=edge:0,type:impassable',
             %w[B10 D4 F18 F32 I5 K19 L22] => 'city=revenue:0',
@@ -716,6 +715,7 @@ module Engine
             ['H16'] => 'town=revenue:30;path=a:0,b:_0;'\
                        'path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;path=a:5,b:_0',
             ['G27'] => 'city=revenue:30,slots:2;path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;path=a:5,b:_0',
+            %w[J30] => 'town=revenue:10,loc:0;path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;path=a:2,b:5;path=a:3,b:5',
           },
           orange: {
             ['D12'] => 'city=revenue:0,slots:2;path=a:3,b:_0,track:dual;path=a:0,b:_0,track:dual;label=100;icon=image:18_esp/50',

@@ -4,7 +4,7 @@ module Engine
   module Game
     module G18ESP
       module Entities
-        MINE_HEXES = %w[C5 C9 E9 E11 E19 G9 H6 I7 C23 G21 D18 D32 E31 H30 I23 D8 E7 B30 F30 I21].freeze
+        MINE_HEXES = %w[C5 C9 E9 E11 E19 G9 H6 I7 C23 G17 G21 D18 D32 E31 H30 I23 D8 E7 B30 F30 I21].freeze
         COMPANIES = [
           {
             sym: 'P1',
