@@ -770,9 +770,16 @@ module Engine
                   'Minors can not run to offboard locations'
           end
 
-          if double_headed_trains.include?(route.train) && route.hexes.none? { |hex| mountain_pass_token_hex?(hex) }
-            raise GameError,
-                  'Combined train must run through a montain pass'
+          if double_headed_trains.include?(route.train)
+            raise GameError, 'Combined train must run through a montain pass' if route.hexes.none? do |hex|
+                                                                                   mountain_pass_token_hex?(hex)
+                                                                                 end
+
+            north_stops = route.stops.count { |st| north_hex?(st.hex) }
+            south_stops = route.stops.count - north_stops
+
+            raise GameError, 'Combined train must stop at both maps' if !north_stops.positive? || !south_stops.positive?
+
           end
 
           raise GameError, 'Route can only use one mountain pass' if route.hexes.count { |hex| mountain_pass_token_hex?(hex) } > 1
