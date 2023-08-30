@@ -8,7 +8,7 @@ module Engine
         COMPANIES = [
           {
             sym: 'P1',
-            name: 'Ferrocarril de La Habana a Güines',
+            name: 'La Habana - Güines',
             value: 10,
             revenue: 5,
             min_price: 1,
@@ -34,7 +34,7 @@ module Engine
           },
           {
             sym: 'P2',
-            name: 'Ferrocarril de Barcelona a Mataró',
+            name: 'Barcelona - Mataró',
             value: 40,
             revenue: 10,
             min_price: 1,
@@ -43,7 +43,7 @@ module Engine
           },
           {
             sym: 'P3',
-            name: 'Ferrocarril de Madrid a Aranjuez o El tren de la fresa',
+            name: 'Madrid - Aranjuez o El tren de la fresa',
             value: 70,
             revenue: 15,
             min_price: 1,
@@ -55,7 +55,7 @@ module Engine
           },
           {
             sym: 'P4',
-            name: 'Ferrocarril de Valencia a Játiva',
+            name: 'Valencia - Játiva',
             value: 100,
             revenue: 10,
             min_price: 1,
@@ -89,7 +89,7 @@ module Engine
           },
           {
             sym: 'P5',
-            name: 'Ferrocarril de Alar del Rey a Santander',
+            name: 'Alar del Rey - Santander',
             value: 130,
             revenue: 25,
             min_price: 1,
@@ -107,7 +107,7 @@ module Engine
           },
           {
             sym: 'P6',
-            name: 'Compañía del Ferrocarril de Zafra a Huelva',
+            name: 'Zafra - Huelva',
             value: 160,
             revenue: 10,
             desc: 'It provides a 10% certificate from the Southern company CRB.',
