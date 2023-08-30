@@ -817,8 +817,13 @@ module Engine
             tokened_mountain_pass(hex, route.train.owner) ? MOUNTAIN_PASS_TOKEN_BONUS[hex.id] : 0
           end
           revenue += bonus
-          revenue += east_west_bonus(stops)[:revenue]
-          revenue += gbi_bm_bonus(stops)[:revenue]
+
+          if east_west_bonus(stops)[:revenue].positive? && gbi_bm_bonus(stops)[:revenue].positive?
+            revenue += 150
+          else
+            revenue += east_west_bonus(stops)[:revenue]
+            revenue += gbi_bm_bonus(stops)[:revenue]
+          end
 
           revenue *= 3 if final_ors? && @round.round_num == @operating_rounds && north_corp?(route.train.owner)
 
@@ -832,7 +837,7 @@ module Engine
           west = stops.find { |stop| stop.tile.label&.to_s == 'W' }
 
           if east && west
-            bonus[:revenue] += 50
+            bonus[:revenue] += 100
             bonus[:description] = 'E/W'
           end
 
