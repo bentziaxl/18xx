@@ -790,7 +790,7 @@ module Engine
         end
 
         def check_p2_aranjuez(routes)
-          return unless @perm2_ran_aranjuez
+          return if @perm2_ran_aranjuez
 
           @perm2_ran_aranjuez = true if routes.any? do |route|
                                           route.train.id == '2P' && route.hexes.any? do |hex|
