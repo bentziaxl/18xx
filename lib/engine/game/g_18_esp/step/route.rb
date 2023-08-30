@@ -38,16 +38,35 @@ module Engine
 
           def attach_luxury
             @orginal_train = @luxury_train.dup
-            distance = @luxury_train.distance
+            city_distance = train_city_distance(@luxury_train)
+            town_distance = train_town_distance(@luxury_train)
             @luxury_train.name += '+1'
-            @luxury_train.distance = [{ 'nodes' => %w[town halt], 'pay' => 1, 'visit' => 1 },
-                                      { 'nodes' => %w[city offboard town halt], 'pay' => distance, 'visit' => distance }]
+            @luxury_train.distance = [{ 'nodes' => %w[town halt], 'pay' => town_distance, 'visit' => town_distance },
+                                      {
+                                        'nodes' => %w[city offboard town halt],
+                                        'pay' => city_distance,
+                                        'visit' => city_distance,
+                                      }]
           end
 
           def luxury_train_choices(entity)
             @game.route_trains(entity).reject do |t|
               t.track_type == :narrow
             end
+          end
+
+          def train_city_distance(train)
+            return train.distance if train.distance.is_a?(Numeric)
+
+            distance_city = train.distance.find { |n| n['nodes'].include?('city') }
+            distance_city ? distance_city['visit'] : 0
+          end
+
+          def train_town_distance(train)
+            return 0 if train.distance.is_a?(Numeric)
+
+            distance_city = train.distance.find { |n| !n['nodes'].include?('city') }
+            distance_city ? distance_city['visit'] : 0
           end
 
           def detach_luxury
