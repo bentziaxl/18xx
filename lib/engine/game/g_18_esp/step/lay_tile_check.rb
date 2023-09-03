@@ -50,6 +50,7 @@ module LayTileCheck
     new_exits.all? { |edge| hex.neighbors[edge] } &&
       !(new_exits & hex_neighbors(entity, hex)).empty? &&
       new_paths.any? { |p| old_ctedges.flatten.empty? || (p.exits - old_ctedges.flatten).empty? } &&
+      (old_ctedges.flatten - new_exits.flatten).empty? &&
       # Count how many cities on the new tile that aren't included by any of the old tile.
       # Make sure this isn't more than the number of new cities added.
       # 1836jr30 D6 -> 54 adds more cities
