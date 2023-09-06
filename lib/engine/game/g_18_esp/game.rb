@@ -1010,7 +1010,8 @@ module Engine
           if corporation.id == 'MZA' && corporation_by_id('MZ').ipoed && !corporation.tokens.first.used
             token = corporation.tokens.first
             hex = hex_by_id(corporation.coordinates)
-            city = city_by_id("#{hex.tile.id}-#{corporation.city}")
+            puts("herer in mza #{hex.tile.cities.size}")
+            city = hex.tile.cities.size > 1 ? city_by_id("#{hex.tile.id}-#{corporation.city}") : hex.tile.cities.first
             @log << "#{corporation.name} places a token on #{hex.id}"
             city.place_token(corporation, token, cheater: true)
           else
