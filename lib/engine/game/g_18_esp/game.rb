@@ -1010,7 +1010,6 @@ module Engine
           if corporation.id == 'MZA' && corporation_by_id('MZ').ipoed && !corporation.tokens.first.used
             token = corporation.tokens.first
             hex = hex_by_id(corporation.coordinates)
-            puts("herer in mza #{hex.tile.cities.size}")
             city = hex.tile.cities.size > 1 ? city_by_id("#{hex.tile.id}-#{corporation.city}") : hex.tile.cities.first
             @log << "#{corporation.name} places a token on #{hex.id}"
             city.place_token(corporation, token, cheater: true)
@@ -1097,7 +1096,7 @@ module Engine
             needed_track_type = north_corp?(entity) ? :narrow : :broad
             variant = train.variants.values.find { |v| v[:track_type] == needed_track_type }
             train.variant = variant[:name] if variant
-            # train.operated = true
+            train.operated = true
             buy_train(entity, train, :free)
             @log << "#{entity.name} gains a #{train.name} train"
           end
