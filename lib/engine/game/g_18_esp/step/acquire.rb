@@ -65,7 +65,9 @@ module Engine
           def mergeable_candidates(corporation)
             return [] if @game.north_corp?(corporation)
 
-            @game.corporations.select { |c| c.type == :minor && c.floated? && corporation.cash >= c.share_price&.price }
+            @game.corporations.select do |c|
+              c.type == :minor && c.floated? && corporation.cash >= c.share_price&.price && c.operated?
+            end
           end
 
           def mergeable(corporation)
