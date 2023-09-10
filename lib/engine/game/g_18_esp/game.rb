@@ -997,8 +997,7 @@ module Engine
           trains = entity.trains
           trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || entity.type == :minor
           trains = trains.dup.reject { |t| t.track_type == :broad } if north_corp?(entity) && !entity.interchange?
-          trains.none? { |t| !extra_train?(t) } && !depot.depot_trains.empty? &&
-          self.class::MUST_BUY_TRAIN == :route && @graph.route_info(entity)&.dig(:route_train_purchase)
+          trains.none? { |t| !extra_train?(t) } && !depot.depot_trains.empty?
         end
 
         def num_corp_trains(entity)

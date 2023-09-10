@@ -16,6 +16,7 @@ module Engine
           def actions(entity)
             return [] unless entity == current_entity
             return [] unless entity.corporation?
+            return [] if entity.type == :minor
             return [] unless @game.combined_obsolete_trains_candidates(entity).size.positive?
             return [] unless @game.combined_base_trains_candidates(entity).size.positive?
             return [] unless @game.can_run_route?(entity)
