@@ -25,8 +25,6 @@ module Engine
             player = action.entity
             @game.payoff_player_loan(player)
             track_action(action, player)
-            log_pass(player)
-            pass!
           end
 
           def can_buy_any?(entity)
