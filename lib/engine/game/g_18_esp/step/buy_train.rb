@@ -36,7 +36,6 @@ module Engine
 
             difference = cost - entity.cash
             @game.take_player_loan(entity, difference)
-            @log << "#{entity.name} takes a loan of #{@game.format_currency(difference)}"
           end
 
           def room?(entity, _shell = nil)

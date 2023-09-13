@@ -1189,8 +1189,15 @@ module Engine
           # Give the player the money.from the bank
           @bank.spend(loan, player)
 
+          loan_amount = loan.round(-1)
+          debt = loan_amount * 1.5
+
+          @log << "#{player.name} recieves #{format_currency(loan)} from the bank. \
+                    The loan amount is #{format_currency(loan_amount)}.\
+                  Interest of 50% is applied, the total owed is #{format_currency(debt)}"
+
           # Add interest to the loan, must atleast pay 150% of the loaned value
-          @player_debts[player] += (loan * 1.5).round
+          @player_debts[player] += debt
         end
 
         def payoff_player_loan(player)
