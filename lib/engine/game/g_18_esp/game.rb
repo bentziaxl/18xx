@@ -890,8 +890,10 @@ module Engine
         def start_merge(corporation, minor, keep_token)
           # take over assets
           move_assets(corporation, minor)
+
           # handle token
           keep_token ? swap_token(corporation, minor) : gain_token(corporation, minor)
+
           # complete goal
           corporation.goal_reached!(:takeover)
 
@@ -901,7 +903,7 @@ module Engine
           # get share
           get_reserved_share(minor.owner, corporation) unless @minors_stop_operating
 
-          # gain luxury carriage ability
+          # gain tender ability
           gain_luxury_carriage_ability_from_minor(corporation, minor)
 
           # close corp
@@ -948,10 +950,10 @@ module Engine
 
           if luxury_ability(corporation)
             @luxury_carriages << corporation
-            @log << "#{corporation.name} already has a luxury carriage. The second carriage can be bought by another company"
+            @log << "#{corporation.name} already has a tender. The second carriage can be bought by another company"
           else
             corporation.add_ability(minor_luxury_ability)
-            @log << "#{corporation.name} gains luxury carriage from #{minor.name}"
+            @log << "#{corporation.name} gains tender from #{minor.name}"
           end
         end
 
@@ -1086,13 +1088,13 @@ module Engine
         def transfer_luxury_ability_and_close_company(company, entity, owner)
           luxury_ability = company.all_abilities.first
           if luxury_ability(entity)
-            # entity already has luxury carriage. Do not add, but increase carriage count
+            # entity already has tender. Do not add, but increase carriage count
             @luxury_carriages << entity
             @log << "#{entity.name} already has a carriage, extra carriage is returned to the bank and can be purchased. \
-                    There are #{@luxury_carriages.size} luxury carriages left"
+                    There are #{@luxury_carriages.size} tenders left"
           else
             entity.add_ability(luxury_ability)
-            @log << "#{company.name} closes. #{entity.name} now can now assign luxury carriage to a single train"
+            @log << "#{company.name} closes. #{entity.name} now can now assign tender to a single train"
           end
           luxury_carriages.map! { |e| e == owner ? entity : e }
           company.remove_ability(luxury_ability)
@@ -1100,7 +1102,7 @@ module Engine
         end
 
         def luxury_ability(entity)
-          entity.abilities.find { |a| a.description == 'Luxury Carriage' }
+          entity.abilities.find { |a| a.description == 'tender' }
         end
 
         def convert_p3_into_2p

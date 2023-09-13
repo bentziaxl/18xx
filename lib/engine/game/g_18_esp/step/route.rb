@@ -17,7 +17,7 @@ module Engine
           end
 
           def choice_name
-            'Choose which train you want to attach a luxury carriage'
+            'Choose which train you want to attach a tender'
           end
 
           def choices
@@ -31,7 +31,7 @@ module Engine
           def process_choose(action)
             entity = action.entity
             @luxury_train = luxury_train_choices(entity)[action.choice.to_i]
-            @log << "#{entity.id} chooses to attach the luxury carriage to the #{@luxury_train.name} train"
+            @log << "#{entity.id} chooses to attach the tender to the #{@luxury_train.name} train"
 
             attach_luxury
           end
