@@ -28,7 +28,7 @@ module Engine
           end
 
           def description
-            'Buy Luxury Carriage or Company'
+            'Buy Tender or Company'
           end
 
           def blocks?
@@ -44,12 +44,12 @@ module Engine
 
           def buyable_items(_entity)
             @game.luxury_carriages.uniq.map do |owner|
-              Item.new(description: "luxury carriage from #{owner.name}", cost: @game.carriage_cost, owner: owner.id)
+              Item.new(description: "tender from #{owner.name}", cost: @game.carriage_cost, owner: owner.id)
             end
           end
 
           def short_description
-            'Buy Luxury Carriage or Company'
+            'Buy Tender or Company'
           end
 
           def blocks?
@@ -64,16 +64,16 @@ module Engine
             luxury_ability = Ability::Base.new(
               type: 'base',
               owner_type: 'corporation',
-              description: 'Luxury Carriage',
-              desc_detail: 'Private allows to attach Luxury crriage to regular trains '\
+              description: 'Tender',
+              desc_detail: 'Private allows to attach Tender to regular trains '\
                            'extending their distance by one town.',
               when: 'owning_corp_or_turn'
             )
             action.entity.add_ability(luxury_ability)
             action.entity.spend(@game.carriage_cost, entity)
-            @log << "#{action.entity.name} buys a luxury carriage from #{entity.name} \
+            @log << "#{action.entity.name} buys a tender from #{entity.name} \
                     for #{@game.format_currency(item.cost)}. \
-                    There are #{@game.luxury_carriages.size} luxury carriages left"
+                    There are #{@game.luxury_carriages.size} tenders left"
           end
         end
       end

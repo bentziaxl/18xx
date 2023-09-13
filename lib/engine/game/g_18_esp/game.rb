@@ -1102,7 +1102,7 @@ module Engine
         end
 
         def luxury_ability(entity)
-          entity.abilities.find { |a| a.description == 'tender' }
+          entity.abilities.find { |a| a.description == 'Tender' }
         end
 
         def convert_p3_into_2p
@@ -1190,7 +1190,7 @@ module Engine
           @bank.spend(loan, player)
 
           # Add interest to the loan, must atleast pay 150% of the loaned value
-          @player_debts[player] += loan
+          @player_debts[player] += (loan * 1.5).round
         end
 
         def payoff_player_loan(player)

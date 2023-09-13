@@ -59,28 +59,28 @@ module Engine
             value: 100,
             revenue: 10,
             min_price: 1,
-            desc: 'Provides four luxury carriage cards. The owner of this company (player or company) '\
-                  'can sell up to three of these four luxury carriages (to a major '\
-                  'or minor company). Each luxury carriage costs pts30. The fourth luxury carriage remains with ' \
+            desc: 'Provides four tender cards. The owner of this company (player or company) '\
+                  'can sell up to three of these four tenders (to a major '\
+                  'or minor company). Each tender costs pts30. The fourth tender remains with ' \
                   'the company until it is bought by a major or minor company. '\
-                  'Then the fourth luxury carriage belongs to the company that bought this '\
+                  'Then the fourth tender belongs to the company that bought this '\
                   'private. The director of the company that buys this private can assign '\
-                  'its luxury carriage to a train of his choice in each RO. '\
-                  'Note that the other three luxury carriages cannot be used, as they' \
-                  'are only available for sale. The same train can carry the luxury carriage '\
-                  'in two or more consecutive ORs. A train with a luxury carriage '\
+                  'its tender to a train of his choice in each RO. '\
+                  'Note that the other three tenders cannot be used, as they' \
+                  'are only available for sale. The same train can carry the tender '\
+                  'in two or more consecutive ORs. A train with a tender '\
                   'can add a town, harbor or mine to its route, regardless of the range of the train. '\
-                  'The luxury carriage is permanent. It can only be used in '\
+                  'The tender is permanent. It can only be used in '\
                   'companies that use Iberian gauge tracks. No company may purchase more than one luxury' \
-                  'wagon. If, due to an acquisition, a company has more than one luxury carriage, '\
+                  'wagon. If, due to an acquisition, a company has more than one tender, '\
                   'it keeps one for itself and must put the other one up for sale at '\
                   'pts30. This company closes when is acquired by a minor or major company.',
             abilities: [
                       {
                         type: 'base',
                         owner_type: 'corporation',
-                        description: 'Luxury Carriage',
-                        desc_detail: 'Private allows to attach Luxury crriage to regular trains '\
+                        description: 'Tender',
+                        desc_detail: 'Private allows to attach tender to regular trains '\
                                      'extending their distance by one town.',
                         when: 'owning_corp_or_turn',
                       },
