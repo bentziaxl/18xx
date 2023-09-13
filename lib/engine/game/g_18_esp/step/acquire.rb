@@ -66,7 +66,11 @@ module Engine
             return [] if @game.north_corp?(corporation)
 
             @game.corporations.select do |c|
-              c.type == :minor && c.floated? && corporation.cash >= c.share_price&.price && c.operated?
+              if @game.minors_stop_operating && !c.floated? && corporation.cash >= 100
+                c.type == :minor
+              else
+                c.type == :minor && c.floated? && corporation.cash >= c.share_price&.price && c.operated?
+              end
             end
           end
 
@@ -87,6 +91,8 @@ module Engine
           end
 
           def can_swap?
+            return true if @game.minors_stop_operating && !special_minor_or_mz?(@merging.last)
+
             @merging.last.tokens.first.used &&
             !special_minor_or_mz?(@merging.last) &&
             @merging.first.tokens.none? { |token| token.hex == @merging.last.tokens.first.hex }
@@ -97,7 +103,7 @@ module Engine
           end
 
           def show_other_players
-            false
+            @game.minors_stop_operating
           end
 
           def show_other

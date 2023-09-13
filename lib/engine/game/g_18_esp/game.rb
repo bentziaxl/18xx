@@ -18,7 +18,7 @@ module Engine
         include CitiesPlusTownsRouteDistanceStr
         include DoubleSidedTiles
 
-        attr_reader :can_build_mountain_pass, :special_merge_step, :can_buy_trains
+        attr_reader :can_build_mountain_pass, :special_merge_step, :can_buy_trains, :minors_stop_operating
 
         attr_accessor :player_debts, :double_headed_trains, :luxury_carriages
 
@@ -53,6 +53,8 @@ module Engine
         MINE_CLOSE_COST = 30
 
         CARRIAGE_COST = 30
+
+        MINE_TAKEOVER_COST = 100
 
         SELL_AFTER = :operate
 
@@ -220,7 +222,8 @@ module Engine
                 price: 500,
               },
             ],
-            events: [{ 'type' => 'close_companies' }],
+            events: [{ 'type' => 'close_companies' },
+                     { 'type' => 'minors_stop_operating' }],
           },
           {
             name: '6',
@@ -268,7 +271,7 @@ module Engine
                 'companies_bought_150' => ['Companies 150%', 'Companies can be bought in for maximum 150% of value'],
                 'companies_bought_200' => ['Companies 200%', 'Companies can be bought in for maximum 200% of value'],
                 'renfe_founded' => ['RENFE founded'],
-                'close_minors' => ['Minors close'],
+                'minors_stop_operating' => ['Minors stop operating'],
                 'float_60' => ['60% to Float', 'Corporations must have 60% of their shares sold to float'],
                 'mountain_pass' => ['Can build mountain passes'],
                 'can_buy_trains' => ['Corporations can buy trains from other corporations']
@@ -356,6 +359,7 @@ module Engine
           @corporations.each { |c| c.shares.first.double_cert = true if c.type == :minor }
           @future_corporations.each { |c| c.shares.last.buyable = false }
           @north_corp_mountain_pass_graph = Graph.new(self)
+          @minors_stop_operating = false
 
           @company_trains = {}
           @company_trains['P2'] = find_and_remove_train_for_minor('2-0')
@@ -477,6 +481,13 @@ module Engine
         def event_can_buy_trains!
           @log << 'Corporations can buy trains from other corporations'
           @can_buy_trains = true
+        end
+
+        def event_minors_stop_operating!
+          @log << 'Minors stop operating'
+          @minors_stop_operating = true
+
+          @corporations.each { |c| c.shares.last.buyable = true if !c.ipoed && c.type != :minor }
         end
 
         def close_all_minors!
@@ -879,10 +890,8 @@ module Engine
         def start_merge(corporation, minor, keep_token)
           # take over assets
           move_assets(corporation, minor)
-
           # handle token
           keep_token ? swap_token(corporation, minor) : gain_token(corporation, minor)
-
           # complete goal
           corporation.goal_reached!(:takeover)
 
@@ -890,7 +899,7 @@ module Engine
           pay_compensation(corporation, minor)
 
           # get share
-          get_reserved_share(minor.owner, corporation)
+          get_reserved_share(minor.owner, corporation) unless @minors_stop_operating
 
           # gain luxury carriage ability
           gain_luxury_carriage_ability_from_minor(corporation, minor)
@@ -900,12 +909,17 @@ module Engine
         end
 
         def pay_compensation(corporation, minor)
-          share_price = minor.share_price
-          payout = share_price ? minor.share_price.price : 0
+          if @minors_stop_operating
+            corporation.spend(MINE_TAKEOVER_COST, @bank)
+            @log << "#{corporation.name} spends #{format_currency(MINE_TAKEOVER_COST)} to acquire #{minor.name}"
+          else
+            share_price = minor.share_price
+            payout = share_price ? minor.share_price.price : 0
 
-          corporation.spend(payout, minor.owner)
+            corporation.spend(payout, minor.owner)
 
-          @log << "#{minor.owner.name} gets #{format_currency(payout)} compensation"
+            @log << "#{minor.owner.name} gets #{format_currency(payout)} compensation"
+          end
         end
 
         def get_reserved_share(owner, corporation)
@@ -964,13 +978,22 @@ module Engine
           new_token = survivor.tokens.last
           old_token = nonsurvivor.tokens.first
           city = old_token.city
+          if city.nil? && @minors_stop_operating
+            city = hex_by_id(nonsurvivor.coordinates).tile.cities.find { |c| c.reserved_by?(nonsurvivor) }
+            city.remove_reservation!(nonsurvivor)
+          end
           return gain_token(survivor) unless city
 
           @log << "Replaced #{nonsurvivor.name} token in #{city.hex.id} with #{survivor.name}"\
                   ' token'
-          new_token.place(city)
-          city.tokens[city.tokens.find_index(old_token)] = new_token
-          nonsurvivor.tokens.delete(old_token)
+
+          if nonsurvivor.ipoed
+            new_token.place(city)
+            city.tokens[city.tokens.find_index(old_token)] = new_token
+            nonsurvivor.tokens.delete(old_token)
+          else
+            city.place_token(survivor, new_token)
+          end
         end
 
         def move_assets(survivor, nonsurvivor)
@@ -1120,21 +1143,11 @@ module Engine
                 new_stock_round
               elsif @round.round_num < @operating_rounds
                 new_operating_round(@round.round_num + 1)
-              elsif @phase.available?('5') && @corporations.any? { |c| c.type == :minor && !c.closed? }
-                @special_merge_step = true
-                @log << "-- #{round_description('Merger', @round.round_num)} --"
-                G18ESP::Round::Merger.new(self, [
-                  G18ESP::Step::SpecialMerge,
-                ], round_num: @round.round_num)
               else
                 or_set_finished
                 @turn += 1
                 new_stock_round
               end
-            when G18ESP::Round::Merger
-              close_all_minors!
-              @turn += 1
-              new_stock_round
             when init_round.class
               init_round_finished
               reorder_players(:least_cash, log_player_order: true)
