@@ -8,8 +8,10 @@ module Engine
       module Step
         class BuySellParShares < Engine::Step::BuySellParShares
           def actions(entity)
+            return [] unless entity == current_entity
+
             actions = super
-            actions << 'payoff_player_debt' if @game.player_debt(entity).positive? && entity.cash.positive?
+            actions << 'payoff_player_debt' if @game.player_debt(entity).positive? && can_fully_payoff?(entity)
 
             actions
           end
@@ -19,6 +21,11 @@ module Engine
             return true if bundle.owner == @game.share_pool && @game.num_certs(entity) < @game.cert_limit
 
             super
+          end
+
+          def can_fully_payoff?(entity)
+            total_owed = @game.player_debt(entity) + @game.player_interest(entity)
+            entity.cash >= total_owed
           end
 
           def process_payoff_player_debt(action)
