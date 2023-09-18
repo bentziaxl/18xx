@@ -84,8 +84,18 @@ module Engine
 
         def runnable_trains
           trains = super
-          trains = trains.dup.reject { |t| t.track_type == :narrow } if !@game.north_corp?(self) || type == :minor
+          trains = trains.dup.reject { |t| t.track_type == :narrow } if type == :minor
+          trains = trains.dup.reject { |t| t.track_type == :narrow } if !@game.north_corp?(self) && !northern_token?
+          trains = trains.dup.reject { |t| t.track_type == :broad } if @game.north_corp?(self) && !southern_token?
           trains
+        end
+
+        def northern_token?
+          @tokens.any? { |t| t.hex && @game.north_hex?(t.hex) }
+        end
+
+        def southern_token?
+          @tokens.any? { |t| t.hex && !@game.north_hex?(t.hex) }
         end
 
         def interchange?
