@@ -585,17 +585,31 @@ module Engine
         end
 
         def status_array(corporation)
-          return if corporation.type == :minor
+          return tender_corp_status(corporation) if corporation.type == :minor
 
-          status = ['Goals Left:']
+          goal_status = ['Goals Left:']
 
-          status << ["Destination #{corporation.destination}"] unless corporation.destination_connected?
-          status << ['Offboard'] unless corporation.ran_offboard?
-          status << ['Run mine to harbor'] if north_corp?(corporation) && !corporation.ran_harbor_mine?
-          status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor
+          goal_status << ["Destination #{corporation.destination}"] unless corporation.destination_connected?
+          goal_status << ['Offboard'] unless corporation.ran_offboard?
+          goal_status << ['Run mine to harbor'] if north_corp?(corporation) && !corporation.ran_harbor_mine?
+          goal_status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor
 
-          status = nil if status.length == 1
-          status
+          goal_status = [] if goal_status.length == 1
+          tender_status = tender_corp_status(corporation) || []
+          status =  tender_status + goal_status
+          status.length.positive? ? status : nil
+        end
+
+        def tender_corp_status(corporation)
+          return nil unless @luxury_carriages.include?(corporation)
+
+          ["#{@luxury_carriages.size} Buyable Tenders"]
+        end
+
+        def company_status_str(company)
+          return if company != p4 || p4.owner.nil? || p4.owner.corporation?
+
+          "#{@luxury_carriages.size} / 3 Buyable Tenders"
         end
 
         def upgrade_cost(old_tile, hex, entity, spender)
