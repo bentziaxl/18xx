@@ -697,7 +697,7 @@ module Engine
                        'icon=image:18_esp/MCP,sticky:1',
             %w[E29] => 'city=revenue:0;upgrade=cost:10,terrain:river',
             %w[I29] => 'city=revenue:0;upgrade=cost:10,terrain:river;label=Y',
-            %w[J28] => 'city=revenue:0;upgrade=cost:10,terrain:river;icon=image:18_esp/MZA,sticky:1;label=Y',
+            %w[J28] => 'city=revenue:0;upgrade=cost:10,terrain:river;icon=image:18_esp/MZA,sticky:1',
             %w[F20 D24 D26 D30 H18 I19 G25] => 'upgrade=cost:10,terrain:river',
             %w[B30 D8 D18 E19 F30 G17 I21] => 'halt=symbol:⚒,route:mandatory;town=revenue:0;upgrade=cost:30,terrain:mine',
             %w[C7 C11 D10 E23 E25 F10 F22 G19 H20 I9 I25 G33] => 'upgrade=cost:40,terrain:mountain',
