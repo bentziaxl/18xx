@@ -83,7 +83,11 @@ module Engine
         end
 
         def runnable_trains
-          trains = super
+          operatable_trains(super)
+        end
+
+        def operatable_trains(trains = nil)
+          trains ||= @trains
           trains = trains.dup.reject { |t| t.track_type == :narrow } if type == :minor
           trains = trains.dup.reject { |t| t.track_type == :narrow } if !@game.north_corp?(self) && !northern_token?
           trains = trains.dup.reject { |t| t.track_type == :broad } if @game.north_corp?(self) && !southern_token?
