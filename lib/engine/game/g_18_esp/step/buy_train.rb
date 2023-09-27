@@ -21,7 +21,6 @@ module Engine
             trains = super
 
             trains.reject! { |v| type?(v[:name], :narrow) } if entity.type == :minor
-            puts("here in fsdb #{entity.runnable_trains}") if entity.name == 'FdSB' && @game.current_action_id > 198
             trains.reject! { |v| type?(v[:name], :broad) } if @game.north_corp?(entity) && entity.operatable_trains.empty?
             trains.reject! { |v| type?(v[:name], :narrow) } if !@game.north_corp?(entity) && entity.operatable_trains.empty?
             trains

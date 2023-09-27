@@ -977,8 +977,10 @@ module Engine
 
           city = token.city
           yellow_green = city.tile.color == :yellow || city.tile.color == :green
+          puts("here in delete token mz #{token} #{city.tokens.map { |t| t&.corporation&.name }}")
           if !yellow_green
             city.delete_token!(token)
+            token.destroy!
           else
             # check if there's another slot
             delete_slot = city.slots

@@ -39,6 +39,14 @@ module Engine
           hex.tile.reframe!(tile_frame.color, tile_frame.color2) if tile_frame
           old_tile&.icons = []
 
+          tokens = hex.tile.cities.first.tokens if hex.id == 'F24'
+          if hex.id == 'F24' && tokens.find { |t| t&.corporation&.name == 'MZ' } && tokens.find do |t|
+               t&.corporation&.name == 'MZA'
+             end && (action.tile.color == :brown || action.tile.color == :gray)
+            mz_token = tokens.find { |t| t&.corporation&.name == 'MZ' }
+            hex.tile.cities.first.delete_token!(mz_token)
+            hex.tile.cities.first.exchange_token(mz_token, extra_slot: true)
+          end
           # clear graphs
           @game.graph.clear
 
