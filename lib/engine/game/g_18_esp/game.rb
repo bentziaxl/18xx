@@ -811,7 +811,7 @@ module Engine
 
           raise GameError, 'Route visits same hex twice' if route.hexes.size != route.hexes.uniq.size
 
-          if route.train.name == '2P' && !@perm2_ran_aranjuez && route.hexes.none? do |hex|
+          if route.train.id == '2P-0' && !@perm2_ran_aranjuez && route.hexes.none? do |hex|
                hex.id == ARANJUEZ_HEX
              end
             raise GameError,
@@ -825,7 +825,7 @@ module Engine
           return if @perm2_ran_aranjuez
 
           @perm2_ran_aranjuez = true if routes.any? do |route|
-                                          route.train.id == '2P' && route.hexes.any? do |hex|
+                                          route.train.id == '2P-0' && route.hexes.any? do |hex|
                                             hex.id == ARANJUEZ_HEX
                                           end
                                         end
