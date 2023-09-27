@@ -707,7 +707,7 @@ module Engine
           return false unless entity&.corporation?
           return true if entity.destination_connected?
 
-          graph = Graph.new(self, home_as_token: true, no_blocking: true)
+          graph = Graph.new(self, no_blocking: true)
           graph.compute(entity)
           graph.reachable_hexes(entity).include?(hex_by_id(entity.destination))
         end
@@ -977,7 +977,6 @@ module Engine
 
           city = token.city
           yellow_green = city.tile.color == :yellow || city.tile.color == :green
-          puts("here in delete token mz #{token} #{city.tokens.map { |t| t&.corporation&.name }}")
           if !yellow_green
             city.delete_token!(token)
             token.destroy!

@@ -8,7 +8,8 @@ module Engine
       module Round
         class Operating < Engine::Round::Operating
           def start_operating
-            if current_entity.corporation? && @game.check_for_destination_connection(current_entity)
+            if current_entity.corporation? && current_entity.tokens.first&.used &&
+                @game.check_for_destination_connection(current_entity)
               current_entity.goal_reached!(:destination)
             end
             super
