@@ -93,7 +93,7 @@ module Engine
           def can_swap?
             return true if @game.minors_stop_operating && !special_minor_or_mz?(@merging.last)
 
-            @merging.last.tokens.first.used &&
+            @merging.last.tokens.first&.used &&
             !special_minor_or_mz?(@merging.last) &&
             @merging.first.tokens.none? { |token| token.hex == @merging.last.tokens.first.hex }
           end

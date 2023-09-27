@@ -925,7 +925,7 @@ module Engine
         end
 
         def pay_compensation(corporation, minor)
-          if @minors_stop_operating
+          if @minors_stop_operating && minor.player_share_holders.empty?
             corporation.spend(MINE_TAKEOVER_COST, @bank)
             @log << "#{corporation.name} spends #{format_currency(MINE_TAKEOVER_COST)} to acquire #{minor.name}"
           else
