@@ -39,7 +39,14 @@ module Engine
             # have p4 ability left, have 30 bucks, doesn't own carriage
             !@game.luxury_ability(entity) &&
             @game.luxury_carriages.size.positive? &&
+            north_corp_can_buy_tender?(entity) &&
             entity.cash >= @game.carriage_cost
+          end
+
+          def north_corp_can_buy_tender?(entity)
+            return true unless @game.north_corp?(entity)
+
+            entity.corporation? && entity.southern_token?
           end
 
           def buyable_items(_entity)
