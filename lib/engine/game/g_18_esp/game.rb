@@ -325,13 +325,13 @@ module Engine
             G18ESP::Step::HomeToken,
             G18ESP::Step::SpecialTrack,
             G18ESP::Step::SpecialChoose,
-            G18ESP::Step::CombinedTrains,
             G18ESP::Step::Track,
             G18ESP::Step::Route,
             G18ESP::Step::Dividend,
             Engine::Step::DiscardTrain,
             G18ESP::Step::Acquire,
             G18ESP::Step::BuyTrain,
+            G18ESP::Step::CombinedTrains,
             [G18ESP::Step::BuyCarriageOrCompany, { blocks: true }],
           ], round_num: round_num)
         end
