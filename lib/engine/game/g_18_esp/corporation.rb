@@ -95,11 +95,11 @@ module Engine
         end
 
         def northern_token?
-          @tokens.any? { |t| t.hex && @game.north_hex?(t.hex) }
+          @tokens.any? { |t| t.hex && (@game.north_hex?(t.hex) ||  @game.mountain_pass_token_hex?(t.hex)) }
         end
 
         def southern_token?
-          @tokens.any? { |t| t.hex && !@game.north_hex?(t.hex) }
+          @tokens.any? { |t| t.hex && (!@game.north_hex?(t.hex) || @game.mountain_pass_token_hex?(t.hex)) }
         end
 
         def interchange?
