@@ -982,7 +982,7 @@ module Engine
             token.destroy!
           else
             # check if there's another slot
-            delete_slot = city.slots
+            delete_slot = city.slots > 1 ? city.slots : false
             # check if slot is already used, if not reserve
             corp = @corporations.find { |c| c.city == city.index && c.name != 'MZ' }
 
