@@ -873,8 +873,7 @@ module Engine
           bonus = { revenue: 0 }
 
           bm = stops.find { |stop| %w[M B].include?(stop.tile.label&.to_s) }
-          gbi = stops.find { |stop| %w[Y].include?(stop.tile.label&.to_s) && north_hex?(stop.hex) }
-
+          gbi = stops.find { |stop| stop.hex.id == 'E3' || stop.hex.id == 'K5' }
           if bm && gbi
             bonus[:revenue] += 100
             bonus[:description] = 'G/Bi to B/M'
