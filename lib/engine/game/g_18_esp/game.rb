@@ -352,6 +352,10 @@ module Engine
           @p5 ||= company_by_id('P5')
         end
 
+        def mza
+          @mza ||= corporation_by_id('MZA')
+        end
+
         def setup
           @corporations, @future_corporations = @corporations.partition do |corporation|
             corporation.type == :minor || north_corp?(corporation)
@@ -978,6 +982,9 @@ module Engine
           yellow_green = city.tile.color == :yellow || city.tile.color == :green
           if !yellow_green
             city.delete_token!(token)
+            # add mza reservation if mza not tokened in madrid yet
+            mza_token = city.tokens.compact.find { |t| t.corporation == mza }
+            city.add_reservation!(mza) unless mza_token
             token.destroy!
           else
             # check if there's another slot
