@@ -765,11 +765,6 @@ module Engine
           end
           openable_passes = openable_passes.reject { |hex| opened_mountain_passes.key?(hex.id) }
 
-          if p5_ability && !opened_mountain_passes.key?('H12')
-            alar_pass = openable_passes.select { |hex| hex.id == 'H12' }
-            openable_passes = alar_pass || {}
-          end
-
           openable_passes.to_h do |hex|
             [hex.id, "#{hex.location_name} (#{format_currency(mountain_pass_token_cost(hex, entity, p5_ability))})"]
           end
@@ -918,7 +913,7 @@ module Engine
           pay_compensation(corporation, minor)
 
           # get share
-          get_reserved_share(minor.owner, corporation) unless @minors_stop_operating
+          get_reserved_share(minor.owner, corporation) if !@minors_stop_operating || minor.ipoed
 
           # gain tender ability
           gain_luxury_carriage_ability_from_minor(corporation, minor)
