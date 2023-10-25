@@ -91,7 +91,7 @@ module Engine
             sym: 'P5',
             name: 'Alar del Rey - Santander',
             value: 130,
-            revenue: 25,
+            revenue: 15,
             min_price: 1,
             desc: 'The major owning company (both North and '\
                   'South) can build the mountain pass of Alar del '\
@@ -109,7 +109,7 @@ module Engine
             sym: 'P6',
             name: 'Zafra - Huelva',
             value: 160,
-            revenue: 10,
+            revenue: 20,
             desc: 'It provides a 10% certificate from the Southern company CRB.',
             color: nil,
             abilities: [{ type: 'shares', shares: 'CRB_1' }],
