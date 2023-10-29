@@ -21,10 +21,6 @@ module Engine
             'Buy Tender or Company'
           end
 
-          def blocks?
-            @opts[:blocks] && (can_buy_carriage?(current_entity) || can_buy_company?(current_entity))
-          end
-
           def can_buy_carriage?(entity)
             # have p4 ability left, have 30 bucks, doesn't own carriage
             !@game.luxury_ability(entity) &&
