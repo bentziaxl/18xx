@@ -6,24 +6,14 @@ module Engine
   module Game
     module G18ESP
       module Step
-<<<<<<<< HEAD:lib/engine/game/g_18_esp/step/buy_company_carriage.rb
-        class BuyCompanyCarriage < Engine::Step::BuyCompany
-========
         class BuyCarriageOrCompany < Engine::Step::BuyCompany
->>>>>>>> 32f6f027f (can buy companies at any time):lib/engine/game/g_18_esp/step/buy_carriage_or_company.rb
           def actions(entity)
             return [] if !entity.corporation? || entity != current_entity
 
             actions = []
-<<<<<<<< HEAD:lib/engine/game/g_18_esp/step/buy_company_carriage.rb
-            actions << 'special_buy' if can_buy_carriage?(entity)
-            actions << 'buy_company' if can_buy_company?(entity)
-========
             actions << 'buy_company' if can_buy_company?(entity)
             actions << 'special_buy' if can_buy_carriage?(entity)
->>>>>>>> 32f6f027f (can buy companies at any time):lib/engine/game/g_18_esp/step/buy_carriage_or_company.rb
             actions << 'pass' if blocks?
-
             actions
           end
 
