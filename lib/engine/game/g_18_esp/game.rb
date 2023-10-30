@@ -38,6 +38,8 @@ module Engine
 
         TRACK_RESTRICTION = :permissive
 
+        TILE_RESERVATION_BLOCKS_OTHERS = :single_slot_cities
+
         MOUNTAIN_PASS_ACCESS_HEX = %w[D10 H10 J8 K7].freeze
 
         MOUNTAIN_PASS_ACCESS_HEX_INCL_SOUTH = %w[D10 H10 J8 K7 D18 E19 G17 H16].freeze
