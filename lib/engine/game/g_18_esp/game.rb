@@ -28,6 +28,8 @@ module Engine
 
         BANK_CASH = 99_999
 
+        IMPASSABLE_HEX_COLORS = %i[gray red blue orange].freeze
+
         CERT_LIMIT = { 3 => 27, 4 => 20, 5 => 16, 6 => 13 }.freeze
 
         STARTING_CASH = { 3 => 860, 4 => 650, 5 => 520, 6 => 440 }.freeze
