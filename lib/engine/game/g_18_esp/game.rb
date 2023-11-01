@@ -1054,7 +1054,7 @@ module Engine
             hex = hex_by_id(corporation.coordinates)
             city = hex.tile.cities.size > 1 ? city_by_id("#{hex.tile.id}-#{corporation.city}") : hex.tile.cities.first
             @log << "#{corporation.name} places a token on #{hex.id}"
-            city.place_token(corporation, token, cheater: true)
+            city.place_token(corporation, token, cheater: true, check_tokenable: false)
           else
             super
           end
