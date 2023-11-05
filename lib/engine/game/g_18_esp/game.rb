@@ -803,8 +803,8 @@ module Engine
                                                                                    mountain_pass_token_hex?(hex)
                                                                                  end
 
-            north_stops = route.stops.count { |st| north_hex?(st.hex) }
-            south_stops = route.stops.count - north_stops
+            north_stops = route.stops.count { |st| north_hex?(st.hex) && !mountain_pass_token_hex?(st.hex) }
+            south_stops = route.stops.count { |st| !north_hex?(st.hex) && !mountain_pass_token_hex?(st.hex) }
 
             raise GameError, 'Combined train must stop at both maps' if !north_stops.positive? || !south_stops.positive?
 
