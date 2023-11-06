@@ -904,6 +904,9 @@ module Engine
         end
 
         def start_merge(corporation, minor, keep_token)
+          # pay compensation
+          pay_compensation(corporation, minor)
+
           # take over assets
           move_assets(corporation, minor)
 
@@ -912,9 +915,6 @@ module Engine
 
           # complete goal
           corporation.goal_reached!(:takeover)
-
-          # pay compensation
-          pay_compensation(corporation, minor)
 
           # get share
           get_reserved_share(minor.owner, corporation) if !@minors_stop_operating || minor.ipoed
@@ -928,15 +928,28 @@ module Engine
 
         def pay_compensation(corporation, minor)
           if @minors_stop_operating && minor.player_share_holders.empty?
-            corporation.spend(MINE_TAKEOVER_COST, @bank)
+            spend_compensation(MINE_TAKEOVER_COST, corporation, @bank)
             @log << "#{corporation.name} spends #{format_currency(MINE_TAKEOVER_COST)} to acquire #{minor.name}"
           else
             share_price = minor.share_price
             payout = share_price ? minor.share_price.price : 0
 
-            corporation.spend(payout, minor.owner)
+            spend_compensation(payout, corporation, minor.owner)
 
             @log << "#{minor.owner.name} gets #{format_currency(payout)} compensation"
+          end
+        end
+
+        def spend_compensation(amount, from, to)
+          if from.cash >= amount
+            from.spend(amount, to)
+          else
+            difference = amount - from.cash
+            from.spend(from.cash, to)
+            if to != from
+              take_player_loan(from.owner, differnce - from.owner.cash) unless from.owner.cash >= difference
+              from.owner.spend(difference, to)
+            end
           end
         end
 

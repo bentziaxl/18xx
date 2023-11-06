@@ -16,13 +16,6 @@ module Engine
             actions
           end
 
-          def can_gain?(entity, bundle, exchange: false)
-            # Can buy above the share limit if from the share pool
-            return true if bundle.owner == @game.share_pool && @game.num_certs(entity) < @game.cert_limit
-
-            super
-          end
-
           def can_fully_payoff?(entity)
             total_owed = @game.player_debt(entity) + @game.player_interest(entity)
             entity.cash >= total_owed
