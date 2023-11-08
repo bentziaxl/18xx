@@ -653,7 +653,7 @@ module Engine
         end
 
         def subsidy_for(route, stops)
-          count = stops.count(&:halt?)
+          count = stops.count { |stop| stop.halt? && stop.tile.color != :blue }
           harbor_subsidy = stops.sum { |stop| stop.tile.color == :blue ? stop.route_revenue(route.phase, route.train) : 0 }
           mine_subsody = count * BASE_MINE_BONUS[@phase.tiles.last]
           total_subsidy = harbor_subsidy + mine_subsody
@@ -737,7 +737,9 @@ module Engine
 
           # logic to check if route contains both mine and harbor
           routes.any? do |route|
-            route.stops.any?(&:halt?) && route.stops.any? { |stop| stop.tile.color == :blue }
+            route.stops.any? { |stop| stop.halt? && stop.tile.color != :blue } && route.stops.any? do |stop|
+              stop.tile.color == :blue
+            end
           end
         end
 
@@ -840,7 +842,7 @@ module Engine
         end
 
         def revenue_for(route, stops)
-          revenue = stops.sum { |stop| stop.tile.color == :blue ? 0 : stop.route_revenue(route.phase, route.train) }
+          revenue = stops.sum { |stop| stop.halt? ? 0 : stop.route_revenue(route.phase, route.train) }
           bonus = route.hexes.sum do |hex|
             tokened_mountain_pass(hex, route.train.owner) ? MOUNTAIN_PASS_TOKEN_BONUS[hex.id] : 0
           end
