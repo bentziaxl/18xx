@@ -1333,6 +1333,15 @@ module Engine
             [cities, towns]
           end
         end
+
+        def legal_tile_rotation?(_entity, hex, tile)
+          return true unless hex.id == 'F26'
+
+          f26_illegal_tile_rotations = [1, 2, 4, 5, 6]
+          return false if f26_illegal_tile_rotations.include? tile.rotation
+
+          true
+        end
       end
     end
   end
