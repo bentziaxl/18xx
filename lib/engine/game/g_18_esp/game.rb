@@ -655,9 +655,9 @@ module Engine
         def subsidy_for(route, stops)
           count = stops.count { |stop| stop.halt? && stop.tile.color != :blue }
           harbor_subsidy = stops.sum { |stop| stop.tile.color == :blue ? stop.route_revenue(route.phase, route.train) : 0 }
-          mine_subsody = count * BASE_MINE_BONUS[@phase.tiles.last]
-          total_subsidy = harbor_subsidy + mine_subsody
-          total_subsidy += 20 if harbor_subsidy.positive? && count.positive?
+          mine_subsidy = count * BASE_MINE_BONUS[@phase.tiles.last]
+          total_subsidy = harbor_subsidy + mine_subsidy
+          total_subsidy += 20 if harbor_subsidy.positive? && mine_subsidy.positive?
           total_subsidy
         end
 
@@ -836,9 +836,10 @@ module Engine
                                         end
         end
 
-        def valid_interchange?(tile)
+        def valid_interchange?(tile, entity)
+          track_type = north_corp?(entity) ? :broad : :narrow
           uniq_tracks = tile.paths.map(&:track).uniq
-          uniq_tracks.include?(:dual) || uniq_tracks.include?(:broad)
+          uniq_tracks.include?(:dual) || uniq_tracks.include?(track_type)
         end
 
         def revenue_for(route, stops)
@@ -1055,7 +1056,12 @@ module Engine
 
         def must_buy_train?(entity)
           trains = entity.trains
-          trains = trains.dup.reject { |t| t.track_type == :narrow } if !north_corp?(entity) || entity.type == :minor
+          puts("here in trains #{trains} #{!north_corp?(entity)} #{!entity.interchange?}") if entity.name == 'MCP'
+          if (!north_corp?(entity) && !entity.interchange?) || entity.type == :minor
+            trains = trains.dup.reject do |t|
+              t.track_type == :narrow
+            end
+          end
           trains = trains.dup.reject { |t| t.track_type == :broad } if north_corp?(entity) && !entity.interchange?
           trains.none? { |t| !extra_train?(t) } && !depot.depot_trains.empty?
         end

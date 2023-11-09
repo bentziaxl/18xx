@@ -103,9 +103,7 @@ module Engine
         end
 
         def interchange?
-          return false unless @game.north_corp?(self)
-
-          tokens.any? { |t| t.hex && @game.valid_interchange?(t.hex.tile) }
+          @interchange ||= tokens.any? { |t| t.hex && @game.valid_interchange?(t.hex.tile, self) }
         end
       end
     end
