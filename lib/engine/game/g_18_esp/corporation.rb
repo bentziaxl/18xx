@@ -103,7 +103,7 @@ module Engine
         end
 
         def interchange?
-          @interchange ||= tokens.any? { |t| t.hex && @game.valid_interchange?(t.hex.tile,) }
+          @interchange ||= tokens.any? { |t| t.hex && @game.valid_interchange?(t.hex.tile, self) }
         end
       end
     end
