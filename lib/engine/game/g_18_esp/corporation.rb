@@ -5,7 +5,7 @@ module Engine
     module G18ESP
       class Corporation < Engine::Corporation
         attr_reader :destination, :goals_reached_counter
-        attr_accessor :destination_connected, :ran_offboard, :ran_harbor_mine, :taken_over_minor, :moved_token
+        attr_accessor :destination_connected, :ran_offboard, :ran_harbor_mine, :taken_over_minor, :moved_token, :full_cap
 
         def initialize(game, sym:, name:, **opts)
           @game = game
@@ -76,7 +76,7 @@ module Engine
         end
 
         def minor_takeover_reached!
-          return if @taken_over_minor || @game.north_corp?(self)
+          return if @taken_over_minor || @game.north_corp?(self) || @full_cap
 
           @taken_over_minor = true
           @goals_reached_counter += 1
@@ -103,7 +103,7 @@ module Engine
         end
 
         def interchange?
-          @interchange ||= tokens.any? { |t| t.hex && @game.valid_interchange?(t.hex.tile, self) }
+          @interchange ||= tokens.any? { |t| t.hex && @game.valid_interchange?(t.hex.tile,) }
         end
       end
     end

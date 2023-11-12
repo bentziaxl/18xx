@@ -551,8 +551,8 @@ module Engine
             corporation.destination_connected = true
             corporation.ran_offboard = true
             corporation.ran_harbor_mine = true
-            corporation.taken_over_minor = true
-            share_count = 10 if @full_cap
+            corporation.full_cap = true
+            share_count = 10
           end
           @log << "#{corporation.name} floats"
           share_count ||= corporation.type == :major ? 4 : 2
@@ -601,7 +601,7 @@ module Engine
           goal_status << ["Destination #{corporation.destination}"] unless corporation.destination_connected?
           goal_status << ['Offboard'] unless corporation.ran_offboard?
           goal_status << ['Run mine to harbor'] if north_corp?(corporation) && !corporation.ran_harbor_mine?
-          goal_status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor
+          goal_status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor && !corporation.full_cap
 
           goal_status = [] if goal_status.length == 1
           tender_status = tender_corp_status(corporation) || []
@@ -1200,8 +1200,6 @@ module Engine
         def or_set_finished
           @depot.export! if @corporations.any?(&:floated?)
           game_end_check
-
-          @corporations = @corporations.dup.select(&:floated?) if @turn == @final_turn
         end
 
         def final_ors?
