@@ -1057,7 +1057,6 @@ module Engine
 
         def must_buy_train?(entity)
           trains = entity.trains
-          puts("here in trains #{trains} #{!north_corp?(entity)} #{!entity.interchange?}") if entity.name == 'MCP'
           if (!north_corp?(entity) && !entity.interchange?) || entity.type == :minor
             trains = trains.dup.reject do |t|
               t.track_type == :narrow
@@ -1247,7 +1246,7 @@ module Engine
           # Give the player the money.from the bank
           @bank.spend(loan, player)
 
-          loan_amount = loan.round(-1)
+          loan_amount = loan
           interest = loan_amount * 0.5
 
           @log << "#{player.name} recieves #{format_currency(loan)} from the bank. \
