@@ -522,6 +522,7 @@ module Engine
               next
             end
 
+            @luxury_carriages = [] # no more luxury carriage buying
             convert_p3_into_2p if company.id == 'P3' && company.owner.is_a?(Corporation)
             company.close!
           end
@@ -1117,7 +1118,7 @@ module Engine
 
         def company_bought(company, entity, owner)
           # On acquired abilities
-          transfer_luxury_ability_and_close_company(company, entity, owner) if company.id == 'P4'
+          transfer_luxury_ability(company, entity, owner) if company.id == 'P4'
 
           return unless company == p2
 
@@ -1126,7 +1127,7 @@ module Engine
           company.close!
         end
 
-        def transfer_luxury_ability_and_close_company(company, entity, owner)
+        def transfer_luxury_ability(company, entity, owner)
           luxury_ability = company.all_abilities.first
           if luxury_ability(entity)
             # entity already has tender. Do not add, but increase carriage count
@@ -1135,11 +1136,10 @@ module Engine
                     There are #{@luxury_carriages.size} tenders left"
           else
             entity.add_ability(luxury_ability)
-            @log << "#{company.name} closes. #{entity.name} now can now assign tender to a single train"
+            @log << "#{entity.name} now can now assign tender to a single train"
           end
           luxury_carriages.map! { |e| e == owner ? entity : e }
           company.remove_ability(luxury_ability)
-          company.close!
         end
 
         def luxury_ability(entity)
