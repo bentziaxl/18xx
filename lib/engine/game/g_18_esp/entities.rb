@@ -229,7 +229,6 @@ module Engine
             name: 'Compañía de los Ferrocarriles Económicos de Asturias',
             logo: '18_esp/CFEA',
             coordinates: 'D6',
-            city: 1,
             max_ownership_percent: 60,
             tokens: [0, 50, 50, 50, 50],
             color: '#E96B28',
