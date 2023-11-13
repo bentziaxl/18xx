@@ -30,8 +30,8 @@ module Engine
 
           def setup
             super
-            @tunnel_item ||= Item.new(description: 'Tunnel Token', cost: 50, owner: nil)
-            @bridge_item ||= Item.new(description: 'Bridge Token', cost: 50, owner: nil)
+            @tunnel_item ||= Item.new(description: 'Tunnel Token', cost: 50)
+            @bridge_item ||= Item.new(description: 'Bridge Token', cost: 50)
           end
         end
       end

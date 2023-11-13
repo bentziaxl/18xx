@@ -5,7 +5,7 @@ require_relative 'base'
 module Engine
   module Action
     class SpecialBuy < Base
-      attr_reader :entity, :item, :owner
+      attr_reader :entity, :item
 
       def initialize(entity, item:)
         super(entity)
@@ -14,7 +14,7 @@ module Engine
 
       def self.h_to_args(h, _game)
         {
-          item: Item.new(description: h['description'], cost: h['cost'], owner: h['owner']),
+          item: Item.new(description: h['description'], cost: h['cost']),
         }
       end
 
@@ -22,7 +22,6 @@ module Engine
         {
           'description' => item.description,
           'cost' => item.cost,
-          'owner' => item.owner,
         }
       end
     end

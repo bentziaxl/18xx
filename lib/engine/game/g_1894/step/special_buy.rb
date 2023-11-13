@@ -35,7 +35,7 @@ module Engine
           def setup
             super
 
-            @ferry_marker ||= Item.new(description: 'Ferry marker', cost: 0, owner: nil)
+            @ferry_marker ||= Item.new(description: 'Ferry marker', cost: 0)
           end
         end
       end

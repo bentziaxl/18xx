@@ -30,7 +30,7 @@ module Engine
 
           def setup
             super
-            @coal_marker ||= Item.new(description: 'Coal Marker', cost: 120, owner: nil)
+            @coal_marker ||= Item.new(description: 'Coal Marker', cost: 120)
           end
         end
       end

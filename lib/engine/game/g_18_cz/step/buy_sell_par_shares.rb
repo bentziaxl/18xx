@@ -43,7 +43,7 @@ module Engine
           end
 
           def buyable_items(entity)
-            [Item.new(description: 'Payoff all debt', cost: @game.debt(entity), owner: nil)]
+            [Item.new(description: 'Payoff all debt', cost: @game.debt(entity))]
           end
 
           def item_str(item)

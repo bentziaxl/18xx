@@ -57,27 +57,17 @@ module Engine
             sym: 'P4',
             name: 'La Maquinista',
             value: 100,
-            revenue: 10,
+            revenue: 20,
             min_price: 1,
-            desc: 'Provides four tender cards. The owner of this company (player or company) '\
-                  'can sell up to three of these four tenders (to a major or minor company). Each tender '\
-                  'costs pts30. The fourth tender remains with the private company until it is bought '\
-                  'by a major or minor company. Then the fourth tender belongs to the company that bought '\
-                  'this private. The director of the company that buys this private or that buys a '\
-                  'tender to their owner, can assign its tender to a train of his choice in each OR.'\
-                  ' Note that the other three tenders cannot be used, as they are only available for sale.'\
-                  ' The same train can carry the tender in two or more consecutive ORs. A train with a '\
-                  'tender can adds a town (not harbor nor mine) to its route, regardless of the range of the train.'\
-                  ' The tender is permanent. They can be used by any company, both Northern or Southern. '\
-                  'No company may purchase more than one tender. If, due to an acquisition, a company has '\
-                  'more than one tender, it keeps one for itself and must put the other ones up for sale at pts30.'\
-                  'Pts30 are paid to the player if they are the owner of La Maquinista, or to the treasury'\
-                  ' of the corresponding company if this private is owned by a company.'\
-                  'Companies that buy a tender to this private can do it in any moment during '\
-                  'its turn in an OR, and can also use it in the same OR.'\
-                  'It is not able to trade with the tender cars in other way that has been described.'\
-                  'If phase 5 of the game is reached and there are still any '\
-                  'tenders left to sell, then those tenders are discarded',
+            desc: 'Provides a tender card. When this private is purchased by a minor '\
+            'or major company, the tender belongs to the acquiring company. '\
+            'Then, the director can assign its tender to a train of his choice in each OR. '\
+            'The same train can carry the tender in two or more consecutive ORs. '\
+            'A train with a tender can adds a town (not harbor nor mine) to its route, '\
+            'regardless of the range of the train. The tender is permanent. '\
+            'If, due to a takeover, a tender in a minor goes into a major, then the major can use the tender.'\
+            'The company that buys this private can use the tender in the same OR the private was purchased.'\
+            'It is not able to trade with the tender. This private closes when is purchased.',
             abilities: [
                       {
                         type: 'base',

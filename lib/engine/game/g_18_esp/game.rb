@@ -19,7 +19,7 @@ module Engine
 
         attr_reader :can_build_mountain_pass, :special_merge_step, :can_buy_trains, :minors_stop_operating
 
-        attr_accessor :player_debts, :double_headed_trains, :luxury_carriages
+        attr_accessor :player_debts, :double_headed_trains
 
         CURRENCY_FORMAT_STR = '₧%d'
 
@@ -318,7 +318,7 @@ module Engine
             Engine::Step::Assign,
             Engine::Step::Exchange,
             Engine::Step::SpecialToken,
-            G18ESP::Step::BuyCarriageOrCompany,
+            Engine::Step::BuyCompany,
             G18ESP::Step::HomeToken,
             G18ESP::Step::SpecialTrack,
             G18ESP::Step::SpecialChoose,
@@ -329,7 +329,7 @@ module Engine
             G18ESP::Step::Acquire,
             G18ESP::Step::BuyTrain,
             G18ESP::Step::CombinedTrains,
-            [G18ESP::Step::BuyCarriageOrCompany, { blocks: true }],
+            [Engine::Step::BuyCompany, { blocks: true }]
           ], round_num: round_num)
         end
 
@@ -368,8 +368,6 @@ module Engine
           @perm2_ran_aranjuez = false
 
           setup_company_price(1)
-
-          @luxury_carriages = []
 
           # Initialize the player depts, if player have to take an emergency loan
           init_player_debts
@@ -501,7 +499,6 @@ module Engine
               next
             end
 
-            @luxury_carriages = [] # no more luxury carriage buying
             convert_p3_into_2p if company.id == 'P3' && company.owner.is_a?(Corporation)
             company.close!
           end
@@ -573,8 +570,6 @@ module Engine
         end
 
         def status_array(corporation)
-          return tender_corp_status(corporation) if corporation.type == :minor
-
           goal_status = ['Goals Left:']
 
           goal_status << ["Destination #{corporation.destination}"] unless corporation.destination_connected?
@@ -583,21 +578,7 @@ module Engine
           goal_status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor && !corporation.full_cap
 
           goal_status = [] if goal_status.length == 1
-          tender_status = tender_corp_status(corporation) || []
-          status =  tender_status + goal_status
-          status.length.positive? ? status : nil
-        end
-
-        def tender_corp_status(corporation)
-          return nil unless @luxury_carriages.include?(corporation)
-
-          ["#{@luxury_carriages.size} Buyable Tenders"]
-        end
-
-        def company_status_str(company)
-          return if company != p4 || p4.owner.nil? || p4.owner.corporation?
-
-          "#{@luxury_carriages.size} / 3 Buyable Tenders"
+          goal_status.length.positive? ? goal_status : nil
         end
 
         def upgrade_cost(old_tile, hex, entity, spender)
@@ -978,10 +959,7 @@ module Engine
           minor_luxury_ability = luxury_ability(minor)
           return unless minor_luxury_ability
 
-          if luxury_ability(corporation)
-            @luxury_carriages << corporation
-            @log << "#{corporation.name} already has a tender. The second carriage can be bought by another company"
-          else
+          unless luxury_ability(corporation)
             corporation.add_ability(minor_luxury_ability)
             @log << "#{corporation.name} gains tender from #{minor.name}"
           end
@@ -1113,7 +1091,7 @@ module Engine
         end
 
         def company_bought(company, entity, owner)
-          # On acquired abilities
+          # # On acquired abilities
           transfer_luxury_ability(company, entity, owner) if company.id == 'P4'
 
           return unless company == p2
@@ -1125,17 +1103,9 @@ module Engine
 
         def transfer_luxury_ability(company, entity, owner)
           luxury_ability = company.all_abilities.first
-          if luxury_ability(entity)
-            # entity already has tender. Do not add, but increase carriage count
-            @luxury_carriages << entity
-            @log << "#{entity.name} already has a carriage, extra carriage is returned to the bank and can be purchased. \
-                    There are #{@luxury_carriages.size} tenders left"
-          else
-            entity.add_ability(luxury_ability)
-            @log << "#{entity.name} now can now assign tender to a single train"
-          end
-          luxury_carriages.map! { |e| e == owner ? entity : e }
-          company.remove_ability(luxury_ability)
+          entity.add_ability(luxury_ability)
+          company.close!
+          @log << "#{entity.name} now can now assign tender to a single train. La Maquinista Closes"
         end
 
         def luxury_ability(entity)
