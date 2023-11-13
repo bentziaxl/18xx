@@ -17,7 +17,6 @@ module Engine
       @routes = {}
       @tokens = {}
       @cheater_tokens = {}
-      @ignore_skip_path = opts[:ignore_skip_path] || false
       @home_as_token = opts[:home_as_token] || false
       @no_blocking = opts[:no_blocking] || false
       @skip_track = opts[:skip_track]
