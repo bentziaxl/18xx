@@ -12,6 +12,10 @@ module Engine
 
           ACTIONS = %w[double_head_trains pass].freeze
 
+          def setup
+            @game.double_headed_trains = []
+          end
+
           def description
             'Double-Head Trains'
           end
