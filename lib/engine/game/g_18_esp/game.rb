@@ -775,10 +775,6 @@ module Engine
           MOUNTAIN_PASS_TOKEN_HEXES.include?(hex.id)
         end
 
-        def render_halts?
-          true
-        end
-
         def check_distance(route, visits)
           entity = route.corporation
 
