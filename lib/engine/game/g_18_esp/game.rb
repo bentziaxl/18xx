@@ -292,10 +292,6 @@ module Engine
           end
         end
 
-        def init_phase
-          G18ESP::Phase.new(game_phases, self)
-        end
-
         def init_tile_groups
           self.class::TILE_GROUPS
         end
@@ -407,16 +403,6 @@ module Engine
           Engine::StockMarket.new(game_market, self.class::CERT_LIMIT_TYPES,
                                   multiple_buy_types: self.class::MULTIPLE_BUY_TYPES,
                                   zigzag: :flip)
-        end
-
-        def init_train_handler
-          trains = self.class::TRAINS.flat_map do |train|
-            Array.new((train[:num] || num_trains(train))) do |index|
-              Train.new(**train, index: index)
-            end
-          end
-
-          G18ESP::Depot.new(trains, self)
         end
 
         def operating_order
