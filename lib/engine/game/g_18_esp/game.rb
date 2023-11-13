@@ -6,7 +6,6 @@ require_relative 'entities'
 require_relative '../base'
 require_relative '../cities_plus_towns_route_distance_str'
 require_relative '../double_sided_tiles'
-require_relative 'tile'
 
 module Engine
   module Game
@@ -21,8 +20,6 @@ module Engine
         attr_reader :can_build_mountain_pass, :special_merge_step, :can_buy_trains, :minors_stop_operating
 
         attr_accessor :player_debts, :double_headed_trains, :luxury_carriages
-
-        TILE_CLASS = G18ESP::Tile
 
         CURRENCY_FORMAT_STR = '₧%d'
 
@@ -633,6 +630,32 @@ module Engine
           return false if (from.color == :white) && from.label.to_s == 'OO' && from.cities.size != to.cities.size
 
           true
+        end
+
+        def upgrades_to?(from, to, special = false, selected_company: nil)
+          # correct color progression?
+          return false unless upgrades_to_correct_color?(from, to, selected_company: selected_company)
+
+          return false unless check_paths_are_subset_of?(from, to)
+
+          # If special ability then remaining checks is not applicable
+          return true if special
+
+          # correct label?
+          return false unless upgrades_to_correct_label?(from, to)
+
+          # correct number of cities and towns
+          return false unless upgrades_to_correct_city_town?(from, to)
+
+          true
+        end
+
+        def check_paths_are_subset_of?(from, to)
+          halts = from.towns.any?(&:halt?)
+          return from.paths_are_subset_of?(to.paths) unless halts
+
+          other_exits = to.paths.flat_map(&:exits).uniq
+          [0, 1, 2, 3, 4, 5].any? { |ticks| (from.exits - other_exits.map { |e| (e + ticks) % 6 }).empty? }
         end
 
         def subsidy_for(route, stops)

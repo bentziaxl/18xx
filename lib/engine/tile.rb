@@ -330,7 +330,7 @@ module Engine
     end
 
     def paths_are_subset_of?(other_paths)
-      if (@junction && other_paths.any?(&:junction)) || towns.any?(&:halt?)
+      if @junction && other_paths.any?(&:junction)
         # Upgrading from a Lawson tile to a Lawson tile is a special case
         other_exits = other_paths.flat_map(&:exits).uniq
         ALL_EDGES.any? { |ticks| (exits - other_exits.map { |e| (e + ticks) % 6 }).empty? }
@@ -378,11 +378,11 @@ module Engine
     end
 
     def token_blocked_by_reservation?(corporation)
-      return false if @reservations.empty? && @cities.none? { |city| city.reservations.compact.size.positive? }
+      return false if @reservations.empty?
 
       if @reservation_blocks == :always ||
         (@reservation_blocks == :single_slot_cities && @cities.any? { |city| city.slots == 1 })
-        !@reservations.include?(corporation) && @cities.none? { |city| city.reserved_by?(corporation) }
+        !@reservations.include?(corporation)
       else
         @reservations.count { |x| corporation != x } >= @cities.sum(&:available_slots)
       end
