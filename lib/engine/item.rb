@@ -2,16 +2,16 @@
 
 module Engine
   class Item
-    attr_accessor :description, :cost, :owner
+    attr_accessor :description, :cost
 
-    def initialize(description:, cost:, owner:)
+    def initialize(description:, cost:)
       @description = description || ''
       @cost = cost || 0
       @owner = owner || nil
     end
 
     def ==(other)
-      @description == other.description && @cost == other.cost && owner == other.owner
+      @description == other.description && @cost == other.cost
     end
   end
 end
