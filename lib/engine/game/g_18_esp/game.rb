@@ -729,10 +729,6 @@ module Engine
         def open_mountain_pass(entity, pass_hex, p5_ability = false)
           pass_tile = hex_by_id(pass_hex).tile
 
-          pass_tile.paths.each do |path|
-            path.walk { |p| p.track = :dual if p.tile.color == :orange }
-          end
-
           mount_pass_cost = mountain_pass_token_cost(hex_by_id(pass_hex), entity, p5_ability)
           entity.spend(mount_pass_cost, @bank) if mount_pass_cost.positive?
 

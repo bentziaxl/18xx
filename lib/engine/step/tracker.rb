@@ -366,6 +366,7 @@ module Engine
         # entity_or_entities is an array when combining private company abilities
         entities = Array(entity_or_entities)
         entity, *_combo_entities = entities
+
         colors = potential_tile_colors(entity, hex)
         @game.tiles
           .select { |tile| @game.tile_valid_for_phase?(tile, hex: hex, phase_color_cache: colors) }
@@ -416,7 +417,7 @@ module Engine
         new_ctedges = tile.city_town_edges
         added_cities = [0, new_ctedges.size - old_ctedges.size].max
         multi_city_upgrade = tile.cities.size > 1 && hex.tile.cities.size > 1
-
+        
         all_new_exits_valid = new_exits.all? { |edge| hex.neighbors[edge] }
         return false unless all_new_exits_valid
 

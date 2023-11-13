@@ -8,8 +8,8 @@ module Engine
     include Ownable
 
     attr_accessor :obsolete, :events, :variants, :obsolete_on, :rusted, :rusts_on, :index, :name,
-                  :distance, :reserved, :track_type
-    attr_reader :available_on, :discount, :multiplier, :sym, :variant, :requires_token, :ever_operated, :operated, :salvage
+                  :distance, :reserved,  :no_local, :multiplier, :track_type
+    attr_reader :available_on, :discount, :sym, :variant, :requires_token, :ever_operated, :operated, :salvage
 
     attr_writer :buyable
 
