@@ -66,7 +66,7 @@ module Engine
             return [] unless @game.coal_railway_exchangable?
 
             @game.companies.select { |c| @game.coal_railway?(c) && c.owner == entity }.map do |c|
-              Item.new(description: c.id, cost: 0)
+              Item.new(description: c.id, cost: 0, owner: nil)
             end
           end
 

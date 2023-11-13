@@ -34,8 +34,8 @@ module Engine
           def buyable_items(_entity)
             return [] unless choice_available?
 
-            [Item.new(description: 'yes', cost: 0),
-             Item.new(description: 'no', cost: 0)]
+            [Item.new(description: 'yes', cost: 0, owner: nil),
+             Item.new(description: 'no', cost: 0, owner: nil)]
           end
 
           def item_str(item)

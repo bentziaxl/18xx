@@ -12,7 +12,7 @@ module Engine
             return [] if @round.leased_train
 
             @game.leaseable_trains.map do |t|
-              Item.new(description: t.name, cost: LEASE_COST)
+              Item.new(description: t.name, cost: LEASE_COST, owner: nil)
             end
           end
 

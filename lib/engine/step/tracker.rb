@@ -417,7 +417,7 @@ module Engine
         new_ctedges = tile.city_town_edges
         added_cities = [0, new_ctedges.size - old_ctedges.size].max
         multi_city_upgrade = tile.cities.size > 1 && hex.tile.cities.size > 1
-        
+
         all_new_exits_valid = new_exits.all? { |edge| hex.neighbors[edge] }
         return false unless all_new_exits_valid
 

@@ -65,19 +65,19 @@ module Engine
             items = []
 
             if !@round.rail_cars.include?('G&C') && @game.multiplayer?
-              items << Item.new(description: 'Plus Train Upgrade [G&C]', cost: item_cost)
+              items << Item.new(description: 'Plus Train Upgrade [G&C]', cost: item_cost, owner: nil)
             end
 
             if !@round.rail_cars.include?('RABA') && @game.multiplayer?
               items << Item.new(description: "+#{@game.raba_delta(@game.phase)} Offboard Bonus [RABA]",
-                                cost: item_cost)
+                                cost: item_cost, owner: nil)
             elsif !@round.rail_cars.include?('RABA')
               items << Item.new(description: "+#{@game.raba_delta(@game.phase)} Offboard Bonus / Train Upgrade [RABA]",
-                                cost: item_cost)
+                                cost: item_cost, owner: nil)
             end
 
             if !@round.rail_cars.include?('SNW') && @game.multiplayer?
-              items << Item.new(description: 'Mine Access [SNW]', cost: item_cost)
+              items << Item.new(description: 'Mine Access [SNW]', cost: item_cost, owner: nil)
             end
 
             items

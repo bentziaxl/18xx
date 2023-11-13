@@ -390,7 +390,7 @@ module Engine
             hex_by_id(hex).tile.cities.first.exchange_token(block_token)
           end
         end
-        
+
         def setup_company_price(mulitplier)
           @companies.each { |company| company.max_price = company.value * mulitplier }
         end

@@ -37,7 +37,7 @@ module Engine
             return [] unless @game.terrain_tokens[entity.name]&.positive?
             return [] if @round.terrain_token
 
-            [Item.new(description: 'Use Terrain Token', cost: 0)]
+            [Item.new(description: 'Use Terrain Token', cost: 0, owner: nil)]
           end
 
           def item_str(item)
