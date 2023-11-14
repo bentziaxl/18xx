@@ -65,6 +65,8 @@ module Engine
 
         CUBE_VALUE = 30
 
+        CONCESSION_DISCOUNT = 210
+
         BANK_CASH = 10_000
 
         CERT_LIMIT = { 2 => 35, 3 => 30, 4 => 20, 5 => 17, 6 => 15 }.freeze
@@ -349,6 +351,15 @@ module Engine
           ], round_num: round_num)
         end
 
+        def stock_round
+          Round::Stock.new(self, [
+            Engine::Step::DiscardTrain,
+            Engine::Step::Exchange,
+            Engine::Step::SpecialTrack,
+            G18Cuba::Step::BuySellParShares,
+          ])
+        end
+
         def new_auction_round
           Engine::Round::Auction.new(self, [
             G18Cuba::Step::SelectionAuction,
@@ -418,6 +429,19 @@ module Engine
           @concessions ||= @companies.select { |c| c.id[0] == self.class::COMPANY_CONCESSION_PREFIX }
         end
 
+        def concession?(entity)
+          return false unless entity.company?
+
+          concessions.include?(entity)
+        end
+
+        # def can_par?(corporation, entity)
+        #   return false if corporation.name == 'FC'
+        #   return false if concessions.none? { |c| c.owner == entity }
+
+        #   super
+        # end
+
         def setup
           super
           @corporations, @fec = @corporations.partition { |corporation| corporation.name != 'FEC' }
@@ -473,20 +497,14 @@ module Engine
           self.class::TILE_GROUPS
         end
 
-        def can_par?(corporation, parrer)
+        def can_par?(corporation, entity)
+          return false if corporation.name == 'FC'
           return super unless corporation.type == 'minor'
 
-          parrer.companies.intersect?(concessions)
+          entity.companies.intersect?(concessions)
         end
 
         def init_company_abilities
-          @companies.each do |company|
-            next unless (ability = abilities(company, :exchange))
-            next unless ability.from.include?(:par)
-
-            exchange_corporations(ability).each {|corp| corp.par_via_exchange = company}
-          end
-
           super
         end
       end
