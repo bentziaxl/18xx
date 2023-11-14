@@ -66,7 +66,7 @@ module Engine
             abilities: [
               {
                 type: 'exchange',
-                corporations: %w[CO DQ HG HY JU SB],
+                corporations: %w[HG JU HY DQ CO SB],
                 owner_type: 'player',
                 from: 'par',
               },
@@ -79,6 +79,14 @@ module Engine
             value: 140,
             revenue: 0,
             desc: '1 Wagon. Must be assigned to a major company.',
+            abilities: [
+              {
+                type: 'exchange',
+                corporations: %w[HG JU HY DQ CO SB],
+                owner_type: 'player',
+                from: 'par',
+              },
+            ],
             color: nil,
           },
           {
@@ -88,6 +96,14 @@ module Engine
             revenue: 0,
             desc: 'May be exchanged anytime during the game in one sugar mill machine (+10/+20/+40) '\
                   'if available to be used for a minor company. The machine is taken from the most expensive space.',
+            abilities: [
+                    {
+                      type: 'exchange',
+                      corporations: %w[HG JU HY DQ CO SB],
+                      owner_type: 'player',
+                      from: 'par',
+                    },
+                  ],
             color: nil,
           },
           {
@@ -96,6 +112,14 @@ module Engine
             value: 170,
             revenue: 0,
             desc: '10% FC share',
+            abilities: [
+              {
+                type: 'exchange',
+                corporations: %w[HG JU HY DQ CO SB],
+                owner_type: 'player',
+                from: 'par',
+              },
+            ],
             color: nil,
           },
           {
@@ -106,6 +130,14 @@ module Engine
             desc: 'Mail contract. Must be assigned to a major company. Gives the company at the start of '\
                   'their turn during an OR if they own at least one train '\
                   'an income of +10/20/30/40 (depending on the phase).',
+            abilities: [
+                    {
+                      type: 'exchange',
+                      corporations: %w[HG JU HY DQ CO SB],
+                      owner_type: 'player',
+                      from: 'par',
+                    },
+                  ],
             color: nil,
           },
           {
@@ -114,6 +146,14 @@ module Engine
             value: 200,
             revenue: 0,
             desc: '$80 discount on a n-train.',
+            abilities: [
+              {
+                type: 'exchange',
+                corporations: %w[HG JU HY DQ CO SB],
+                owner_type: 'player',
+                from: 'par',
+              },
+            ],
             color: nil,
           },
         ].freeze
