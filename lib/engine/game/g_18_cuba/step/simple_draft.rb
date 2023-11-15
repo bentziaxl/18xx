@@ -83,8 +83,6 @@ module Engine
 
             @log << "#{player.name} buys \"#{company.name}\" for #{@game.format_currency(price)}"
 
-            # @game.apply_custom_ability(company)
-
             action_finalized
           end
 

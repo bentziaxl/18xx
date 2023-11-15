@@ -16,7 +16,7 @@ module Engine
 
             raise GameError, "#{corporation.name} cannot be parred" unless @game.can_par?(corporation, entity)
 
-            if entity.companies.intersect?(@game.concessions)
+            if entity.companies.intersect?(@game.concessions) && corporation.type == :minor
               @game.stock_market.set_par(corporation, share_price)
               share = corporation.ipo_shares.take(2)
               bundle = ShareBundle.new(share)
@@ -27,10 +27,17 @@ module Engine
               # Close the concession company
               concession.close!
               @game.after_par(corporation)
+              @game.bank.spend(@game.class::CONCESSION_DISCOUNT, corporation)
               track_action(action, action.corporation)
             else
               super
             end
+          end
+
+          def can_buy?(entity, bundle)
+            super &&
+            !(bundle.owner.corporation? && bundle.corporation.operated?) &&
+            !(bundle.owner.corporation? && bundle.corporation.type == :minor && bundle.corporation.floated?)
           end
         end
       end
