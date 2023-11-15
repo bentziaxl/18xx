@@ -16,6 +16,8 @@ module Engine
 
         include DoubleSidedTiles
 
+        attr_reader :tile_groups, :unused_tiles
+
         register_colors(red: '#d1232a',
                         orange: '#f58121',
                         black: '#110a0c',
@@ -31,6 +33,10 @@ module Engine
         COMPANY_COMMISIONER_PREFIX = 'C'
 
         CONCESSION_DISCOUNT = 210
+
+        NEXT_SR_PLAYER_ORDER = :least_cash
+
+        CAPITALIZATION = :incremental
 
         BANK_CASH = 10_000
 
@@ -114,6 +120,7 @@ module Engine
                         price: 340,
                       },
                     ],
+                    events: [{ 'type' => 'fec' }],
                   },
                   {
                     name: '5',
@@ -151,13 +158,17 @@ module Engine
                       },
                     ],
                   }].freeze
+        EVENTS_TEXT = Base::EVENTS_TEXT.merge(
+          'fec' => ['FEC is available', '']
+        )
 
         def operating_round(round_num)
           Engine::Round::Operating.new(self, [
             Engine::Step::Bankrupt,
             Engine::Step::SpecialTrack,
             Engine::Step::SpecialToken,
-            Engine::Step::HomeToken,
+            G18Cuba::Step::HomeToken,
+            Engine::Step::IssueShares,
             Engine::Step::Track,
             Engine::Step::Token,
             Engine::Step::Route,
@@ -196,6 +207,7 @@ module Engine
             when Round::Draft
               new_stock_round
             when Round::Stock
+              close_unopened_minors if @turn == 1 && @round.round_num == 1
               @operating_rounds = @phase.operating_rounds
               reorder_players
               new_operating_round
@@ -211,7 +223,7 @@ module Engine
               end
             when init_round.class
               init_round_finished
-              reorder_players
+              reorder_players(:least_cash, log_player_order: true)
               new_draft_round
             end
         end
@@ -239,32 +251,80 @@ module Engine
           concessions.include?(entity)
         end
 
-        # def can_par?(corporation, entity)
-        #   return false if corporation.name == 'FC'
-        #   return false if concessions.none? { |c| c.owner == entity }
-
-        #   super
-        # end
-
         def setup
           super
+          @corporations, @fec = @corporations.partition { |corporation| corporation.name != 'FEC' }
           @tile_groups = init_tile_groups
           initialize_tile_opposites!
+          @unused_tiles = []
+        end
+
+        def operating_order
+          minors, majors = @corporations.select(&:floated?).partition { |c| c.type == :minor }
+          minors.sort_by! do |c|
+            sp = c.share_price
+            [sp.price, sp.corporations.find_index(c)]
+          end
+          majors.sort!
+          minors + majors
+        end
+
+        def close_unopened_minors
+          @corporations.each { |c| c.close! if c.type == :minor && !c.floated? }
+          @log << 'Unopened minors close'
         end
 
         def init_tile_groups
           self.class::TILE_GROUPS
         end
 
+        def event_fec!
+          @corporations.concat(@fec)
+        end
+
         def can_par?(corporation, entity)
           return false if corporation.name == 'FC'
-          return super unless corporation.type == 'minor'
+          return super unless corporation.type == :minor
 
           entity.companies.intersect?(concessions)
         end
 
         def init_company_abilities
           super
+        end
+
+        def ipo_name(entity)
+          return entity.floated? ? 'Treasury' : 'IPO' if entity.type == :minor
+
+          entity.operated? ? 'Treasury' : 'IPO'
+        end
+
+        def home_token_locations(corporation)
+          if corporation.type == :minor
+            hexes.select { |hex| !hex.tile.label && !hex.tile.cities.empty? }
+          elsif corporation.name == 'FEC'
+            hexes.select do |hex|
+              hex.tile.cities.any? { |city| city.tokenable?(corporation, free: true) }
+            end
+          end
+        end
+
+        def issuable_shares(entity)
+          return [] unless entity.corporation?
+          return [] unless round.steps.find { |step| step.instance_of?(Engine::Step::IssueShares) }.active?
+
+          bundles_for_corporation(entity, entity).reject { |bundle| bundle.num_shares > 1 }
+        end
+
+        def redeemable_shares(entity)
+          return [] unless entity.corporation?
+          return [] unless round.steps.find { |step| step.instance_of?(Engine::Step::IssueShares) }.active?
+
+          share_price = stock_market.find_share_price(entity, :right).price
+
+          bundles_for_corporation(share_pool, entity)
+            .each { |bundle| bundle.share_price = share_price }
+            .reject { |bundle| entity.cash < bundle.price }
         end
       end
     end
