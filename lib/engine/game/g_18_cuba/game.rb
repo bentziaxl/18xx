@@ -16,8 +16,7 @@ module Engine
 
         include DoubleSidedTiles
 
-        attr_reader :tile_groups, :unused_tiles, :minor_graph, :fc, :claimed_goods, :pickup_hex_for_train
-        attr_accessor :sugar_cubes
+        attr_reader :tile_groups, :unused_tiles
 
         register_colors(red: '#d1232a',
                         orange: '#f58121',
@@ -66,6 +65,10 @@ module Engine
         CUBE_VALUE = 30
 
         CONCESSION_DISCOUNT = 210
+
+        NEXT_SR_PLAYER_ORDER = :least_cash
+
+        CAPITALIZATION = :incremental
 
         BANK_CASH = 10_000
 
@@ -284,56 +287,9 @@ module Engine
                         price: 800,
                       },
                     ],
-                  },
-                  { name: '2n', distance: 2, price: 80, rusts_on: '4', available_on: '2', track_type: :narrow },
-                  {
-                    name: '3n',
-                    distance: 3,
-                    price: 160,
-                    rusts_on: '6',
-                    available_on: '3',
-                    track_type: :narrow,
-                    discount: { '2n' => 40 },
-                  },
-                  {
-                    name: '4n',
-                    distance: 4,
-                    price: 260,
-                    rusts_on: '8',
-                    available_on: '4',
-                    track_type: :narrow,
-                    discount: { '3n' => 80 },
-                  },
-                  { name: '5n', distance: 5, price: 380, available_on: '5', track_type: :narrow, discount: { '4n' => 130 } },
-                  {
-                    name: '1w',
-                    distance: [{ 'nodes' => %w[city offboard], 'pay' => 0, 'visit' => 99 },
-                               { 'nodes' => ['town'], 'pay' => 0, 'visit' => 99 }],
-                    price: 40,
-                    rusts_on: '3w',
-                    available_on: '2',
-                  },
-                  {
-                    name: '2w',
-                    distance: [{ 'nodes' => %w[city offboard], 'pay' => 0, 'visit' => 99 },
-                               { 'nodes' => ['town'], 'pay' => 0, 'visit' => 99 }],
-                    price: 40,
-                    available_on: '2',
-                  },
-                  {
-                    name: '3w',
-                    distance: [{ 'nodes' => %w[city offboard], 'pay' => 0, 'visit' => 99 },
-                               { 'nodes' => ['town'], 'pay' => 0, 'visit' => 99 }],
-                    price: 40,
-                    available_on: '2',
-                  },
-                  { name: '1m', distance: 2, price: 25, track_type: :narrow, available_on: '2' },
-                  { name: '2m', distance: 2, price: 45, track_type: :narrow, available_on: '3' },
-                  { name: '3m', distance: 2, price: 65, track_type: :narrow, available_on: '5' }].freeze
-
+                  }].freeze
         EVENTS_TEXT = Base::EVENTS_TEXT.merge(
-          'fec' => ['FEC is available', ''],
-          'major_sugar_field' => ['Major corporations can lay a plain tile on a sugar cane hex', '']
+          'fec' => ['FEC is available', '']
         )
 
         def operating_round(round_num)
@@ -341,7 +297,8 @@ module Engine
             Engine::Step::Bankrupt,
             Engine::Step::SpecialTrack,
             Engine::Step::SpecialToken,
-            Engine::Step::HomeToken,
+            G18Cuba::Step::HomeToken,
+            Engine::Step::IssueShares,
             Engine::Step::Track,
             Engine::Step::Token,
             Engine::Step::Route,
@@ -380,6 +337,7 @@ module Engine
             when Round::Draft
               new_stock_round
             when Round::Stock
+              close_unopened_minors if @turn == 1 && @round.round_num == 1
               @operating_rounds = @phase.operating_rounds
               reorder_players
               new_operating_round
@@ -395,7 +353,7 @@ module Engine
               end
             when init_round.class
               init_round_finished
-              reorder_players
+              reorder_players(:least_cash, log_player_order: true)
               new_draft_round
             end
         end
@@ -435,46 +393,12 @@ module Engine
           concessions.include?(entity)
         end
 
-        # def can_par?(corporation, entity)
-        #   return false if corporation.name == 'FC'
-        #   return false if concessions.none? { |c| c.owner == entity }
-
-        #   super
-        # end
-
         def setup
           super
           @corporations, @fec = @corporations.partition { |corporation| corporation.name != 'FEC' }
           @tile_groups = init_tile_groups
           initialize_tile_opposites!
           @unused_tiles = []
-          @sugar_cubes = @corporations.select { |c| c.type == :minor }.to_h { |c| [c, 0] }
-          @corporations.each do |c|
-            next if c.type == :minor || c.id == 'FC'
-
-            c.tokens.last(2).each { |t| t.used = true }
-          end
-
-          @minor_graph = Graph.new(self, skip_track: :broad)
-
-          @fc = @corporations.find { |c| c.id == 'FC' }
-          @fc.ipoed = true
-          @fc.ipo_shares.each do |share|
-            @share_pool.transfer_shares(
-              share.to_bundle,
-              share_pool
-            )
-          end
-          @fc.owner = @share_pool
-          place_home_token(@fc)
-          buy_train(@fc, @depot.upcoming.first, :free)
-          @stock_market.set_par(@fc, lookup_fc_price(FC_STARTING_PRICE))
-          @pickup_hex_for_train = {}
-          @claimed_goods = {}
-        end
-
-        def lookup_fc_price(price)
-          @stock_market.market[0].find { |p| p.price == price }
         end
 
         def operating_order
@@ -484,7 +408,6 @@ module Engine
             [sp.price, sp.corporations.find_index(c)]
           end
           majors.sort!
-          majors = majors.partition { |v| v != @fc }.flatten(1)
           minors + majors
         end
 
@@ -497,15 +420,53 @@ module Engine
           self.class::TILE_GROUPS
         end
 
+        def event_fec!
+          @corporations.concat(@fec)
+        end
+
         def can_par?(corporation, entity)
           return false if corporation.name == 'FC'
-          return super unless corporation.type == 'minor'
+          return super unless corporation.type == :minor
 
           entity.companies.intersect?(concessions)
         end
 
         def init_company_abilities
           super
+        end
+
+        def ipo_name(entity)
+          return entity.floated? ? 'Treasury' : 'IPO' if entity.type == :minor
+
+          entity.operated? ? 'Treasury' : 'IPO'
+        end
+
+        def home_token_locations(corporation)
+          if corporation.type == :minor
+            hexes.select { |hex| !hex.tile.label && !hex.tile.cities.empty? }
+          elsif corporation.name == 'FEC'
+            hexes.select do |hex|
+              hex.tile.cities.any? { |city| city.tokenable?(corporation, free: true) }
+            end
+          end
+        end
+
+        def issuable_shares(entity)
+          return [] unless entity.corporation?
+          return [] unless round.steps.find { |step| step.instance_of?(Engine::Step::IssueShares) }.active?
+
+          bundles_for_corporation(entity, entity).reject { |bundle| bundle.num_shares > 1 }
+        end
+
+        def redeemable_shares(entity)
+          return [] unless entity.corporation?
+          return [] unless round.steps.find { |step| step.instance_of?(Engine::Step::IssueShares) }.active?
+
+          share_price = stock_market.find_share_price(entity, :right).price
+
+          bundles_for_corporation(share_pool, entity)
+            .each { |bundle| bundle.share_price = share_price }
+            .reject { |bundle| entity.cash < bundle.price }
         end
       end
     end
