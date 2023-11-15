@@ -160,7 +160,7 @@ module Engine
 
         CORPORATIONS = [
           {
-            float_percent: 60,
+            float_percent: 50,
             sym: 'Oe',
             name: 'FC del Oeste',
             logo: '18_Cuba/Oe',
@@ -170,7 +170,7 @@ module Engine
             color: :brown,
           },
           {
-            float_percent: 60,
+            float_percent: 50,
             sym: 'MS',
             name: 'FC de Matanzas a Sabanillas',
             logo: '18_Cuba/MS',
@@ -180,7 +180,7 @@ module Engine
             text_color: :black,
           },
           {
-            float_percent: 60,
+            float_percent: 50,
             sym: 'CVC',
             name: 'FC Cienfuegos y Villa Clara',
             logo: '18_Cuba/CVC',
@@ -189,7 +189,7 @@ module Engine
             color: :darkgreen,
           },
           {
-            float_percent: 60,
+            float_percent: 50,
             sym: 'NPP',
             name: 'FC Nuevitas-Puerto Príncipe',
             logo: '18_Cuba/NPP',
@@ -198,7 +198,7 @@ module Engine
             color: :orange,
           },
           {
-            float_percent: 60,
+            float_percent: 50,
             sym: 'SdC',
             name: 'FC Santiago de Cuba',
             logo: '18_Cuba/SdC',
@@ -207,7 +207,7 @@ module Engine
             color: :lightblue,
           },
           {
-            float_percent: 60,
+            float_percent: 50,
             sym: 'TSS',
             name: 'FC las Tunas – Sancti Spiritus',
             logo: '18_Cuba/TSS',
@@ -216,7 +216,7 @@ module Engine
             color: :red,
           },
           {
-            float_percent: 60,
+            float_percent: 50,
             sym: 'StSp',
             name: 'FC de Sancti Spiritus',
             logo: '18_Cuba/StSp',
@@ -225,7 +225,7 @@ module Engine
             color: :black,
           },
           {
-            float_percent: 60,
+            float_percent: 50,
             sym: 'FEC',
             name: 'Florida East Coast Railroad',
             logo: '18_Cuba/FEC',
@@ -233,7 +233,6 @@ module Engine
             color: :purple,
           },
           {
-            float_percent: 60,
             sym: 'FC',
             name: 'FC Central',
             logo: '18_Cuba/FC',
