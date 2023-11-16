@@ -16,7 +16,7 @@ module Engine
 
         include DoubleSidedTiles
 
-        attr_reader :tile_groups, :unused_tiles
+        attr_reader :tile_groups, :unused_tiles, :minor_graph
 
         register_colors(red: '#d1232a',
                         orange: '#f58121',
@@ -37,6 +37,8 @@ module Engine
         NEXT_SR_PLAYER_ORDER = :least_cash
 
         CAPITALIZATION = :incremental
+
+        ALLOW_REMOVING_TOWNS = true
 
         BANK_CASH = 10_000
 
@@ -169,7 +171,7 @@ module Engine
             Engine::Step::SpecialToken,
             G18Cuba::Step::HomeToken,
             Engine::Step::IssueShares,
-            Engine::Step::Track,
+            G18Cuba::Step::Track,
             Engine::Step::Token,
             Engine::Step::Route,
             Engine::Step::Dividend,
@@ -257,6 +259,8 @@ module Engine
           @tile_groups = init_tile_groups
           initialize_tile_opposites!
           @unused_tiles = []
+
+          @minor_graph = Graph.new(self, skip_track: :broad)
         end
 
         def operating_order
@@ -280,6 +284,27 @@ module Engine
 
         def event_fec!
           @corporations.concat(@fec)
+        end
+
+        def graph_for_entity(entity)
+          entity.type == :minor ? @minor_graph : @graph
+        end
+
+        def upgrade_cost(tile, hex, entity, spender)
+          return 0 if entity.type == :minor
+
+          super
+        end
+
+        def upgrades_to_correct_city_town?(from, to)
+          if from.towns.size == 1 &&
+            from.color == :white &&
+            to.paths.none? { |p| p.track == :narrow } &&
+            to.city_towns.size.zero?
+            return true
+          end
+
+          super
         end
 
         def can_par?(corporation, entity)
