@@ -2,21 +2,29 @@
 
 require_relative '../../../step/tracker'
 require_relative '../../../step/track'
-require_relative 'skip_fc'
-require_relative 'lay_tile_check'
 
 module Engine
   module Game
     module G18Cuba
       module Step
         class Track < Engine::Step::Track
-          include SkipFc
-          include LayTileCheck
+          def potential_tiles(entity, hex)
+            tiles = super
+            track_to_reject = entity.type == :minor ? :broad : :narrow
+            tiles.reject! do |tile|
+              track_types = tile.paths.map(&:track).uniq
+              if entity.type == :minor
+                if hex == entity.tokens.first.hex
+                  track_types.size == 1 && track_types.first == track_to_reject
+                else
+                  tile.cities.size > 1 || track_types.first == track_to_reject
+                end
+              else
+                track_types.include?(track_to_reject)
+              end
+            end
 
-          def lay_tile(action, extra_cost: 0, entity: nil, spender: nil)
-            super
-
-            @game.add_fc_token(action.tile, action.hex)
+            tiles
           end
         end
       end

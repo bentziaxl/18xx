@@ -405,7 +405,6 @@ module Engine
             %w[C4 D13 E22 F21 G26] => 'city=revenue:0',
             %w[B9 B11 C14 D15 D19 E22] => 'city=revenue:0;icon=image:18_cuba/FC,sticky:1',
             %w[E24 G24] => 'city=revenue:0;label=Y',
-            %w[G24] => 'city=revenue:0;label=Y;icon=image:18_cuba/FC,sticky:1',
             %w[D9 G20
                F27] => 'town=revenue:0,style:hidden;icon=image:18_cuba/sugar-cane;'\
                        'upgrade=cost:10,sticky:1;border=edge:2,type:impassable,',
