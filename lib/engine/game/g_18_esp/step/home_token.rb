@@ -32,6 +32,7 @@ module Engine
               extra_action: true
             )
             @round.pending_tokens.shift
+            action.entity.goal_reached!(:destination) if @game.check_for_destination_connection(action.entity)
           end
 
           def help

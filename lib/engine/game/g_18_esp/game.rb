@@ -329,7 +329,7 @@ module Engine
             G18ESP::Step::Acquire,
             G18ESP::Step::BuyTrain,
             G18ESP::Step::CombinedTrains,
-            [Engine::Step::BuyCompany, { blocks: true }]
+            [Engine::Step::BuyCompany, { blocks: true }],
           ], round_num: round_num)
         end
 
@@ -959,10 +959,10 @@ module Engine
           minor_luxury_ability = luxury_ability(minor)
           return unless minor_luxury_ability
 
-          unless luxury_ability(corporation)
-            corporation.add_ability(minor_luxury_ability)
-            @log << "#{corporation.name} gains tender from #{minor.name}"
-          end
+          return if luxury_ability(corporation)
+          
+          corporation.add_ability(minor_luxury_ability)
+          @log << "#{corporation.name} gains tender from #{minor.name}"
         end
 
         def delete_token_mz(minor)
@@ -1092,7 +1092,7 @@ module Engine
 
         def company_bought(company, entity, owner)
           # # On acquired abilities
-          transfer_luxury_ability(company, entity, owner) if company.id == 'P4'
+          transfer_luxury_ability(company, entity) if company.id == 'P4'
 
           return unless company == p2
 
@@ -1101,7 +1101,7 @@ module Engine
           company.close!
         end
 
-        def transfer_luxury_ability(company, entity, owner)
+        def transfer_luxury_ability(company, entity)
           luxury_ability = company.all_abilities.first
           entity.add_ability(luxury_ability)
           company.close!
