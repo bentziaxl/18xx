@@ -79,7 +79,11 @@ module Engine
 
         EBUY_DEPOT_TRAIN_MUST_BE_CHEAPEST = false
 
-        GAME_END_CHECK = { final_phase: :one_more_full_or_set }.freeze
+        GAME_END_CHECK = { custom: :one_more_full_or_set }.freeze
+
+        GAME_END_REASONS_TEXT = Base::GAME_END_REASONS_TEXT.merge(
+          custom: 'Second 8 train is bought'
+        )
 
         MINOR_TILE_LAYS = [{ lay: true, upgrade: true, cost: 0 }].freeze
         MAJOR_TILE_LAYS = [
@@ -513,6 +517,17 @@ module Engine
           end
 
           @full_cap = true
+        end
+
+        def custom_end_game_reached?
+          # game end on second 8 train purhcase
+          return false unless @phase&.phases&.last == @phase&.current
+
+          train_sym = @depot.upcoming.first.sym
+          remaining = @depot.upcoming.size
+          total = @depot.trains.count { |t| t.sym == train_sym }
+
+          total - remaining > 1
         end
 
         def event_renfe_founded!
@@ -960,7 +975,7 @@ module Engine
           return unless minor_luxury_ability
 
           return if luxury_ability(corporation)
-          
+
           corporation.add_ability(minor_luxury_ability)
           @log << "#{corporation.name} gains tender from #{minor.name}"
         end
@@ -1090,7 +1105,7 @@ module Engine
           train
         end
 
-        def company_bought(company, entity, owner)
+        def company_bought(company, entity)
           # # On acquired abilities
           transfer_luxury_ability(company, entity) if company.id == 'P4'
 
