@@ -59,15 +59,12 @@ module Engine
             value: 100,
             revenue: 20,
             min_price: 1,
-            desc: 'Provides a tender card. When this private is purchased by a minor '\
-                  'or major company, the tender belongs to the acquiring company. '\
-                  'Then, the director can assign its tender to a train of his choice in each OR. '\
-                  'The same train can carry the tender in two or more consecutive ORs. '\
-                  'A train with a tender can adds a town (not harbor nor mine) to its route, '\
-                  'regardless of the range of the train. The tender is permanent. '\
-                  'If, due to a takeover, a tender in a minor goes into a major, then the major can use the tender.'\
-                  'The company that buys this private can use the tender in the same OR the private was purchased.'\
-                  'It is not able to trade with the tender. This private closes when is purchased.',
+            desc: 'When purchased by a company (minor or major) it closes and provides that company with a tender card "+1". '\
+                  'The director can assign the tender to one train. Each OR, the tender can be assigned to the same or a '\
+                  'different train. A train with the tender can add a town (not harbour or mine) to its route, in addition'\
+                  ' to the normal range of the train. The tender is permanent and cannot be traded between companies.'\
+                  ' If a minor with the tender is taken over by a major, the tender is transferred to the major. '\
+                  'The company which buys this private may use the tender in the same OR as the purchase.',
             abilities: [
                       {
                         type: 'base',
