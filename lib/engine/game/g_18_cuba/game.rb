@@ -319,6 +319,12 @@ module Engine
           initialize_tile_opposites!
           @unused_tiles = []
 
+          @corporations.each do |c|
+            next if c.type == :minor
+
+            c.tokens.last(2).each { |t| t.used = true }
+          end
+
           @minor_graph = Graph.new(self, skip_track: :broad)
         end
 
