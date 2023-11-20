@@ -36,6 +36,8 @@ module Engine
 
         NEXT_SR_PLAYER_ORDER = :least_cash
 
+        SELL_AFTER = :operate
+
         CAPITALIZATION = :incremental
 
         ALLOW_REMOVING_TOWNS = true
@@ -52,11 +54,11 @@ module Engine
         ].freeze
 
         TRAIN_FOR_PLAYER_COUNT = {
-          2 => { '2': 5, '3': 4, '4': 2, '5': 3, '6': 3, '8': 4 },
-          3 => { '2': 7, '3': 5, '4': 3, '5': 3, '6': 3, '8': 6 },
-          4 => { '2': 9, '3': 7, '4': 4, '5': 3, '6': 3, '8': 8 },
-          5 => { '2': 10, '3': 8, '4': 5, '5': 3, '6': 3, '8': 10 },
-          6 => { '2': 10, '3': 9, '4': 5, '5': 3, '6': 3, '8': 12 },
+          2 => { '2': 5, '3': 4, '4': 2, '5': 3, '6': 3, '8': 4, '2n': 7, '3n': 5, '4n': 4, '5n': 5 },
+          3 => { '2': 7, '3': 5, '4': 3, '5': 3, '6': 3, '8': 6, '2n': 5, '3n': 5, '4n': 3, '5n': 4 },
+          4 => { '2': 9, '3': 7, '4': 4, '5': 3, '6': 3, '8': 8, '2n': 7, '3n': 6, '4n': 4, '5n': 5 },
+          5 => { '2': 10, '3': 8, '4': 5, '5': 3, '6': 3, '8': 10, '2n': 9, '3n': 7, '4n': 5, '5n': 6 },
+          6 => { '2': 10, '3': 9, '4': 5, '5': 3, '6': 3, '8': 12, '2n': 10, '3n': 8, '4n': 6, '5n': 7 },
         }.freeze
 
         PHASES = [{ name: '2', train_limit: 4, tiles: [:yellow], operating_rounds: 1 },
@@ -159,7 +161,12 @@ module Engine
                         price: 800,
                       },
                     ],
-                  }].freeze
+                  },
+                  { name: '2n', distance: 2, price: 80, rusts_on: '4', available_on: '2', track: :narrow },
+                  { name: '3n', distance: 3, price: 160, rusts_on: '6', available_on: '2', track: :narrow  },
+                  { name: '4n', distance: 4, price: 260, rusts_on: '8', available_on: '2', track: :narrow  },
+                  { name: '5n', distance: 5, price: 380, available_on: '2', track: :narrow }]
+.freeze
         EVENTS_TEXT = Base::EVENTS_TEXT.merge(
           'fec' => ['FEC is available', '']
         )
@@ -176,7 +183,7 @@ module Engine
             Engine::Step::Route,
             Engine::Step::Dividend,
             Engine::Step::DiscardTrain,
-            Engine::Step::BuyTrain,
+            G18Cuba::Step::BuyTrain,
           ], round_num: round_num)
         end
 
@@ -350,6 +357,10 @@ module Engine
           bundles_for_corporation(share_pool, entity)
             .each { |bundle| bundle.share_price = share_price }
             .reject { |bundle| entity.cash < bundle.price }
+        end
+
+        def skip_route_track_type(train)
+          train.track == :broad ? :narrow : :broad
         end
       end
     end

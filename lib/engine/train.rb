@@ -34,6 +34,7 @@ module Engine
       @track_type = opts[:track_type] || :broad
       @events = (opts[:events] || []).select { |e| @index == (e['when'] || 1) - 1 }
       @reserved = opts[:reserved] || false
+      @track = opts[:track] || :broad
       @requires_token = opts[:requires_token].nil? ? true : opts[:requires_token]
       init_variants(opts[:variants])
     end
