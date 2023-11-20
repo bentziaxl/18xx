@@ -7,6 +7,23 @@ module Engine
     module G18Cuba
       module Step
         class BuySellParShares < Engine::Step::BuySellParShares
+          def process_buy_shares(action)
+            super
+            corp = action.bundle.corporation
+            return if corp.type
+
+            reclaim_token(corp, 2) if corp.treasury_shares.sum(&:percent) == 30
+            reclaim_token(corp, 3) if corp.treasury_shares.sum(&:percent).zero?
+          end
+
+          def reclaim_token(corp, token_num)
+            token = corp.tokens[token_num]
+            return unless token
+
+            token.used = false if token.used == true && !token.city
+            @game.log << "#{corp.name} recieves an addditional token"
+          end
+
           def process_par(action)
             raise GameError, 'Cannot par on behalf of other entities' if action.purchase_for
 
