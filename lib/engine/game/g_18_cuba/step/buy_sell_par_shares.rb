@@ -21,7 +21,7 @@ module Engine
               share = corporation.ipo_shares.take(2)
               bundle = ShareBundle.new(share)
               exchange_price = (share_price.price * bundle.num_shares) - @game.class::CONCESSION_DISCOUNT
-              # @round.players_bought[entity][corporation] += share.percent
+              @round.players_bought[entity][corporation] += share.sum(&:percent)
               concession = entity.companies.find { |c| @game.concession?(c) }
               buy_shares(entity, bundle, exchange: concession, exchange_price: exchange_price)
               # Close the concession company
@@ -36,7 +36,6 @@ module Engine
 
           def can_buy?(entity, bundle)
             super &&
-            !(bundle.owner.corporation? && bundle.corporation.operated?) &&
             !(bundle.owner.corporation? && bundle.corporation.type == :minor && bundle.corporation.floated?)
           end
         end
