@@ -1146,6 +1146,7 @@ module Engine
             buy_train(entity, train, :free)
             @log << "#{entity.name} gains a #{train.name} train"
           end
+          puts('here in on acq train 3')
           @company_trains.delete(company.id)
         end
 

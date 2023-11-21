@@ -631,7 +631,7 @@ module Engine
           raise GameError, 'May only use one of the tracks connecting Merthyr Tydfil and Pontypool'
         end
 
-        def company_bought(company, entity, _owner)
+        def company_bought(company, entity)
           # On acquired abilities
           on_acquired_train(company, entity) if self.class::PRIVATE_TRAINS.include?(company.id)
           on_acquired_remove_revenue(company) if self.class::PRIVATE_REMOVE_REVENUE.include?(company.id)

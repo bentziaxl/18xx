@@ -934,7 +934,7 @@ module Engine
           @port ||= company_by_id('RdP')
         end
 
-        def company_bought(company, entity, owner) end
+        def company_bought(company, entity) end
 
         def tunnel
           raise GameError, "'tunnel' Should not be used"

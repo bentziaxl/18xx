@@ -588,7 +588,7 @@ module Engine
           end
         end
 
-        def company_bought(company, entity, _owner)
+        def company_bought(company, entity)
           on_acquired_train(company, entity) if self.class::PRIVATE_TRAINS.include?(company.id)
           adjust_p7_revenue(company) if company.id == 'P7'
           company.revenue = -10 if company.id == 'P16'

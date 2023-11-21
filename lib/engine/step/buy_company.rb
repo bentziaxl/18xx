@@ -107,7 +107,7 @@ module Engine
       def pay(entity, owner, price, company)
         entity.spend(price, owner || @game.bank)
 
-        @game.company_bought(company, entity, owner)
+        @game.company_bought(company, entity)
 
         @log << "#{entity.name} buys #{company.name} from "\
                 "#{owner.nil? ? 'the market' : owner.name} for "\
