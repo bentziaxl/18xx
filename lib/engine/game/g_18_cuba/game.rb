@@ -17,6 +17,7 @@ module Engine
         include DoubleSidedTiles
 
         attr_reader :tile_groups, :unused_tiles, :minor_graph
+        attr_accessor :sugar_cubes
 
         register_colors(red: '#d1232a',
                         orange: '#f58121',
@@ -180,7 +181,7 @@ module Engine
             Engine::Step::IssueShares,
             G18Cuba::Step::Track,
             Engine::Step::Token,
-            Engine::Step::Route,
+            G18Cuba::Step::Route,
             Engine::Step::Dividend,
             Engine::Step::DiscardTrain,
             G18Cuba::Step::BuyTrain,
@@ -263,10 +264,11 @@ module Engine
         def setup
           super
           @corporations, @fec = @corporations.partition { |corporation| corporation.name != 'FEC' }
+          @minors = @corporations.select { |c| c.type == :minor }
           @tile_groups = init_tile_groups
           initialize_tile_opposites!
           @unused_tiles = []
-
+          @sugar_cubes = @minors.to_h { |c| [c, 0] }
           @corporations.each do |c|
             next if c.type == :minor
 
@@ -337,6 +339,14 @@ module Engine
           entity.operated? ? 'Treasury' : 'IPO'
         end
 
+        def check_distance(route, visits)
+          train = route.train
+          narrow_offboard = train.track == :narrow && visits.any?(&:offboard?)
+          return unless narrow_offboard
+
+          raise GameError, 'narrow track train can not visit offboard locations'
+        end
+
         def home_token_locations(corporation)
           if corporation.type == :minor
             hexes.select { |hex| !hex.tile.label && !hex.tile.cities.empty? }
@@ -345,6 +355,12 @@ module Engine
               hex.tile.cities.any? { |city| city.tokenable?(corporation, free: true) }
             end
           end
+        end
+
+        def status_array(corp)
+          return if corp.type != :minor || !corp.floated?
+
+          ["Sugar Cubes: #{@sugar_cubes[corp]}"]
         end
 
         def issuable_shares(entity)
