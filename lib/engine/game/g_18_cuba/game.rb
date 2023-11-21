@@ -204,12 +204,13 @@ module Engine
                     ],
                   },
                   { name: '2n', distance: 2, price: 80, rusts_on: '4', available_on: '2', track: :narrow },
-                  { name: '3n', distance: 3, price: 160, rusts_on: '6', available_on: '2', track: :narrow  },
-                  { name: '4n', distance: 4, price: 260, rusts_on: '8', available_on: '2', track: :narrow  },
-                  { name: '5n', distance: 5, price: 380, available_on: '2', track: :narrow }]
+                  { name: '3n', distance: 3, price: 160, rusts_on: '6', available_on: '3', track: :narrow  },
+                  { name: '4n', distance: 4, price: 260, rusts_on: '8', available_on: '4', track: :narrow  },
+                  { name: '5n', distance: 5, price: 380, available_on: '5', track: :narrow }]
 .freeze
         EVENTS_TEXT = Base::EVENTS_TEXT.merge(
-          'fec' => ['FEC is available', '']
+          'fec' => ['FEC is available', ''],
+          'major_sugar_field' => ['Major corporations can lay a plain tile on a sugar cane hex', '']
         )
 
         def operating_round(round_num)
@@ -316,11 +317,10 @@ module Engine
         def setup
           super
           @corporations, @fec = @corporations.partition { |corporation| corporation.name != 'FEC' }
-          @minors = @corporations.select { |c| c.type == :minor }
           @tile_groups = init_tile_groups
           initialize_tile_opposites!
           @unused_tiles = []
-          @sugar_cubes = @minors.to_h { |c| [c, 0] }
+          @sugar_cubes = @corporations.select { |c| c.type == :minor }.to_h { |c| [c, 0] }
           @corporations.each do |c|
             next if c.type == :minor
 
@@ -353,6 +353,10 @@ module Engine
           @corporations.concat(@fec)
         end
 
+        def major_sugar_field!
+          @major_sugar_field = true
+        end
+
         def graph_for_entity(entity)
           entity.type == :minor ? @minor_graph : @graph
         end
@@ -367,7 +371,8 @@ module Engine
           if from.towns.size == 1 &&
             from.color == :white &&
             to.paths.none? { |p| p.track == :narrow } &&
-            to.city_towns.size.zero?
+            to.city_towns.size.zero? &&
+            @major_sugar_field
             return true
           end
 
