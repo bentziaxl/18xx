@@ -41,6 +41,8 @@ module Engine
 
         CAPITALIZATION = :incremental
 
+        EXTRA_TRAINS = %w[1w 2w 3w].freeze
+
         ALLOW_REMOVING_TOWNS = true
 
         BANK_CASH = 10_000
@@ -55,11 +57,81 @@ module Engine
         ].freeze
 
         TRAIN_FOR_PLAYER_COUNT = {
-          2 => { '2': 5, '3': 4, '4': 2, '5': 3, '6': 3, '8': 4, '2n': 7, '3n': 5, '4n': 4, '5n': 5 },
-          3 => { '2': 7, '3': 5, '4': 3, '5': 3, '6': 3, '8': 6, '2n': 5, '3n': 5, '4n': 3, '5n': 4 },
-          4 => { '2': 9, '3': 7, '4': 4, '5': 3, '6': 3, '8': 8, '2n': 7, '3n': 6, '4n': 4, '5n': 5 },
-          5 => { '2': 10, '3': 8, '4': 5, '5': 3, '6': 3, '8': 10, '2n': 9, '3n': 7, '4n': 5, '5n': 6 },
-          6 => { '2': 10, '3': 9, '4': 5, '5': 3, '6': 3, '8': 12, '2n': 10, '3n': 8, '4n': 6, '5n': 7 },
+          2 => {
+            '2': 5,
+            '3': 4,
+            '4': 2,
+            '5': 3,
+            '6': 3,
+            '8': 4,
+            '2n': 7,
+            '3n': 5,
+            '4n': 4,
+            '5n': 5,
+            '1w' => 8,
+            '2w' => 6,
+            '3w' => 4,
+          },
+          3 => {
+            '2': 7,
+            '3': 5,
+            '4': 3,
+            '5': 3,
+            '6': 3,
+            '8': 6,
+            '2n': 5,
+            '3n': 5,
+            '4n': 3,
+            '5n': 4,
+            '1w' => 8,
+            '2w' => 6,
+            '3w' => 4,
+          },
+          4 => {
+            '2': 9,
+            '3': 7,
+            '4': 4,
+            '5': 3,
+            '6': 3,
+            '8': 8,
+            '2n': 7,
+            '3n': 6,
+            '4n': 4,
+            '5n': 5,
+            '1w' => 8,
+            '2w' => 6,
+            '3w' => 4,
+          },
+          5 => {
+            '2': 10,
+            '3': 8,
+            '4': 5,
+            '5': 3,
+            '6': 3,
+            '8': 10,
+            '2n': 9,
+            '3n': 7,
+            '4n': 5,
+            '5n': 6,
+            '1w' => 8,
+            '2w' => 6,
+            '3w' => 4,
+          },
+          6 => {
+            '2': 10,
+            '3': 9,
+            '4': 5,
+            '5': 3,
+            '6': 3,
+            '8': 12,
+            '2n': 10,
+            '3n': 8,
+            '4n': 6,
+            '5n': 7,
+            '1w' => 8,
+            '2w' => 6,
+            '3w' => 4,
+          },
         }.freeze
 
         PHASES = [{ name: '2', train_limit: 4, tiles: [:yellow], operating_rounds: 1 },
@@ -167,8 +239,11 @@ module Engine
                   { name: '2n', distance: 2, price: 80, rusts_on: '4', available_on: '2', track: :narrow },
                   { name: '3n', distance: 3, price: 160, rusts_on: '6', available_on: '3', track: :narrow  },
                   { name: '4n', distance: 4, price: 260, rusts_on: '8', available_on: '4', track: :narrow  },
-                  { name: '5n', distance: 5, price: 380, available_on: '5', track: :narrow }]
-.freeze
+                  { name: '5n', distance: 5, price: 380, available_on: '5', track: :narrow },
+                  { name: '1w', distance: 2, price: 40, rusts_on: '3w', available_on: '2' },
+                  { name: '2w', distance: 2, price: 80, available_on: '4' },
+                  { name: '3w', distance: 2, price: 150, available_on: '6' }].freeze
+
         EVENTS_TEXT = Base::EVENTS_TEXT.merge(
           'fec' => ['FEC is available', ''],
           'major_sugar_field' => ['Major corporations can lay a plain tile on a sugar cane hex', '']
@@ -245,6 +320,14 @@ module Engine
           TRAIN_FOR_PLAYER_COUNT[num_players][train[:name].to_sym]
         end
 
+        def route_trains(entity)
+          super.reject { |t| wagon?(t) }
+        end
+
+        def wagon?(train)
+          self.class::EXTRA_TRAINS.include?(train.name)
+        end
+
         def company_header(company)
           company.id[0] == self.class::COMPANY_CONCESSION_PREFIX ? 'CONCESSION' : 'COMMISSIONER'
         end
@@ -298,6 +381,10 @@ module Engine
           self.class::TILE_GROUPS
         end
 
+        def init_graph
+          Graph.new(self, skip_track: :narrow)
+        end
+
         def event_fec!
           @corporations.concat(@fec)
         end
@@ -348,7 +435,7 @@ module Engine
         def check_distance(route, visits)
           train = route.train
           narrow_offboard = train.track == :narrow && visits.any?(&:offboard?)
-          return unless narrow_offboard
+          return super unless narrow_offboard
 
           raise GameError, 'narrow track train can not visit offboard locations'
         end
