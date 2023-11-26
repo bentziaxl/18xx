@@ -7,7 +7,6 @@ module Engine
     def initialize(description:, cost:)
       @description = description || ''
       @cost = cost || 0
-      @owner = owner || nil
     end
 
     def ==(other)

@@ -39,10 +39,9 @@ module Engine
           def attach_luxury
             @orginal_train = @luxury_train.dup
             city_distance = train_city_distance(@luxury_train)
-            town_distance = train_town_distance(@luxury_train)
+            town_distance = train_town_distance(@luxury_train) + 1
             @luxury_train.name += '+1'
-            @luxury_train.distance = [{ 'nodes' => %w[town], 'pay' => 1, 'visit' => 1 },
-                                      { 'nodes' => %w[town halt], 'pay' => town_distance, 'visit' => town_distance },
+            @luxury_train.distance = [{ 'nodes' => %w[town halt], 'pay' => town_distance, 'visit' => town_distance },
                                       {
                                         'nodes' => %w[city offboard town halt],
                                         'pay' => city_distance,
