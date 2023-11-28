@@ -47,6 +47,7 @@ module Engine
             # given trains, so that if they are double headed this way again,
             # the double headed train does not need to be recreated, and the
             # route auto-selector can use its previous route
+            original_base_name = base.name
             distance, name = combined_distance_and_name(base, additional_train)
 
             # simplify name to C+t form, after id is set via sym
@@ -56,7 +57,7 @@ module Engine
 
             @game.update_trains_cache
 
-            @game.double_headed_trains << base
+            @game.double_headed_trains[base] = "#{original_base_name}, #{additional_train.name}"
           end
 
           def combined_distance_and_name(base, additional_train)

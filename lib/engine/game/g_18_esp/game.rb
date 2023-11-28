@@ -381,7 +381,7 @@ module Engine
           @tile_groups = init_tile_groups
           initialize_tile_opposites!
           @unused_tiles = []
-          @double_headed_trains = []
+          @double_headed_trains = {}
 
           # place tokens on mountain passes
 
@@ -598,7 +598,16 @@ module Engine
           goal_status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor && !corporation.full_cap
 
           goal_status = [] if goal_status.length == 1
-          goal_status
+
+          train_status = corporation.trains.map do |train|
+            next unless @double_headed_trains[train]
+
+            "Combined train #{train.name}: #{@double_headed_trains[train]}"
+          end
+          train_status = [] if train_status.length.zero?
+          status = goal_status + train_status
+          status = nil if status.length.zero?
+          status
         end
 
         def company_status_str(company)
@@ -805,7 +814,7 @@ module Engine
                   'Minors can not run to offboard locations'
           end
 
-          if double_headed_trains.include?(route.train)
+          if @double_headed_trains.key?(route.train)
             raise GameError, 'Combined train must run through a montain pass' if route.hexes.none? do |hex|
                                                                                    mountain_pass_token_hex?(hex)
                                                                                  end
@@ -1315,7 +1324,7 @@ module Engine
         def combined_base_trains_candidates(corporation)
           return unless corporation
 
-          corporation.trains.reject { |t| double_headed_trains.include?(t) || t.name == '2P' }
+          corporation.trains.reject { |t| @double_headed_trains.key?(t) || t.name == '2P' }
         end
 
         def combined_obsolete_trains_candidates(corporation)
