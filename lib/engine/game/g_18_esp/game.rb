@@ -1375,7 +1375,7 @@ module Engine
         end
 
         def game_corporations
-          corps = self.class::CORPORATIONS
+          corps = self.class::CORPORATIONS.dup
           extra_corp = if option_eastern?
                          {
                            sym: 'AVT',
