@@ -125,7 +125,6 @@ module Engine
           },
         ].freeze
 
-        # corporations with different properties in 1st Edition
         CORPORATIONS = [
           {
             float_percent: 40,
@@ -256,20 +255,6 @@ module Engine
             color: '#009141',
             type: 'major',
             destination: 'K5',
-          },
-
-          {
-            sym: 'MS',
-            name: 'Ferrocarril de Mérida a Sevilla',
-            logo: '18_esp/MS',
-            coordinates: 'C27',
-            color: '#7DCCE5',
-            tokens: [0],
-            type: 'minor',
-            shares: [100],
-            float_percent: 100,
-            max_ownership_percent: 100,
-            startable: true,
           },
           {
             sym: 'CM',

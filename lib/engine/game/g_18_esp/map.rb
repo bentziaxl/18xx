@@ -687,7 +687,7 @@ module Engine
             %w[K21] => 'upgrade=cost:20,terrain:river',
             %w[L18 M19] => 'upgrade=cost:80,terrain:mountain',
             %w[G7] => 'upgrade=cost:40,terrain:mountain;border=edge:3,type:impassable;border=edge:4,type:impassable',
-            %w[H22 H24 J22] => 'upgrade=cost:60,terrain:mountain',
+            %w[H22 H24 J22] => 'upgrade=cost:30,terrain:mountain',
             %w[E11 F8 H10 J8 K7 L6 D10] => 'upgrade=cost:30,terrain:mountain',
             %w[G29] => 'upgrade=cost:60,terrain:mountain;border=edge:5,type:impassable',
             %w[J6] => 'town=revenue:0;upgrade=cost:30,terrain:mountain',

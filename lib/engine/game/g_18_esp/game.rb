@@ -79,6 +79,16 @@ module Engine
 
         EBUY_DEPOT_TRAIN_MUST_BE_CHEAPEST = false
 
+        OPTION_REMOVE_HEXES = %w[C25 C27 C33 L26].freeze
+        OPTION_ADD_HEXES = {
+          white: {
+            ['C27'] => 'town=revenue:0;upgrade=cost:20,terrain:river',
+            ['C25'] => '',
+            ['C33'] => 'city=revenue:0;icon=image:anchor',
+          },
+          blue: { ['L26'] => 'halt=revenue:green_20|brown_50|gray_60;path=a:2,b:_0,track:dual;label=E' },
+        }.freeze
+
         GAME_END_CHECK = { custom: :one_more_full_or_set }.freeze
 
         GAME_END_REASONS_TEXT = Base::GAME_END_REASONS_TEXT.merge(
@@ -1358,6 +1368,60 @@ module Engine
           return false if f26_illegal_tile_rotations.include? tile.rotation
 
           true
+        end
+
+        def option_eastern?
+          @optional_rules&.include?(:eastern)
+        end
+
+        def game_corporations
+          corps = self.class::CORPORATIONS
+          extra_corp = if option_eastern?
+                         {
+                           sym: 'AVT',
+                           name: 'Sociedad de los Ferrocarriles de Almansa a Valencia y Tarragona',
+                           logo: '18_esp/MS',
+                           coordinates: 'K25',
+                           color: '#7DCCE5',
+                           tokens: [0],
+                           type: 'minor',
+                           shares: [100],
+                           float_percent: 100,
+                           max_ownership_percent: 100,
+                           startable: true,
+                         }
+                       else
+                         {
+                           sym: 'MS',
+                           name: 'Ferrocarril de Mérida a Sevilla',
+                           logo: '18_esp/MS',
+                           coordinates: 'C27',
+                           color: '#7DCCE5',
+                           tokens: [0],
+                           type: 'minor',
+                           shares: [100],
+                           float_percent: 100,
+                           max_ownership_percent: 100,
+                           startable: true,
+                         }
+                       end
+          corps << extra_corp
+          corps
+        end
+
+        def optional_hexes
+          return self.class::HEXES unless option_eastern?
+
+          new_hexes = {}
+          HEXES.keys.each do |color|
+            new_map = self.class::HEXES[color].transform_keys do |coords|
+              coords - OPTION_REMOVE_HEXES
+            end
+            OPTION_ADD_HEXES[color]&.each { |coords, tile_str| new_map[coords] = tile_str }
+            new_hexes[color] = new_map
+          end
+
+          new_hexes
         end
       end
     end
