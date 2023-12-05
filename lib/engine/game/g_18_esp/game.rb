@@ -1405,7 +1405,7 @@ module Engine
                            startable: true,
                          }
                        end
-          corps << extra_corp
+          corps << extra_corp unless corps.include?(extra_corp)
           corps
         end
 
