@@ -83,10 +83,10 @@ module Engine
         OPTION_ADD_HEXES = {
           white: {
             ['C27'] => 'town=revenue:0;upgrade=cost:20,terrain:river',
-            ['C25'] => '',
+            ['C25'] => 'upgrade=cost:20,terrain:river;icon=image:18_esp/MCP,sticky:1',
             ['C33'] => 'city=revenue:0;icon=image:anchor',
           },
-          blue: { ['L26'] => 'halt=revenue:green_20|brown_50|gray_60;path=a:2,b:_0,track:dual;label=E' },
+          blue: { ['L26'] => 'halt=revenue:yellow_20|green_30|brown_50|gray_60;path=a:2,b:_0,track:dual;label=E' },
         }.freeze
 
         GAME_END_CHECK = { custom: :one_more_full_or_set }.freeze
@@ -972,7 +972,7 @@ module Engine
             from.spend(amount, to)
           else
             difference = amount - from.cash
-            from.spend(from.cash, to)
+            from.spend(from.cash, to) if from.cash.positive?
             if to != from
               take_player_loan(from.owner, differnce - from.owner.cash) unless from.owner.cash >= difference
               from.owner.spend(difference, to)

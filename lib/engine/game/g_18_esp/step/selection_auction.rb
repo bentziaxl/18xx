@@ -90,6 +90,7 @@ module Engine
           def setup
             setup_auction
             @companies = @game.companies.sort_by(&:sym)
+            @companies = @game.companies.sort_by(&:value) if @game.option_eastern?
             @cheapest = @companies.first
             auction_entity(@companies.first)
             @auction_triggerer = current_entity
