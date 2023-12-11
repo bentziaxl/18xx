@@ -83,7 +83,7 @@ module Engine
         OPTION_ADD_HEXES = {
           white: {
             ['C27'] => 'town=revenue:0;upgrade=cost:20,terrain:river',
-            ['C25'] => 'upgrade=cost:20,terrain:river;icon=image:18_esp/MCP,sticky:1',
+            ['C25'] => 'upgrade=cost:10,terrain:river;icon=image:18_esp/MCP,sticky:1',
             ['C33'] => 'city=revenue:0;icon=image:anchor',
           },
           blue: { ['L26'] => 'halt=revenue:yellow_20|green_30|brown_50|gray_60;path=a:2,b:_0,track:dual;label=E' },
@@ -1380,7 +1380,7 @@ module Engine
                          {
                            sym: 'AVT',
                            name: 'Sociedad de los Ferrocarriles de Almansa a Valencia y Tarragona',
-                           logo: '18_esp/MS',
+                           logo: '18_esp/AVT',
                            coordinates: 'K25',
                            color: '#7DCCE5',
                            tokens: [0],
