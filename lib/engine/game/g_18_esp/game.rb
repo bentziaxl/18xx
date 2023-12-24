@@ -238,7 +238,8 @@ module Engine
               },
             ],
             events: [{ 'type' => 'close_companies' },
-                     { 'type' => 'minors_stop_operating' }],
+                     { 'type' => 'minors_stop_operating' },
+                     { 'type' => 'float_60' }],
           },
           {
             name: '6',
@@ -254,7 +255,6 @@ module Engine
                 price: 600,
               },
             ],
-            events: [{ 'type' => 'float_60' }],
           },
 
           {
