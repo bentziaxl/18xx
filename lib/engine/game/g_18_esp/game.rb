@@ -1021,7 +1021,8 @@ module Engine
           city = token.city
           yellow_green = city.tile.color == :yellow || city.tile.color == :green
           if !yellow_green
-            city.delete_token!(token)
+            delete_slot = city.slots > 4 ? city.slots : false
+            city.delete_token!(token, remove_slot: delete_slot)
             # add mza reservation if mza not tokened in madrid yet
             mza_token = city.tokens.compact.find { |t| t.corporation == mza }
             city.add_reservation!(mza) unless mza_token
