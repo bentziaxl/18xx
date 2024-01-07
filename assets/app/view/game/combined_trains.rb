@@ -81,7 +81,7 @@ module View
         end
 
         div_props = {
-          key: 'double_head_trains',
+          key: 'combined_trains',
           hook: {
             destroy: -> { cleanup },
           },

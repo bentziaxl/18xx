@@ -18,6 +18,14 @@ module Engine
         GAME_INFO_URL = ''
 
         PLAYER_RANGE = [3, 6].freeze
+
+        OPTIONAL_RULES = [
+          {
+            sym: :eastern,
+            short_name: 'Eastern development',
+            desc: 'Eastern development optional rules',
+          },
+        ].freeze
       end
     end
   end

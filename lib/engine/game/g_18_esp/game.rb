@@ -19,7 +19,7 @@ module Engine
 
         attr_reader :can_build_mountain_pass, :special_merge_step, :can_buy_trains, :minors_stop_operating
 
-        attr_accessor :player_debts, :double_headed_trains, :luxury_carriages_count
+        attr_accessor :player_debts, :combined_trains, :luxury_carriages_count
 
         CURRENCY_FORMAT_STR = '₧%d'
 
@@ -31,7 +31,7 @@ module Engine
 
         STARTING_CASH = { 3 => 860, 4 => 650, 5 => 520, 6 => 440 }.freeze
 
-        NORTH_CORPS = %w[FdSB FdLR CFEA CFLG].freeze
+        NORTH_CORPS = %w[FdSB FdLR CFEA CFLG SFVA FDC].freeze
 
         SPECIAL_MINORS = %w[].freeze
 
@@ -228,7 +228,8 @@ module Engine
               },
             ],
             events: [{ 'type' => 'close_companies' },
-                     { 'type' => 'minors_stop_operating' }],
+                     { 'type' => 'minors_stop_operating' },
+                     { 'type' => 'float_60' }],
           },
           {
             name: '6',
@@ -244,7 +245,6 @@ module Engine
                 price: 600,
               },
             ],
-            events: [{ 'type' => 'float_60' }],
           },
 
           {
@@ -358,6 +358,8 @@ module Engine
         end
 
         def setup
+          setup_corporations
+
           @corporations, @future_corporations = @corporations.partition do |corporation|
             corporation.type == :minor || north_corp?(corporation)
           end
@@ -381,7 +383,6 @@ module Engine
           @tile_groups = init_tile_groups
           initialize_tile_opposites!
           @unused_tiles = []
-          @double_headed_trains = []
 
           # place tokens on mountain passes
 
@@ -389,6 +390,20 @@ module Engine
             block_token = Token.new(nil, price: 0, logo: '/logos/18_esp/block.svg')
             hex_by_id(hex).tile.cities.first.exchange_token(block_token)
             hex_by_id(hex).tile.cities.first.exchange_token(block_token)
+          end
+        end
+
+        def setup_corporations
+          minors, majors = @corporations.partition { |corporation|  corporation.type == :minor }
+          north_majors, south_majors = majors.partition {|corporation| north_corp?(corporation) }
+          remove_corps = north_majors.sort_by {rand}.take(2) + south_majors.sort_by {rand}.take(3) + minors.sort_by {rand}.take(2)
+          @log << "Removing #{remove_corps.map {|c| c.name}.join(', ')}"
+          remove_corps.each do |c| 
+            remove_dest_icon(c) if c.destination
+            @corporations.delete(c)
+            hex = @hexes.find { |h| h.id == c.coordinates }
+            hex.tile.cities[c.city || 0].remove_reservation!(c)
+            c.close!
           end
         end
 
@@ -598,7 +613,16 @@ module Engine
           goal_status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor && !corporation.full_cap
 
           goal_status = [] if goal_status.length == 1
-          goal_status
+
+          train_status = corporation.trains.map do |train|
+            next unless combined_trains[train]
+
+            "Combined train #{train.name}: #{combined_trains[train]}"
+          end
+          train_status = [] if train_status.length.zero?
+          status = goal_status + train_status
+          status = nil if status.length.zero?
+          status
         end
 
         def company_status_str(company)
@@ -805,7 +829,7 @@ module Engine
                   'Minors can not run to offboard locations'
           end
 
-          if double_headed_trains.include?(route.train)
+          if combined_trains.include?(route.train)
             raise GameError, 'Combined train must run through a montain pass' if route.hexes.none? do |hex|
                                                                                    mountain_pass_token_hex?(hex)
                                                                                  end
@@ -953,7 +977,7 @@ module Engine
             from.spend(amount, to)
           else
             difference = amount - from.cash
-            from.spend(from.cash, to)
+            from.spend(from.cash, to) if from.cash.positive?
             if to != from
               take_player_loan(from.owner, differnce - from.owner.cash) unless from.owner.cash >= difference
               from.owner.spend(difference, to)
@@ -1002,7 +1026,8 @@ module Engine
           city = token.city
           yellow_green = city.tile.color == :yellow || city.tile.color == :green
           if !yellow_green
-            city.delete_token!(token)
+            delete_slot = city.slots > 4 ? city.slots : false
+            city.delete_token!(token, remove_slot: delete_slot)
             # add mza reservation if mza not tokened in madrid yet
             mza_token = city.tokens.compact.find { |t| t.corporation == mza }
             city.add_reservation!(mza) unless mza_token
@@ -1315,7 +1340,7 @@ module Engine
         def combined_base_trains_candidates(corporation)
           return unless corporation
 
-          corporation.trains.reject { |t| double_headed_trains.include?(t) || t.name == '2P' }
+          corporation.trains.reject { |t| combined_trains.key?(t) || t.name == '2P' }
         end
 
         def combined_obsolete_trains_candidates(corporation)
@@ -1350,6 +1375,15 @@ module Engine
 
           true
         end
+
+        def option_eastern?
+          @optional_rules&.include?(:eastern)
+        end
+
+        def game_corporations
+          self.class::CORPORATIONS + self.class::EXTRA_CORPORATIONS
+        end
+
       end
     end
   end

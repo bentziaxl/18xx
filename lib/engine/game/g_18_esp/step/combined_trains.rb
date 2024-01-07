@@ -19,7 +19,6 @@ module Engine
             return [] if entity.type == :minor
             return [] unless @game.combined_obsolete_trains_candidates(entity).size.positive?
             return [] unless @game.combined_base_trains_candidates(entity).size.positive?
-            return [] unless @game.can_run_route?(entity)
 
             ACTIONS
           end
@@ -32,7 +31,7 @@ module Engine
             additional_train.variant = variant
 
             joined_trains = "#{base.name}, #{additional_train.name}"
-            create_double_headed_train!(base, additional_train)
+            create_combined_train!(base, additional_train)
 
             cost = additional_train.price * 2
 
@@ -42,11 +41,9 @@ module Engine
                     "#{base.name} train by combining trains: #{joined_trains} for #{@game.format_currency(cost)}"
           end
 
-          def create_double_headed_train!(base, additional_train)
-            # double-headed train's ID is formed by combining the the IDs of the
-            # given trains, so that if they are double headed this way again,
-            # the double headed train does not need to be recreated, and the
-            # route auto-selector can use its previous route
+          def create_combined_train!(base, additional_train)
+            # combined train's ID is formed by combining the the IDs of the
+            # given trains
             distance, name = combined_distance_and_name(base, additional_train)
 
             # simplify name to C+t form, after id is set via sym
@@ -56,7 +53,7 @@ module Engine
 
             @game.update_trains_cache
 
-            @game.double_headed_trains << base
+            @game.combined_trains << base
           end
 
           def combined_distance_and_name(base, additional_train)
