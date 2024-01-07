@@ -31,7 +31,7 @@ module Engine
 
         STARTING_CASH = { 3 => 860, 4 => 650, 5 => 520, 6 => 440 }.freeze
 
-        NORTH_CORPS = %w[FdSB FdLR CFEA CFLG].freeze
+        NORTH_CORPS = %w[FdSB FdLR CFEA CFLG SFVA FDC].freeze
 
         SPECIAL_MINORS = %w[].freeze
 
@@ -78,16 +78,6 @@ module Engine
         EBUY_PRES_SWAP = false
 
         EBUY_DEPOT_TRAIN_MUST_BE_CHEAPEST = false
-
-        OPTION_REMOVE_HEXES = %w[C25 C27 C33 L26].freeze
-        OPTION_ADD_HEXES = {
-          white: {
-            ['C27'] => 'town=revenue:0;upgrade=cost:20,terrain:river',
-            ['C25'] => 'upgrade=cost:10,terrain:river;icon=image:18_esp/MCP,sticky:1',
-            ['C33'] => 'city=revenue:0;icon=image:anchor',
-          },
-          blue: { ['L26'] => 'halt=revenue:yellow_20|green_30|brown_50|gray_60;path=a:2,b:_0,track:dual;label=E' },
-        }.freeze
 
         GAME_END_CHECK = { custom: :one_more_full_or_set }.freeze
 
@@ -368,6 +358,8 @@ module Engine
         end
 
         def setup
+          setup_corporations
+
           @corporations, @future_corporations = @corporations.partition do |corporation|
             corporation.type == :minor || north_corp?(corporation)
           end
@@ -399,6 +391,20 @@ module Engine
             block_token = Token.new(nil, price: 0, logo: '/logos/18_esp/block.svg')
             hex_by_id(hex).tile.cities.first.exchange_token(block_token)
             hex_by_id(hex).tile.cities.first.exchange_token(block_token)
+          end
+        end
+
+        def setup_corporations
+          minors, majors = @corporations.partition { |corporation|  corporation.type == :minor }
+          north_majors, south_majors = majors.partition {|corporation| north_corp?(corporation) }
+          remove_corps = north_majors.sort_by {rand}.take(2) + south_majors.sort_by {rand}.take(3) + minors.sort_by {rand}.take(2)
+          @log << "Removing #{remove_corps.map {|c| c.name}.join(', ')}"
+          remove_corps.each do |c| 
+            remove_dest_icon(c) if c.destination
+            @corporations.delete(c)
+            hex = @hexes.find { |h| h.id == c.coordinates }
+            hex.tile.cities[c.city || 0].remove_reservation!(c)
+            c.close!
           end
         end
 
@@ -1376,54 +1382,9 @@ module Engine
         end
 
         def game_corporations
-          corps = self.class::CORPORATIONS.dup
-          extra_corp = if option_eastern?
-                         {
-                           sym: 'AVT',
-                           name: 'Sociedad de los Ferrocarriles de Almansa a Valencia y Tarragona',
-                           logo: '18_esp/AVT',
-                           coordinates: 'K25',
-                           color: '#7DCCE5',
-                           tokens: [0],
-                           type: 'minor',
-                           shares: [100],
-                           float_percent: 100,
-                           max_ownership_percent: 100,
-                           startable: true,
-                         }
-                       else
-                         {
-                           sym: 'MS',
-                           name: 'Ferrocarril de Mérida a Sevilla',
-                           logo: '18_esp/MS',
-                           coordinates: 'C27',
-                           color: '#7DCCE5',
-                           tokens: [0],
-                           type: 'minor',
-                           shares: [100],
-                           float_percent: 100,
-                           max_ownership_percent: 100,
-                           startable: true,
-                         }
-                       end
-          corps << extra_corp unless corps.include?(extra_corp)
-          corps
+          self.class::CORPORATIONS + self.class::EXTRA_CORPORATIONS
         end
 
-        def optional_hexes
-          return self.class::HEXES unless option_eastern?
-
-          new_hexes = {}
-          HEXES.keys.each do |color|
-            new_map = self.class::HEXES[color].transform_keys do |coords|
-              coords - OPTION_REMOVE_HEXES
-            end
-            OPTION_ADD_HEXES[color]&.each { |coords, tile_str| new_map[coords] = tile_str }
-            new_hexes[color] = new_map
-          end
-
-          new_hexes
-        end
       end
     end
   end
