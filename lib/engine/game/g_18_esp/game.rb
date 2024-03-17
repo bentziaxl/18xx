@@ -568,7 +568,7 @@ module Engine
             c.shares.last&.buyable = true
             c.float_percent = 60
 
-            next if c.ipoed
+            next if c.floated?
 
             # release tokens
             c.tokens.each { |token| token.used = false if token.used == true && !token.hex }
