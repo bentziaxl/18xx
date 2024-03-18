@@ -860,6 +860,7 @@ module Engine
             end
           end
           trains = trains.dup.reject { |t| t.track_type == :broad } if north_corp?(entity) && !entity.interchange?
+          trains = trains.dup.reject { |t| t.track_type == :all } if combined_train_blocked?(entity)
           trains.none? { |t| !extra_train?(t) } && !depot.depot_trains.empty?
         end
 
@@ -1315,6 +1316,14 @@ module Engine
           return false unless north_corp?(entity)
 
           !entity.southern_token?
+        end
+
+        def combined_train_blocked?(entity)
+          return if entity.trains.none? { |t| t.track_type == :all }
+
+          graph_for_entity(entity).connected_nodes(entity).keys.none? do |n|
+            mountain_pass_token_hex?(n.hex) && !n.blocks?(entity)
+          end
         end
 
         def check_overlap(routes)
