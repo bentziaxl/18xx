@@ -1318,6 +1318,14 @@ module Engine
           !entity.southern_token?
         end
 
+        def can_only_run_broad?(entity)
+          return unless entity.corporation?
+          return true if entity.type == :minor
+          return false if north_corp?(entity)
+
+          !entity.northern_token?
+        end
+
         def combined_train_blocked?(entity)
           return if entity.trains.none? { |t| t.track_type == :all }
 
