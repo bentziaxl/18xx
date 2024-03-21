@@ -802,7 +802,7 @@ module Engine
             revenue += gbi_bm_bonus(stops)[:revenue]
           end
 
-          revenue *= 3 if final_ors? && @round.round_num == @operating_rounds && north_corp?(route.train.owner)
+          revenue *= 2 if final_ors? && @round.round_num == @operating_rounds && north_corp?(route.train.owner)
 
           revenue
         end
