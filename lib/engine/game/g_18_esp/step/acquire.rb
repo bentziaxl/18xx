@@ -32,7 +32,6 @@ module Engine
 
           def can_merge?(entity)
             entity.type != :minor &&
-            !entity.taken_over_minor &&
             !mergeable_candidates(entity).empty?
           end
 

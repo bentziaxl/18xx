@@ -575,8 +575,7 @@ module Engine
             # all goals reached, no extra cap
             c.destination_connected = true
             c.ran_offboard = true
-            c.ran_harbor_mine = true
-            c.taken_over_minor = true
+            c.ran_harbor = true
             c.full_cap = true
           end
 
@@ -615,8 +614,7 @@ module Engine
 
           goal_status << ["Destination #{corporation.destination}"] unless corporation.destination_connected?
           goal_status << ['Offboard'] unless corporation.ran_offboard?
-          goal_status << ['Run mine to harbor'] if north_corp?(corporation) && !corporation.ran_harbor_mine?
-          goal_status << ['Takeover'] if !north_corp?(corporation) && !corporation.taken_over_minor && !corporation.full_cap
+          goal_status << ['Run to harbor'] unless corporation.ran_harbor?
 
           goal_status = [] if goal_status.length == 1
 
@@ -717,17 +715,14 @@ module Engine
           routes.any? { |route| route.visited_stops.any?(&:offboard?) }
         end
 
-        def check_harbor_mine_goal(entity, routes)
+        def check_harbor_goal(entity, routes)
           return false unless entity.corporation?
-          return false unless north_corp?(entity)
           return false if entity.type == :minor
-          return true if entity.ran_harbor_mine?
+          return true if entity.ran_harbor?
 
           # logic to check if route contains both mine and harbor
           routes.any? do |route|
-            route.stops.any? { |stop| stop.halt? && stop.tile.color != :blue } && route.stops.any? do |stop|
-              stop.tile.color == :blue
-            end
+            route.stops.any? { |stop| stop.tile.color == :blue }
           end
         end
 
@@ -1118,9 +1113,6 @@ module Engine
           # handle token
           keep_token ? swap_token(corporation, minor) : gain_token(corporation, minor)
 
-          # complete goal
-          corporation.goal_reached!(:takeover)
-
           # get share
           get_reserved_share(minor.owner, corporation) if !@minors_stop_operating || minor.ipoed
 
@@ -1129,9 +1121,6 @@ module Engine
 
           # close corp
           close_corporation(minor)
-
-          # close unopened minors if all southern majors taken over minors
-          close_unopened_minors if southern_major_corps.none? { |c| !c.taken_over_minor }
         end
 
         def southern_major_corps
