@@ -355,7 +355,6 @@ module Engine
             corporation.type == :minor || north_corp?(corporation)
           end
           @corporations.each { |c| c.shares.first.double_cert = true if c.type == :minor }
-          @future_corporations.each { |c| c.shares.last.buyable = false }
           @minors_stop_operating = false
 
           @company_trains = {}
@@ -565,7 +564,6 @@ module Engine
           @corporations.each do |c|
             next if c.type == :minor
 
-            c.shares.last&.buyable = true
             c.float_percent = 60
 
             next if c.floated?
@@ -797,7 +795,7 @@ module Engine
             revenue += gbi_bm_bonus(stops)[:revenue]
           end
 
-          revenue *= 3 if final_ors? && @round.round_num == @operating_rounds && north_corp?(route.train.owner)
+          revenue *= 2 if final_ors? && @round.round_num == @operating_rounds && north_corp?(route.train.owner)
 
           revenue
         end
@@ -1156,10 +1154,9 @@ module Engine
         end
 
         def get_reserved_share(owner, corporation)
-          reserved_share = corporation.shares.find { |share| share.buyable == false }
+          reserved_share = corporation.shares.last
           return unless reserved_share
 
-          reserved_share.buyable = true
           @share_pool.transfer_shares(
               reserved_share.to_bundle,
               owner,

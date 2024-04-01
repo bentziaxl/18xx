@@ -32,6 +32,7 @@ module Engine
 
           def can_merge?(entity)
             entity.type != :minor &&
+            !sold_out?(entity) &&
             !mergeable_candidates(entity).empty?
           end
 
@@ -62,8 +63,6 @@ module Engine
           end
 
           def mergeable_candidates(corporation)
-            return [] if @game.north_corp?(corporation)
-
             @game.corporations.select do |c|
               next unless c.type == :minor
               next corporation.cash >= @game.class::MINOR_TAKEOVER_COST if @game.minors_stop_operating && !c.floated?
@@ -103,7 +102,7 @@ module Engine
           end
 
           def show_other_players
-            @game.minors_stop_operating
+            false
           end
 
           def show_other
@@ -111,6 +110,10 @@ module Engine
           end
 
           def log_skip(_entity); end
+
+          def sold_out?(corporation)
+            corporation.player_share_holders.values.sum == 100
+          end
         end
       end
     end
