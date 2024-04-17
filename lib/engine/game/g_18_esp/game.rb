@@ -17,7 +17,7 @@ module Engine
         include CitiesPlusTownsRouteDistanceStr
         include DoubleSidedTiles
 
-        attr_reader :can_build_mountain_pass, :can_buy_trains, :minors_stop_operating
+        attr_reader :can_build_mountain_pass, :can_buy_trains, :minors_stop_operating, :can_acquire_minors
 
         attr_accessor :player_debts, :combined_trains, :luxury_carriages_count
 
@@ -515,6 +515,7 @@ module Engine
 
         def event_south_majors_available!
           @corporations.concat(@future_corporations)
+          @can_acquire_minors = true
           @log << '-- Major corporations in the south now available --'
         end
 
@@ -846,15 +847,8 @@ module Engine
         end
 
         def must_buy_train?(entity)
-          trains = entity.trains
-          if (!north_corp?(entity) && !entity.interchange?) || entity.type == :minor
-            trains = trains.dup.reject do |t|
-              t.track_type == :narrow
-            end
-          end
-          trains = trains.dup.reject { |t| t.track_type == :broad } if north_corp?(entity) && !entity.interchange?
-          trains = trains.dup.reject { |t| t.track_type == :all } if combined_train_blocked?(entity)
-          trains.none? { |t| !extra_train?(t) } && !depot.depot_trains.empty?
+          entity.trains.none? { |t| !extra_train?(t) } &&
+          !depot.depot_trains.empty?
         end
 
         def num_corp_trains(entity)

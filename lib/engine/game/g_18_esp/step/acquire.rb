@@ -31,6 +31,8 @@ module Engine
           end
 
           def can_merge?(entity)
+            return unless @game.can_acquire_minors
+
             entity.type != :minor &&
             !sold_out?(entity) &&
             !mergeable_candidates(entity).empty?
