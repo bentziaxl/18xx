@@ -34,6 +34,7 @@ module Engine
             return unless @game.can_acquire_minors
 
             entity.type != :minor &&
+            !@game.north_corp?(entity) &&
             !sold_out?(entity) &&
             !mergeable_candidates(entity).empty?
           end
@@ -53,7 +54,6 @@ module Engine
             keep_token = (action.choice.to_s == 'map')
             @game.start_merge(action.entity, @merging.last, keep_token)
             @merging = nil
-            pass!
           end
 
           def mergeable_type(corporation)

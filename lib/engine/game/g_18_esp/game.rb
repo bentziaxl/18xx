@@ -1119,17 +1119,32 @@ module Engine
           @corporations.select { |c| c.type == :major && !north_corp?(c) }
         end
 
-        def close_unopened_minors
-          return unless @minors_stop_operating
-
+        def close_all_minors
           @corporations.each do |c|
             next unless c.type == :minor
-            next if c.ipoed
 
-            hex = hex_by_id(c.coordinates)
-            hex.tile.cities[c.city || 0].remove_reservation!(c)
-            hex.tile.remove_reservation!(c)
+            close_minor(c)
+          end
+        end
+
+        def close_minor(c)
+          hex = hex_by_id(c.coordinates)
+          hex.tile.cities.each { |city| city.remove_reservation!(c) }
+          hex.tile.remove_reservation!(c)
+          @log << "Closing #{c.name}"
+
+          c.share_holders.keys.each do |share_holder|
+            share_holder.shares_by_corporation.delete(c)
+          end
+
+          @share_pool.shares_by_corporation.delete(c)
+          c.share_price&.corporations&.delete(c)
+
+          @corporations.delete(c)
             c.close!
+            c.close!
+          end
+          c.close!
           end
         end
 
@@ -1172,8 +1187,8 @@ module Engine
 
           if luxury_ability(corporation)
             @luxury_carriages_count += 1
-            @log << "#{corporation.name} already has a tender. The additional '\
-            'tender can be bought by another company from the bank"
+            @log << "#{corporation.name} already has a tender. The additional \
+            tender can be bought by another company from the bank"
           else
             corporation.add_ability(minor_luxury_ability)
             @log << "#{corporation.name} gains tender from #{minor.name}"
