@@ -67,8 +67,6 @@ module Engine
           def mergeable_candidates(corporation)
             @game.corporations.select do |c|
               next unless c.type == :minor
-              next corporation.cash >= @game.class::MINOR_TAKEOVER_COST if @game.minors_stop_operating && !c.floated?
-              next true if @game.minors_stop_operating && corporation.cash >= c.share_price&.price
               next true if c.floated? && corporation.cash >= c.share_price&.price && c.operated?
 
               false
@@ -92,7 +90,7 @@ module Engine
           end
 
           def can_swap?
-            return true if @game.minors_stop_operating && !mz?(@merging.last)
+            return true unless mz?(@merging.last)
 
             @merging.last.tokens.first&.used &&
             !mz?(@merging.last) &&

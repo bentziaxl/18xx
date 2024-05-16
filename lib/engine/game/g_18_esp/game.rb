@@ -17,7 +17,7 @@ module Engine
         include CitiesPlusTownsRouteDistanceStr
         include DoubleSidedTiles
 
-        attr_reader :can_build_mountain_pass, :can_buy_trains, :minors_stop_operating, :can_acquire_minors
+        attr_reader :can_build_mountain_pass, :can_buy_trains, :can_acquire_minors
 
         attr_accessor :player_debts, :combined_trains, :luxury_carriages_count
 
@@ -355,7 +355,6 @@ module Engine
             corporation.type == :minor || north_corp?(corporation)
           end
           @corporations.each { |c| c.shares.first.double_cert = true if c.type == :minor }
-          @minors_stop_operating = false
 
           @company_trains = {}
           @company_trains['P2'] = find_and_remove_train_for_minor('2-0')
@@ -537,8 +536,8 @@ module Engine
         end
 
         def event_minors_stop_operating!
-          @log << 'Minors stop operating'
-          @minors_stop_operating = true
+          @log << 'All Minors close'
+          close_all_minors
         end
 
         def custom_end_game_reached?
@@ -1106,7 +1105,7 @@ module Engine
           keep_token ? swap_token(corporation, minor) : gain_token(corporation, minor)
 
           # get share
-          get_reserved_share(minor.owner, corporation) if !@minors_stop_operating || minor.ipoed
+          get_reserved_share(minor.owner, corporation) if minor.ipoed
 
           # gain tender ability
           gain_luxury_carriage_ability_from_minor(corporation, minor)
@@ -1123,6 +1122,10 @@ module Engine
           @corporations.each do |c|
             next unless c.type == :minor
 
+            if c.operated?
+              @bank.spend(c.share_price.price, c.owner)
+              @log << "#{c.owner.name} recieves compensation of #{format_currency(c.share_price.price)} for #{c.name}"
+            end
             close_minor(c)
           end
         end
@@ -1131,7 +1134,7 @@ module Engine
           hex = hex_by_id(c.coordinates)
           hex.tile.cities.each { |city| city.remove_reservation!(c) }
           hex.tile.remove_reservation!(c)
-          @log << "Closing #{c.name}"
+          @log << "#{c.name} closes"
 
           c.share_holders.keys.each do |share_holder|
             share_holder.shares_by_corporation.delete(c)
@@ -1141,15 +1144,11 @@ module Engine
           c.share_price&.corporations&.delete(c)
 
           @corporations.delete(c)
-            c.close!
-            c.close!
-          end
           c.close!
-          end
         end
 
         def pay_compensation(corporation, minor)
-          if @minors_stop_operating && minor.player_share_holders.empty?
+          if minor.player_share_holders.empty?
             corporation.spend(MINOR_TAKEOVER_COST, @bank)
             @log << "#{corporation.name} spends #{format_currency(MINOR_TAKEOVER_COST)} to acquire #{minor.name}"
           else
@@ -1223,7 +1222,7 @@ module Engine
           new_token = survivor.tokens.last
           old_token = nonsurvivor.tokens.first
           city = old_token.city
-          if city.nil? && @minors_stop_operating
+          if city.nil?
             city = hex_by_id(nonsurvivor.coordinates).tile.cities.find { |c| c.reserved_by?(nonsurvivor) }
             city.remove_reservation!(nonsurvivor)
           end
@@ -1296,12 +1295,6 @@ module Engine
         def game_corporations
           corps = self.class::CORPORATIONS
           corps += self.class::EXTRA_CORPORATIONS unless core
-          corps
-        end
-
-        def sorted_corporations
-          corps = super
-          corps.reject! { |c| c.type == :minor && !c.ipoed } if @minors_stop_operating
           corps
         end
 
