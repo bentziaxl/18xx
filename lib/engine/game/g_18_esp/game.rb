@@ -1119,7 +1119,7 @@ module Engine
         end
 
         def close_all_minors
-          @corporations.each do |c|
+          @corporations.dup.each do |c|
             next unless c.type == :minor
 
             if c.operated?
