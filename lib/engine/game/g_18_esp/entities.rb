@@ -60,8 +60,8 @@ module Engine
             value: 130,
             revenue: 10,
             min_price: 1,
-            desc: "Provides five tender cards. The owner of this company (only player) can \
-            sell up to four of these five tenders (to any company). Each tender costs pts80 \
+            desc: "Provides six tender cards. The owner of this company (only player) can \
+            sell up to five of these six tenders (to any company). Each tender costs pts80 \
             (20 goes to the owner and 60 to the bank). The fifth tender remains with the company\
              until it is bought by a major or minor company. Then the fifth tender belongs to the\
               company that bought this private. The director of the company that buys this private\

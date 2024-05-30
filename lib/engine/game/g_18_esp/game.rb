@@ -363,7 +363,7 @@ module Engine
 
           setup_company_price(1)
 
-          @luxury_carriages_count = 4
+          @luxury_carriages_count = 5
 
           @opened_mountain_passes = []
           @combined_trains = {}
@@ -630,7 +630,7 @@ module Engine
         def company_status_str(company)
           return if company != p4 || p4.owner.nil? || p4.owner.corporation?
 
-          "#{@luxury_carriages_count} / 4 Buyable Tenders"
+          "#{@luxury_carriages_count} / 5 Buyable Tenders"
         end
 
         def upgrade_cost(old_tile, hex, entity, spender)
@@ -1132,7 +1132,10 @@ module Engine
 
         def close_minor(c)
           hex = hex_by_id(c.coordinates)
-          hex.tile.cities.each { |city| city.remove_reservation!(c) }
+          hex.tile.cities.each do |city|
+            city.remove_reservation!(c)
+            city.delete_token!(c.tokens.first)
+          end
           hex.tile.remove_reservation!(c)
           @log << "#{c.name} closes"
 
