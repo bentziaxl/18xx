@@ -86,8 +86,16 @@ module Engine
             'count' => 1,
             'color' => 'yellow',
             'code' =>
-              'town=revenue:10,loc:center;town=revenue:10;path=a:0,b:_0;path=a:3,b:_0;' \
-              'path=a:5,b:_0;path=a:2,b:_1;path=a:4,b:_1',
+              'town=revenue:10;town=revenue:10;path=a:0,b:_0;path=a:4,b:_0;' \
+              'path=a:1,b:_1;path=a:5,b:_1',
+          },
+
+          'L113' => {
+            'count' => 1,
+            'color' => 'yellow',
+            'code' =>
+              'town=revenue:10;town=revenue:10;path=a:0,b:_0;path=a:3,b:_0;' \
+              'path=a:1,b:_1;path=a:5,b:_1',
           },
 
           'L89' =>
@@ -491,7 +499,7 @@ module Engine
           %w[L129 L132],
           %w[L130 L133],
           %w[L131 L134],
-          %w[L79],
+          %w[L79 L113],
           %w[L89 L92],
           %w[L90 L93],
           %w[L91 L94],
