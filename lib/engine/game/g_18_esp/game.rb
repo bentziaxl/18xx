@@ -316,6 +316,7 @@ module Engine
             Engine::Step::Exchange,
             Engine::Step::SpecialToken,
             G18ESP::Step::BuyCarriageOrCompany,
+            G18ESP::Step::Choose,
             G18ESP::Step::HomeToken,
             G18ESP::Step::SpecialTrack,
             G18ESP::Step::SpecialChoose,
@@ -881,7 +882,6 @@ module Engine
         def company_bought(company, entity)
           # # On acquired abilities
           transfer_luxury_ability(company, entity) if company == p4
-          on_acquired_train(company, entity) if company == p2
         end
 
         def transfer_luxury_ability(company, entity)
@@ -910,22 +910,21 @@ module Engine
           @company_trains.delete(p3.id)
         end
 
-        def on_acquired_train(company, entity)
-          train = @company_trains[company.id]
+        def on_acquired_train(entity, train_variant)
+          company_id = @p2.id
+          @log << "#{@p2.name} closes"
+          @p2.close!
+
+          train = @company_trains[company_id]
           return if train.rusted
 
           if entity.trains.size < train_limit(entity)
-            needed_track_type = north_corp?(entity) ? :narrow : :broad
-            variant = train.variants.values.find { |v| v[:track_type] == needed_track_type }
-            train.variant = variant[:name] if variant
+            train.variant = train_variant
             train.operated = true
             buy_train(entity, train, :free)
             @log << "#{entity.name} gains a #{train.name} train"
           end
-          @company_trains.delete(company.id)
-
-          @log << "#{company.name} closes"
-          company.close!
+          @company_trains.delete(company_id)
         end
 
         def get_or_revenue(info)
