@@ -653,9 +653,9 @@ module Engine
 
         HEXES = {
           blue: {
-            %w[C1] => 'halt=revenue:yellow_40|green_30|brown_20|gray_20;path=a:0,b:_0,track:dual;icon=image:18_esp/SFVA,sticky:1',
-            %w[E1] => 'halt=revenue:yellow_20|green_30|brown_40|gray_50;path=a:0,b:_0,track:dual',
-            %w[K3] => 'halt=revenue:green_30|brown_40|gray_50;path=a:0,b:_0,track:dual',
+            %w[C1] => 'halt=revenue:yellow_30|green_20|brown_10|gray_10;path=a:0,b:_0,track:dual;icon=image:18_esp/SFVA,sticky:1',
+            %w[E1] => 'halt=revenue:yellow_10|green_20|brown_30|gray_40;path=a:0,b:_0,track:dual',
+            %w[K3] => 'halt=revenue:green_20|brown_30|gray_40;path=a:0,b:_0,track:dual',
             %w[L26] => 'halt=revenue:yellow_20|green_30|brown_50|gray_60,groups:E;path=a:2,b:_0,track:dual;label=E',
             %w[I33] => 'halt=revenue:yellow_20|green_30|brown_30|gray_40,groups:E;path=a:2,b:_0,track:dual;label=E',
             %w[K31] => 'halt=revenue:yellow_40|green_30|brown_30|gray_40,groups:E;path=a:2,b:_0,track:dual;label=E',

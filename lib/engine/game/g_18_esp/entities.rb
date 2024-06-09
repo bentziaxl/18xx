@@ -126,7 +126,7 @@ module Engine
           {
             sym: 'P7',
             name: 'Ferrocarril de Carreño',
-            value: 190,
+            value: 170,
             revenue: 30,
             desc: 'President share of one Northern major company (randomly selected before the game starts).'\
                   'It closes when the major company buys its first train.',

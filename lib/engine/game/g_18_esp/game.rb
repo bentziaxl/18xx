@@ -191,7 +191,8 @@ module Engine
             events: [{ 'type' => 'south_majors_available' },
                      { 'type' => 'companies_bought_150' },
                      { 'type' => 'mountain_pass' },
-                     { 'type' => 'can_buy_trains' }],
+                     { 'type' => 'can_buy_trains' },
+                     { 'type' => 'lay_second_tile' }],
           },
           {
             name: '4',
@@ -276,7 +277,8 @@ module Engine
                 'minors_stop_operating' => ['Minors stop operating'],
                 'float_60' => ['60% to Float', 'Corporations must have 60% of their shares sold to float'],
                 'mountain_pass' => ['Can build mountain passes'],
-                'can_buy_trains' => ['Corporations can buy trains from other corporations']
+                'can_buy_trains' => ['Corporations can buy trains from other corporations'],
+                'lay_second_tile' => ['Northern corporations can now lay a second tile']
               ).freeze
 
         def init_corporations(stock_market)
@@ -361,6 +363,8 @@ module Engine
           @company_trains['P2'] = find_and_remove_train_for_minor('2-0')
           @company_trains['P3'] = find_and_remove_train_for_minor('2P-0', buyable: false)
           @perm2_ran_aranjuez = false
+
+          @extra_tile_lay = false
 
           setup_company_price(1)
 
@@ -486,7 +490,7 @@ module Engine
         end
 
         def tile_lays(entity)
-          return MINOR_TILE_LAYS if entity.type == :minor
+          return MINOR_TILE_LAYS if entity.type == :minor || (north_corp?(entity) && !@extra_tile_lay)
 
           MAJOR_TILE_LAYS
         end
@@ -517,6 +521,11 @@ module Engine
           @corporations.concat(@future_corporations)
           @can_acquire_minors = true
           @log << '-- Major corporations in the south now available --'
+        end
+
+        def event_lay_second_tile!
+          @log << 'Northern corporations can now lay a second tile'
+          @extra_tile_lay = true
         end
 
         def event_companies_bought_150!

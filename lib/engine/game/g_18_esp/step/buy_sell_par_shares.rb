@@ -34,6 +34,12 @@ module Engine
           def can_ipo_any?(entity)
             @game.player_debt(entity).zero? && super
           end
+
+          def get_par_prices(_entity, _corp)
+            super.reject do |p|
+              p.price == 100 || p.price == 95 if @game.phase.tiles.last == :yellow
+            end
+          end
         end
       end
     end
