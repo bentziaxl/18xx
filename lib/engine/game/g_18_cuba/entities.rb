@@ -242,6 +242,7 @@ module Engine
             city: 1,
             color: :white,
             text_color: :black,
+            float_percent: 0,
           },
           {
             float_percent: 60,

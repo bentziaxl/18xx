@@ -16,7 +16,7 @@ module Engine
 
         include DoubleSidedTiles
 
-        attr_reader :tile_groups, :unused_tiles, :minor_graph
+        attr_reader :tile_groups, :unused_tiles, :minor_graph, :fc
         attr_accessor :sugar_cubes
 
         register_colors(red: '#d1232a',
@@ -32,8 +32,10 @@ module Engine
 
         COMPANY_CONCESSION_PREFIX = 'M'
         COMPANY_COMMISIONER_PREFIX = 'C'
+        HOME_TOKEN_TIMING = :par
 
         CONCESSION_DISCOUNT = 210
+        FC_STARTING_PRICE = 50
 
         NEXT_SR_PLAYER_ORDER = :least_cash
 
@@ -58,76 +60,76 @@ module Engine
 
         TRAIN_FOR_PLAYER_COUNT = {
           2 => {
-            '2': 5,
-            '3': 4,
-            '4': 2,
-            '5': 3,
-            '6': 3,
-            '8': 4,
-            '2n': 7,
-            '3n': 5,
-            '4n': 4,
-            '5n': 5,
+            :'2' => 5,
+            :'3' => 4,
+            :'4' => 2,
+            :'5' => 3,
+            :'6' => 3,
+            :'8' => 4,
+            :'2n' => 7,
+            :'3n' => 5,
+            :'4n' => 4,
+            :'5n' => 5,
             '1w' => 8,
             '2w' => 6,
             '3w' => 4,
           },
           3 => {
-            '2': 7,
-            '3': 5,
-            '4': 3,
-            '5': 3,
-            '6': 3,
-            '8': 6,
-            '2n': 5,
-            '3n': 5,
-            '4n': 3,
-            '5n': 4,
+            :'2' => 7,
+            :'3' => 5,
+            :'4' => 3,
+            :'5' => 3,
+            :'6' => 3,
+            :'8' => 6,
+            :'2n' => 5,
+            :'3n' => 5,
+            :'4n' => 3,
+            :'5n' => 4,
             '1w' => 8,
             '2w' => 6,
             '3w' => 4,
           },
           4 => {
-            '2': 9,
-            '3': 7,
-            '4': 4,
-            '5': 3,
-            '6': 3,
-            '8': 8,
-            '2n': 7,
-            '3n': 6,
-            '4n': 4,
-            '5n': 5,
+            :'2' => 9,
+            :'3' => 7,
+            :'4' => 4,
+            :'5' => 3,
+            :'6' => 3,
+            :'8' => 8,
+            :'2n' => 7,
+            :'3n' => 6,
+            :'4n' => 4,
+            :'5n' => 5,
             '1w' => 8,
             '2w' => 6,
             '3w' => 4,
           },
           5 => {
-            '2': 10,
-            '3': 8,
-            '4': 5,
-            '5': 3,
-            '6': 3,
-            '8': 10,
-            '2n': 9,
-            '3n': 7,
-            '4n': 5,
-            '5n': 6,
+            :'2' => 10,
+            :'3' => 8,
+            :'4' => 5,
+            :'5' => 3,
+            :'6' => 3,
+            :'8' => 10,
+            :'2n' => 9,
+            :'3n' => 7,
+            :'4n' => 5,
+            :'5n' => 6,
             '1w' => 8,
             '2w' => 6,
             '3w' => 4,
           },
           6 => {
-            '2': 10,
-            '3': 9,
-            '4': 5,
-            '5': 3,
-            '6': 3,
-            '8': 12,
-            '2n': 10,
-            '3n': 8,
-            '4n': 6,
-            '5n': 7,
+            :'2' => 10,
+            :'3' => 9,
+            :'4' => 5,
+            :'5' => 3,
+            :'6' => 3,
+            :'8' => 12,
+            :'2n' => 10,
+            :'3n' => 8,
+            :'4n' => 6,
+            :'5n' => 7,
             '1w' => 8,
             '2w' => 6,
             '3w' => 4,
@@ -236,10 +238,10 @@ module Engine
                       },
                     ],
                   },
-                  { name: '2n', distance: 2, price: 80, rusts_on: '4', available_on: '2', track: :narrow },
-                  { name: '3n', distance: 3, price: 160, rusts_on: '6', available_on: '3', track: :narrow  },
-                  { name: '4n', distance: 4, price: 260, rusts_on: '8', available_on: '4', track: :narrow  },
-                  { name: '5n', distance: 5, price: 380, available_on: '5', track: :narrow },
+                  { name: '2n', distance: 2, price: 80, rusts_on: '4', available_on: '2', track_type: :narrow },
+                  { name: '3n', distance: 3, price: 160, rusts_on: '6', available_on: '3', track_type: :narrow  },
+                  { name: '4n', distance: 4, price: 260, rusts_on: '8', available_on: '4', track_type: :narrow  },
+                  { name: '5n', distance: 5, price: 380, available_on: '5', track_type: :narrow },
                   { name: '1w', distance: 2, price: 40, rusts_on: '3w', available_on: '2' },
                   { name: '2w', distance: 2, price: 80, available_on: '4' },
                   { name: '3w', distance: 2, price: 150, available_on: '6' }].freeze
@@ -268,8 +270,7 @@ module Engine
         def stock_round
           Round::Stock.new(self, [
             Engine::Step::DiscardTrain,
-            Engine::Step::Exchange,
-            Engine::Step::SpecialTrack,
+            G18Cuba::Step::HomeToken,
             G18Cuba::Step::BuySellParShares,
           ])
         end
@@ -360,6 +361,21 @@ module Engine
           end
 
           @minor_graph = Graph.new(self, skip_track: :broad)
+
+          @fc = @corporations.find { |c| c.id == 'FC' }
+          @fc.ipoed = true
+          @fc.ipo_shares.each do |share|
+            @share_pool.transfer_shares(
+              share.to_bundle,
+              share_pool
+            )
+          end
+          @fc.owner = @share_pool
+          @stock_market.set_par(@fc, lookup_fc_price(FC_STARTING_PRICE))
+        end
+
+        def lookup_fc_price(price)
+          @stock_market.market[0].find { |p| p.price == price }
         end
 
         def operating_order
@@ -369,6 +385,7 @@ module Engine
             [sp.price, sp.corporations.find_index(c)]
           end
           majors.sort!
+          majors = majors.partition { |v| v != @fc }.flatten(1)
           minors + majors
         end
 
@@ -434,7 +451,7 @@ module Engine
 
         def check_distance(route, visits)
           train = route.train
-          narrow_offboard = train.track == :narrow && visits.any?(&:offboard?)
+          narrow_offboard = train.track_type == :narrow && visits.any?(&:offboard?)
           return super unless narrow_offboard
 
           raise GameError, 'narrow track train can not visit offboard locations'
@@ -465,6 +482,7 @@ module Engine
 
         def redeemable_shares(entity)
           return [] unless entity.corporation?
+          return [] if entity.trains.empty?
           return [] unless round.steps.find { |step| step.instance_of?(Engine::Step::IssueShares) }.active?
 
           share_price = stock_market.find_share_price(entity, :right).price
@@ -475,7 +493,7 @@ module Engine
         end
 
         def skip_route_track_type(train)
-          train.track == :broad ? :narrow : :broad
+          train.track_type == :broad ? :narrow : :broad
         end
       end
     end
