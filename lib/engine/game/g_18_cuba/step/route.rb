@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 require_relative '../../../step/route'
+require_relative 'skip_fc'
 
 module Engine
   module Game
     module G18Cuba
       module Step
+        include SkipFc
         class Route < Engine::Step::Route
           def process_run_routes(action)
             super
