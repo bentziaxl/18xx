@@ -35,9 +35,9 @@ module Engine
             @game.player_debt(entity).zero? && super
           end
 
-          def get_par_prices(_entity, _corp)
+          def get_par_prices(_entity, corp)
             super.reject do |p|
-              p.price == 100 || p.price == 95 if @game.phase.tiles.last == :yellow
+              p.price == 100 || p.price == 95 if @game.phase.tiles.last == :yellow && @game.north_corp?(corp)
             end
           end
         end
