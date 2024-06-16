@@ -30,6 +30,24 @@ module Engine
 
             tiles
           end
+
+          def tracker_available_hex(entity, hex)
+            return nil if entity.type == :minor && !hex.tile.cities.empty? && hex.id != entity.coordinates
+
+            connected = hex_neighbors(entity, hex)
+            return nil unless connected
+
+            tile_lay = get_tile_lay(entity)
+            return nil unless tile_lay
+
+            color = hex.tile.color
+            return nil if color == :white && !tile_lay[:lay]
+            return nil if color != :white && !tile_lay[:upgrade]
+            return nil if color != :white && tile_lay[:cannot_reuse_same_hex] && @round.laid_hexes.include?(hex)
+            return nil if ability_blocking_hex(entity, hex)
+
+            connected
+          end
         end
       end
     end
