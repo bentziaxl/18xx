@@ -74,6 +74,7 @@ module Engine
 
         TRAIN_FOR_PLAYER_COUNT = {
           2 => {
+            :'1' => 1,
             :'2' => 5,
             :'3' => 4,
             :'4' => 2,
@@ -89,6 +90,7 @@ module Engine
             '3w' => 4,
           },
           3 => {
+            :'1' => 1,
             :'2' => 7,
             :'3' => 5,
             :'4' => 3,
@@ -104,7 +106,8 @@ module Engine
             '3w' => 4,
           },
           4 => {
-            :'2' => 9,
+            :'1' => 1,
+            :'2' => 1,
             :'3' => 7,
             :'4' => 4,
             :'5' => 3,
@@ -119,6 +122,7 @@ module Engine
             '3w' => 4,
           },
           5 => {
+            :'1' => 1,
             :'2' => 10,
             :'3' => 8,
             :'4' => 5,
@@ -134,6 +138,7 @@ module Engine
             '3w' => 4,
           },
           6 => {
+            :'1' => 1,
             :'2' => 10,
             :'3' => 9,
             :'4' => 5,
@@ -276,7 +281,7 @@ module Engine
             G18Cuba::Step::Track,
             Engine::Step::Token,
             G18Cuba::Step::Route,
-            Engine::Step::Dividend,
+            G18Cuba::Step::Dividend,
             Engine::Step::DiscardTrain,
             G18Cuba::Step::BuyTrain,
           ], round_num: round_num)
@@ -370,7 +375,7 @@ module Engine
           @unused_tiles = []
           @sugar_cubes = @corporations.select { |c| c.type == :minor }.to_h { |c| [c, 0] }
           @corporations.each do |c|
-            next if c.type == :minor
+            next if c.type == :minor || c.id == 'FC'
 
             c.tokens.last(2).each { |t| t.used = true }
           end
@@ -386,6 +391,7 @@ module Engine
             )
           end
           @fc.owner = @share_pool
+          buy_train(@fc, @depot.upcoming.first, :free)
           @stock_market.set_par(@fc, lookup_fc_price(FC_STARTING_PRICE))
         end
 
@@ -421,7 +427,7 @@ module Engine
           @corporations.concat(@fec)
         end
 
-        def major_sugar_field!
+        def event_major_sugar_field!
           @major_sugar_field = true
         end
 
@@ -509,6 +515,10 @@ module Engine
 
         def skip_route_track_type(train)
           train.track_type == :broad ? :narrow : :broad
+        end
+
+        def fc_hex?(hex)
+          G18Cuba::Map::FC_HEX.any? { |hex_id| hex_id == hex.id }
         end
       end
     end
