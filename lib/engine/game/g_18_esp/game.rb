@@ -430,6 +430,15 @@ module Engine
           end
         end
 
+        def remove_unlaunched_corporation_destination_icons
+          @corporations.reject { |c| c.ipoed || c.type == :minor }.each do |c|
+            next unless c.destination
+
+            tile = hex_by_id(c.destination).tile
+            tile.icons = tile.icons.dup.reject { |icon| icon.name == c.name }
+          end
+        end
+
         def setup_company_price(mulitplier)
           @companies.each { |company| company.max_price = company.value * mulitplier }
         end
@@ -568,6 +577,7 @@ module Engine
             convert_p3_into_2p if company == p3 && company.owner.is_a?(Corporation)
             company.close!
           end
+          remove_unlaunched_corporation_destination_icons # remove unlaunched dest icons
         end
 
         def event_float_60!
