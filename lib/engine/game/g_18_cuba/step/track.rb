@@ -32,7 +32,7 @@ module Engine
           end
 
           def tracker_available_hex(entity, hex)
-            return nil if entity.type == :minor && !hex.tile.cities.empty? && hex.id != entity.coordinates
+            return nil if entity.type == :minor && !hex.tile.cities.empty? && hex != entity.tokens.first.hex
 
             connected = hex_neighbors(entity, hex)
             return nil unless connected
@@ -47,6 +47,19 @@ module Engine
             return nil if ability_blocking_hex(entity, hex)
 
             connected
+          end
+
+          def lay_tile(action, extra_cost: 0, entity: nil, spender: nil)
+            super
+
+            return unless @game.fc_hex?(action.hex)
+            return unless action.tile.color == :green
+
+            token = @game.fc.find_token_by_type
+            city = action.tile.cities.first
+            city.place_token(@game.fc, token, cheater: true)
+            action.tile.icons = []
+            @log << "FC places a token in #{action.hex.id}"
           end
         end
       end
