@@ -242,6 +242,7 @@ module Engine
             city: 1,
             color: :white,
             text_color: :black,
+            always_market_price: true,
             float_percent: 0,
           },
           {
