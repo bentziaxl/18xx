@@ -321,6 +321,16 @@ module Engine
             end
         end
 
+        def or_set_finished
+          train = @fc.trains.first
+          remove_train(train)
+          upcoming_train = @depot.upcoming.first
+          buy_train(@fc, upcoming_train, :free)
+          @log << "FC gains a #{upcoming_train.name} train from The Depot"
+
+          @phase.buying_train!(@fc, upcoming_train, @depot)
+        end
+
         def num_trains(train)
           num_players = [@players.size, 2].max
           TRAIN_FOR_PLAYER_COUNT[num_players][train[:name].to_sym]
@@ -376,6 +386,7 @@ module Engine
             )
           end
           @fc.owner = @share_pool
+          place_home_token(@fc)
           buy_train(@fc, @depot.upcoming.first, :free)
           @stock_market.set_par(@fc, lookup_fc_price(FC_STARTING_PRICE))
         end
