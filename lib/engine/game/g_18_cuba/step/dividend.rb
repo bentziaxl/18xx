@@ -27,9 +27,15 @@ module Engine
 
           def calc_fc_revenue
             fc = @game.fc
+
             distance = fc.trains.first.distance
-            city_revenue = 0 # fc.tokens.map {|token| token.city.revenue[phase_color] || 0 }.sort.take(distance).sum
-            fc.cash + city_revenue
+            city_revenue = fc.tokens.map do |token|
+              token.used ? token.city.revenue[phase_color] : 0
+            end.sort.reverse.take(distance).sum
+
+            sugar_cube_revenue = @game.sugar_cubes.values.sum * 10
+            @game.sugar_cubes.keys.each { |k| @game.sugar_cubes[k] = 0 }
+            fc.cash + city_revenue + sugar_cube_revenue
           end
 
           def phase_color
