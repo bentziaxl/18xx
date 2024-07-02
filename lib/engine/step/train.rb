@@ -238,7 +238,6 @@ module Engine
                 else
                   1
                 end
-          puts("here in issues, #{entity&.id}")
           max = [train.price, buying_power(entity) + entity.owner.cash].min
           [min, max]
         else
