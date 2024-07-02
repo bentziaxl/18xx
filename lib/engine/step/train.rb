@@ -252,7 +252,7 @@ module Engine
                 else
                   1
                 end
-          max = @game.class::EBUY_FROM_OTHERS == :value ? [train.price, max_possible].min : max_possible
+          max = [train.price, buying_power(entity) + entity.owner.cash].min
           [min, max]
         else
           [1, buying_power(entity)]

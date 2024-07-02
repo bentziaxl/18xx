@@ -10,8 +10,22 @@ module Engine
             sym: 'C1',
             value: 0,
             revenue: 0,
+            treasury: 30,
             desc: 'Marquis de la Cañada. Funding Amount: 30. Yellow plain track tile '\
                   '(standard or narrow gauge including sugar cane field tiles)',
+            abilities: [
+              {
+                type: 'tile_lay',
+                tiles: %w[7 8 9 77 L50 78 79 L48 L49],
+                owner_type: 'player',
+                hexes: [],
+                reachable: true,
+                special: false,
+                count: 1,
+                closed_when_used_up: true,
+                when: 'owning_player_track',
+              },
+            ],
             color: nil,
           },
           {
@@ -19,17 +33,46 @@ module Engine
             sym: 'C2',
             value: 0,
             revenue: 0,
+            treasury: 35,
             desc: 'Sociedad Económica. Funding Amount: 35. Yellow city tile (without Y city tiles or Havana)',
             color: nil,
+            abilities: [
+              {
+                type: 'tile_lay',
+                tiles: %w[5 57 6 L52 L53 L54 L55 L56 L57 L58 L59 L60 L61],
+                owner_type: 'player',
+                hexes: [],
+                reachable: true,
+                special: false,
+                count: 1,
+                closed_when_used_up: true,
+                when: 'owning_player_track',
+              },
+            ],
           },
           {
             name: 'Carlos Pedroso',
             sym: 'C3',
             value: 0,
             revenue: 0,
+            treasury: 40,
             desc: 'Real Consulado. Funding Amount: 40. Green plain track tile '\
                   '(standard or narrow gauge including sugar cane field tiles)',
             color: nil,
+            abilities: [
+              {
+                type: 'tile_lay',
+                tiles: %w[16 18 19 20 23 24 25 26 27 28 29 30 31 710 712 713 711 714
+                          715 IR26 IR27 IR28 IR34 IR33 IR35 IR29 IR30 IR31 IR32 L62 L63 L64 L65],
+                owner_type: 'player',
+                hexes: [],
+                reachable: true,
+                special: false,
+                count: 1,
+                closed_when_used_up: true,
+                when: 'owning_player_track',
+              },
+            ],
           },
           {
             name: 'Domingo Herrera',
@@ -39,6 +82,20 @@ module Engine
             desc: 'Ayuntamiento de la Habana (Havana City Council). Funding Amount: 50. '\
                   'Green city tile (without Y city tiles or Havana)',
             color: nil,
+            treasury: 50,
+            abilities: [
+              {
+                type: 'tile_lay',
+                tiles: %w[619 14 15 L66 L67],
+                owner_type: 'player',
+                hexes: [],
+                reachable: true,
+                special: false,
+                count: 1,
+                closed_when_used_up: true,
+                when: 'owning_player_track',
+              },
+            ],
           },
           {
             name: 'Andrés de Zayas',
@@ -48,14 +105,42 @@ module Engine
             desc: 'Ayuntamiento de la Habana (Havana City Council). Funding Amount: 70. '\
                   'Brown plain track tile (standard or narrow gauge including sugar cane field tiles)',
             color: nil,
+            treasury: 70,
+            abilities: [
+              {
+                type: 'tile_lay',
+                tiles: %w[39 40 41 42 43 70 44 47 45 46 L68 L69 L70 L71],
+                owner_type: 'player',
+                hexes: [],
+                reachable: true,
+                special: false,
+                count: 1,
+                closed_when_used_up: true,
+                when: 'owning_player_track',
+              },
+            ],
           },
           {
             name: 'Francisco Romero',
             sym: 'C6',
             value: 0,
             revenue: 0,
+            treasury: 80,
             desc: 'Real Consulado. Funding Amount: 80. Brown city tile (without Y city tiles or Havana)',
             color: nil,
+            abilities: [
+              {
+                type: 'tile_lay',
+                tiles: %w[611 L72 L73],
+                owner_type: 'player',
+                hexes: [],
+                reachable: true,
+                special: false,
+                count: 1,
+                closed_when_used_up: true,
+                when: 'owning_player_track',
+              },
+            ],
           },
           {
             name: 'Claudio Martínez de Pinillos, Count of Villanueva',
