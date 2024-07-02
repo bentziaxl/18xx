@@ -259,7 +259,7 @@ module Engine
         def operating_round(round_num)
           Engine::Round::Operating.new(self, [
             Engine::Step::Bankrupt,
-            Engine::Step::SpecialTrack,
+            G18Cuba::Step::SpecialTrack,
             Engine::Step::SpecialToken,
             G18Cuba::Step::HomeToken,
             Engine::Step::IssueShares,
@@ -515,6 +515,12 @@ module Engine
 
         def fc_hex?(hex)
           G18Cuba::Map::FC_HEX.any? { |hex_id| hex_id == hex.id }
+        end
+
+        def company_closing_after_using_ability(company, silent = false)
+          @log << "#{company.owner.name} receives #{format_currency(company.treasury)} funding amount from #{company.id}"
+          @bank.spend(company.treasury, company.owner)
+          @log << "#{company.name} closes" unless silent
         end
       end
     end
