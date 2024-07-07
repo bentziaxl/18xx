@@ -29,9 +29,15 @@ module Engine
                         brightGreen: '#6ec037')
         CURRENCY_FORMAT_STR = '$%s'
 
+        ASSIGNMENT_TOKENS = {
+          'M5' => '/icons/1826/mail.svg',
+        }.freeze
+
         COMPANY_CONCESSION_PREFIX = 'M'
         COMPANY_COMMISIONER_PREFIX = 'C'
         HOME_TOKEN_TIMING = :par
+
+        MAIL_REVENUE = { yellow: 10, green: 20, brown: 30, grey: 40 }.freeze
 
         CONCESSION_DISCOUNT = 210
         FC_STARTING_PRICE = 50
@@ -258,6 +264,7 @@ module Engine
 
         def operating_round(round_num)
           Engine::Round::Operating.new(self, [
+            Engine::Step::Assign,
             Engine::Step::Bankrupt,
             G18Cuba::Step::SpecialTrack,
             Engine::Step::SpecialToken,
@@ -450,6 +457,10 @@ module Engine
           super
         end
 
+        def extra_train?(train)
+          self.class::EXTRA_TRAINS.include?(train.name)
+        end
+
         def can_par?(corporation, entity)
           return false if corporation.name == 'FC'
           return super unless corporation.type == :minor
@@ -530,6 +541,25 @@ module Engine
           return super(operator, train, :free) if price == :free || price.zero?
 
           super
+        end
+
+        def entity_can_use_company?(entity, company)
+          entity.owner == company.owner
+        end
+
+        def payout_companies(ignore: [])
+          super
+
+          assigned_corp = @corporations.find { |c| c.assignments.keys.any? { |k| k == 'M5' } }
+          return unless assigned_corp
+
+          payout_mail(assigned_corp) unless assigned_corp.trains.reject { |t| extra_train?(t) }.empty?
+        end
+
+        def payout_mail(assigned_corp)
+          revenue = MAIL_REVENUE[@phase.tiles.last]
+          @bank.spend(revenue, assigned_corp)
+          @log << "#{assigned_corp.owner.name} collects #{format_currency(revenue)} from Mail Contract (M5)"
         end
       end
     end
