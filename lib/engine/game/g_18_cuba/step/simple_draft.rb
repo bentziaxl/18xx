@@ -78,6 +78,7 @@ module Engine
             company.owner = player
             player.companies << company
             player.spend(price, @game.bank)
+            @game.after_buy_company(player, company, price)
 
             @companies.delete(company)
 
