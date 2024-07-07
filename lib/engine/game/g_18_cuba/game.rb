@@ -268,6 +268,7 @@ module Engine
             G18Cuba::Step::Route,
             G18Cuba::Step::Dividend,
             Engine::Step::DiscardTrain,
+            Engine::Step::SpecialBuyTrain,
             G18Cuba::Step::BuyTrain,
           ], round_num: round_num)
         end
@@ -453,7 +454,7 @@ module Engine
           return false if corporation.name == 'FC'
           return super unless corporation.type == :minor
 
-          entity.companies.intersect?(concessions)
+          entity.companies.any? { |c| abilities(c, :exchange) }
         end
 
         def init_company_abilities
@@ -518,9 +519,17 @@ module Engine
         end
 
         def company_closing_after_using_ability(company, silent = false)
+          return if concession?(company)
+
           @log << "#{company.owner.name} receives #{format_currency(company.treasury)} funding amount from #{company.id}"
           @bank.spend(company.treasury, company.owner)
           @log << "#{company.name} closes" unless silent
+        end
+
+        def buy_train(operator, train, price = nil)
+          return super(operator, train, :free) if price == :free || price.zero?
+
+          super
         end
       end
     end
