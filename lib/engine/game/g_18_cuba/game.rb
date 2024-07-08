@@ -264,7 +264,7 @@ module Engine
 
         def operating_round(round_num)
           Engine::Round::Operating.new(self, [
-            Engine::Step::Assign,
+            G18Cuba::Step::Assign,
             Engine::Step::Bankrupt,
             G18Cuba::Step::SpecialTrack,
             Engine::Step::SpecialToken,
