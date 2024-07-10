@@ -173,7 +173,8 @@ module Engine
               },
               {
                 type: 'assign_corporation',
-                count_per_or: 1,
+                count: 1,
+                closed_when_used_up: true,
                 when: 'any',
                 owner_type: 'player',
               },
@@ -231,7 +232,8 @@ module Engine
                     },
                     {
                       type: 'assign_corporation',
-                      count_per_or: 1,
+                      count: 1,
+                      closed_when_used_up: true,
                       when: 'any',
                       owner_type: 'player',
                     },

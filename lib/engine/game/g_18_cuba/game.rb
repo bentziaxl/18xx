@@ -250,9 +250,25 @@ module Engine
                     ],
                   },
                   { name: '2n', distance: 2, price: 80, rusts_on: '4', available_on: '2', track_type: :narrow },
-                  { name: '3n', distance: 3, price: 160, rusts_on: '6', available_on: '3', track_type: :narrow  },
-                  { name: '4n', distance: 4, price: 260, rusts_on: '8', available_on: '4', track_type: :narrow  },
-                  { name: '5n', distance: 5, price: 380, available_on: '5', track_type: :narrow },
+                  {
+                    name: '3n',
+                    distance: 3,
+                    price: 160,
+                    rusts_on: '6',
+                    available_on: '3',
+                    track_type: :narrow,
+                    discount: { '2n' => 40 },
+                  },
+                  {
+                    name: '4n',
+                    distance: 4,
+                    price: 260,
+                    rusts_on: '8',
+                    available_on: '4',
+                    track_type: :narrow,
+                    discount: { '3n' => 80 },
+                  },
+                  { name: '5n', distance: 5, price: 380, available_on: '5', track_type: :narrow, discount: { '4n' => 130 } },
                   { name: '1w', distance: 2, price: 40, rusts_on: '3w', available_on: '2' },
                   { name: '2w', distance: 2, price: 80, available_on: '4' },
                   { name: '3w', distance: 2, price: 150, available_on: '6' }].freeze
@@ -554,6 +570,21 @@ module Engine
           return unless assigned_corp
 
           payout_mail(assigned_corp) unless assigned_corp.trains.reject { |t| extra_train?(t) }.empty?
+        end
+
+        def num_extra_train(entity)
+          entity.trains.count { |t| extra_train?(t) }
+        end
+
+        def num_corp_trains(entity)
+          super - num_extra_train(entity)
+        end
+
+        def crowded_corps
+          @crowded_corps ||= (minors + corporations).select do |c|
+            num_corp_trains(c) > train_limit(c) ||
+            num_extra_train(c) > train_limit(c)
+          end
         end
 
         def payout_mail(assigned_corp)
