@@ -195,6 +195,13 @@ module Engine
                       owner_type: 'player',
                       from: 'par',
                     },
+                    {
+                      type: 'assign_corporation',
+                      count: 1,
+                      closed_when_used_up: true,
+                      when: 'any',
+                      owner_type: 'player',
+                    },
                   ],
             color: nil,
           },
