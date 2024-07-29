@@ -48,7 +48,11 @@ module Engine
 
         CAPITALIZATION = :incremental
 
-        EXTRA_TRAINS = %w[1w 2w 3w].freeze
+        EXTRA_TRAINS = %w[1w 2w 3w 1m 2m 3m].freeze
+
+        WAGONS = %w[1w 2w 3w].freeze
+
+        MACHINES = %w[1m 2m 3m].freeze
 
         ALLOW_REMOVING_TOWNS = true
 
@@ -79,6 +83,9 @@ module Engine
             '1w' => 8,
             '2w' => 6,
             '3w' => 4,
+            '1m' => 10,
+            '2m' => 8,
+            '3m' => 4,
           },
           3 => {
             :'1' => 1,
@@ -95,6 +102,9 @@ module Engine
             '1w' => 8,
             '2w' => 6,
             '3w' => 4,
+            '1m' => 10,
+            '2m' => 8,
+            '3m' => 4,
           },
           4 => {
             :'1' => 1,
@@ -111,6 +121,9 @@ module Engine
             '1w' => 8,
             '2w' => 6,
             '3w' => 4,
+            '1m' => 10,
+            '2m' => 8,
+            '3m' => 4,
           },
           5 => {
             :'1' => 1,
@@ -127,6 +140,9 @@ module Engine
             '1w' => 8,
             '2w' => 6,
             '3w' => 4,
+            '1m' => 10,
+            '2m' => 8,
+            '3m' => 4,
           },
           6 => {
             :'1' => 1,
@@ -143,6 +159,9 @@ module Engine
             '1w' => 8,
             '2w' => 6,
             '3w' => 4,
+            '1m' => 10,
+            '2m' => 8,
+            '3m' => 4,
           },
         }.freeze
 
@@ -271,7 +290,10 @@ module Engine
                   { name: '5n', distance: 5, price: 380, available_on: '5', track_type: :narrow, discount: { '4n' => 130 } },
                   { name: '1w', distance: 2, price: 40, rusts_on: '3w', available_on: '2' },
                   { name: '2w', distance: 2, price: 80, available_on: '4' },
-                  { name: '3w', distance: 2, price: 150, available_on: '6' }].freeze
+                  { name: '3w', distance: 2, price: 150, available_on: '6' },
+                  { name: '1m', distance: 2, price: 25, track_type: :narrow, available_on: '2' },
+                  { name: '2m', distance: 2, price: 45, track_type: :narrow, available_on: '3' },
+                  { name: '3m', distance: 2, price: 65, track_type: :narrow, available_on: '5' }].freeze
 
         EVENTS_TEXT = Base::EVENTS_TEXT.merge(
           'fec' => ['FEC is available', ''],
@@ -361,11 +383,15 @@ module Engine
         end
 
         def route_trains(entity)
-          super.reject { |t| wagon?(t) }
+          super.reject { |t| extra_train?(t) }
         end
 
         def wagon?(train)
-          self.class::EXTRA_TRAINS.include?(train.name)
+          self.class::WAGONS.include?(train.name)
+        end
+
+        def machine?(train)
+          self.class::MACHINES.include?(train.name)
         end
 
         def company_header(company)
@@ -569,21 +595,25 @@ module Engine
           assigned_corp = @corporations.find { |c| c.assignments.keys.any? { |k| k == 'M5' } }
           return unless assigned_corp
 
-          payout_mail(assigned_corp) unless assigned_corp.trains.reject { |t| extra_train?(t) }.empty?
+          payout_mail(assigned_corp) unless assigned_corp.trains.reject { |t| wagon?(t) }.empty?
         end
 
-        def num_extra_train(entity)
-          entity.trains.count { |t| extra_train?(t) }
+        def num_wagons(entity)
+          entity.trains.count { |t| wagon?(t) }
+        end
+
+        def num_machines(entity)
+          entity.trains.count { |t| machine?(t) }
         end
 
         def num_corp_trains(entity)
-          super - num_extra_train(entity)
+          super - num_wagons(entity) - num_machines(entity)
         end
 
         def crowded_corps
           @crowded_corps ||= (minors + corporations).select do |c|
             num_corp_trains(c) > train_limit(c) ||
-            num_extra_train(c) > train_limit(c)
+            num_wagons(c) > train_limit(c)
           end
         end
 
