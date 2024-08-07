@@ -288,9 +288,28 @@ module Engine
                     discount: { '3n' => 80 },
                   },
                   { name: '5n', distance: 5, price: 380, available_on: '5', track_type: :narrow, discount: { '4n' => 130 } },
-                  { name: '1w', distance: 2, price: 40, rusts_on: '3w', available_on: '2' },
-                  { name: '2w', distance: 2, price: 80, available_on: '4' },
-                  { name: '3w', distance: 2, price: 150, available_on: '6' },
+                  {
+                    name: '1w',
+                    distance: [{ 'nodes' => %w[city offboard], 'pay' => 0, 'visit' => 99 },
+                               { 'nodes' => ['town'], 'pay' => 0, 'visit' => 99 }],
+                    price: 40,
+                    rusts_on: '3w',
+                    available_on: '2',
+                  },
+                  {
+                    name: '2w',
+                    distance: [{ 'nodes' => %w[city offboard], 'pay' => 0, 'visit' => 99 },
+                               { 'nodes' => ['town'], 'pay' => 0, 'visit' => 99 }],
+                    price: 80,
+                    available_on: '4',
+                  },
+                  {
+                    name: '3w',
+                    distance: [{ 'nodes' => %w[city offboard], 'pay' => 0, 'visit' => 99 },
+                               { 'nodes' => ['town'], 'pay' => 0, 'visit' => 99 }],
+                    price: 150,
+                    available_on: '6',
+                  },
                   { name: '1m', distance: 2, price: 25, track_type: :narrow, available_on: '2' },
                   { name: '2m', distance: 2, price: 45, track_type: :narrow, available_on: '3' },
                   { name: '3m', distance: 2, price: 65, track_type: :narrow, available_on: '5' }].freeze
@@ -383,7 +402,7 @@ module Engine
         end
 
         def route_trains(entity)
-          super.reject { |t| extra_train?(t) }
+          super.reject { |t| machine?(t) }
         end
 
         def wagon?(train)
@@ -564,7 +583,7 @@ module Engine
         end
 
         def skip_route_track_type(train)
-          train.track_type == :broad ? :narrow : :broad
+          train.track_type == :narrow ? :broad : :narrow
         end
 
         def fc_hex?(hex)
@@ -622,6 +641,26 @@ module Engine
           @bank.spend(revenue, assigned_corp)
           @log << "#{assigned_corp.owner.name} collects #{format_currency(revenue)} from Mail Contract (M5)"
         end
+
+        def check_distance(route, visits, _train = nil)
+          return super unless wagon?(route.train)
+          
+          raise GameError, 'Wagon must visit harbour' if route.visited_stops.none? {|stop| stop.offboard?}
+
+          raise GameError, 'Wagon must visit city with sugar cubes' unless route_sugar_cubes?(route, visits)
+          
+        end
+
+        def route_sugar_cubes?(route, visits)
+          return false unless wagon?(route.train)
+          total_cubes = visits.sum do  |node| 
+            next 0 unless node.city?
+            node.tokens.sum do |token|
+              token&.corporation&.type == :minor ? @sugar_cubes[token.corporation] : 0
+            end
+          end.positive?
+        end
+
       end
     end
   end
