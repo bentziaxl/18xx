@@ -541,14 +541,6 @@ module Engine
           entity.operated? ? 'Treasury' : 'IPO'
         end
 
-        def check_distance(route, visits)
-          train = route.train
-          narrow_offboard = train.track_type == :narrow && visits.any?(&:offboard?)
-          return super unless narrow_offboard
-
-          raise GameError, 'narrow track train can not visit offboard locations'
-        end
-
         def home_token_locations(corporation)
           if corporation.type == :minor
             hexes.select { |hex| !hex.tile.label && !hex.tile.cities.empty? }
@@ -648,19 +640,23 @@ module Engine
           wrong_track = skip_route_track_type(route.train)
           raise GameError, 'Routes must use correct gauage' if wrong_track && route.paths.any? { |p| p.track == wrong_track }
 
+          train = route.train
+          narrow_offboard = train.track_type == :narrow && visits.any?(&:offboard?)
+          raise GameError, 'narrow track train can not visit offboard locations' unless narrow_offboard
+
           return super unless wagon?(route.train)
-          
-          raise GameError, 'Wagon must visit harbour' if route.visited_stops.none? {|stop| stop.offboard?}
+
+          raise GameError, 'Wagon must visit harbour' if route.visited_stops.none?(&:offboard?)
 
           raise GameError, 'Wagon must visit city with sugar cubes' unless route_sugar_cubes?(route, visits)
-          
-          
         end
 
         def route_sugar_cubes?(route, visits)
           return false unless wagon?(route.train)
-          total_cubes = visits.sum do  |node| 
+
+          visits.sum do |node|
             next 0 unless node.city?
+
             node.tokens.sum do |token|
               token&.corporation&.type == :minor ? @sugar_cubes[token.corporation] : 0
             end
@@ -669,22 +665,23 @@ module Engine
 
         def check_overlap(routes)
           tracks = {}
-  
+
           check = lambda do |key|
             raise GameError, "Route cannot reuse track on #{key[0].id}" if tracks[key]
-  
+
             tracks[key] = true
           end
-  
+
           routes.each do |route|
             next if wagon?(route.train)
+
             route.paths.each do |path|
               a = path.a
               b = path.b
-              
+
               check.call([path.hex, a.num, path.lanes[0][1]]) if a.edge?
               check.call([path.hex, b.num, path.lanes[1][1]]) if b.edge?
-  
+
               # check track between edges and towns not in center
               # (essentially, that town needs to act like an edge for this purpose)
               if b.edge? && a.town? && (nedge = a.tile.preferred_city_town_edges[a]) && nedge != b.num
@@ -693,15 +690,14 @@ module Engine
               if a.edge? && b.town? && (nedge = b.tile.preferred_city_town_edges[b]) && nedge != a.num
                 check.call([path.hex, b, path.lanes[1][1]])
               end
-  
+
               # check intra-tile paths between nodes
               check.call([path.hex, path]) if path.nodes.size > 1
             end
           end
 
-          puts("here in routes: #{routes.find {|r| wagon?(r.train)}&.paths}")
+          puts("here in routes: #{routes.find { |r| wagon?(r.train) }&.paths}")
         end
-
 
         def compute_other_paths(routes, route)
           routes.flat_map do |r|
@@ -710,7 +706,6 @@ module Engine
             r.paths
           end
         end
-
       end
     end
   end
