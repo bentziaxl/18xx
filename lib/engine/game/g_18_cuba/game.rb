@@ -52,6 +52,8 @@ module Engine
 
         WAGONS = %w[1w 2w 3w].freeze
 
+        TRAIN_AUTOROUTE_GROUPS = [WAGONS].freeze
+
         MACHINES = %w[1m 2m 3m].freeze
 
         ALLOW_REMOVING_TOWNS = true
@@ -643,11 +645,15 @@ module Engine
         end
 
         def check_distance(route, visits, _train = nil)
+          wrong_track = skip_route_track_type(route.train)
+          raise GameError, 'Routes must use correct gauage' if wrong_track && route.paths.any? { |p| p.track == wrong_track }
+
           return super unless wagon?(route.train)
           
           raise GameError, 'Wagon must visit harbour' if route.visited_stops.none? {|stop| stop.offboard?}
 
           raise GameError, 'Wagon must visit city with sugar cubes' unless route_sugar_cubes?(route, visits)
+          
           
         end
 
@@ -659,6 +665,50 @@ module Engine
               token&.corporation&.type == :minor ? @sugar_cubes[token.corporation] : 0
             end
           end.positive?
+        end
+
+        def check_overlap(routes)
+          tracks = {}
+  
+          check = lambda do |key|
+            raise GameError, "Route cannot reuse track on #{key[0].id}" if tracks[key]
+  
+            tracks[key] = true
+          end
+  
+          routes.each do |route|
+            next if wagon?(route.train)
+            route.paths.each do |path|
+              a = path.a
+              b = path.b
+              
+              check.call([path.hex, a.num, path.lanes[0][1]]) if a.edge?
+              check.call([path.hex, b.num, path.lanes[1][1]]) if b.edge?
+  
+              # check track between edges and towns not in center
+              # (essentially, that town needs to act like an edge for this purpose)
+              if b.edge? && a.town? && (nedge = a.tile.preferred_city_town_edges[a]) && nedge != b.num
+                check.call([path.hex, a, path.lanes[0][1]])
+              end
+              if a.edge? && b.town? && (nedge = b.tile.preferred_city_town_edges[b]) && nedge != a.num
+                check.call([path.hex, b, path.lanes[1][1]])
+              end
+  
+              # check intra-tile paths between nodes
+              check.call([path.hex, path]) if path.nodes.size > 1
+            end
+          end
+
+          puts("here in routes: #{routes.find {|r| wagon?(r.train)}&.paths}")
+        end
+
+
+        def compute_other_paths(routes, route)
+          routes.flat_map do |r|
+            next if r == route || (wagon?(route.train) && !wagon?(r.train)) || (!wagon?(route.train) && wagon?(r.train))
+
+            r.paths
+          end
         end
 
       end
