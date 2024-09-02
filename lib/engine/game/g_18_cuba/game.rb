@@ -642,7 +642,7 @@ module Engine
 
           train = route.train
           narrow_offboard = train.track_type == :narrow && visits.any?(&:offboard?)
-          raise GameError, 'narrow track train can not visit offboard locations' unless narrow_offboard
+          raise GameError, 'narrow track train can not visit offboard locations' if narrow_offboard
 
           return super unless wagon?(route.train)
 
@@ -673,7 +673,10 @@ module Engine
           end
 
           routes.each do |route|
-            next if wagon?(route.train)
+            if wagon?(route.train)
+              check_wagon_overlap(routes, route) 
+              next
+            end
 
             route.paths.each do |path|
               a = path.a
@@ -696,7 +699,19 @@ module Engine
             end
           end
 
-          puts("here in routes: #{routes.find { |r| wagon?(r.train) }&.paths}")
+          
+        end
+
+        def check_wagon_overlap(routes, wagon_route)
+          return if wagon_route.visited_stops.empty?
+
+          other_routes = routes.reject {|r| r == wagon_route}
+          identical_route = other_routes.find do |r| 
+            r.visited_stops.difference(wagon_route.visited_stops).empty? &&
+             r.paths.difference(wagon_route.paths).empty?
+          end
+          
+          raise GameError, "Wagon must be identical to another train route" unless identical_route
         end
 
         def compute_other_paths(routes, route)
