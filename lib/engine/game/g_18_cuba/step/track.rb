@@ -16,14 +16,7 @@ module Engine
           def lay_tile(action, extra_cost: 0, entity: nil, spender: nil)
             super
 
-            return unless @game.fc_hex?(action.hex)
-            return unless action.tile.color == :green
-
-            token = @game.fc.find_token_by_type
-            city = action.tile.cities.first
-            city.place_token(@game.fc, token, cheater: true)
-            action.tile.icons = []
-            @log << "FC places a token in #{action.hex.id}"
+            @game.add_fc_token(action.tile, action.hex)
           end
         end
       end

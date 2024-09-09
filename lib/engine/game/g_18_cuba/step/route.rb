@@ -7,7 +7,6 @@ module Engine
   module Game
     module G18Cuba
       module Step
-        include SkipFc
         class Route < Engine::Step::Route
           def process_run_routes(action)
             super
