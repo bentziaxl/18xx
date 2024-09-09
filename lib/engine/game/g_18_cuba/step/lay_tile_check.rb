@@ -35,7 +35,7 @@ module LayTileCheck
           tile.cities.size > 1 || track_types.first == track_to_reject
         end
       else
-        track_types.include?(track_to_reject)
+        track_types.size == 1 && track_types.first == track_to_reject
       end
     end
 

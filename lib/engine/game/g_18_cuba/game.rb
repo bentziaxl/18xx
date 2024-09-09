@@ -330,7 +330,7 @@ module Engine
             G18Cuba::Step::HomeToken,
             Engine::Step::IssueShares,
             G18Cuba::Step::Track,
-            Engine::Step::Token,
+            G18Cuba::Step::Token,
             G18Cuba::Step::Route,
             G18Cuba::Step::Dividend,
             Engine::Step::DiscardTrain,
@@ -531,6 +531,10 @@ module Engine
           entity.companies.any? { |c| abilities(c, :exchange) }
         end
 
+        def can_run_route?(entity)
+          entity == @fc ? false : super
+        end
+
         def init_company_abilities
           super
         end
@@ -581,6 +585,8 @@ module Engine
         end
 
         def fc_hex?(hex)
+          return false unless hex
+
           G18Cuba::Map::FC_HEX.any? { |hex_id| hex_id == hex.id }
         end
 
@@ -674,7 +680,7 @@ module Engine
 
           routes.each do |route|
             if wagon?(route.train)
-              check_wagon_overlap(routes, route) 
+              check_wagon_overlap(routes, route)
               next
             end
 
@@ -698,20 +704,18 @@ module Engine
               check.call([path.hex, path]) if path.nodes.size > 1
             end
           end
-
-          
         end
 
         def check_wagon_overlap(routes, wagon_route)
           return if wagon_route.visited_stops.empty?
 
-          other_routes = routes.reject {|r| r == wagon_route}
-          identical_route = other_routes.find do |r| 
+          other_routes = routes.reject { |r| r == wagon_route }
+          identical_route = other_routes.find do |r|
             r.visited_stops.difference(wagon_route.visited_stops).empty? &&
              r.paths.difference(wagon_route.paths).empty?
           end
-          
-          raise GameError, "Wagon must be identical to another train route" unless identical_route
+
+          raise GameError, 'Wagon must be identical to another train route' unless identical_route
         end
 
         def compute_other_paths(routes, route)
@@ -720,6 +724,17 @@ module Engine
 
             r.paths
           end
+        end
+
+        def add_fc_token(tile, hex)
+          return unless fc_hex?(hex)
+          return unless tile.color == :green
+
+          token = @fc.find_token_by_type
+          city = tile.cities.first
+          city.place_token(@fc, token, cheater: true)
+          tile.icons = []
+          @log << "FC places a token in #{hex.id}"
         end
       end
     end
