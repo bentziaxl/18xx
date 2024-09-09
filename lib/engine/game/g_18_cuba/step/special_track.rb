@@ -19,6 +19,12 @@ module Engine
 
             @game.hex_by_id(hex.id).neighbors.keys
           end
+
+          def lay_tile(action, extra_cost: 0, entity: nil, spender: nil)
+            super
+
+            @game.add_fc_token(action.tile, action.hex)
+          end
         end
       end
     end
