@@ -16,7 +16,7 @@ module Engine
 
         include DoubleSidedTiles
 
-        attr_reader :tile_groups, :unused_tiles, :minor_graph, :fc
+        attr_reader :tile_groups, :unused_tiles, :minor_graph, :fc, :claimed_goods, :pickup_hex_for_train
         attr_accessor :sugar_cubes
 
         register_colors(red: '#d1232a',
@@ -31,7 +31,12 @@ module Engine
 
         ASSIGNMENT_TOKENS = {
           'M5' => '/icons/1826/mail.svg',
+          'SUGAR0' => '/icons/18_cuba/sugar-cube.svg',
+          'SUGAR1' => '/icons/18_cuba/sugar-cube.svg',
+          'SUGAR2' => '/icons/18_cuba/sugar-cube.svg',
         }.freeze
+
+        ASSIGNMENT_STACK_GROUPS = ASSIGNMENT_TOKENS.transform_values { |_str| 'SUGAR' }
 
         COMPANY_CONCESSION_PREFIX = 'M'
         COMPANY_COMMISIONER_PREFIX = 'C'
@@ -57,6 +62,8 @@ module Engine
         MACHINES = %w[1m 2m 3m].freeze
 
         ALLOW_REMOVING_TOWNS = true
+
+        CUBE_VALUE = 30
 
         BANK_CASH = 10_000
 
@@ -404,7 +411,7 @@ module Engine
         end
 
         def route_trains(entity)
-          super.reject { |t| machine?(t) }
+          super.reject { |t| machine?(t) || wagon?(t) }
         end
 
         def wagon?(train)
@@ -460,6 +467,8 @@ module Engine
           place_home_token(@fc)
           buy_train(@fc, @depot.upcoming.first, :free)
           @stock_market.set_par(@fc, lookup_fc_price(FC_STARTING_PRICE))
+          @pickup_hex_for_train = {}
+          @claimed_goods = {}
         end
 
         def lookup_fc_price(price)
@@ -539,11 +548,11 @@ module Engine
           super
         end
 
-        def ipo_name(entity)
-          return entity.floated? ? 'Treasury' : 'IPO' if entity.type == :minor
+        # def ipo_name(entity)
+        #   return entity.floated? ? 'Treasury' : 'IPO' if entity.type == :minor
 
-          entity.operated? ? 'Treasury' : 'IPO'
-        end
+        #   entity.operated? ? 'Treasury' : 'IPO'
+        # end
 
         def home_token_locations(corporation)
           if corporation.type == :minor
@@ -650,11 +659,12 @@ module Engine
           narrow_offboard = train.track_type == :narrow && visits.any?(&:offboard?)
           raise GameError, 'narrow track train can not visit offboard locations' if narrow_offboard
 
-          return super unless wagon?(route.train)
+          @round.current_routes[route.train] = route
 
-          raise GameError, 'Wagon must visit harbour' if route.visited_stops.none?(&:offboard?)
+          return unless @round.merged_trains.include?(route.train)
 
-          raise GameError, 'Wagon must visit city with sugar cubes' unless route_sugar_cubes?(route, visits)
+          raise GameError, 'Wagon must visit harbour' unless visits.any?(&:offboard?)
+          raise GameError, 'Wagon must have sugar cubes to run' unless train_with_goods?(route.train)
         end
 
         def route_sugar_cubes?(route, visits)
@@ -735,6 +745,61 @@ module Engine
           city.place_token(@fc, token, cheater: true)
           tile.icons = []
           @log << "FC places a token in #{hex.id}"
+        end
+
+        # Train delivery
+        def train_with_goods?(train)
+          return unless train
+
+          @pickup_hex_for_train.key?(train.id)
+        end
+
+        def attach_good_to_train(train_id, hex_id)
+          good = hex_by_id(hex_id).assignments.keys.find { |a| a.include?('SUGAR') && !@claimed_goods[hex_id]&.include?(a) }
+          return unless good
+
+          if @pickup_hex_for_train[train_id]
+            @pickup_hex_for_train[train_id][hex_id].append(good)
+          else
+            @pickup_hex_for_train[train_id] = { hex_id => [good] }
+          end
+          add_to_claimed_goods(hex_id, good)
+        end
+
+        def add_to_claimed_goods(hex_id, good)
+          if @claimed_goods[hex_id]
+            @claimed_goods[hex_id].append(good)
+          else
+            @claimed_goods = { hex_id => [good] }
+          end
+        end
+
+        def good_pickup_hex(train)
+          @pickup_hex_for_train[train.id]&.keys&.first
+        end
+
+        def unload_good(train, hex_id)
+          return unless train_with_goods?(train)
+
+          good = @pickup_hex_for_train[train.id][hex_id].pop
+          @claimed_goods[hex_id].remove!(good) unless good
+          @pickup_hex_for_train.delete(train.id) if @pickup_hex_for_train[train.id][hex_id].empty?
+          good
+        end
+
+        def revenue_str(route)
+          good_hex = good_pickup_hex(route.train)
+          str = super
+          str += '+Good(' + good_hex + ')' unless good_hex.nil?
+          str
+        end
+
+        def revenue_for(route, stops)
+          revenue = super
+          train = route.train
+          return revenue unless train_with_goods?(train)
+
+          revenue + (CUBE_VALUE * @pickup_hex_for_train[train.id].sum { |_k, v| v.length })
         end
       end
     end
