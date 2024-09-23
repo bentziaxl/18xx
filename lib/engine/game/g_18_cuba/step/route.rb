@@ -9,6 +9,14 @@ module Engine
       module Step
         class Route < Engine::Step::Route
           include SkipFc
+
+          WAGON_CAPACITY =
+            {
+              '1w' => 1,
+              '2w' => 2,
+              '3w' => 3,
+            }.freeze
+
           def setup
             @round.current_routes = {}
             @choosing = { state: :choose_wagon }
@@ -59,10 +67,10 @@ module Engine
 
           def choices_goods
             choices = {}
+            @round.current_routes.values.select { |r| can_load_cubes?(r) }.each do |goods_route|
+              next unless cube_capacity?(goods_route.train)
 
-            @round.current_routes.values.select { |r| goods_route?(r) }.each do |goods_route|
               route_sugar_cubes(goods_route).each do |cube_hex|
-                # next unless has capacity
                 @game.hex_by_id(cube_hex).assignments.keys.each do |a|
                   next unless a&.include? 'SUGAR'
                   next if @game.claimed_goods[cube_hex]&.include? a
@@ -72,6 +80,28 @@ module Engine
               end
             end
             choices
+          end
+
+          def can_load_cubes?(route)
+            goods_route?(route) && @round.merged_trains.include?(route.train)
+          end
+
+          def cube_capacity?(train)
+            cubes_on_train(train) <= wagon_capacity(train)
+          end
+
+          def cubes_on_train(train)
+            pickup_hexes = @game.pickup_hex_for_train[train.id]
+            return 0 unless pickup_hexes
+
+            pickup_hexes.sum(&:count)
+          end
+
+          def wagon_capacity(train)
+            name_parition = train.name.partition(' & ')
+            return 0 unless name_parition.length > 1
+
+            WAGON_CAPACITY[name_parition[2]]
           end
 
           def goods_route?(route)
