@@ -76,6 +76,12 @@ module Engine
              151 158 172 180 188 196 204 013 222 231 240 250 260 275 290 300],
         ].freeze
 
+        MACHINE_BONUS = {
+          '1m' => 10,
+          '2m' => 20,
+          '3m' => 40,
+        }.freeze
+
         TRAIN_FOR_PLAYER_COUNT = {
           2 => {
             :'1' => 1,
@@ -309,15 +315,15 @@ module Engine
                     name: '2w',
                     distance: [{ 'nodes' => %w[city offboard], 'pay' => 0, 'visit' => 99 },
                                { 'nodes' => ['town'], 'pay' => 0, 'visit' => 99 }],
-                    price: 80,
-                    available_on: '4',
+                    price: 40,
+                    available_on: '2',
                   },
                   {
                     name: '3w',
                     distance: [{ 'nodes' => %w[city offboard], 'pay' => 0, 'visit' => 99 },
                                { 'nodes' => ['town'], 'pay' => 0, 'visit' => 99 }],
-                    price: 150,
-                    available_on: '6',
+                    price: 40,
+                    available_on: '2',
                   },
                   { name: '1m', distance: 2, price: 25, track_type: :narrow, available_on: '2' },
                   { name: '2m', distance: 2, price: 45, track_type: :narrow, available_on: '3' },
@@ -800,6 +806,13 @@ module Engine
           return revenue unless train_with_goods?(train)
 
           revenue + (CUBE_VALUE * @pickup_hex_for_train[train.id].sum { |_k, v| v.length })
+        end
+
+        def extra_revenue(entity, routes)
+          return 0 if routes.empty?
+          return 0 unless entity.type == :minor
+
+          entity.trains.sum { |t| machine?(t) ? MACHINE_BONUS[t.name] : 0 }
         end
       end
     end
