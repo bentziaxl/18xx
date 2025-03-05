@@ -472,8 +472,8 @@ module Engine
 
         def init_company_abilities
           northern_corps = @corporations.select { |c| north_corp?(c) }
-          random_corporation = northern_corps[rand % northern_corps.size]
-          another_random_corporation = northern_corps[rand % northern_corps.size]
+          random_corporation = northern_corps[(rand >> 12) % northern_corps.size]
+          another_random_corporation = northern_corps[(rand >> 12) % northern_corps.size]
           @companies.each do |company|
             next unless (ability = abilities(company, :shares))
 
