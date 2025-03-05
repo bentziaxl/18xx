@@ -42,15 +42,17 @@ module Engine
             ['H20'] => 'offboard=revenue:yellow_20|brown_40,groups:E;icon=image:1846/30;path=a:1,b:_0;path=a:2,b:_0;label=E',
             ['I1'] => 'offboard=revenue:yellow_50|brown_70,groups:St. Louis;path=a:3,b:_0;'\
                        'path=a:4,b:_0;path=a:5,b:_0;border=edge:5,type:water,cost:40'\
-                       'label=W;icon=image:port;icon=image:1846/meat;icon=image:1846/20',
+                       'label=W;icon=image:port;icon=image:1846/meat;icon=image:1846/20;'\
+                       'icon=image:18_bb/port-orange',
             ['I17'] => 'offboard=revenue:yellow_20|brown_50,groups:E;icon=image:1846/20;path=a:1,b:_0;path=a:2,b:_0;label=E;'\
-                        'border=edge:2,type:water,cost:20;',
+                        'border=edge:2,type:water,cost:20;icon=image:18_bb/port-orange',
             ['L8'] => 'city=revenue:yellow_30|brown_60,groups:SW,slots:2;icon=image:1846/30;'\
-                       'path=a:2,b:_0;path=a:3,b:_0;label=S/W;border=edge:2,type:water,cost:20;'\
-                       'border=edge:3,type:water,cost:20;',
+                       'path=a:2,b:_0,terminal:1;path=a:3,b:_0,terminal:1;label=S/W;border=edge:2,type:water,cost:20;'\
+                       'border=edge:3,type:water,cost:20;icon=image:18_bb/port-orange',
           },
           gray: {
-            ['E21'] => 'city=revenue:yellow_10|green_20;path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0',
+            ['E21'] => 'city=revenue:yellow_10|green_20;path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;'\
+                        'icon=image:18_usa/oil-derrick',
             ['F20'] => 'city=revenue:yellow_10|green_20;path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;path=a:5,b:_0;'\
                        'border=edge:2,type:mountain,cost:40',
             ['I5'] => 'city=revenue:yellow_10|green_20,slots:2;path=a:1,b:_0;path=a:3,b:_0;path=a:4,b:_0;path=a:0,b:_0',
@@ -61,8 +63,9 @@ module Engine
             ['H18'] => 'border=edge:1,type:water,cost:20;border=edge:2,type:water,cost:20;',
           },
           white: {
-            ['I11'] => 'upgrade=cost:40,terrain:mountain;border=edge:3,type:water,cost:40;border=edge:2,type:water,cost:20;border=edge:1,type:water,cost:20',
-            ['I13'] => 'border=edge:3,type:water,cost:40;border=edge:2,type:water,cost:60',
+            %w[G9 G15] => 'city=revenue:0;icon=image:18_usa/oil-derrick',
+            ['I11'] => 'border=edge:3,type:water,cost:40;border=edge:2,type:water,cost:20;border=edge:1,type:water,cost:20',
+            ['I13'] => 'upgrade=cost:40,terrain:mountain;border=edge:3,type:water,cost:40;border=edge:2,type:water,cost:60',
             ['I9'] => 'border=edge:4,type:water,cost:20',
             ['H10'] => 'border=edge:5,type:water,cost:20',
             ['H12'] => 'city=revenue:0;label=Z;border=edge:0,type:water,cost:40;border=edge:5,type:water,cost:60;'\
@@ -78,14 +81,14 @@ module Engine
             ['J2'] => 'border=edge:2,type:water,cost:40',
             ['J4'] => 'border=edge:4,type:water,cost:40;border=edge:5,type:water,cost:20;icon=image:1846/ic',
             ['J6'] => 'city=revenue:0;border=edge:1,type:water,cost:40;border=edge:5,type:water,cost:40;' \
-                      'border=edge:0,type:water,cost:20',
+                      'border=edge:0,type:water,cost:20;icon=image:18_bb/port-orange;icon=image:18_bb/port-orange',
             ['K5'] => 'border=edge:1,type:water,cost:20;border=edge:2,type:water,cost:20;border=edge:3,type:water,cost:20',
             ['K7'] => 'border=edge:2,type:water,cost:40;border=edge:5,type:water,cost:20',
           },
         }.freeze
         BASE_HEXES = G1846::Map::HEXES.dup
         BASE_HEXES[:red].delete(['J10'])
-        BASE_HEXES[:white].keys.each {|k| k.dup.each {|hex| k.delete(hex) if %w[H10 I9 J8].include?(hex)}}
+        BASE_HEXES[:white].keys.each {|k| k.dup.each {|hex| k.delete(hex) if %w[H10 I9 J8 G9 G15].include?(hex)}}
         BASE_HEXES.freeze
         HEXES = merge_hexes(BASE_HEXES, MODIFIED_HEXES).freeze
       end
