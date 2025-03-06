@@ -15,7 +15,7 @@ module Engine
         GAME_DISPLAY_TITLE = '18BB'
         GAME_FULL_TITLE = '18 Barons of the Backwaters'
 
-        PLAYER_RANGE = [2, 5].freeze
+        PLAYER_RANGE = [3, 6].freeze
       end
     end
   end
