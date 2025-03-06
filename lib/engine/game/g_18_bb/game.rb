@@ -43,7 +43,7 @@ module Engine
           'Southwestern Steamboat Company',
           'Steamboat Company',
           'Tunnel Blasting Company',
-        ].freeze
+        ]
 
         ABILITY_ICONS = G1846::Game::ABILITY_ICONS.merge(
           SSC: 'port-orange'
