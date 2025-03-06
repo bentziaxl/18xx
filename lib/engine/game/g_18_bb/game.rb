@@ -43,11 +43,23 @@ module Engine
           'Southwestern Steamboat Company',
           'Steamboat Company',
           'Tunnel Blasting Company',
-        ]
+        ].freeze
 
         ABILITY_ICONS = G1846::Game::ABILITY_ICONS.merge(
           SSC: 'port-orange'
         ).freeze
+
+        BANK_CASH = { 3 => 8000, 4 => 9500, 5 => 11_000, 6 => 13_000 }.freeze
+
+        CERT_LIMIT = {
+          3 => { 5 => 14, 4 => 11 },
+          4 => { 7 => 14, 6 => 12, 5 => 10, 4 => 8 },
+          5 => { 8 => 13, 7 => 12, 6 => 10, 5 => 8, 4 => 6 },
+          6 => { 8 => 12, 7 => 10, 6 => 8, 5 => 7, 4 => 6 },
+
+        }.freeze
+
+        STARTING_CASH = { 2 => 600, 3 => 400, 4 => 400, 5 => 400, 6 => 400 }.freeze
 
         def setup
           @turn = setup_turn
