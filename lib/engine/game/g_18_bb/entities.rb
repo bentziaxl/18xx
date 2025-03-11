@@ -293,17 +293,17 @@ module Engine
 
           {
             sym: 'BRP',
-            name: 'Buffalo, Rochester and Pittsburgh',
-            logo: '18_bb/BRC',
-            simple_logo: '18_bb/BRC.alt',
+            name: 'Buffalo Rochester and Pittsburgh',
+            logo: '18_bb/BRP',
+            simple_logo: '18_bb/BRP.alt',
             tokens: [0],
-            coordinates: 'C21',
+            coordinates: 'E21',
             color: '#F3A505',
             text_color: 'white',
           },
           {
             sym: 'CCC',
-            name: 'Cleveland, Columbus and Cincinnati',
+            name: 'Cleveland Columbus and Cincinnati',
             logo: '18_bb/CCC',
             simple_logo: '18_bb/CCC.alt',
             tokens: [0],

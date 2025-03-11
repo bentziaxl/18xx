@@ -6,8 +6,22 @@ module Engine
   module Game
     module G18BB
       module Map
-        TILES = G1846::Map::TILES.dup
-        TILES.freeze
+        TILES = G1846::Map::TILES.merge(
+          {
+            'CM1' => {
+              'count' => 1,
+              'color' => 'gray',
+              'code' => 'city=revenue:70,slot:2;'\
+                        'path=a:1,b:_0;path=a:2,b:_0;path=a:3,b:_0;path=a:4,b:_0;label=CM',
+            },
+            'M1' => {
+              'count' => 1,
+              'color' => 'green',
+              'code' => 'city=revenue:1;'\
+                        'path=a:2,b:_0;path=a:4,b:_0;path=a:5,b:_0;label=M',
+            },
+          }
+        ).freeze
 
         LOCATION_NAMES = G1846::Map::LOCATION_NAMES.dup
         LOCATION_NAMES.merge!({
@@ -92,6 +106,11 @@ module Engine
         BASE_HEXES[:white].keys.each { |k| k.dup.each { |hex| k.delete(hex) if %w[H10 I9 J8 G9 G15].include?(hex) } }
         BASE_HEXES.freeze
         HEXES = merge_hexes(BASE_HEXES, MODIFIED_HEXES).freeze
+
+        BRP_TILE = 'city=revenue:yellow_10|green_20,slots:2;path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;'\
+                   'path=a:3,b:_0;path=a:5,b:_0;icon=image:18_usa/oil-derrick'
+        VCC_TILE = 'city=revenue:40;border=edge:1,type:water,cost:20;border=edge:2,type:water,cost:20;'\
+                   'path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;label=CM'
       end
     end
   end

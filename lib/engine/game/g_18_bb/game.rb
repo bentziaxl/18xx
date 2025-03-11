@@ -121,6 +121,7 @@ module Engine
           @draft_finished = false
 
           @minors.each do |minor|
+            update_map(minor)
             train = @depot.upcoming[0]
             train.buyable = false
             buy_train(minor, train, :free)
@@ -129,7 +130,21 @@ module Engine
             token_city&.place_token(minor, minor.next_token, free: true)
           end
 
+          @tiles.delete(tile_by_id('CM1-0')) if @minors.none? { |m| m.name == 'VCC' }
+          @tiles.delete(tile_by_id('M1-0')) if @companies.none? { |c| c.name == 'Grain Mill Company' }
+
           @last_action = nil
+        end
+
+        def update_map(minor)
+          case minor.name
+          when 'BRP'
+            brp_tile = Engine::Tile.from_code('E21', :gray, Map::BRP_TILE)
+            hex_by_id('E21').lay(brp_tile)
+          when 'VCC'
+            vcc_tile = Engine::Tile.from_code('H18', :brown, Map::VCC_TILE)
+            hex_by_id('H18').tile = vcc_tile
+          end
         end
 
         def corporation_removal_groups
