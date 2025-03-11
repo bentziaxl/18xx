@@ -15,6 +15,8 @@ module Engine
         include Entities
         include Map
 
+        attr_accessor :leftover_group
+
         GREEN_GROUP = %w[C&O ERIE PRR B&O IC].freeze
         MINORS_GROUP = [
           'Big 4 (Minor)',
@@ -29,21 +31,6 @@ module Engine
           'N&N' => 'Bridging Company',
           'CCC' => 'Ohio & Indiana',
         }.freeze
-        LEFTOVER_GROUP = [
-          'Bridging Company',
-          'Boomtown',
-          'Grain Mill Company',
-          'Lake Shore Line',
-          'Little Miami',
-          'Louisville, Cincinnati, and Lexington Railroad',
-          'Meat Packing Company',
-          'Michigan Central',
-          'Ohio & Indiana',
-          'Oil and Gas Company',
-          'Southwestern Steamboat Company',
-          'Steamboat Company',
-          'Tunnel Blasting Company',
-        ].freeze
 
         ABILITY_ICONS = G1846::Game::ABILITY_ICONS.merge(
           SSC: 'port-orange'
@@ -62,6 +49,21 @@ module Engine
         STARTING_CASH = { 2 => 600, 3 => 400, 4 => 400, 5 => 400, 6 => 400 }.freeze
 
         def setup
+          @leftover_group = [
+            'Bridging Company',
+            'Boomtown',
+            'Grain Mill Company',
+            'Lake Shore Line',
+            'Little Miami',
+            'Louisville, Cincinnati, and Lexington Railroad',
+            'Meat Packing Company',
+            'Michigan Central',
+            'Ohio & Indiana',
+            'Oil and Gas Company',
+            'Southwestern Steamboat Company',
+            'Steamboat Company',
+            'Tunnel Blasting Company',
+          ]
           @turn = setup_turn
           @second_tokens_in_green = {}
 
@@ -159,10 +161,6 @@ module Engine
           @exculsion_map ||= self.class::EXCLUSION_MAP
         end
 
-        def leftover_group
-          @leftover_group ||= self.class::LEFTOVER_GROUP
-        end
-
         def num_removals(group)
           num =
             case group
@@ -173,16 +171,16 @@ module Engine
               when 5, 4, 3
                 4
               end
-            when LEFTOVER_GROUP
+            when leftover_group
               case @players.size
               when 6
-                LEFTOVER_GROUP.size - 7
+                leftover_group.size - 7
               when 5
-                LEFTOVER_GROUP.size - 6
+                leftover_group.size - 6
               when 4
-                LEFTOVER_GROUP.size - 4
+                leftover_group.size - 4
               when 3
-                LEFTOVER_GROUP.size - 2
+                leftover_group.size - 2
               end
             else
               case @players.size
@@ -196,7 +194,7 @@ module Engine
             end
 
           # handle special CCC case.
-          num -= 1 if group == LEFTOVER_GROUP && @companies.any? { |c| c.id == 'CCC' }
+          num -= 1 if group == leftover_group && @companies.any? { |c| c.id == 'CCC' }
           num
         end
       end
