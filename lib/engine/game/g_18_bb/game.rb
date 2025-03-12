@@ -146,6 +146,13 @@ module Engine
           when 'VCC'
             vcc_tile = Engine::Tile.from_code('H18', :brown, Map::VCC_TILE)
             hex_by_id('H18').tile = vcc_tile
+          when 'BIG4'
+            hex = hex_by_id(minor.coordinates)
+            old_tile = hex.tile
+            big4_tile = tile_by_id('6-0')
+            big4_tile.rotate!(1)
+            update_tile_lists(big4_tile, old_tile)
+            hex.lay(big4_tile)
           end
         end
 

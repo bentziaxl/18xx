@@ -110,7 +110,7 @@ module Engine
         BRP_TILE = 'city=revenue:yellow_10|green_20,slots:2;path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;'\
                    'path=a:3,b:_0;path=a:5,b:_0;icon=image:18_usa/oil-derrick'
         VCC_TILE = 'city=revenue:40;border=edge:1,type:water,cost:20;border=edge:2,type:water,cost:20;'\
-                   'path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;label=CM'
+                   'path=a:1,b:_0;path=a:2,b:_0;path=a:4,b:_0;upgrade=cost:80,terrain:mountain;label=CM'
       end
     end
   end
