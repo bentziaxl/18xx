@@ -4,7 +4,7 @@ require_relative '../g_1846/game'
 require_relative 'entities'
 require_relative 'map'
 require_relative 'meta'
-require_relative 'step/buy_sell_par_shares'
+require_relative 'step/buy_train'
 require_relative '../stubs_are_restricted'
 
 module Engine
@@ -15,7 +15,7 @@ module Engine
         include Entities
         include Map
 
-        attr_accessor :leftover_group
+        attr_accessor :leftover_group, :green_2_corps
 
         GREEN_GROUP = %w[C&O ERIE PRR B&O IC].freeze
         MINORS_GROUP = [
@@ -138,6 +138,17 @@ module Engine
           @last_action = nil
         end
 
+        def game_trains
+          trains = self.class::TRAINS
+          t2 = trains.find { |t| t[:name] == '2' }
+          t2[:variants] = [{
+            name: '2g',
+            distance: 2,
+            price: 80,
+          }]
+          trains
+        end
+
         def update_map(minor)
           case minor.name
           when 'BRP'
@@ -154,6 +165,24 @@ module Engine
             update_tile_lists(big4_tile, old_tile)
             hex.lay(big4_tile)
           end
+        end
+
+        def operating_round(round_num)
+          @round_num = round_num
+          G1846::Round::Operating.new(self, [
+            G1846::Step::Bankrupt,
+            G1846::Step::Assign,
+            Engine::Step::SpecialToken,
+            G1846::Step::SpecialTrack,
+            G1846::Step::BuyCompany,
+            G1846::Step::IssueShares,
+            G1846::Step::TrackAndToken,
+            Engine::Step::Route,
+            G1846::Step::Dividend,
+            Engine::Step::DiscardTrain,
+            G18BB::Step::BuyTrain,
+            [G1846::Step::BuyCompany, { blocks: true }],
+          ], round_num: round_num)
         end
 
         def corporation_removal_groups
@@ -203,6 +232,14 @@ module Engine
           # handle special CCC case.
           num -= 1 if group == leftover_group && @companies.any? { |c| c.id == 'CCC' }
           num
+        end
+
+        def new_operating_round(round_num = 1)
+          unless @green_2_corps
+            corp_num = @players.size == 6 ? 2 : 1
+            @green_2_corps = [@corporations.sort.last(corp_num)].flatten
+          end
+          super
         end
       end
     end
