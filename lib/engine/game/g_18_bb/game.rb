@@ -145,6 +145,8 @@ module Engine
             name: '2g',
             distance: 2,
             price: 80,
+            obsolete_on: 6,
+            rust_on: 6,
           }]
           trains
         end
@@ -154,9 +156,13 @@ module Engine
           when 'BRP'
             brp_tile = Engine::Tile.from_code('E21', :gray, Map::BRP_TILE)
             hex_by_id('E21').lay(brp_tile)
+            clear_graph
+            connect_hexes
           when 'VCC'
             vcc_tile = Engine::Tile.from_code('H18', :brown, Map::VCC_TILE)
-            hex_by_id('H18').tile = vcc_tile
+            hex_by_id('H18').lay_downgrade(vcc_tile)
+            clear_graph
+            connect_hexes
           when 'BIG4'
             hex = hex_by_id(minor.coordinates)
             old_tile = hex.tile
@@ -164,6 +170,8 @@ module Engine
             big4_tile.rotate!(1)
             update_tile_lists(big4_tile, old_tile)
             hex.lay(big4_tile)
+            clear_graph
+            connect_hexes
           end
         end
 
@@ -240,6 +248,23 @@ module Engine
             @green_2_corps = [@corporations.sort.last(corp_num)].flatten
           end
           super
+        end
+
+        def crowded_corps
+          return super unless @phase.tiles.include?(:brown)
+
+          # 2g does not create a crowded corp in brown
+          @crowded_corps ||= corporations.select do |c|
+            c.trains.count { |t| !t.obsolete && t.name != '2g' } > train_limit(c)
+          end
+        end
+
+        def must_buy_train?(entity)
+          return super unless @phase.tiles.include?(:brown)
+
+          # 2g does not count as compulsory train purchase
+          entity.trains.reject { |t| t.name == '2g' }.empty? &&
+            !depot.depot_trains.empty?
         end
       end
     end

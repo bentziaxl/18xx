@@ -16,6 +16,12 @@ module Engine
           def can_buy_2g?(entity)
             @game.green_2_corps.include?(entity) && entity.trains.none? { |t| t.name == '2g' }
           end
+
+          def room?(entity)
+            return super unless @game.phase.tiles.include?(:brown)
+
+            entity.trains.count { |t| !t.obsolete && t.name != '2g' } < @game.train_limit(entity)
+          end
         end
       end
     end
