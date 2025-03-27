@@ -33,9 +33,15 @@ module Engine
         }.freeze
 
         ABILITY_ICONS = G1846::Game::ABILITY_ICONS.merge(
-          SSC: 'port-orange'
+          SSC: '18_bb/port-orange'
         ).freeze
 
+        ASSIGNMENT_TOKENS = G1846::Game::ABILITY_ICONS.merge(
+          'SSC' => '/icons/18_bb/ssc_token.svg',
+          'O&G' => '/icons/18_bb/og_token.svg',
+        ).freeze
+
+        OIL_AND_GAS_REVENUE_DESC_REVENUE_DESC = 'Oil & Gas'
         BANK_CASH = { 3 => 8000, 4 => 9500, 5 => 11_000, 6 => 13_000 }.freeze
 
         CERT_LIMIT = {
@@ -282,6 +288,34 @@ module Engine
           # 2g does not count as compulsory train purchase
           entity.trains.reject { |t| t.name == '2g' }.empty? &&
             !depot.depot_trains.empty?
+        end
+
+        def revenue_for(route, stops)
+          revenue = super
+          [
+          [oil_and_gas, 20],
+          [sw_steamboat, 20, port - orange],
+          ].each do |company, bonus_revenue, icon|
+            id = company&.id
+            if id && route.corporation.assigned?(id) && (assigned_stop = stops.find { |s| s.hex.assigned?(id) })
+              revenue += bonus_revenue * (icon ? assigned_stop.hex.tile.icons.count { |i| i.name == icon } : 1)
+            end
+          end
+
+          revenue
+        end
+
+        def revenue_str(route)
+          str = super
+          stops = route.stops
+          [
+            [oil_and_gas, self.class::OIL_AND_GAS_REVENUE_DESC],
+            [sw_steamboat, 'SW Port'],
+          ].each do |company, desc|
+            id = company&.id
+            str += " + #{desc}" if id && route.corporation.assigned?(id) && stops.any? { |s| s.hex.assigned?(id) }
+          end
+          str
         end
       end
     end
