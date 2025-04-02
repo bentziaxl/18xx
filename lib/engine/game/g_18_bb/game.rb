@@ -41,7 +41,7 @@ module Engine
           'O&G' => '/icons/18_bb/og_token.svg',
         ).freeze
 
-        OIL_AND_GAS_REVENUE_DESC_REVENUE_DESC = 'Oil & Gas'
+        OIL_AND_GAS_REVENUE_DESC = 'Oil & Gas'
         BANK_CASH = { 3 => 8000, 4 => 9500, 5 => 11_000, 6 => 13_000 }.freeze
 
         CERT_LIMIT = {
@@ -294,7 +294,7 @@ module Engine
           revenue = super
           [
           [oil_and_gas, 20],
-          [sw_steamboat, 20, port - orange],
+          [sw_steamboat, 20, 'port-orange'],
           ].each do |company, bonus_revenue, icon|
             id = company&.id
             if id && route.corporation.assigned?(id) && (assigned_stop = stops.find { |s| s.hex.assigned?(id) })

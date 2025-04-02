@@ -14,7 +14,8 @@ module Engine
           end
 
           def assignable_corporations(company = nil)
-            @game.minors.select { |m| m.floated? && !m.assigned?(company&.id) } + super
+            assignable_corporations = @game.minors.select { |m| m.floated? && !m.assigned?(company&.id) } + super
+            assignable_corporations.uniq
           end
 
           def blocking_for_steamboat?

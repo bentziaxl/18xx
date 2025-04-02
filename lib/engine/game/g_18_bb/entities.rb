@@ -193,6 +193,14 @@ module Engine
                     'Splits dividends equally with owner. Purchasing company receives its cash, train and token '\
                     'but cannot run this 2 train in the same OR in which the NN operated. ',
               sym: 'N&N',
+              abilities: [
+                {
+                  type: 'tile_discount',
+                  discount: 20,
+                  terrain: 'water',
+                  owner_type: 'corporation',
+                },
+              ],
               color: nil,
             },
             {
@@ -208,6 +216,14 @@ module Engine
                     'Splits dividends equally with owner. Purchasing company receives its cash, train and token '\
                     'but cannot run this 2 train in the same OR in which this minor operated. ',
               sym: 'VCC',
+              abilities: [
+                {
+                  type: 'tile_discount',
+                  discount: 20,
+                  terrain: 'mountain',
+                  owner_type: 'corporation',
+                },
+              ],
               color: nil,
             },
 
@@ -287,6 +303,14 @@ module Engine
             coordinates: 'L8',
             color: '#4C9141',
             text_color: 'white',
+            abilities: [
+              {
+                type: 'tile_discount',
+                discount: 20,
+                terrain: 'water',
+                owner_type: 'corporation',
+              },
+            ],
           },
           {
             sym: 'VCC',
