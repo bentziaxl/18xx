@@ -164,6 +164,12 @@ module Engine
           trains
         end
 
+        def num_trains(train)
+          num = super
+          num = num +1 if train[:name] == '2' && !@minors.none? {|m| m.name == "BRP"}
+          num
+        end
+
         def update_map(minor)
           case minor.name
           when 'BRP'

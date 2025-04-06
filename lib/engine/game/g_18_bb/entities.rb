@@ -239,6 +239,7 @@ module Engine
                     'but cannot run this 2 train in the same OR in which this minor operated. ',
               sym: 'BRP',
               color: nil,
+              treasury: 20,
             },
 
             {
@@ -321,6 +322,14 @@ module Engine
             coordinates: 'H18',
             color: '#5E2129',
             text_color: 'white',
+            abilities: [
+              {
+                type: 'tile_discount',
+                discount: 20,
+                terrain: 'mountain',
+                owner_type: 'corporation',
+              },
+            ],
           },
 
           {
