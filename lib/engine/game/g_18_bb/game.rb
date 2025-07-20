@@ -146,7 +146,7 @@ module Engine
           end
 
           @tiles.delete(tile_by_id('CM1-0')) if @minors.none? { |m| m.name == 'VCC' }
-          @tiles.delete(tile_by_id('M1-0')) if @companies.none? { |c| c.name == 'Grain Mill Company' }
+          @tiles.delete(tile_by_id('M1-0')) if @companies.none? { |c| c.sym == 'GMC' }
 
           @last_action = nil
         end
@@ -323,6 +323,12 @@ module Engine
           end
           str
         end
+
+        def tile_valid_for_phase?(tile, hex: nil, phase_color_cache: nil)
+          return true if tile.name == 'M1'
+          super
+        end
+
       end
     end
   end

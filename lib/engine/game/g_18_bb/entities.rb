@@ -13,14 +13,24 @@ module Engine
                                            'green tile/upgrade in either D6, E7, or F8 during their normal tile laying step. '\
                                            'The owning corporation must pay the normal $20 '\
                                            'cost to lay this extra tile/upgrade. Using this ability closes the C&WI.',
+                     :abilities => cwi[:abilities].append({
+                                    type: 'tile_lay',
+                                    closed_when_used_up: true,
+                                    owner_type: 'corporation',
+                                    hexes: %w[D6 E7 F8],
+                                    tiles: %w[298 7 8 9 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31],
+                                    count: 1,
+              })
                    })
 
         bt = BASE_COMPANIES.find { |d| d[:sym] == 'BT' }
+        bt[:abilities].find {|a| a[:type] == "assign_hexes"}[:hexes].append("J10")
         bt.update({
                     desc: 'Adds a $20 bonus to Cincinnati (H12) or Louisville (J10) for '\
                           'the owning corporation. Bonus must be assigned'\
                           ' after being purchased by a corporation. '\
                           'Bonus persists after this company closes in Phase III but is removed in Phase IV.',
+                    
                   })
 
         lsl = BASE_COMPANIES.find { |d| d[:sym] == 'LSL' }
@@ -153,7 +163,7 @@ module Engine
                     'phase-appropriate green tile upgrade. A track connection to the location where the tile '\
                     'is placed is not required. The owning corporation may place a $30 Mill '\
                     'Marker “Wheat/Corn Stalk” on the MT tile after the tile has been placed. This marker '\
-                    'pays an additional $30 revenue to all routes run to this location by ALL COMPANIåES. '\
+                    'pays an additional $30 revenue to all routes run to this location by ALL COMPANIES. '\
                     'The “Mill Town” tile contains space for one token and that space is reserved for '\
                     'the owning corporation. The owning corporation may place an extra token on this space '\
                     'during its normal tile/token laying step. This special tile costs $80 as a teleport, '\
@@ -162,6 +172,16 @@ module Engine
                     'when the brown phase begins.',
               sym: 'GMC',
               color: nil,
+              abilities: [
+                {
+                    type: 'tile_lay',
+                    consume_tile_lay: true,
+                    owner_type: 'corporation',
+                    hexes: %w[G3 C9 J12],
+                    tiles: %w[M1],
+                    count: 1,
+              }
+              ]
             },
             {
               name: 'Bridging Company',
@@ -247,7 +267,7 @@ module Engine
               value: 40,
               discount: -20,
               revenue: 0,
-              desc: 'tarts with $21 in treasury, but no train and no token. '\
+              desc: 'starts with $21 in treasury, but no train and no token. '\
                     'This private company has special rules and restrictions surrounding it. Please consult the rulebook. ',
               sym: 'CCC',
               color: nil,
