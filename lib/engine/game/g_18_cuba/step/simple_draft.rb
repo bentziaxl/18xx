@@ -14,6 +14,12 @@ module Engine
             @finished = false
           end
 
+          def round_state
+            {
+              companies_pending_par: [],
+            }
+          end
+
           def actions(entity)
             return [] if finished?
 
